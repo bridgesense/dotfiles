@@ -18,11 +18,11 @@ declare -a tmuxplugins=('https://github.com/jtdaugherty/tmux-status.git' 'https:
 if [ "$action" == "remove" ]; then
     echo "# # Removing Dotfiles and Restoring Settings" 
     echo "# # # # # # # # # # # # # # #"
-    for file in $files; do
-        rm -rf ~/.$file 2> /dev/null
-        mv $dir/$dotfiles_old/.$file ~/ 2> /dev/null
+    for cfile in ${files[@]}; do
+        rm -rf ~/.$cfile 2>/dev/null
+        mv $dir/$dotfiles_old/.$cfile ~/ 2>/dev/null
     done
-    rm -rf $dir 2> /dev/null
+    rm -rf $dir 2>/dev/null
     if [ "$(uname)" == "Darwin" ]; then
 	chsh -s $(which bash)
     fi
@@ -115,9 +115,9 @@ if [ "$action" == "install" ]; then
     echo "# # # # # # # # # # # # # # #"
     cd $dir
     mkdir -p $dotfiles_old 2>/dev/null
-    for file in $files; do
-        mv ~/.$file $dir/$dotfiles_old/ 2>/dev/null
-        ln -s $dir/$file ~/.$file
+    for cfile in ${files[@]}; do
+        mv ~/.$cfile $dir/$dotfiles_old/ 2>/dev/null
+        ln -s $dir/$cfile ~/.$cfile
     done
 
     if [ "$(uname)" == "Darwin" ]; then
