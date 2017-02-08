@@ -9,14 +9,8 @@
 dir=~/.dotsense
 dotfiles_old=backup
 action="${1:-install}"
-files="vim vimrc tmux.conf zshrc"
-declare -a plugins=('https://github.com/rking/ag.vim.git'
-'https://github.com/jiangmiao/auto-pairs.git' 'https://github.com/kien/ctrlp.vim.git'
-'https://github.com/itchyny/lightline.vim.git' 'https://github.com/Shougo/neocomplete.vim.git'
-'https://github.com/scrooloose/nerdtree.git' 'https://github.com/vim-syntastic/syntastic.git'
-'https://github.com/joonty/vdebug.git' 'https://github.com/gorodinskiy/vim-coloresque.git'
-'https://github.com/easymotion/vim-easymotion.git' 'https://github.com/tpope/vim-fugitive.git'
-'https://github.com/airblade/vim-gitgutter.git' 'https://github.com/bridgesense/vim-hsftp.git' 'https://github.com/tpope/vim-obsession.git')
+declare -a files="vim vimrc tmux.conf zshrc"
+declare -a plugins=('https://github.com/rking/ag.vim.git' 'https://github.com/jiangmiao/auto-pairs.git' 'https://github.com/kien/ctrlp.vim.git' 'https://github.com/itchyny/lightline.vim.git' 'https://github.com/Shougo/neocomplete.vim.git' 'https://github.com/scrooloose/nerdtree.git' 'https://github.com/vim-syntastic/syntastic.git' 'https://github.com/joonty/vdebug.git' 'https://github.com/gorodinskiy/vim-coloresque.git' 'https://github.com/easymotion/vim-easymotion.git' 'https://github.com/tpope/vim-fugitive.git' 'https://github.com/airblade/vim-gitgutter.git' 'https://github.com/bridgesense/vim-hsftp.git' 'https://github.com/tpope/vim-obsession.git')
 
 
 # # Remove
@@ -28,7 +22,10 @@ if [ "$action" == "remove" ]; then
         rm -rf ~/.$file 2> /dev/null
         mv $dir/$dotfiles_old/.$file ~/ 2> /dev/null
     done
-    rm $dir 2> /dev/null
+    rm -rf $dir 2> /dev/null
+    if [ "$(uname)" == "Darwin" ]; then
+	chsh -s $(which bash)
+    fi
     echo "Your original dotfiles have been restored."
 fi
 
@@ -59,7 +56,8 @@ fi
 if [ "$action" == "install" ]; then
     echo "# # Installing Dotfiles"
     echo "# # # # # # # # # # # # # # #"
-    git clone https://github.com/bridgesense/dotfiles.git $dir 
+    cd $dir
+    git clone https://github.com/bridgesense/dotfiles.git
     cp $dir/zsh/zshrc $dir/zshrc 
     if [ "$(uname)" == "Darwin" ]; then
         if ! brew info &>/dev/null; then
@@ -70,12 +68,12 @@ if [ "$action" == "install" ]; then
         brew install vim --with-lua --with-override-system-vi
         brew install zsh ctags tmux reattach-to-user-namespace the_silver_searcher
         chsh -s $(which zsh)
-        echo 'set-option -g default-command "reattach-to-user-namespace -l zsh"' > $dir/zshrc
-    elif [ "`uname`" == "Linux" ]; then
+        echo 'set-option -g default-command "reattach-to-user-namespace -l zsh"' >> $dir/zshrc
+    elif [ "$(uname)" == "Linux" ]; then
         echo "This script does not install packages for zsh, zsh-dev, the silver searcher, ctag,
         tmux or Vim with Lua support on Linux"
         if ! zsh -V &>/dev/null; then
-            echo "set-option -g default command $(which zsh)" > $dir/zshrc
+            echo "set-option -g default command $(which zsh)" >> $dir/zshrc
         fi
     else
         rm -rf $dir
@@ -87,19 +85,21 @@ if [ "$action" == "install" ]; then
     echo "# # # # # # # # # # # # # # #"
     mkdir $dir/vim/bundle 2>/dev/null
     cd $dir/vim/bundle 
-    for plugin in $plugins; do
-        git clone $plugin
+    echo "${#plugins[@]} number of files"
+    for ((i=0; i < ${#plugins[@]}; i++)); do 
+	echo "git clone ${plugins[$i]}"
+	git clone ${plugins[$i]}
     done
     mkdir $dir/zsh/plugin 2>/dev/null
     cd $dir/zsh/plugin
-        git clone https://github.com/olivierverdier/zsh-git-prompt.git
+	git clone https://github.com/olivierverdier/zsh-git-prompt.git
     
     echo "# # Backing up current configurations" 
     echo "# # # # # # # # # # # # # # #"
     cd $dir
     mkdir -p $dotfiles_old 2> /dev/null
     for file in $files; do
-        mv ~/.$file $dir/$dotfiles_old/ 2> /dev/null
+        mv ~/.$file $dir/$dotfiles_old/ 2>/dev/null
         ln -s $dir/$file ~/.$file
     done
     echo "The dotfiles are installed."
