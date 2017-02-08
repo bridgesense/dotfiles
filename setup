@@ -11,7 +11,7 @@ dotfiles_old=backup
 action="${1:-install}"
 declare -a files="vim vimrc tmux.conf zshrc"
 declare -a plugins=('https://github.com/rking/ag.vim.git' 'https://github.com/jiangmiao/auto-pairs.git' 'https://github.com/kien/ctrlp.vim.git' 'https://github.com/itchyny/lightline.vim.git' 'https://github.com/Shougo/neocomplete.vim.git' 'https://github.com/scrooloose/nerdtree.git' 'https://github.com/vim-syntastic/syntastic.git' 'https://github.com/joonty/vdebug.git' 'https://github.com/gorodinskiy/vim-coloresque.git' 'https://github.com/easymotion/vim-easymotion.git' 'https://github.com/tpope/vim-fugitive.git' 'https://github.com/airblade/vim-gitgutter.git' 'https://github.com/bridgesense/vim-hsftp.git' 'https://github.com/tpope/vim-obsession.git')
-
+declare -a tmuxplugins=('https://github.com/jtdaugherty/tmux-status.git' 'https://github.com/tmux-plugins/tmux-resurrect.git')
 
 # # Remove
 # # # # # # # # # # # # # # #
@@ -57,7 +57,7 @@ if [ "$action" == "install" ]; then
     echo "# # Installing Dotfiles"
     echo "# # # # # # # # # # # # # # #"
     git clone https://github.com/bridgesense/dotfiles.git $dir
-    cp $dir/zsh/zshrc $dir/zshrc 
+    cp $dir/tmux/tmux.conf $dir/tmux.conf
     if [ "$(uname)" == "Darwin" ]; then
         if ! brew info &>/dev/null; then
             sudo chown -R $USER:admin /usr/local
@@ -67,12 +67,15 @@ if [ "$action" == "install" ]; then
         brew install vim --with-lua --with-override-system-vi
         brew install zsh ctags tmux reattach-to-user-namespace the_silver_searcher
         chsh -s $(which zsh)
-        echo 'set-option -g default-command "reattach-to-user-namespace -l zsh"' >> $dir/zshrc
+        echo 'set-option -g default-command "reattach-to-user-namespace -l zsh"' >> $dir/tmux.conf
+        echo '# tmux status options'>> $dir/tmux.conf
+        echo "set -g status-right '#($dir/tmux/plugin/tmux-status/tmux-status.sh $dir/tmux/tmux-status.config)'" >> $dir/tmux.conf
     elif [ "$(uname)" == "Linux" ]; then
         echo "This script does not install packages for zsh, zsh-dev, the silver searcher, ctag,
-        tmux or Vim with Lua support on Linux"
+        tmux or Vim with Lua support on Linux.  If any of the desired packages
+        are needed, they will need to be installed manually by the admin."
         if ! zsh -V &>/dev/null; then
-            echo "set-option -g default command $(which zsh)" >> $dir/zshrc
+            echo "set-option -g default command $(which zsh)" >> $dir/tmux.conf
         fi
     else
         rm -rf $dir
@@ -84,10 +87,16 @@ if [ "$action" == "install" ]; then
     echo "# # # # # # # # # # # # # # #"
     mkdir $dir/vim/bundle 2>/dev/null
     cd $dir/vim/bundle 
-    echo "${#plugins[@]} number of files"
-    for ((i=0; i < ${#plugins[@]}; i++)); do 
-	echo "git clone ${plugins[$i]}"
-	git clone ${plugins[$i]}
+    #for ((i=0; i < ${#plugins[@]}; i++)); do 
+	#echo "git clone ${plugins[$i]}"
+	#git clone ${plugins[$i]}
+    for vplug in "${plugins@]}"; do
+        git clone $vplug 
+    done
+    mkdir $dir/tmux/plugin 2>/dev/null
+    cd $dir/tmux/plugin
+    for tplug in "${plugins@]}"; do
+        git clone $tplug
     done
     mkdir $dir/zsh/plugin 2>/dev/null
     cd $dir/zsh/plugin
