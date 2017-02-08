@@ -19,21 +19,6 @@ declare -a plugins=('https://github.com/rking/ag.vim.git'
 'https://github.com/airblade/vim-gitgutter.git' 'https://github.com/bridgesense/vim-hsftp.git' 'https://github.com/tpope/vim-obsession.git')
 
 
-# #  Functions
-# # # # # # # # # # # # # # #
-updater() {
-    cd $1 
-    plugindirs=(*/)
-    for pdir in "${plugindirs[@]}"; do
-        cd $dir/vim/bundle/$pdir
-        echo "Updating $pdir..."
-        git pull
-    done 
-    wait
-    return 0
-}
-
-
 # # Remove
 # # # # # # # # # # # # # # #
 if [ "$action" == "remove" ]; then
@@ -43,8 +28,7 @@ if [ "$action" == "remove" ]; then
         rm -rf ~/.$file 2> /dev/null
         mv $dir/$dotfiles_old/.$file ~/ 2> /dev/null
     done
-    rm -rf $dir/$dotfiles_old 2> /dev/null
-    rm $dir/zshrc 2> /dev/null
+    rm $dir 2> /dev/null
     echo "Your original dotfiles have been restored."
 fi
 
@@ -56,8 +40,13 @@ if [ "$action" == "update" ]; then
     echo "# # # # # # # # # # # # # # #"
     cd $dir
     git pull 
-    updater $dir/vim/bundle 
-    #updater $dir/zsh/plugin 
+    cd $dir/vim/bundle 
+    plugindirs=(*/)
+    for pdir in "${plugindirs[@]}"; do
+        cd $dir/vim/bundle/$pdir
+        echo "Updating $pdir..."
+        git pull
+    done 
     echo "Updating zsh-git-prompt/" 
     cd $dir/zsh/plugin/zsh-git-prompt
     git pull
