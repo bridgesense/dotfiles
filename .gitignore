@@ -1,0 +1,6 @@
+.DS_Store
+backup/
+Session.vim
+vim/bundle/*
+vimrc
+zsh/plugin/*
