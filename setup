@@ -101,5 +101,10 @@ if [ "$action" == "install" ]; then
         mv ~/.$file $dir/$dotfiles_old/ 2>/dev/null
         ln -s $dir/$file ~/.$file
     done
-    echo "The dotfiles are installed."
+
+    if [ "$(uname)" == "Darwin" ]; then
+        tmux source ~/.tmux.conf
+    fi
+
+    echo "The dotfiles are installed.  Please close your terminal and reopen it to get started."
 fi
