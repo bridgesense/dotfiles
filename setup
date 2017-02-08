@@ -87,15 +87,14 @@ if [ "$action" == "install" ]; then
     echo "# # # # # # # # # # # # # # #"
     mkdir $dir/vim/bundle 2>/dev/null
     cd $dir/vim/bundle 
-    #for ((i=0; i < ${#plugins[@]}; i++)); do 
-	#echo "git clone ${plugins[$i]}"
-	#git clone ${plugins[$i]}
-    for vplug in "${plugins@]}"; do
+    for vplug in "${plugins[@]}"; do
+	echo "git clone $vplug"
         git clone $vplug 
     done
     mkdir $dir/tmux/plugin 2>/dev/null
     cd $dir/tmux/plugin
-    for tplug in "${plugins@]}"; do
+    for tplug in "${tmuxplugins[@]}"; do
+	echo "git clone $tplug"
         git clone $tplug
     done
     mkdir $dir/zsh/plugin 2>/dev/null
