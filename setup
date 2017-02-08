@@ -38,15 +38,24 @@ if [ "$action" == "update" ]; then
     cd $dir
     git pull 
     cd $dir/vim/bundle 
-    plugindirs=(*/)
-    for pdir in "${plugindirs[@]}"; do
-        cd $dir/vim/bundle/$pdir
-        echo "Updating $pdir..."
+    vplugindirs=(*/)
+    for vpdir in "${vplugindirs[@]}"; do
+        cd $dir/vim/bundle/$vpdir
+        echo "Updating $vpdir..."
         git pull
     done 
-    echo "Updating zsh-git-prompt/" 
-    cd $dir/zsh/plugin/zsh-git-prompt
-    git pull
+    cd $dir/tmux/plugin  
+    for tpdir in "${tplugindirs[@]}"; do
+        cd $dir/vim/bundle/$tpdir
+        echo "Updating $tpdir..."
+        git pull
+    done 
+    cd $dir/zsh/plugin  
+    for zpdir in "${zplugindirs[@]}"; do
+        cd $dir/vim/bundle/$zpdir
+        echo "Updating $zpdir..."
+        git pull
+    done 
     echo "The update is finished."
 fi
 
@@ -97,6 +106,7 @@ if [ "$action" == "install" ]; then
 	echo "git clone $tplug"
         git clone $tplug
     done
+    mkdir $dir/zsh 2>/dev/null 
     mkdir $dir/zsh/plugin 2>/dev/null
     cd $dir/zsh/plugin
 	git clone https://github.com/olivierverdier/zsh-git-prompt.git
@@ -104,7 +114,7 @@ if [ "$action" == "install" ]; then
     echo "# # Backing up current configurations" 
     echo "# # # # # # # # # # # # # # #"
     cd $dir
-    mkdir -p $dotfiles_old 2> /dev/null
+    mkdir -p $dotfiles_old 2>/dev/null
     for file in $files; do
         mv ~/.$file $dir/$dotfiles_old/ 2>/dev/null
         ln -s $dir/$file ~/.$file
