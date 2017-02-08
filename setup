@@ -56,7 +56,6 @@ fi
 if [ "$action" == "install" ]; then
     echo "# # Installing Dotfiles"
     echo "# # # # # # # # # # # # # # #"
-    cd $dir
     git clone https://github.com/bridgesense/dotfiles.git $dir
     cp $dir/zsh/zshrc $dir/zshrc 
     if [ "$(uname)" == "Darwin" ]; then
