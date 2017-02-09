@@ -1,121 +1,113 @@
-" Don't try to be vi compatible
+" Use Vim settings, rather then Vi settings (much better!).
+" This must be first, because it changes other options as a side effect.
 set nocompatible
 
+" TODO: this may not be in the correct place. It is intended to allow overriding <Leader>.
+" source ~/.vimrc.before if it exists.
+if filereadable(expand("~/.vimrc.before"))
+  source ~/.vimrc.before
+endif
 
-" Helps force plugins to load correctly when it is turned back on below
-filetype off
+" ================ General Config ====================
 
-execute pathogen#infect()
+set backspace=indent,eol,start  "Allow backspace in insert mode
+set history=1000                "Store lots of :cmdline history
+set showcmd                     "Show incomplete cmds down the bottom
+set showmode                    "Show current mode down the bottom
+set gcr=a:blinkon0              "Disable cursor blink
+set visualbell                  "No sounds
+set autoread                    "Reload files changed outside vim
 
-
-" Turn on syntax highlighting
-syntax on
-
-
-" For plugins to load correctly
-filetype plugin indent on
-
-
-" Pick a leader key
-let mapleader = ","
-
-
-" Security
-set modelines=0
-
-
-" Show line numbers
-set number
-
-
-" Line Numbering
-function! ToggleNumber()
-    if !&number && !&relativenumber
-        set number
-    elseif !&relativenumber
-        set relativenumber
-    else
-        set nonumber
-        set norelativenumber
-    endif
-endfunction
-
-map <leader>l :call ToggleNumber()<cr>
-
-
-" Show file stats
-set ruler
-
-
-" Blink cursor on error instead of beeping (grr)
-set visualbell
-
-
-" Encoding
-set encoding=utf-8
-
-
-" Whitespace
-set wrap
-set textwidth=79
-set formatoptions=tcqrn1
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
-set expandtab
-set noshiftround
-
-" Cursor motion
-set scrolloff=3
-set backspace=indent,eol,start
-set matchpairs+=<:> " use % to jump between pairs
-runtime! macros/matchit.vim
-
-" Move up/down editor lines
-nnoremap j gj
-nnoremap k gk
-
-" Allow hidden buffers
+" This makes vim act like all other editors, buffers can
+" exist in the background without being in a window.
+" http://items.sjbach.com/319/configuring-vim-right
 set hidden
 
-" Rendering
-set ttyfast
+"turn on syntax highlighting
+syntax on
 
-" Status bar
-set laststatus=2
+" Change leader to a comma because the backslash is too far away
+" That means all \x commands turn into ,x
+" The mapleader has to be set before vundle starts loading all 
+" the plugins.
+let mapleader=","
 
-" Last line
-set showmode
-set showcmd
+" =============== Vundle Initialization ===============
+" This loads all the plugins specified in ~/.vim/vundles.vim
+" Use Vundle plugin to manage all other plugins
+filetype off
+execute pathogen#infect()
+filetype plugin indent on
 
-" Searching
-nnoremap / /\v
-vnoremap / /\v
-set hlsearch
-set incsearch
-set ignorecase
-set smartcase
-set showmatch
-map <leader><space> :let @/=''<cr> " clear search
+" ================ vimrc.after ================
+" This loads user definable changes
+if filereadable(expand("~/.vimrc.after"))
+    source ~/.vimrc.after
+endif
 
-" Remap help key.
-inoremap <F1> <ESC>:set invfullscreen<CR>a
-nnoremap <F1> :set invfullscreen<CR>
-vnoremap <F1> :set invfullscreen<CR>
+" ================ Turn Off Swap Files ==============
 
-" Textmate holdouts
+set noswapfile
+set nobackup
+set nowb
 
-" Formatting
-"map <leader>q gqip
+" ================ Indentation ======================
 
-" Visualize tabs and newlines
-set listchars=tab:▸\ ,eol:¬
-" Uncomment this to enable by default:
-" set list " To enable by default
-" Or use your leader key + l to toggle on/off
-map <leader>ln :set list!<CR> " Toggle tabs and EOL
+set autoindent
+set smartindent
+set smarttab
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
+set expandtab
 
-let vimsettings = '~/.dotsense/vim/settings'
+" Auto indent pasted text
+nnoremap p p=`]<C-o>
+nnoremap P P=`]<C-o>
+
+" Display tabs and trailing spaces visually
+set list listchars=tab:\ \ ,trail:·
+
+set nowrap       "Don't wrap lines
+set linebreak    "Wrap lines at convenient points
+
+" ================ Folds ============================
+
+set foldmethod=indent   "fold based on indent
+set foldnestmax=3       "deepest fold is 3 levels
+set nofoldenable        "dont fold by default
+
+" ================ Completion =======================
+
+set wildmode=list:longest
+set wildmenu                "enable ctrl-n and ctrl-p to scroll thru matches
+set wildignore=*.o,*.obj,*~ "stuff to ignore when tab completing
+set wildignore+=*vim/backups*
+set wildignore+=*sass-cache*
+set wildignore+=*DS_Store*
+set wildignore+=vendor/rails/**
+set wildignore+=vendor/cache/**
+set wildignore+=*.gem
+set wildignore+=log/**
+set wildignore+=tmp/**
+set wildignore+=*.png,*.jpg,*.gif
+
+"
+" ================ Scrolling ========================
+
+set scrolloff=8         "Start scrolling when we're 8 lines away from margins
+set sidescrolloff=15
+set sidescroll=1
+
+" ================ Search ===========================
+
+set incsearch       " Find the next match as we type the search
+set hlsearch        " Highlight searches by default
+set ignorecase      " Ignore case when searching...
+set smartcase       " ...unless we type a capital
+
+" ================ Custom Settings ========================
+let vimsettings = '~/.yadrlite/vim/settings'
 let uname = system("uname -s")
 
 for fpath in split(globpath(vimsettings, '*.vim'), '\n')
@@ -130,3 +122,4 @@ for fpath in split(globpath(vimsettings, '*.vim'), '\n')
 
   exe 'source' fpath
 endfor
+

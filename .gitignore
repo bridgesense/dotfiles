@@ -4,4 +4,5 @@ Session.vim
 /tmux.conf
 tmux/plugin/*
 vim/bundle/*
+/vimrc.after
 zsh/plugin/*

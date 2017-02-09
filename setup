@@ -1,16 +1,17 @@
 #!/bin/bash
-# DotSense
+# yadrlite
 # Optimized Dotfiles
 # # # # # # # # # # # # # # #
 
 
 # # Options
 # # # # # # # # # # # # # # #
-dir=~/.dotsense
+USEREPO=no
+dir=~/.yadrlite
 dotfiles_old=backup
 action="${1:-install}"
-declare -a files="vim vimrc tmux.conf zshrc"
-declare -a plugins=('https://github.com/rking/ag.vim.git' 'https://github.com/jiangmiao/auto-pairs.git' 'https://github.com/kien/ctrlp.vim.git' 'https://github.com/itchyny/lightline.vim.git' 'https://github.com/Shougo/neocomplete.vim.git' 'https://github.com/scrooloose/nerdtree.git' 'https://github.com/vim-syntastic/syntastic.git' 'https://github.com/joonty/vdebug.git' 'https://github.com/gorodinskiy/vim-coloresque.git' 'https://github.com/easymotion/vim-easymotion.git' 'https://github.com/tpope/vim-fugitive.git' 'https://github.com/airblade/vim-gitgutter.git' 'https://github.com/bridgesense/vim-hsftp.git' 'https://github.com/tpope/vim-obsession.git')
+declare -a files="vim vimrc tmux.conf zshrc vimrc.after"
+declare -a plugins=('https://github.com/mileszs/ack.vim.git' 'https://github.com/jiangmiao/auto-pairs.git' 'https://github.com/kien/ctrlp.vim.git' 'https://github.com/itchyny/lightline.vim.git' 'https://github.com/Shougo/neocomplete.vim.git' 'https://github.com/scrooloose/nerdtree.git' 'https://github.com/vim-syntastic/syntastic.git' 'https://github.com/joonty/vdebug.git' 'https://github.com/gorodinskiy/vim-coloresque.git' 'https://github.com/easymotion/vim-easymotion.git' 'https://github.com/tpope/vim-fugitive.git' 'https://github.com/airblade/vim-gitgutter.git' 'https://github.com/bridgesense/vim-hsftp.git' 'https://github.com/tpope/vim-obsession.git' 'https://github.com/tpope/vim-surround.git')
 declare -a tmuxplugins=('https://github.com/jtdaugherty/tmux-status.git' 'https://github.com/tmux-plugins/tmux-resurrect.git')
 
 # # Remove
@@ -23,9 +24,6 @@ if [ "$action" == "remove" ]; then
         mv $dir/$dotfiles_old/.$cfile ~/ 2>/dev/null
     done
     rm -rf $dir 2>/dev/null
-    if [ "$(uname)" == "Darwin" ]; then
-	chsh -s $(which bash)
-    fi
     echo "Your original dotfiles have been restored."
 fi
 
@@ -65,25 +63,47 @@ fi
 if [ "$action" == "install" ]; then
     echo "# # Installing Dotfiles"
     echo "# # # # # # # # # # # # # # #"
-    git clone https://github.com/bridgesense/dotfiles.git $dir
+    if [ "$USEREPO" == "yes" ]; then 
+        git clone https://github.com/bridgesense/dotfiles.git $dir
+    else
+        cp -R . $dir 
+    fi
     cp $dir/tmux/tmux.conf $dir/tmux.conf
     if [ "$(uname)" == "Darwin" ]; then
-        if ! brew info &>/dev/null; then
-            sudo chown -R $USER:admin /usr/local
-            xcode-select --install
-            /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+        if [ ! brew info &>/dev/null ]; then
+            if [ ! xcode-select -v &>/dev/null ]; then
+                echo "This dotfile package requires Xcode to be installed.  Please install it before continuing further."
+                bash $dir/setup remove
+                exit
+            else
+                if type xcode-select >&- && xpath=$( xcode-select --print-path ) && test -d "${xpath}" && test -x "${xpath}" ; then
+                    echo "Xcode tools are already installed.  Now attempting to install Homebrew."
+                    read -p "Install homebrew? [y,n]" -n 1 -r
+                    if [[ $REPLY =~ ^[Yy]$ ]]; then
+                        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+                        sudo chown -R $USER:admin /usr/local
+                    fi
+                else
+                    xcode-select --install
+                fi
+            fi
         fi
-        brew install vim --with-lua --with-override-system-vi
-        brew install zsh ctags tmux reattach-to-user-namespace the_silver_searcher
-        chsh -s $(which zsh)
+        
+        if [ brew info &>/dev/null  ]; then
+            if [[ $(vim --version) != *"+lua"* ]]; then
+                brew remove vim 2>/dev/null
+                brew install vim --with-lua --with-override-system-vi
+            fi
+
+            brew install zsh tmux reattach-to-user-namespace ack
+        fi
+
         echo 'set-option -g default-command "reattach-to-user-namespace -l zsh"' >> $dir/tmux.conf
         echo '# tmux status options'>> $dir/tmux.conf
         echo "set -g status-right '#($dir/tmux/plugin/tmux-status/tmux-status.sh $dir/tmux/tmux-status.conf)'" >> $dir/tmux.conf
     elif [ "$(uname)" == "Linux" ]; then
-        echo "This script does not install packages for zsh, zsh-dev, the silver searcher, ctag,
-        tmux or Vim with Lua support on Linux.  If any of the desired packages
-        are needed, they will need to be installed manually by the admin."
-        if ! zsh -V &>/dev/null; then
+        echo "This script does not install packages for ack, tmux, zsh, zsh-dev or Vim with Lua support on Linux.  If any of the desired packages are needed, they will need to be installed manually by the admin."
+        if [ zsh -V &>/dev/null ]; then
             echo "set-option -g default command $(which zsh)" >> $dir/tmux.conf
         fi
     else
@@ -91,26 +111,46 @@ if [ "$action" == "install" ]; then
         echo "I'm sorry, but your OS isn't supported yet."
         exit
     fi
-  
+
+    if [ zsh -V &>/dev/null ]; then
+        case $SHELL in
+            */zsh)
+                ;;
+            */bash)
+                echo "ZSH appears to be installed and is now being setup as this user's default shell. $(whoami)' validation is requested."
+                chsh -s $(which zsh) $(whoami)
+                ;;
+            *)
+        esac
+    fi
+    
+    echo '" Modifications to this file will not be overwritten when YADRLite is updated.' > $dir/vimrc.after
+    echo '" If the colors look off in VIM, you may need to comment out the line below.' >> $dir/vimrc.after
+    echo "let g:yadr_using_unsolarized_terminal=1" >> $dir/vimrc.after
+
+    echo "" >> $dir/vimrc.after
+    echo '" Modify languages as needed.' >> $dir/vimrc.after
+    echo 'let g:myLangList=["nospell","en_us","es_ES","en_RU"]' >> $dir/vimrc.after
+
     echo "# # Loading plugins" 
     echo "# # # # # # # # # # # # # # #"
     mkdir $dir/vim/bundle 2>/dev/null
     cd $dir/vim/bundle 
     for vplug in "${plugins[@]}"; do
-	echo "git clone $vplug"
+        echo "git clone $vplug"
         git clone $vplug 
     done
     mkdir $dir/tmux/plugin 2>/dev/null
     cd $dir/tmux/plugin
     for tplug in "${tmuxplugins[@]}"; do
-	echo "git clone $tplug"
+        echo "git clone $tplug"
         git clone $tplug
     done
     mkdir $dir/zsh 2>/dev/null 
     mkdir $dir/zsh/plugin 2>/dev/null
     cd $dir/zsh/plugin
-	git clone https://github.com/olivierverdier/zsh-git-prompt.git
-    
+    git clone https://github.com/olivierverdier/zsh-git-prompt.git
+
     echo "# # Backing up current configurations" 
     echo "# # # # # # # # # # # # # # #"
     cd $dir
