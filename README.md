@@ -13,7 +13,7 @@ Installation:
 ---
 
 ```bash
-bash -c "\`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
+bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
 ```
 
 ###Update:
