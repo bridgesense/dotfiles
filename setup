@@ -71,6 +71,10 @@ fi
 if [ "$action" == "install" ]; then
     echo "# # Installing Dotfiles"
     echo "# # # # # # # # # # # # # # #"
+    if [[ "$(installed 'git --version')" == "no" ]]; then
+        echo "'Git' doesn't seem to be installed.  Install it. :)"
+        exit
+    fi
     if [ "$USEREPO" == "yes" ]; then
         git clone https://github.com/bridgesense/dotfiles.git $dir
     else
