@@ -6,7 +6,7 @@
 
 # # Options
 # # # # # # # # # # # # # # #
-USEREPO=yes
+USEREPO=no
 dir=~/.yadrlite
 dotfiles_old=backup
 action="${1:-install}"
@@ -111,7 +111,6 @@ if [ "$action" == "install" ]; then
         echo '# tmux status options'>> $dir/tmux.conf
         echo "set -g status-right '#($dir/tmux/plugin/tmux-status/tmux-status.sh $dir/tmux/tmux-status.conf)'" >> $dir/tmux.conf
     elif [[ "$(uname)" == "Linux" ]]; then
-        echo "This script does not install packages for ack, tmux, zsh, zsh-dev or Vim with Lua support on Linux.  If any of the desired packages are needed, they will need to be installed manually by the admin."
         if [[ "$(installed 'zsh --version')" == "yes" ]]; then
             echo "set-option -g default command $(which zsh)" >> $dir/tmux.conf
         fi
@@ -177,6 +176,8 @@ if [ "$action" == "install" ]; then
         if [[ "$(installed 'tmux -V')" == "yes" ]]; then
             tmux source ~/.tmux.conf
         fi
+    else
+        echo "This script does not install packages for ack, tmux, zsh, zsh-dev or Vim with Lua support on Linux.  If any of the desired packages are needed, they will need to be installed manually by the admin."
     fi
 
     echo "The dotfiles are installed.  Please close your terminal and reopen it to get started."
