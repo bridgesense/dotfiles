@@ -23,5 +23,5 @@ What's Included:
 ---
 Shortcuts have been pulled over from YADR, so those working with YADR should feel right at home.  There are a few minor changes and additions.  A LOT may be missing.  This package will be gearing towards PHP development on local staging environments and setting up shop on web servers for emergencies where there there is limited permissions.
 
-As with YADR, most of the key mapping can be found in the settings directory for reference.  More information may come later offering examples on how to use this with [xDebug] (https://github.com/bridgesense/Quick-Scotchbox-Install#vim--vdebug-settings-) and a few other tools.  This package is ready for deployment on MacOS, but there more cleanup to do for Linux.  There are no plans for Windows deployment.
+As with YADR, most of the key mapping can be found in the settings directory for reference.  More information may come later offering examples on how to use this with [xDebug] (https://github.com/bridgesense/Quick-Scotchbox-Install#vim--vdebug-settings-) and a few other tools.  This package is ready for deployment on MacOS, but there is more cleanup to do for Linux.  There are no plans for Windows deployment.
 
