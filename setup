@@ -20,7 +20,7 @@ declare -a zshplugins=('https://github.com/olivierverdier/zsh-git-prompt.git')
 # # # # # # # # # # # # # # #
 function installed {
     local inststatus=yes
-    if [[ "$($1 2>&1)" =~ (not found) ]]; then
+    if [[ '$($1 2>&1)' =~ (not found) ]]; then
         local inststatus=no
     fi
     echo "$inststatus"
@@ -118,9 +118,9 @@ if [ "$action" == "install" ]; then
     fi
 
     if [[ "$(installed 'zsh -V')" == "yes" ]]; then
-        case $SHELL in
+        case "$SHELL" in
             */zsh)
-                ;;
+	        ;;
             */bash)
                 echo "ZSH appears to be installed and is now being setup as this user's default shell. $(whoami)' validation is requested."
                 chsh -s $(which zsh) $(whoami)
