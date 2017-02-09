@@ -20,7 +20,7 @@ declare -a zshplugins=('https://github.com/olivierverdier/zsh-git-prompt.git')
 # # # # # # # # # # # # # # #
 function installed {
     local inststatus=yes
-    if [[ '$($1 2>&1)' =~ (not found) ]]; then
+    if [[ $($1 2>&1) =~ (not found) ]]; then
         local inststatus=no
     fi
     echo "$inststatus"
@@ -108,7 +108,7 @@ if [ "$action" == "install" ]; then
         echo "set -g status-right '#($dir/tmux/plugin/tmux-status/tmux-status.sh $dir/tmux/tmux-status.conf)'" >> $dir/tmux.conf
     elif [[ "$(uname)" == "Linux" ]]; then
         echo "This script does not install packages for ack, tmux, zsh, zsh-dev or Vim with Lua support on Linux.  If any of the desired packages are needed, they will need to be installed manually by the admin."
-        if [[ "$(installed 'zsh -V')" == "yes" ]]; then
+        if [[ "$(installed 'zsh --version')" == "yes" ]]; then
             echo "set-option -g default command $(which zsh)" >> $dir/tmux.conf
         fi
     else
@@ -117,7 +117,7 @@ if [ "$action" == "install" ]; then
         exit
     fi
 
-    if [[ "$(installed 'zsh -V')" == "yes" ]]; then
+    if [[ "$(installed 'zsh --version')" == "yes" ]]; then
         case "$SHELL" in
             */zsh)
 	        ;;
@@ -170,7 +170,9 @@ if [ "$action" == "install" ]; then
     done
 
     if [[ "$(uname)" == "Darwin" ]]; then
-        tmux source ~/.tmux.conf
+        if [[ "$(installed 'tmux -V')" == "yes" ]]; then
+            tmux source ~/.tmux.conf
+        fi
     fi
 
     echo "The dotfiles are installed.  Please close your terminal and reopen it to get started."
