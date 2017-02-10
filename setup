@@ -57,12 +57,16 @@ fi
 if [ "$action" == "update" ]; then
     echo "# # Updating Dotfiles"
     echo "# # # # # # # # # # # # # # #"
-    cd $dir
-    git pull
-    update $dir/vim/bundle
-    update $dir/tmux/plugin
-    update $dir/zsh/plugin
-    echo "The update is finished."
+    if [ ! -f $dir/setup ]; then
+        action=install
+    else
+        cd $dir
+        git pull
+        update $dir/vim/bundle
+        update $dir/tmux/plugin
+        update $dir/zsh/plugin
+        echo "The update is finished."
+    fi
 fi
 
 
@@ -71,6 +75,11 @@ fi
 if [ "$action" == "install" ]; then
     echo "# # Installing Dotfiles"
     echo "# # # # # # # # # # # # # # #"
+    if [ -f $dir/setup ]; then
+        echo "YADRLite is already installed."
+        exit
+    fi
+    
     if [[ "$(installed 'git --version')" == "no" ]]; then
         echo "'Git' doesn't seem to be installed.  Install it. :)"
         exit
@@ -78,7 +87,7 @@ if [ "$action" == "install" ]; then
     if [ "$USEREPO" == "yes" ]; then
         git clone https://github.com/bridgesense/dotfiles.git $dir
     else
-        if [ ! -f README.md ]; then
+        if [ ! -f setup ]; then
             git clone https://github.com/bridgesense/dotfiles.git $dir
         else
             cp -R . $dir
