@@ -16,4 +16,4 @@ setopt promptsubst
 # End of lines added by compinstall
 
 source ~/.yadrlite/zsh/plugin/zsh-git-prompt/zshrc.sh
-PROMPT='$ng[cyan]%m: %F{136}%~$reset_color $(git_super_status): '
+PROMPT='$fg[cyan]%n: %F{136}%~$reset_color $(git_super_status): '
