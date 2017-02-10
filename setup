@@ -78,7 +78,11 @@ if [ "$action" == "install" ]; then
     if [ "$USEREPO" == "yes" ]; then
         git clone https://github.com/bridgesense/dotfiles.git $dir
     else
-        cp -R . $dir
+        if [ ! -f README.md ]; then
+            git clone https://github.com/bridgesense/dotfiles.git $dir
+        else
+            cp -R . $dir
+        fi
     fi
     cp $dir/tmux/tmux.conf $dir/tmux.conf
     if [[ "$(uname)" == "Darwin" ]]; then
@@ -172,11 +176,7 @@ if [ "$action" == "install" ]; then
         ln -s $dir/$cfile ~/.$cfile
     done
 
-    if [[ "$(uname)" == "Darwin" ]]; then
-        if [[ "$(installed 'tmux -V')" == "yes" ]]; then
-            tmux source ~/.tmux.conf
-        fi
-    else
+    if [[ "$(uname)" != "Darwin" ]]; then
         echo "This script does not install packages for ack, tmux, zsh, zsh-dev or Vim with Lua support on Linux.  If any of the desired packages are needed, they will need to be installed manually by the admin."
     fi
 
