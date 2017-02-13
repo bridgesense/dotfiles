@@ -146,7 +146,7 @@ if [ "$action" == "install" ]; then
     fi
 
     echo '" Modifications to this file will not be overwritten when YADRLite is updated.' > $dir/vimrc.after
-    echo '" If the colors look off in VIM, you may need to comment out the line below.' >> $dir/vimrc.after
+    echo '" If you are using iTerm and have installed the Solarized theme, try commenting out the line below.' >> $dir/vimrc.after
     echo "let g:yadr_using_unsolarized_terminal=1" >> $dir/vimrc.after
 
     echo "" >> $dir/vimrc.after
@@ -186,7 +186,7 @@ if [ "$action" == "install" ]; then
     done
 
     if [[ "$(uname)" != "Darwin" ]]; then
-        echo "This script does not install packages for ack, tmux, zsh, zsh-dev or Vim with Lua support on Linux.  If any of the desired packages are needed, they will need to be installed manually by the admin."
+        echo "This script does not install packages for ack, tmux, zsh, zsh-dev or Vim with Lua support on Linux. That's something you might look into."
     fi
 
     echo "The dotfiles are installed.  Please close your terminal and reopen it to get started."
