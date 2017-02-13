@@ -10,6 +10,11 @@ bindkey -v
 zstyle :compinstall filename '~/.zshrc'
 
 source ~/.yadrlite/zsh/plugin/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# Load additional user defined plugins
+if [ -f ~/.zshrc.plugins ]; then
+    source ~/.zshrc.plugins
+fi
+
 source ~/.yadrlite/zsh/plugin/pure/async.zsh
 source ~/.yadrlite/zsh/plugin/pure/pure.zsh
 autoload -U colors && colors
