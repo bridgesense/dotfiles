@@ -9,11 +9,8 @@ bindkey -v
 # The following lines were added by compinstall
 zstyle :compinstall filename '~/.zshrc'
 
-#autoload -Uz compinit
-#compinit
+source ~/.yadrlite/zsh/plugin/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.yadrlite/zsh/plugin/pure/async.zsh
+source ~/.yadrlite/zsh/plugin/pure/pure.zsh
 autoload -U colors && colors
-setopt promptsubst
-# End of lines added by compinstall
-
-source ~/.yadrlite/zsh/plugin/zsh-git-prompt/zshrc.sh
-PROMPT='%{$fg[cyan]%}%n: %F{136}%~%{$reset_color%} $(git_super_status): '
+PROMPT='%{%F{136}%}%n: %{$reset_color%}'
