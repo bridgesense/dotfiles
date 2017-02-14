@@ -66,16 +66,16 @@ nnoremap p p=`]<C-o>
 nnoremap P P=`]<C-o>
 
 " Display tabs and trailing spaces visually
-set list listchars=tab:\ \ ,trail:·
+" set list listchars=tab:\ \ ,trail:·
 
 set nowrap       "Don't wrap lines
 set linebreak    "Wrap lines at convenient points
 
 " ================ Folds ============================
 
-set foldmethod=indent   "fold based on indent
-set foldnestmax=3       "deepest fold is 3 levels
-set nofoldenable        "dont fold by default
+"set foldmethod=indent   "fold based on indent
+"set foldnestmax=3       "deepest fold is 3 levels
+"set nofoldenable        "dont fold by default
 
 " ================ Completion =======================
 
