@@ -9,13 +9,19 @@ bindkey -v
 # The following lines were added by compinstall
 zstyle :compinstall filename '~/.zshrc'
 
-source ~/.yadrlite/zsh/plugin/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [ -f ~/.yadrlite/zsh/plugin/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+    source ~/.yadrlite/zsh/plugin/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
 # Load additional user defined plugins
 if [ -f ~/.zshrc.plugins ]; then
     source ~/.zshrc.plugins
 fi
 
-source ~/.yadrlite/zsh/plugin/pure/async.zsh
-source ~/.yadrlite/zsh/plugin/pure/pure.zsh
+if [ -f ~/.yadrlite/zsh/plugin/pure/async.zsh ]; then
+    source ~/.yadrlite/zsh/plugin/pure/async.zsh
+    source ~/.yadrlite/zsh/plugin/pure/pure.zsh
+fi
 autoload -U colors && colors
-PROMPT='%{%F{136}%}%n: %{$reset_color%}'
+setopt promptsubst
+PROMPT='%{%F{136}%}... %{$reset_color%}'
