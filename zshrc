@@ -23,4 +23,5 @@ if [ -f ~/.yadrlite/zsh/plugin/pure/async.zsh ]; then
     source ~/.yadrlite/zsh/plugin/pure/pure.zsh
 fi
 autoload -U colors && colors
+setopt promptsubst
 PROMPT='%{%F{136}%}oO %{$reset_color%}'
