@@ -18,7 +18,7 @@ if [ -f ~/.zshrc.plugins ]; then
     source ~/.zshrc.plugins
 fi
 
-if [ -f source ~/.yadrlite/zsh/plugin/pure/async.zsh ]; then
+if [ -f ~/.yadrlite/zsh/plugin/pure/async.zsh ]; then
     source ~/.yadrlite/zsh/plugin/pure/async.zsh
 fi
 source ~/.yadrlite/zsh/plugin/pure/pure.zsh
