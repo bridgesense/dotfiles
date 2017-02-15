@@ -13,6 +13,11 @@ if [ -f ~/.yadrlite/zsh/plugin/zsh-syntax-highlighting/zsh-syntax-highlighting.z
     source ~/.yadrlite/zsh/plugin/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
+# Makes Ranger exit in the directory you quit from
+if (( $+commands[ranger] )); then
+    alias ranger='ranger --choosedir=$HOME/rangerdir; LASTDIR=`cat $HOME/rangerdir`; cd "$LASTDIR"'
+fi
+
 # Load additional user defined plugins
 if [ -f ~/.zshrc.plugins ]; then
     source ~/.zshrc.plugins
