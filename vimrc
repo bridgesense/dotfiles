@@ -25,7 +25,13 @@ set hidden
 
 "turn on syntax highlighting
 syntax on
-
+"bash friendly highlighting
+if has("autocmd")
+  augroup bashalias
+    autocmd BufRead,BufNewFile .bash_aliases set filetype=bash
+  augroup END
+endif
+    
 " Change leader to a comma because the backslash is too far away
 " That means all \x commands turn into ,x
 " The mapleader has to be set before vundle starts loading all 

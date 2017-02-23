@@ -1,0 +1,396 @@
+;; -*-Emacs-Lisp-*-
+
+;; Removes Top Toolbar and Scrollbar
+;; # # # # # # # # # # #
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(menu-bar-mode -1)
+
+
+;; Handiles Backup Files
+;; # # # # # # # # # # #
+(setq
+ backup-by-copying t      ; don't clobber symlinks
+ backup-directory-alist
+ '(("." . "~/.emacs.d/.emacs-saves"))    ; don't litter my fs tree
+ delete-old-versions t
+ kept-new-versions 6
+ kept-old-versions 2
+ version-control t)       ; use versioned backups
+
+
+;; Default Font and Transparency
+;; # # # # # # # # # # #
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:height 140 :family "Monaco")))))
+(set-frame-parameter (selected-frame) 'alpha '(95 . 95))
+(add-to-list 'default-frame-alist '(alpha . (95 . 95)))
+
+
+;; Additional Repos  
+;; # # # # # # # # # # #
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+;;(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages"))
+(package-initialize)
+
+
+;; Misc
+;; # # # # # # # # # # #
+;;(display-time-mode 1)
+(global-set-key [(control x) (k)] 'kill-this-buffer)
+;; Use emacs terminfo, not system terminfo
+(setq system-uses-terminfo nil)
+;; Use utf-8 in ansi-term
+(defadvice ansi-term (after advise-ansi-term-coding-system)
+  (set-buffer-process-coding-system 'utf-8-unix 'utf-8-unix))
+(ad-activate 'ansi-term)
+;; Tabs to spaces
+(setq-default indent-tabs-mode nil)
+;; Tab width
+(setq-default tab-width 4)
+(setq indent-line-function 'insert-tab)
+;; Turn off line wrapping by default
+(set-default 'truncate-lines t)
+;; Make eww default browser
+(setq browse-url-browser-function 'eww-browse-url)
+
+
+;; Package Management
+;; # # # # # # # # # # #
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(eval-when-compile
+  (require 'use-package))
+
+
+;; smooth scrolling
+;; # # # # # # # # # # #
+(use-package smooth-scrolling :ensure t
+  :config
+  (smooth-scrolling-mode 1))
+
+
+;; Syntax
+;; # # # # # # # # # # #
+(use-package php-mode :ensure t)
+(use-package flycheck :ensure t
+  :config
+  (global-flycheck-mode))
+(use-package flymake-php :ensure t
+  :config
+  (add-hook 'php-mode-hook 'flymake-php-load))
+(use-package flymake-coffee :ensure t
+  :config
+  (add-hook 'coffee-mode-hook 'flymake-coffee-load))
+(use-package flymake-css :ensure t
+  :config
+  (add-hook 'css-mode-hook 'flymake-css-load))
+(use-package flymake-jslint :ensure t
+  :config
+  (add-hook 'jslint-mode-hook 'flymake-jslint-load))
+(use-package flymake-json :ensure t
+  :config
+  (add-hook 'json-mode-hook 'flymake-json-load))
+(use-package flymake-shell :ensure t
+  :config
+  (add-hook 'shell-mode-hook 'flymake-shell-load))
+(use-package flymake-sass :ensure t
+  :config
+  (add-hook 'sass-mode-hook 'flymake-sass-load))
+(use-package flymake-lua :ensure t
+  :config
+  (add-hook 'lua-mode-hook 'flymake-lua-load))
+;; Show Matching Pairs
+(show-paren-mode 1)
+;; Show HTML Colors
+(use-package rainbow-mode :ensure t)
+
+
+;; Auto-Complete
+;; # # # # # # # # # # #
+(use-package auto-complete :ensure t
+  :config
+  (ac-config-default))
+
+
+;; Git Gutter Fringe
+;; # # # # # # # # # # #
+(use-package fringe-helper :ensure t)
+(use-package git-gutter :ensure t)
+(use-package git-gutter-fringe :ensure t
+  :config
+  (global-git-gutter-mode +1))
+
+
+;; Solarized Theme
+;; # # # # # # # # # # #
+(use-package solarized-theme :ensure t
+  :config
+  ;; make the fringe stand out from the background
+  (setq solarized-distinct-fringe-background t)
+  ;; Don't change the font for some headings and titles
+  (setq solarized-use-variable-pitch nil)
+  ;; make the modeline high contrast
+  (setq solarized-high-contrast-mode-line t)
+  ;; Use less bolding
+  (setq solarized-use-less-bold t)
+  ;; Use more italics
+  (setq solarized-use-more-italic t)
+  ;; Use less colors for indicators such as git:gutter, flycheck and similar
+  (setq solarized-emphasize-indicators nil)
+  ;; Don't change size of org-mode headlines (but keep other size-changes)
+  (setq solarized-scale-org-headlines nil)
+  ;; Avoid all font-size changes
+  (setq solarized-height-minus-1 1)
+  (setq solarized-height-plus-1 1)
+  (setq solarized-height-plus-2 1)
+  (setq solarized-height-plus-3 1)
+  (setq solarized-height-plus-4 1)
+  (load-theme 'solarized-dark t))
+
+
+;; Helm
+;; # # # # # # # # # # #
+(use-package helm :ensure t
+  :config
+  (require 'helm-config)
+  (global-set-key (kbd "M-x") 'helm-M-x)
+  (global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
+  (global-set-key (kbd "C-x C-f") #'helm-find-files)
+  (helm-mode 1))
+
+
+;; Evil Vim & Plugins
+;; # # # # # # # # # # #
+(use-package evil :ensure t)
+(use-package org-evil :ensure t)
+(use-package evil-surround :ensure t)
+(use-package evil-leader :ensure t
+  :config
+  (evil-leader/set-key
+    "0" 'delete-window'
+    "1" 'delete-other-windows'
+    "\"" 'split-window-right'
+    "[" 'shrink-window-horizontally'
+    "]" 'enlarge-window-horizontally'
+    "-" 'shrink-window'
+    "=" 'enlarge-window'
+    "%" 'split-window-below'
+    "<return>" 'toggle-frame-fullscreen'
+    "a" 'helm-do-ag-project-root'
+    "b" 'helm-buffers-list'
+    "f" 'helm-find-files'
+    "l" 'linum-mode'
+    "o" 'other-window'
+    "s" 'save-buffer'
+    "t" 'ansi-term'
+    "q" 'kill-buffer'
+    "w" 'toggle-truncate-lines'
+    "x" 'next-buffer'
+    "z" 'previous-buffer)
+  (global-evil-leader-mode)
+  (evil-mode 1)
+  (evil-leader/set-leader ",")
+  (fset 'evil-visual-update-x-selection 'ignore))
+
+
+;; Vim Tutor
+;; # # # # # # # # # # #
+(use-package evil-tutor :ensure t)
+
+
+;; Helm Sweep
+;; # # # # # # # # # # #
+(use-package helm-swoop :ensure t
+  :config
+  (evil-leader/set-key
+    "h" 'helm-swoop))
+
+
+;; Spruce Up line numbers
+;; # # # # # # # # # # #
+;; Line numbering off by default
+;; (linum-on)
+;; Highlight current line number
+(use-package hlinum :ensure t
+  :config
+  (hlinum-activate))
+;; Add relative line numbering option
+(use-package linum-relative :ensure t
+  :config
+  (evil-leader/set-key
+    "L" 'linum-relative-toggle))
+
+
+;; Ace Jump Mode (a very nice Easy Motion alternative)
+;; # # # # # # # # # # #
+(use-package ace-jump-mode :ensure t
+  :config
+  (evil-leader/set-key
+    "j" 'ace-jump-char-mode))
+
+
+;; Vi Commentary
+;; # # # # # # # # # # #
+(use-package evil-commentary :ensure t
+  :config
+  (evil-commentary-mode))
+
+
+;; Spell Check
+;; # # # # # # # # # # #
+(use-package helm-flyspell
+  :ensure t
+  :config
+  (evil-leader/set-key
+    ";" 'helm-flyspell-correct'
+    "S" 'flyspell-mode)
+  (define-key flyspell-mode-map (kbd "C-;") 'helm-flyspell-correct))
+
+
+;; Dictionary
+;; # # # # # # # # # # #
+(use-package define-word :ensure t
+  :config
+  (evil-leader/set-key
+    "W" 'define-word-at-point))
+
+
+;; Thesaurus
+(use-package synonymous :ensure t
+  :config
+  (evil-leader/set-key
+    "T" 'synonymous-synonyms'
+    "A" 'synonymous-antonyms))
+
+
+;; Smart Mode Line
+;; # # # # # # # # # # #
+(use-package powerline :ensure t)
+(use-package airline-themes :ensure t
+  :config
+  (load-theme 'airline-solarized-gui t))
+
+
+;; Neotree
+;; # # # # # # # # # # #
+(use-package neotree
+  :ensure t
+  :config
+  (evil-leader/set-key
+    "n" 'neotree-project-dir)
+  (setq projectile-switch-project-action 'neotree-projectile-action)
+  (add-hook 'neotree-mode-hook
+    (lambda ()
+        (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
+        (define-key evil-normal-state-local-map (kbd "I") 'neotree-hidden-file-toggle)
+        (define-key evil-normal-state-local-map (kbd "z") 'neotree-stretch-toggle)
+        (define-key evil-normal-state-local-map (kbd "R") 'neotree-refresh)
+        (define-key evil-normal-state-local-map (kbd "m") 'neotree-rename-node)
+        (define-key evil-normal-state-local-map (kbd "c") 'neotree-create-node)
+        (define-key evil-normal-state-local-map (kbd "d") 'neotree-delete-node)
+        (define-key evil-normal-state-local-map (kbd "s") 'neotree-enter-vertical-split)
+        (define-key evil-normal-state-local-map (kbd "S") 'neotree-enter-horizontal-split)
+        (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter))))
+
+(use-package find-file-in-project :ensure t)
+
+(defun neotree-project-dir ()
+  "Open NeoTree using the git root."
+  (interactive)
+  (let ((project-dir (ffip-project-root))
+        (file-name (buffer-file-name)))
+    (if project-dir
+        (progn
+          (neotree-dir project-dir)
+          (neotree-find file-name))
+      (message "Could not find git project root."))))
+
+
+;; Projectile (better than ctrlp)
+;; # # # # # # # # # # #
+(use-package projectile
+  :ensure t
+  :config
+  (evil-leader/set-key
+    "P" 'projectile-mode))
+(use-package helm-projectile
+  :ensure t
+  :config
+  (evil-leader/set-key
+    "p" 'helm-projectile-find-file)) 
+
+(use-package helm-ag :ensure t
+  :config
+  (custom-set-variables
+   '(helm-ag-base-command "ack --nocolor --nogroup")))
+
+ 
+
+;; Dashboard
+;; # # # # # # # # # # #
+(use-package page-break-lines :ensure t)
+(use-package dashboard :ensure t
+  :config
+  (dashboard-setup-startup-hook))
+
+
+;; Geben for Xdebug
+;; # # # # # # # # # # #
+(use-package geben :ensure t
+  :config
+  (evil-leader/set-key
+    "g" 'geben'
+    "G" 'geben-end)
+  (setq geben-dbgp-default-port 9041))
+
+
+
+;; Rangerlike File Browser
+;; # # # # # # # # # # #
+(use-package cl-lib :ensure t
+  :config
+  (require 'cl-lib))
+(use-package ranger :ensure t
+  :config
+  (evil-leader/set-key
+    "d" 'deer'
+    "D" 'ranger)
+  ;; Set as default browser
+  (ranger-override-dired-mode t)
+  ;; Remove ranger buffer when done
+  (setq ranger-cleanup-on-disable t)
+  ;; Kill browser buffers when drilling down
+  (setq ranger-cleanup-eagerly t))
+
+
+;; SimpleClip
+;; # # # # # # # # # # #
+;; Fixes paste in Ansi-Terminal and other places
+(use-package simpleclip :ensure t
+  :config
+  (evil-leader/set-key
+    "c" 'simpleclip-copy'
+    "v" 'simpleclip-paste)
+  (simpleclip-mode 1)
+  (global-set-key [C-escape] 'simpleclip-paste))
+
+
+;; Magit a Git handler
+;; # # # # # # # # # # #
+(use-package magit :ensure t
+  :config
+  (evil-leader/set-key
+    "m" 'magit-status))
+;; helm-ls-git
+(use-package helm-ls-git :ensure t
+  :config
+  (evil-leader/set-key
+    "M" 'helm-browse-project))
