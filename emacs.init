@@ -2,9 +2,9 @@
 
 ;; Removes Top Toolbar and Scrollbar
 ;; # # # # # # # # # # #
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-(menu-bar-mode -1)
+(if window-system (tool-bar-mode -1))
+(if window-system (scroll-bar-mode -1))
+(if window-system (menu-bar-mode -1))
 
 
 ;; Handiles Backup Files
@@ -42,8 +42,6 @@
 
 ;; Misc
 ;; # # # # # # # # # # #
-;;(display-time-mode 1)
-(global-set-key [(control x) (k)] 'kill-this-buffer)
 ;; Use emacs terminfo, not system terminfo
 (setq system-uses-terminfo nil)
 ;; Use utf-8 in ansi-term
@@ -59,6 +57,8 @@
 (set-default 'truncate-lines t)
 ;; Make eww default browser
 (setq browse-url-browser-function 'eww-browse-url)
+;; Turn off alarms
+(setq ring-bell-function 'ignore)
 
 
 ;; Package Management
@@ -75,6 +75,14 @@
 (use-package smooth-scrolling :ensure t
   :config
   (smooth-scrolling-mode 1))
+
+
+;; aggressive indentation
+;; # # # # # # # # # # #
+(use-package aggressive-indent :ensure t
+  :config
+  (global-aggressive-indent-mode 1)
+  (add-to-list 'aggressive-indent-excluded-modes 'html-mode))
 
 
 ;; Syntax
@@ -113,6 +121,13 @@
 (use-package rainbow-mode :ensure t)
 
 
+;; Help Mode
+;; # # # # # # # # # # #
+(use-package which-key :ensure t
+  :config
+  (which-key-mode 1))
+
+
 ;; Auto-Complete
 ;; # # # # # # # # # # #
 (use-package auto-complete :ensure t
@@ -124,36 +139,36 @@
 ;; # # # # # # # # # # #
 (use-package fringe-helper :ensure t)
 (use-package git-gutter :ensure t)
-(use-package git-gutter-fringe :ensure t
-  :config
-  (global-git-gutter-mode +1))
+(if window-system (use-package git-gutter-fringe :ensure t
+                    :config
+                    (global-git-gutter-mode +1)))
 
 
 ;; Solarized Theme
 ;; # # # # # # # # # # #
-(use-package solarized-theme :ensure t
-  :config
-  ;; make the fringe stand out from the background
-  (setq solarized-distinct-fringe-background t)
-  ;; Don't change the font for some headings and titles
-  (setq solarized-use-variable-pitch nil)
-  ;; make the modeline high contrast
-  (setq solarized-high-contrast-mode-line t)
-  ;; Use less bolding
-  (setq solarized-use-less-bold t)
-  ;; Use more italics
-  (setq solarized-use-more-italic t)
-  ;; Use less colors for indicators such as git:gutter, flycheck and similar
-  (setq solarized-emphasize-indicators nil)
-  ;; Don't change size of org-mode headlines (but keep other size-changes)
-  (setq solarized-scale-org-headlines nil)
-  ;; Avoid all font-size changes
-  (setq solarized-height-minus-1 1)
-  (setq solarized-height-plus-1 1)
-  (setq solarized-height-plus-2 1)
-  (setq solarized-height-plus-3 1)
-  (setq solarized-height-plus-4 1)
-  (load-theme 'solarized-dark t))
+(if window-system (use-package solarized-theme :ensure t
+                    :config
+                    ;; make the fringe stand out from the background
+                    (setq solarized-distinct-fringe-background t)
+                    ;; Don't change the font for some headings and titles
+                    (setq solarized-use-variable-pitch nil)
+                    ;; make the modeline high contrast
+                    (setq solarized-high-contrast-mode-line t)
+                    ;; Use less bolding
+                    (setq solarized-use-less-bold t)
+                    ;; Use more italics
+                    (setq solarized-use-more-italic t)
+                    ;; Use less colors for indicators such as git:gutter, flycheck and similar
+                    (setq solarized-emphasize-indicators nil)
+                    ;; Don't change size of org-mode headlines (but keep other size-changes)
+                    (setq solarized-scale-org-headlines nil)
+                    ;; Avoid all font-size changes
+                    (setq solarized-height-minus-1 1)
+                    (setq solarized-height-plus-1 1)
+                    (setq solarized-height-plus-2 1)
+                    (setq solarized-height-plus-3 1)
+                    (setq solarized-height-plus-4 1)
+                    (load-theme 'solarized-dark t)))
 
 
 ;; Helm
@@ -168,50 +183,21 @@
 
 
 ;; Evil Vim & Plugins
-;; # # # # # # # # # # #
-(use-package evil :ensure t)
+(use-package evil :ensure t
+  :config
+  (evil-mode 1))
 (use-package org-evil :ensure t)
 (use-package evil-surround :ensure t)
-(use-package evil-leader :ensure t
-  :config
-  (evil-leader/set-key
-    "0" 'delete-window'
-    "1" 'delete-other-windows'
-    "\"" 'split-window-right'
-    "[" 'shrink-window-horizontally'
-    "]" 'enlarge-window-horizontally'
-    "-" 'shrink-window'
-    "=" 'enlarge-window'
-    "%" 'split-window-below'
-    "<return>" 'toggle-frame-fullscreen'
-    "a" 'helm-do-ag-project-root'
-    "b" 'helm-buffers-list'
-    "f" 'helm-find-files'
-    "l" 'linum-mode'
-    "o" 'other-window'
-    "s" 'save-buffer'
-    "t" 'ansi-term'
-    "q" 'kill-buffer'
-    "w" 'toggle-truncate-lines'
-    "x" 'next-buffer'
-    "z" 'previous-buffer)
-  (global-evil-leader-mode)
-  (evil-mode 1)
-  (evil-leader/set-leader ",")
-  (fset 'evil-visual-update-x-selection 'ignore))
-
-
-;; Vim Tutor
-;; # # # # # # # # # # #
 (use-package evil-tutor :ensure t)
-
-
-;; Helm Sweep
-;; # # # # # # # # # # #
-(use-package helm-swoop :ensure t
+(use-package evil-commentary :ensure t
   :config
-  (evil-leader/set-key
-    "h" 'helm-swoop))
+  (evil-commentary-mode 1))
+
+
+
+;; Helm Swoop
+;; # # # # # # # # # # #
+(use-package helm-swoop :ensure t)
 
 
 ;; Spruce Up line numbers
@@ -221,62 +207,40 @@
 ;; Highlight current line number
 (use-package hlinum :ensure t
   :config
-  (hlinum-activate))
+  (hlinum-activate)
+  (set-face-attribute 'linum-highlight-face nil :background "#0b3741" :foreground "#b4861d"))
+
+
 ;; Add relative line numbering option
-(use-package linum-relative :ensure t
-  :config
-  (evil-leader/set-key
-    "L" 'linum-relative-toggle))
+(use-package linum-relative :ensure t)
 
 
 ;; Ace Jump Mode (a very nice Easy Motion alternative)
 ;; # # # # # # # # # # #
-(use-package ace-jump-mode :ensure t
-  :config
-  (evil-leader/set-key
-    "j" 'ace-jump-char-mode))
-
-
-;; Vi Commentary
-;; # # # # # # # # # # #
-(use-package evil-commentary :ensure t
-  :config
-  (evil-commentary-mode))
+(use-package ace-jump-mode :ensure t)
 
 
 ;; Spell Check
 ;; # # # # # # # # # # #
-(use-package helm-flyspell
-  :ensure t
-  :config
-  (evil-leader/set-key
-    ";" 'helm-flyspell-correct'
-    "S" 'flyspell-mode)
-  (define-key flyspell-mode-map (kbd "C-;") 'helm-flyspell-correct))
+(use-package helm-flyspell :ensure t)
 
 
 ;; Dictionary
 ;; # # # # # # # # # # #
-(use-package define-word :ensure t
-  :config
-  (evil-leader/set-key
-    "W" 'define-word-at-point))
+(use-package define-word :ensure t)
 
 
 ;; Thesaurus
-(use-package synonymous :ensure t
-  :config
-  (evil-leader/set-key
-    "T" 'synonymous-synonyms'
-    "A" 'synonymous-antonyms))
+(use-package synonymous :ensure t)
 
 
 ;; Smart Mode Line
 ;; # # # # # # # # # # #
-(use-package powerline :ensure t)
-(use-package airline-themes :ensure t
-  :config
-  (load-theme 'airline-solarized-gui t))
+(if window-system (use-package powerline :ensure t))
+(if window-system (use-package airline-themes :ensure t
+                    :config
+                    (load-theme 'airline-solarized-gui t)
+                    ))
 
 
 ;; Neotree
@@ -284,21 +248,19 @@
 (use-package neotree
   :ensure t
   :config
-  (evil-leader/set-key
-    "n" 'neotree-project-dir)
   (setq projectile-switch-project-action 'neotree-projectile-action)
   (add-hook 'neotree-mode-hook
-    (lambda ()
-        (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
-        (define-key evil-normal-state-local-map (kbd "I") 'neotree-hidden-file-toggle)
-        (define-key evil-normal-state-local-map (kbd "z") 'neotree-stretch-toggle)
-        (define-key evil-normal-state-local-map (kbd "R") 'neotree-refresh)
-        (define-key evil-normal-state-local-map (kbd "m") 'neotree-rename-node)
-        (define-key evil-normal-state-local-map (kbd "c") 'neotree-create-node)
-        (define-key evil-normal-state-local-map (kbd "d") 'neotree-delete-node)
-        (define-key evil-normal-state-local-map (kbd "s") 'neotree-enter-vertical-split)
-        (define-key evil-normal-state-local-map (kbd "S") 'neotree-enter-horizontal-split)
-        (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter))))
+            (lambda ()
+              (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
+              (define-key evil-normal-state-local-map (kbd "I") 'neotree-hidden-file-toggle)
+              (define-key evil-normal-state-local-map (kbd "z") 'neotree-stretch-toggle)
+              (define-key evil-normal-state-local-map (kbd "R") 'neotree-refresh)
+              (define-key evil-normal-state-local-map (kbd "m") 'neotree-rename-node)
+              (define-key evil-normal-state-local-map (kbd "c") 'neotree-create-node)
+              (define-key evil-normal-state-local-map (kbd "d") 'neotree-delete-node)
+              (define-key evil-normal-state-local-map (kbd "s") 'neotree-enter-vertical-split)
+              (define-key evil-normal-state-local-map (kbd "S") 'neotree-enter-horizontal-split)
+              (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter))))
 
 (use-package find-file-in-project :ensure t)
 
@@ -316,23 +278,14 @@
 
 ;; Projectile (better than ctrlp)
 ;; # # # # # # # # # # #
-(use-package projectile
-  :ensure t
-  :config
-  (evil-leader/set-key
-    "P" 'projectile-mode))
-(use-package helm-projectile
-  :ensure t
-  :config
-  (evil-leader/set-key
-    "p" 'helm-projectile-find-file)) 
+(use-package projectile :ensure t)
+(use-package helm-projectile :ensure t)
 
 (use-package helm-ag :ensure t
   :config
   (custom-set-variables
    '(helm-ag-base-command "ack --nocolor --nogroup")))
 
- 
 
 ;; Dashboard
 ;; # # # # # # # # # # #
@@ -346,23 +299,17 @@
 ;; # # # # # # # # # # #
 (use-package geben :ensure t
   :config
-  (evil-leader/set-key
-    "g" 'geben'
-    "G" 'geben-end)
   (setq geben-dbgp-default-port 9041))
 
 
 
 ;; Rangerlike File Browser
 ;; # # # # # # # # # # #
-(use-package cl-lib :ensure t
-  :config
-  (require 'cl-lib))
+(use-package cl-lib :ensure t)
 (use-package ranger :ensure t
+  ;;  :init
+  ;;  (require 'cl-lib)
   :config
-  (evil-leader/set-key
-    "d" 'deer'
-    "D" 'ranger)
   ;; Set as default browser
   (ranger-override-dired-mode t)
   ;; Remove ranger buffer when done
@@ -376,21 +323,154 @@
 ;; Fixes paste in Ansi-Terminal and other places
 (use-package simpleclip :ensure t
   :config
-  (evil-leader/set-key
-    "c" 'simpleclip-copy'
-    "v" 'simpleclip-paste)
   (simpleclip-mode 1)
-  (global-set-key [C-escape] 'simpleclip-paste))
+  (global-set-key [C-escape] 'simpleclip-paste))    ; this is compatible for pasting in terminal
 
 
 ;; Magit a Git handler
 ;; # # # # # # # # # # #
-(use-package magit :ensure t
-  :config
-  (evil-leader/set-key
-    "m" 'magit-status))
+(use-package magit :ensure t)
 ;; helm-ls-git
-(use-package helm-ls-git :ensure t
+(use-package helm-ls-git :ensure t)
+(use-package evil-magit :ensure t)
+
+;; leader key operation
+;; # # # # # # # # # # #
+(setq gleader ",")
+(setq gleader-non "C-,")
+(use-package general :ensure t 
   :config
-  (evil-leader/set-key
-    "M" 'helm-browse-project))
+  (general-evil-setup t)
+
+  
+  ;; Single Key Functions (YADR Remnants)
+  (general-define-key
+   :states '(normal motion insert emacs)
+   :prefix gleader 
+   :non-normal-prefix gleader-non
+   "," '(helm-M-x :which-key "Search for Command")
+   "a" '(helm-do-ag-project-root :which-key "Search Project")
+   "c" '(simpleclip-copy :which-key "Copy to Clipboard")
+   "v" '(simpleclip-paste :which-key "Paste from Clipboard")
+   "j" '(ace-jump-char-mode :which-key "Jump to Character")
+   "m" '(magit-status :which-key "Git Status")
+   "n" '(neotree-project-dir :which-key "NeoTree")
+   "p" '(helm-projectile-find-file :which-key "Fuzzy File (CtrlP)")
+   "q" '(kill-this-buffer :which-key "Kill Buffer")
+   "r" '(ranger :which-key "File Ranger")
+   "Q" '(kill-emacs :which-key "Quit Emacs")
+   "x" '(next-buffer :which-key "Next Buffer")
+   "z" '(previous-buffer :which-key "Previous Buffer")
+   )
+
+  
+  ;; Window Functions
+  (general-define-key
+   :states '(normal motion insert emacs)
+   :prefix gleader 
+   :non-normal-prefix gleader-non
+   "w"  '(nil :which-key "Window Operations")
+   "wd" '(delete-window :which-key "Kill Window")
+   "wc" '(delete-other-windows :which-key "Clear All but Currenet")
+   "wv" '(split-window-right :which-key "Vertical Split")
+   "ws" '(split-window-right :which-key "Horizontal Split")
+   "w[" '(shrink-window-horizontally :which-key "Shrink Width")
+   "w]" '(enlarge-window-horizontally :which-key "Grow Width")
+   "w-" '(shrink-window :which-key "Shrink Height")
+   "w=" '(enlarge-window :which-key "Grow Height")
+   "wf" '(toggle-frame-fullscreen :which-key "Toggle Full Screen")
+   "wh" '(evil-window-left :which-key "Select Window Left")
+   "wl" '(evil-window-right :which-key "Select Window Right")
+   "wj" '(evil-window-up :which-key "Select Window Above")
+   "wk" '(evil-window-down :which-key "Select Window Below")
+   "wo" '(other-window :which-key "Select Next Window"))
+  
+
+  ;; Buffer Functions 
+  (general-define-key
+   :states '(normal motion insert emacs)
+   :prefix gleader 
+   :non-normal-prefix gleader-non
+   "b"  '(nil :which-key "Buffer Operations")
+   "bb" '(helm-buffers-list :which-key "List/Create Buffers")
+   "bs" '(save-buffer :which-key "Save Buffer")
+   "bd" '(kill-this-buffer :which-key "Kill Buffer")
+   "bn" '(next-buffer :which-key "Next Buffer")
+   "bp" '(previous-buffer :which-key "Previous Buffer"))
+
+
+  ;; Applicaitons
+  (general-define-key
+   :states '(normal motion insert emacs)
+   :prefix gleader 
+   :non-normal-prefix gleader-non
+   "a"  '(nil :which-key "Application Shortcuts")
+   "at" '(ansi-term :which-key "Terminal")
+   "am" '(magit-status :which-key "Magit")
+   "aw" '(browse-web :which-key "Browse Web"))
+
+
+  ;; Geben Functions 
+  (general-define-key
+   :states '(normal motion insert emacs)
+   :prefix gleader 
+   :non-normal-prefix gleader-non
+   "g"  '(nil :which-key "Geben (DBGp)")
+   "gg" '(geben :which-key "Geben ON")
+   "gf" '(geben-find-file :which-key "Find File")
+   "gb" '(geben-open-file :which-key "Open File")
+   "gl" '(geben-breakpoint-list :which-key "Breakpoint List")
+   "gx" '(geben :which-key "Geben OFF"))
+
+
+  ;; Search Functions
+  (general-define-key
+   :states '(normal motion insert emacs)
+   :prefix gleader 
+   :non-normal-prefix gleader-non
+   "s"  '(nil :which-key "Search Operations")
+   "sp" '(helm-do-ag-project-root :which-key "Search Project")
+   "sc" '(ace-jump-char-mode :which-key "Jump to Character")
+   "ss" '(helm-swoop :which-key "Helm Swoop"))
+
+
+  ;; File Functions
+  (general-define-key
+   :states '(normal motion insert emacs)
+   :prefix gleader 
+   :non-normal-prefix gleader-non
+   "f"  '(nil :which-key "File Operations")
+   "ff" '(helm-find-files :which-key "Open File")
+   "fd" '(deer :which-key "File Browser")
+   "fr" '(ranger :which-key "File Ranger")
+   "fp" '(helm-projectile-find-file :which-key "Find File")
+   "fn" '(neotree-project-dir :which-key "Toggle NeoTree"))
+
+
+  ;; Line Functions
+  (general-define-key
+   :states '(normal motion insert emacs)
+   :prefix gleader 
+   :non-normal-prefix gleader-non
+   "l"  '(nil :which-key "Line Manipulation")
+   "lc" '(rainbow-mode :which-key "HTML Color Codes")
+   "ln" '(linum-mode :which-key "View Line Numbers")
+   "lr" '(linum-relative-toggle :which-key "Toggle Relative Numbers")
+   "lw" '(toggle-truncate-lines :which-key "Toggle Line Wrapping"))
+
+  
+  ;; Word Functions
+  (general-define-key
+   :states '(normal motion insert emacs)
+   :prefix gleader 
+   :non-normal-prefix gleader-non
+   "W"  '(nil :which-key "Word Functions")
+   "Ws" '(flyspell-mode :which-key "View Spelling Errors")
+   "Wc" '(helm-flyspell-correct :which-key "Correct Spelling")
+   "Wd" '(define-word-at-point :which-key "See Definition")
+   "Wt" '(synonymous-synonyms :which-key "See Synonyms")
+   "Wa" '(synonymous-antonyms :which-key "See Antonyms"))
+
+  )
+
+;; Warning!  Any lines modified below this point will be overwritten.
