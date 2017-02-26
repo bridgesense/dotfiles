@@ -7,9 +7,6 @@ This dotfile repo is heavily based on [YADR] (https://github.com/skwp/dotfiles) 
 Check out the original repo, [YADR] (https://github.com/skwp/dotfiles) especially if you work in Python or Ruby.
 
 
-![screenshot](http://i.imgur.com/JzUdHwB.png)
-
-
 Installation:
 ---
 
