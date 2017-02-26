@@ -1,13 +1,13 @@
 ;;; ~/.emacs --- Emacs Inititialization File
 ;;; Commentary:
 ;; This script contains a collection of shortcuts influenced by YADR.  Auto-popup
-;; documentation is provided to introduce users to the key shortcuts.
-;; Custom shortcuts can be accessed by typing the YADR leader "," in Evil mode
+;; documentation is provided to introduce new users to the key shortcuts.
+;; Custom shortcuts can be accessed through typing the YADR leader "," in Evil mode
 ;; or "Ctrl-," in traditional Emacs modes.
 ;;
-;; NOTE: Terminals only work in Emacs and Insert mode.  Emacs mode can be toggled
+;; NOTE: Terminals only work in Emacs and Insert modes.  Emacs mode can be toggled
 ;; by pressing "Ctrl-Z".  Text and passwords can be copy/pasted into the terminal using
-;; "M-c" and "M-v" or "Ctrl-Esc".  Passwords can only be copy/pasted properly using the
+;; "M-c" and "M-v" or "Ctrl-Esc".  Currently passwords can only be copy/pasted properly using the
 ;; GUI(windowed) version of Emacs.
 ;; # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 ;;; Code:
@@ -114,7 +114,7 @@
   :diminish autopair-mode
   :config
   (autopair-global-mode 1))
-             
+
 
 ;; SimpleClip
 ;; # # # # # # # # # # #
@@ -131,13 +131,13 @@
 (use-package multi-term :ensure t
   :config
   (add-hook 'term-mode-hook
-          (lambda ()
-            (evil-set-initial-state 'term-mode 'emacs)
-            (setq term-buffer-maximum-size 10000)
-            (setq show-trailing-whitespace nil)
-            (autopair-mode -1)
-            (define-key term-raw-map (kbd "M-c") 'simpleclip-copy)
-            (define-key term-raw-map (kbd "M-v") 'simpleclip-paste)))
+            (lambda ()
+              (evil-set-initial-state 'term-mode 'emacs)
+              (setq term-buffer-maximum-size 10000)
+              (setq show-trailing-whitespace nil)
+              (autopair-mode -1)
+              (define-key term-raw-map (kbd "M-c") 'simpleclip-copy)
+              (define-key term-raw-map (kbd "M-v") 'simpleclip-paste)))
   )
 
 
@@ -219,27 +219,27 @@
 ;; Solarized Theme
 ;; # # # # # # # # # # #
 (if window-system (use-package solarized-theme :ensure t
-  :config
-  ;; make the fringe stand out from the background
-  (setq solarized-distinct-fringe-background t)
-  ;; Don't change the font for some headings and titles
-  (setq solarized-use-variable-pitch nil)
-  ;; make the modeline high contrast
-  (setq solarized-high-contrast-mode-line t)
-  ;; Use less bolding (setq solarized-use-less-bold t)
-  ;; Use more italics
-  (setq solarized-use-more-italic t)
-  ;; Use less colors for indicators such as git:gutter, flycheck and similar
-  (setq solarized-emphasize-indicators nil)
-  ;; Don't change size of org-mode headlines (but keep other size-changes)
-  (setq solarized-scale-org-headlines nil)
-  ;; Avoid all font-size changes
-  (setq solarized-height-minus-1 1)
-  (setq solarized-height-plus-1 1)
-  (setq solarized-height-plus-2 1)
-  (setq solarized-height-plus-3 1)
-  (setq solarized-height-plus-4 1)
-  (load-theme 'solarized-dark t)))
+                    :config
+                    ;; make the fringe stand out from the background
+                    (setq solarized-distinct-fringe-background t)
+                    ;; Don't change the font for some headings and titles
+                    (setq solarized-use-variable-pitch nil)
+                    ;; make the modeline high contrast
+                    (setq solarized-high-contrast-mode-line t)
+                    ;; Use less bolding (setq solarized-use-less-bold t)
+                    ;; Use more italics
+                    (setq solarized-use-more-italic t)
+                    ;; Use less colors for indicators such as git:gutter, flycheck and similar
+                    (setq solarized-emphasize-indicators nil)
+                    ;; Don't change size of org-mode headlines (but keep other size-changes)
+                    (setq solarized-scale-org-headlines nil)
+                    ;; Avoid all font-size changes
+                    (setq solarized-height-minus-1 1)
+                    (setq solarized-height-plus-1 1)
+                    (setq solarized-height-plus-2 1)
+                    (setq solarized-height-plus-3 1)
+                    (setq solarized-height-plus-4 1)
+                    (load-theme 'solarized-dark t)))
 
 
 ;; Misc Helm Packages and Dependencies
@@ -392,7 +392,7 @@
 ;; # # # # # # # # # # #
 (use-package magit :ensure t
   :diminish magit-mode)
- ;; helm-ls-git
+;; helm-ls-git
 (use-package helm-ls-git :ensure t)
 (use-package evil-magit :ensure t)
 
@@ -415,14 +415,14 @@
    "[" '(shrink-window-horizontally :which-key "Contract Window")
    "]" '(enlarge-window-horizontally :which-key "Expand Window")
    "-" '(shrink-window :which-key "Shrink Window")
-   "=" '(enlarge-window :which-key "Grow Window")
+   "=" '(grow-window :which-key "Grow Window")
    "a" '(helm-do-ag-project-root :which-key "Search Project")
    "c" '(simpleclip-copy :which-key "Copy to Clipboard")
    "e" '(flycheck-list-errors-toggle :which-key "Toggle Error List")
    "v" '(simpleclip-paste :which-key "Paste from Clipboard")
    "j" '(ace-jump-char-mode :which-key "Jump to Character")
-   "m" '(magit-status :which-key "Git Status")
    "n" '(neotree-project-dir-toggle :which-key "Toggle NeoTree")
+   "m" '(magit-status :which-key "Git Status")
    "p" '(helm-projectile-find-file :which-key "Fuzzy File (CtrlP)")
    "q" '(kill-this-buffer :which-key "Kill Buffer")
    "r" '(ranger :which-key "File Ranger")
@@ -441,12 +441,16 @@
    "wd" '(delete-window :which-key "Kill Window")
    "wc" '(delete-other-windows :which-key "Clear All but Currenet")
    "wv" '(split-window-right :which-key "Vertical Split")
-   "ws" '(split-window-right :which-key "Horizontal Split")
+   "ws" '(split-window-below :which-key "Horizontal Split")
    "wf" '(toggle-frame-fullscreen :which-key "Toggle Full Screen")
    "wh" '(evil-window-left :which-key "Select Window Left")
-   "wl" '(evil-window-right :which-key "Select Window Right")
    "wj" '(evil-window-up :which-key "Select Window Above")
    "wk" '(evil-window-down :which-key "Select Window Below")
+   "wl" '(evil-window-right :which-key "Select Window Right")
+   "wH" '(evil-window-move-far-left :which-key "Move Window Left")
+   "wJ" '(evil-window-move-very-top :which-key "Move Window Up")
+   "wK" '(evil-window-move-very-bottom :which-key "Move Window Down")
+   "wL" '(evil-window-move-far-right :which-key "Move Window Right")
    "wo" '(other-window :which-key "Select Next Window"))
 
 
@@ -542,56 +546,6 @@
   )
 
 ;; Warning!  Any lines modified below this point will be overwritten.
-  ;; Search Functions
-  (general-define-key
-   :states '(normal motion insert emacs)
-   :prefix gleader
-   :non-normal-prefix gleader-non
-   "s"  '(nil :which-key "Search Operations")
-   "sp" '(helm-do-ag-project-root :which-key "Search Project")
-   "sc" '(ace-jump-char-mode :which-key "Jump to Character")
-   "ss" '(helm-swoop :which-key "Helm Swoop"))
 
-
-  ;; File Functions
-  (general-define-key
-   :states '(normal motion insert emacs)
-   :prefix gleader
-   :non-normal-prefix gleader-non
-   "f"  '(nil :which-key "File Operations")
-   "ff" '(helm-find-files :which-key "Open File")
-   "fd" '(deer :which-key "File Browser")
-   "fr" '(ranger :which-key "File Ranger")
-   "fp" '(helm-projectile-find-file :which-key "Find File")
-   "fn" '(neotree-project-dir-toggle :which-key "Toggle NeoTree"))
-
-
-  ;; Line Functions
-  (general-define-key
-   :states '(normal motion insert emacs)
-   :prefix gleader
-   :non-normal-prefix gleader-non
-   "l"  '(nil :which-key "Line Manipulation")
-   "lc" '(rainbow-mode :which-key "Toggle Color Codes")
-   "li" '(agressive-indent-mode :which-key "Toggle Aggressive Indenting")
-   "ln" '(linum-mode :which-key "View Line Numbers")
-   "lr" '(linum-relative-toggle :which-key "Toggle Relative Numbers")
-   "ls" '(delete-trailing-whitespace :which-key "Delete Trailing Whitespaces")
-   "lw" '(toggle-truncate-lines :which-key "Toggle Line Wrapping"))
-
-
-  ;; Word Functions
-  (general-define-key
-   :states '(normal motion insert emacs)
-   :prefix gleader
-   :non-normal-prefix gleader-non
-   "W"  '(nil :which-key "Word Functions")
-   "Ws" '(flyspell-mode :which-key "View Spelling Errors")
-   "Wc" '(helm-flyspell-correct :which-key "Correct Spelling")
-   "Wd" '(define-word-at-point :which-key "See Definition")
-   "Wt" '(synonymous-synonyms :which-key "See Synonyms")
-   "Wa" '(synonymous-antonyms :which-key "See Antonyms"))
-
-  )
-
-;; Warning!  Any lines modified below this point will be overwritten.
+(provide '.emacs)
+;;; .emacs ends here
