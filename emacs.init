@@ -195,6 +195,7 @@
 (use-package which-key :ensure t
   :diminish which-key-mode
   :config
+  (set-face-attribute 'which-key-key-face nil :foreground "#00afaf")
   (which-key-mode 1))
 
 
@@ -204,7 +205,6 @@
   :diminish auto-complete-mode
   :config
   (ac-config-default))
-
 
 ;; Git Gutter Fringe
 ;; # # # # # # # # # # #
@@ -239,7 +239,18 @@
                     (setq solarized-height-plus-2 1)
                     (setq solarized-height-plus-3 1)
                     (setq solarized-height-plus-4 1)
+                    (setq active-theme 'solarized-dark)
                     (load-theme 'solarized-dark t)))
+
+(defun toggle-light-dark-theme ()
+  "Toggle Light and Dark themes"
+  (interactive)
+  (if (eq active-theme 'solarized-light)
+      (setq active-theme 'solarized-dark)
+    (setq active-theme 'solarized-light))
+  (load-theme active-theme t)
+  (powerline-reset)
+  (set-cursor-color "#268bd2"))
 
 
 ;; Misc Helm Packages and Dependencies
@@ -283,14 +294,36 @@
 (use-package synonymous :ensure t)
 
 
+;; Battery Update
+(use-package fancy-battery :ensure t
+  :config
+  (fancy-battery-mode 1))
+
+
 ;; Smart Mode Line
 ;; # # # # # # # # # # #
-(if window-system (use-package powerline :ensure t))
-(setq airline-shortened-directory-length 60)
-(if window-system (use-package airline-themes :ensure t
-                    :config
-                    (load-theme 'airline-solarized-alternate-gui t)
-                    ))
+(use-package spaceline :ensure t
+  :config
+  (set-cursor-color "#268bd2")
+  (setq powerline-default-separator 'wave)
+  (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+  (setq evil-emacs-state-tag "EMACS")
+  (setq evil-insert-state-tag "INS")
+  (setq evil-motion-state-tag "MOT")
+  (setq evil-normal-state-tag "NORM")
+  (setq evil-replace-state-tag "REP")
+  (setq evil-visual-state-tag "VIS")
+  (require 'spaceline-config)
+  (spaceline-spacemacs-theme)
+  (spaceline-toggle-minor-modes-off)
+  (spaceline-toggle-hud-off)
+  (set-face-attribute 'spaceline-evil-emacs nil :background "#00afaf")
+  (set-face-attribute 'spaceline-evil-insert nil :background "orange")
+  (set-face-attribute 'spaceline-evil-motion nil :background "#859900")
+  (set-face-attribute 'spaceline-evil-normal nil :background "#268bd2")
+  (set-face-attribute 'spaceline-evil-replace nil :background "#dc322f")
+  (set-face-attribute 'spaceline-evil-visual nil :background "#6c71c4")
+  (powerline-reset))
 
 
 ;; Projectile (better than ctrlp)
@@ -299,7 +332,7 @@
 (use-package projectile :ensure t
   :diminish projectile-mode
   :config
-  (projectile-mode 1))
+  (projectile-global-mode))
 (use-package helm-projectile :ensure t)
 (use-package helm-ag :ensure t
   :config
@@ -354,8 +387,10 @@
 ;; # # # # # # # # # # #
 (use-package page-break-lines :ensure t
   :diminish page-break-lines-mode)
-;;(if window-system (setq dashboard-startup-banner "~/Desktop/php_king.png"))
 (setq dashboard-banner-logo-title "Welcome to YADRLite")
+(setq dashboard-items '((recents  . 10)
+                        (bookmarks . 5)
+                        (projects . 5)))
 (use-package dashboard :ensure t
   :config
   (dashboard-setup-startup-hook))
@@ -424,6 +459,7 @@
    "n" '(neotree-project-dir-toggle :which-key "Toggle NeoTree")
    "m" '(magit-status :which-key "Git Status")
    "p" '(helm-projectile-find-file :which-key "Fuzzy File (CtrlP)")
+   "P" '(helm-projectile :which-key "Open Recent Project")
    "q" '(kill-this-buffer :which-key "Kill Buffer")
    "r" '(ranger :which-key "File Ranger")
    "Q" '(kill-emacs :which-key "Quit Emacs")
@@ -454,6 +490,15 @@
    "wo" '(other-window :which-key "Select Next Window"))
 
 
+  ;; Options
+  (general-define-key
+   :states '(normal motion insert emacs)
+   :prefix gleader
+   :non-normal-prefix gleader-non
+   "o"  '(nil :which-key "Options")
+   "ot" '(toggle-light-dark-theme :which-key "Toggle Dark/Light Theme"))
+
+
   ;; Buffer Functions
   (general-define-key
    :states '(normal motion insert emacs)
@@ -473,6 +518,7 @@
    :prefix gleader
    :non-normal-prefix gleader-non
    "a"  '(nil :which-key "Application Shortcuts")
+   "ai" '(erc :which-key "IRC")
    "at" '(multi-term :which-key "Terminal")
    "am" '(magit-status :which-key "Magit")
    "aw" '(browse-web :which-key "Browse Web"))
@@ -485,11 +531,11 @@
    :prefix gleader
    :non-normal-prefix gleader-non
    "g"  '(nil :which-key "Geben (DBGp)")
-   "gm" '(customize-variable :which-key "(1) set geben-path-mappings")
-   "gr" '(geben-run :which-key "(4) Continue to Breakpoint")
-   "go" '(geben :which-key "(3) Start Geben")
+   "gb" '(geben-add-current-line-to-predefined-breakpoints :which-key "Add Breakpoint")
    "gc" '(geben-clear-predefined-breakpoints :which-key "Clear Breakpoints")
-   "gb" '(geben-add-current-line-to-predefined-breakpoints :which-key "(2) Add Breakpoint")
+   "go" '(geben :which-key "Start Geben")
+   "gm" '(customize-variable/geben-path-mappings :which-key "set geben-path-mappings")
+   "gr" '(geben-run :which-key "Continue to Breakpoint")
    "gx" '(geben-end :which-key "Stop Geben"))
 
 
@@ -549,3 +595,4 @@
 
 (provide '.emacs)
 ;;; .emacs ends here
+
