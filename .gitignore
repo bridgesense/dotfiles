@@ -2,6 +2,7 @@
 backup/
 Session.vim
 /emacs
+/emacs.d
 /tmux.conf
 tmux/plugin/*
 vim/bundle/*

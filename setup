@@ -124,7 +124,7 @@ if [ "$action" == "install" ]; then
             brew install aspell --with-lang-en
             # fixes the cruddy looking font in Emacs on MacOS
             defaults write org.gnu.Emacs AppleFontSmoothing -int 0
-            brew cask install gpgtools 
+            brew cask install gpgtools-beta 
             brew cask install emacs-mac 
         fi
 

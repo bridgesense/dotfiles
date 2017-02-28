@@ -24,7 +24,8 @@
 ;; # # # # # # # # # # #
 (setq
  backup-by-copying t      ; don't clobber symlinks
- backup-directory-alist '(("." . "~/.emacs.d/.emacs-saves"))    ; don't litter my fs tree
+ backup-directory-alist '((".*" . "~/.emacs.d/.emacs-saves"))    ; don't litter my fs tree
+ auto-save-file-name-transforms '((".*" "~/.emacs.d/.emacs-saves" t))    ; don't litter my fs tree
  delete-old-versions t
  kept-new-versions 6
  kept-old-versions 2
@@ -38,7 +39,16 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:height 140 :family "Monaco")))))
+ '(default ((t (:height 140 :family "Monaco"))))
+ '(org-document-title ((t (:inherit default :weight bold :foreground "black" :font "Lucida Grande" :height 1.5 :underline nil))))
+ '(org-level-1 ((t (:inherit default :weight bold :font "Lucida Grande" :height 1.5))))
+ '(org-level-2 ((t (:inherit default :weight bold :font "Lucida Grande" :height 1.25))))
+ '(org-level-3 ((t (:inherit default :weight bold :font "Lucida Grande" :height 1.15))))
+ '(org-level-4 ((t (:inherit default :weight bold :font "Lucida Grande" :height 1.1))))
+ '(org-level-5 ((t (:inherit default :weight bold :font "Lucida Grande"))))
+ '(org-level-6 ((t (:inherit default :weight bold :font "Lucida Grande"))))
+ '(org-level-7 ((t (:inherit default :weight bold :font "Lucida Grande"))))
+ '(org-level-8 ((t (:inherit default :weight bold :font "Lucida Grande")))))
 (set-frame-parameter (selected-frame) 'alpha '(95 . 95))
 (add-to-list 'default-frame-alist '(alpha . (95 . 95)))
 
@@ -49,6 +59,7 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 (package-initialize)
+
 
 ;; Misc
 ;; # # # # # # # # # # #
@@ -63,6 +74,17 @@
 (setq browse-url-browser-function 'eww-browse-url)
 ;; Turn off alarms
 (setq ring-bell-function 'ignore)
+;; Use System Clipboard by Default
+(setq x-select-enable-primary t)
+(setq x-select-enable-clipboard t)
+;; set the default encoding system
+(prefer-coding-system 'utf-8)
+(setq default-file-name-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+;; Treat clipboard input as UTF-8 string first; compound text next, etc.
+(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
 
 ;; Package Management
@@ -79,12 +101,25 @@
 (use-package diminish :ensure t)
 
 
+;; SimpleClip
+;; # # # # # # # # # # #
+;; Fixes cut/paste in Ansi-Terminal and other places
+(use-package simpleclip :ensure t
+  :diminish simpleclip-mode
+  :config
+  (simpleclip-mode 1)
+  ;; failsafe paste mode
+  (global-set-key [C-escape] 'simpleclip-paste))
+
+
 ;; Evil Vim & Plugins
 ;; # # # # # # # # # # #
 (use-package evil :ensure t
   :diminish evil-mode
   :config
-  (evil-mode 1))
+  (evil-mode 1)
+  (evil-define-key '(normal motion insert emacs) emacs-lisp-mode-map (kbd "M-c") 'simpleclip-copy
+                                                                     (kbd "M-v") 'simpleclip-paste))
 (use-package org-evil :ensure t
   :diminish org-evil-mode)
 (use-package evil-surround :ensure t
@@ -116,16 +151,6 @@
   (autopair-global-mode 1))
 
 
-;; SimpleClip
-;; # # # # # # # # # # #
-;; Fixes cut/paste in Ansi-Terminal and other places
-(use-package simpleclip :ensure t
-  :diminish simpleclip-mode
-  :config
-  (simpleclip-mode 1)
-  (global-set-key [C-escape] 'simpleclip-paste))
-
-
 ;; Org Mode
 ;; # # # # # # # # # # #
 ;; Symmetric Inline Encryption
@@ -138,8 +163,18 @@
 (require 'epa-file)
 (epa-file-enable)
 (setq epa-file-select-keys nil)
+;; Theme Conventions for Org Mode
+;; Hide emphasis marks
+(setq org-hide-emphasis-markers t)
+;; Add bullets for lists
+;; (font-lock-add-keywords 'org-mode
+;;                         '(("^ +\\([-*]\\) "
+;;                            (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+(use-package org-bullets :ensure t
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
-
+ 
 ;; Fix the terminal
 ;; # # # # # # # # # # #
 (use-package multi-term :ensure t
@@ -152,9 +187,9 @@
               (autopair-mode -1)
               (define-key term-raw-map (kbd "M-c") 'simpleclip-copy)
               (define-key term-raw-map (kbd "M-v") 'simpleclip-paste)
-              (define-key term-raw-map (kbd "M-<escape>") 'term-send-esc)
-              (define-key term-raw-map (kbd "M-<delete>") 'term-send-backspace)
-              (define-key term-raw-map (kbd "M-<backspace>") 'term-send-backspace))))
+              (define-key term-raw-map (kbd "<escape>") 'term-send-esc)
+              (define-key term-raw-map (kbd "<delete>") 'term-send-backspace)
+              (define-key term-raw-map (kbd "<backspace>") 'term-send-backspace))))
 
 
 ;; smooth scrolling
@@ -221,6 +256,7 @@
   :diminish auto-complete-mode
   :config
   (ac-config-default))
+
 
 ;; Git Gutter Fringe
 ;; # # # # # # # # # # #
@@ -468,9 +504,7 @@
    "-" '(shrink-window :which-key "Shrink Window")
    "=" '(enlarge-window :which-key "Grow Window")
    "a" '(helm-do-ag-project-root :which-key "Search Project")
-   "c" '(simpleclip-copy :which-key "Copy to Clipboard")
    "e" '(flycheck-list-errors-toggle :which-key "Toggle Error List")
-   "v" '(simpleclip-paste :which-key "Paste from Clipboard")
    "j" '(ace-jump-char-mode :which-key "Jump to Character")
    "n" '(neotree-project-dir-toggle :which-key "Toggle NeoTree")
    "m" '(magit-status :which-key "Git Status")
