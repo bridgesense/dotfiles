@@ -124,6 +124,7 @@ if [ "$action" == "install" ]; then
             brew install aspell --with-lang-en
             # fixes the cruddy looking font in Emacs on MacOS
             defaults write org.gnu.Emacs AppleFontSmoothing -int 0
+            brew cask install gpgtools 
             brew cask install emacs-mac 
         fi
 
@@ -138,18 +139,6 @@ if [ "$action" == "install" ]; then
         rm -rf $dir
         echo "I'm sorry, but your OS isn't supported yet."
         exit
-    fi
-
-    if [[ "$(installed 'zsh --version')" == "yes" ]]; then
-        case "$SHELL" in
-            */zsh)
-	        ;;
-            */bash)
-                echo "ZSH appears to be installed and is now being setup as this user's default shell. $(whoami)' validation is requested."
-                chsh -s $(which zsh) $(whoami)
-                ;;
-            *)
-        esac
     fi
 
     echo '" Modifications to this file will not be overwritten when YADRLite is updated.' > $dir/vimrc.after

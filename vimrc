@@ -11,6 +11,7 @@ endif
 " ================ General Config ====================
 
 set backspace=indent,eol,start  "Allow backspace in insert mode
+:fixdel                         "Fixes Remote Issues with Del key
 set history=1000                "Store lots of :cmdline history
 set showcmd                     "Show incomplete cmds down the bottom
 set showmode                    "Show current mode down the bottom

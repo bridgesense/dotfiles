@@ -126,6 +126,20 @@
   (global-set-key [C-escape] 'simpleclip-paste))
 
 
+;; Org Mode
+;; # # # # # # # # # # #
+;; Symmetric Inline Encryption
+(require 'org-crypt)
+(org-crypt-use-before-save-magic)
+(setq org-tags-exclude-from-inheritance (quote ("crypt")))
+(setq org-crypt-key nil)
+(setq auto-save-default nil)
+;; Symmetric File Encryption
+(require 'epa-file)
+(epa-file-enable)
+(setq epa-file-select-keys nil)
+
+
 ;; Fix the terminal
 ;; # # # # # # # # # # #
 (use-package multi-term :ensure t
@@ -137,8 +151,10 @@
               (setq show-trailing-whitespace nil)
               (autopair-mode -1)
               (define-key term-raw-map (kbd "M-c") 'simpleclip-copy)
-              (define-key term-raw-map (kbd "M-v") 'simpleclip-paste)))
-  )
+              (define-key term-raw-map (kbd "M-v") 'simpleclip-paste)
+              (define-key term-raw-map (kbd "M-<escape>") 'term-send-esc)
+              (define-key term-raw-map (kbd "M-<delete>") 'term-send-backspace)
+              (define-key term-raw-map (kbd "M-<backspace>") 'term-send-backspace))))
 
 
 ;; smooth scrolling
@@ -450,7 +466,7 @@
    "[" '(shrink-window-horizontally :which-key "Contract Window")
    "]" '(enlarge-window-horizontally :which-key "Expand Window")
    "-" '(shrink-window :which-key "Shrink Window")
-   "=" '(grow-window :which-key "Grow Window")
+   "=" '(enlarge-window :which-key "Grow Window")
    "a" '(helm-do-ag-project-root :which-key "Search Project")
    "c" '(simpleclip-copy :which-key "Copy to Clipboard")
    "e" '(flycheck-list-errors-toggle :which-key "Toggle Error List")
@@ -593,6 +609,5 @@
 
 ;; Warning!  Any lines modified below this point will be overwritten.
 
-(provide '.emacs)
+(provide 'emacs)
 ;;; .emacs ends here
-
