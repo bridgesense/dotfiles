@@ -46,3 +46,9 @@ NOTE: You might install an up-to-date GUI version of Emacs to take advantage of 
 ```bash
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/emacs.init > ~/.emacs    
 ```
+
+###On MacOS, [Homebrew](https://brew.sh) has a nice [Cask](https://caskroom.github.io) package
+
+```bash
+brew cask install emacs-mac
+```
