@@ -141,6 +141,20 @@ if [ "$action" == "install" ]; then
         exit
     fi
 
+    if [[ "$(uname)" == "Darwin" ]]; then
+        if [[ "$(installed 'zsh --version')" == "yes" ]]; then		
+            case "$SHELL" in		
+                */zsh)		
+            ;;		
+                */bash)		
+                    echo "ZSH appears to be installed and is now being setup as this user's default shell. $(whoami)' validation is requested."		
+                    chsh -s $(which zsh) $(whoami)		
+                    ;;		
+                *)		
+            esac		
+        fi
+    fi 
+    
     echo '" Modifications to this file will not be overwritten when YADRLite is updated.' > $dir/vimrc.after
     echo '" If you are using iTerm and have installed the Solarized theme, try commenting out the line below.' >> $dir/vimrc.after
     echo "let g:yadr_using_unsolarized_terminal=1" >> $dir/vimrc.after

@@ -33,3 +33,14 @@ Shortcuts have been pulled over from YADR, so those working with YADR should fee
 
 As with YADR, most of the key mapping can be found in the settings directory for reference.  More information may come later in offering examples on how to use YADRLite with [Xdebug] (https://github.com/bridgesense/Quick-Scotchbox-Install#vim--vdebug-settings-) and a few other tools.  This package is ready for deployment on MacOS and Linux distros. 
 
+
+Emacs:
+---
+Emacs has a huge performance advantage over Vi.  This is a custom brewed configuration of Emacs with influences from YADR, complete with familiar Vim keybindings.  Additionally, there is inline documentation for all keybindings.  Just hit the leader key "," to get started.  You might install an up-to-date GUI version of Emacs to take advantage of all the features.  However, this setup file is also compatible with the terminal version as well.
+
+    
+###To Install the Emacs Config Only:
+    
+```bash
+curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/emacs.init > ~/.emacs    
+```

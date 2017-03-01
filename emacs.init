@@ -6,8 +6,8 @@
 ;; or "Ctrl-," in traditional Emacs modes.
 ;;
 ;; NOTE: Terminals only work in Emacs and Insert modes.  Emacs mode can be toggled
-;; by pressing "Ctrl-Z".  Text and passwords can be copy/pasted into the terminal using
-;; "M-c" and "M-v" or "Ctrl-Esc".  Currently passwords can only be copy/pasted properly using the
+;; by pressing "Ctrl-Z".  Text and passwords can be pasted into the terminal using
+;; "M-v" or "C-Esc".  Currently passwords can only be pasted properly using the
 ;; GUI(windowed) version of Emacs.
 ;; # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 ;;; Code:
@@ -74,9 +74,6 @@
 (setq browse-url-browser-function 'eww-browse-url)
 ;; Turn off alarms
 (setq ring-bell-function 'ignore)
-;; Use System Clipboard by Default
-(setq x-select-enable-primary t)
-(setq x-select-enable-clipboard t)
 ;; set the default encoding system
 (prefer-coding-system 'utf-8)
 (setq default-file-name-coding-system 'utf-8)
@@ -108,6 +105,9 @@
   :diminish simpleclip-mode
   :config
   (simpleclip-mode 1)
+  (global-set-key [M-c] 'simpleclip-copy)
+  (global-set-key [M-x] 'simpleclip-cut)
+  (global-set-key [M-v] 'simpleclip-paste)
   ;; failsafe paste mode
   (global-set-key [C-escape] 'simpleclip-paste))
 
@@ -118,7 +118,9 @@
   :diminish evil-mode
   :config
   (evil-mode 1)
+  ;; add conventional clipboard access
   (evil-define-key '(normal motion insert emacs) emacs-lisp-mode-map (kbd "M-c") 'simpleclip-copy
+                                                                     (kbd "M-x") 'simpleclip-cut
                                                                      (kbd "M-v") 'simpleclip-paste))
 (use-package org-evil :ensure t
   :diminish org-evil-mode)
@@ -166,13 +168,14 @@
 ;; Theme Conventions for Org Mode
 ;; Hide emphasis marks
 (setq org-hide-emphasis-markers t)
-;; Add bullets for lists
-;; (font-lock-add-keywords 'org-mode
-;;                         '(("^ +\\([-*]\\) "
-;;                            (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+;; Add bullets for lists and convential clipboard access
 (use-package org-bullets :ensure t
   :config
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (org-bullets-mode 1)
+              (local-set-key (kbd "M-c") 'simpleclip-copy)
+              (local-set-key (kbd "M-v") 'simpleclip-paste))))
 
  
 ;; Fix the terminal
@@ -360,11 +363,11 @@
   (setq powerline-default-separator 'wave)
   (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
   (setq evil-emacs-state-tag "EMACS")
-  (setq evil-insert-state-tag "INS")
-  (setq evil-motion-state-tag "MOT")
-  (setq evil-normal-state-tag "NORM")
-  (setq evil-replace-state-tag "REP")
-  (setq evil-visual-state-tag "VIS")
+  (setq evil-insert-state-tag "INSERT")
+  (setq evil-motion-state-tag "MOTION")
+  (setq evil-normal-state-tag "NORMAL")
+  (setq evil-replace-state-tag "REPLACE")
+  (setq evil-visual-state-tag "VISUAL")
   (require 'spaceline-config)
   (spaceline-spacemacs-theme)
   (spaceline-toggle-minor-modes-off)
@@ -483,6 +486,7 @@
 (use-package helm-ls-git :ensure t)
 (use-package evil-magit :ensure t)
 
+
 ;; leader key operation
 ;; # # # # # # # # # # #
 (setq gleader ",")
@@ -504,6 +508,7 @@
    "-" '(shrink-window :which-key "Shrink Window")
    "=" '(enlarge-window :which-key "Grow Window")
    "a" '(helm-do-ag-project-root :which-key "Search Project")
+   "c" '(simpleclip-copy :which-key "Copy to Clipboard")
    "e" '(flycheck-list-errors-toggle :which-key "Toggle Error List")
    "j" '(ace-jump-char-mode :which-key "Jump to Character")
    "n" '(neotree-project-dir-toggle :which-key "Toggle NeoTree")
@@ -513,6 +518,7 @@
    "q" '(kill-this-buffer :which-key "Kill Buffer")
    "r" '(ranger :which-key "File Ranger")
    "Q" '(kill-emacs :which-key "Quit Emacs")
+   "v" '(simpleclip-paste :which-key "Paste from Clipboard")
    "x" '(next-buffer :which-key "Next Buffer")
    "z" '(previous-buffer :which-key "Previous Buffer")
    )
