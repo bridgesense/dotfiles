@@ -29,7 +29,7 @@ bash ~/.yadrlite/setup remove
 
 What's Included:
 ---
-Shortcuts have been pulled over from YADR, so those working with YADR should feel right at home.  There are a few minor changes and additions.  A LOT may be missing.  This package will be gearing towards PHP development on local staging environments and setting up shop on web servers for emergencies where there may be limited permission.  The idea is here that the package should be easy to remove while restoring the system to prior user configurations.
+Shortcuts have been pulled over from YADR, so those working with YADR should feel right at home.  There are a few minor changes and additions.  A LOT may be missing.  This package will be gearing towards PHP development on local staging environments and setting up shop on web servers for emergencies where there may be limited permissions.  The idea is here that the package should be easy to remove while restoring the system to prior user configurations.
 
 As with YADR, most of the key mapping can be found in the settings directory for reference.  More information may come later in offering examples on how to use YADRLite with [Xdebug] (https://github.com/bridgesense/Quick-Scotchbox-Install#vim--vdebug-settings-) and a few other tools.  This package is ready for deployment on MacOS and Linux distros. 
 
@@ -41,7 +41,7 @@ Emacs has a huge performance advantage over Vi, although there is a time and pla
 NOTE: You might install an up-to-date GUI version of Emacs to take advantage of all the features.  However, this setup file is compatible with the terminal version as well.  The first startup may take some time to load the additional packages.
 
     
-###To Install the Emacs Configuration Without the Rest of YADRLite:
+###To install this Emacs configuration without the rest of YADRLite:
     
 ```bash
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/emacs.init > ~/.emacs    
