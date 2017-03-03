@@ -106,7 +106,6 @@
   :config
   (simpleclip-mode 1)
   (global-set-key [M-c] 'simpleclip-copy)
-  (global-set-key [M-x] 'simpleclip-cut)
   (global-set-key [M-v] 'simpleclip-paste)
   ;; failsafe paste mode
   (global-set-key [C-escape] 'simpleclip-paste))
@@ -120,17 +119,30 @@
   (evil-mode 1)
   ;; add conventional clipboard access
   (evil-define-key '(normal motion insert emacs) emacs-lisp-mode-map (kbd "M-c") 'simpleclip-copy
-                                                                     (kbd "M-x") 'simpleclip-cut
                                                                      (kbd "M-v") 'simpleclip-paste))
-(use-package org-evil :ensure t
-  :diminish org-evil-mode)
 (use-package evil-surround :ensure t
-  :diminish evil-surround-mode)
+  :diminish evil-surround-mode
+  :config
+  (global-evil-surround-mode 1))
 (use-package evil-tutor :ensure t)
 (use-package evil-commentary :ensure t
   :diminish evil-commentary-mode
   :config
   (evil-commentary-mode 1))
+
+
+;; More Vim-like
+;; # # # # # # # # # # #
+(evil-define-motion evil-last-non-blank (count)
+  "Move the cursor to the last non-blank character
+on the current line. If COUNT is given, move COUNT - 1
+lines downward first."
+  :type inclusive
+  (evil-end-of-line count)
+  (re-search-backward "^\\|[^[:space:]]")
+  (setq evil-this-type (if (eolp) 'exclusive 'inclusive)))
+(define-key evil-motion-state-map "g$" 'evil-end-of-line)
+(define-key evil-motion-state-map "$" 'evil-last-non-blank)
 
 
 ;; Helm
@@ -176,6 +188,8 @@
               (org-bullets-mode 1)
               (local-set-key (kbd "M-c") 'simpleclip-copy)
               (local-set-key (kbd "M-v") 'simpleclip-paste))))
+;; Org Mode Timing Drawer
+(setq org-clock-into-drawer t)
 
  
 ;; Fix the terminal
@@ -373,7 +387,7 @@
   (spaceline-toggle-minor-modes-off)
   (spaceline-toggle-hud-off)
   (set-face-attribute 'spaceline-evil-emacs nil :background "#00afaf")
-  (set-face-attribute 'spaceline-evil-insert nil :background "orange")
+  (set-face-attribute 'spaceline-evil-insert nil :background "#cb4b16")
   (set-face-attribute 'spaceline-evil-motion nil :background "#859900")
   (set-face-attribute 'spaceline-evil-normal nil :background "#268bd2")
   (set-face-attribute 'spaceline-evil-replace nil :background "#dc322f")
@@ -393,49 +407,6 @@
   :config
   (custom-set-variables
    '(helm-ag-base-command "ack --nocolor --nogroup")))
-
-
-;; Neotree
-;; # # # # # # # # # # #
-(use-package neotree
-  :ensure t
-  :config
-  (setq projectile-switch-project-action 'neotree-projectile-action)
-  (add-hook 'neotree-mode-hook
-            (lambda ()
-              (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
-              (define-key evil-normal-state-local-map (kbd ".") 'neotree-hidden-file-toggle)
-              (define-key evil-normal-state-local-map (kbd "z") 'neotree-stretch-toggle)
-              (define-key evil-normal-state-local-map (kbd "R") 'neotree-refresh)
-              (define-key evil-normal-state-local-map (kbd "m") 'neotree-rename-node)
-              (define-key evil-normal-state-local-map (kbd "c") 'neotree-create-node)
-              (define-key evil-normal-state-local-map (kbd "d") 'neotree-delete-node)
-              (define-key evil-normal-state-local-map (kbd "s") 'neotree-enter-vertical-split)
-              (define-key evil-normal-state-local-map (kbd "S") 'neotree-enter-horizontal-split)
-              (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter))))
-
-(use-package find-file-in-project :ensure t)
-
-(defun neotree-project-dir-toggle ()
-  "Open NeoTree using the project root, using find-file-in-project, or the current buffer directory."
-  (interactive)
-  (let ((project-dir
-         (ignore-errors
-           ;;; Pick one: projectile or find-file-in-project
-                                        ; (projectile-project-root)
-           (ffip-project-root)
-           ))
-        (file-name (buffer-file-name))
-        (neo-smart-open t))
-    (if (and (fboundp 'neo-global--window-exists-p)
-             (neo-global--window-exists-p))
-        (neotree-hide)
-      (progn
-        (neotree-show)
-        (if project-dir
-            (neotree-dir project-dir))
-        (if file-name
-            (neotree-find file-name))))))
 
 
 ;; Dashboard
@@ -470,6 +441,8 @@
   ;;  :init
   ;;  (require 'cl-lib)
   :config
+  ;; Add ability to create directory
+  (define-key ranger-normal-mode-map (kbd "+") #'dired-create-directory)
   ;; Set as default browser
   (ranger-override-dired-mode t)
   ;; Remove ranger buffer when done
@@ -509,9 +482,10 @@
    "=" '(enlarge-window :which-key "Grow Window")
    "a" '(helm-do-ag-project-root :which-key "Search Project")
    "c" '(simpleclip-copy :which-key "Copy to Clipboard")
+   "d" '(dired :which-key "Browse Project Root")
    "e" '(flycheck-list-errors-toggle :which-key "Toggle Error List")
    "j" '(ace-jump-char-mode :which-key "Jump to Character")
-   "n" '(neotree-project-dir-toggle :which-key "Toggle NeoTree")
+   "n" '(dired-jump :which-key "Browse Current Directory")
    "m" '(magit-status :which-key "Git Status")
    "p" '(helm-projectile-find-file :which-key "Fuzzy File (CtrlP)")
    "P" '(helm-projectile :which-key "Open Recent Project")
@@ -551,8 +525,8 @@
    :states '(normal motion insert emacs)
    :prefix gleader
    :non-normal-prefix gleader-non
-   "o"  '(nil :which-key "Options")
-   "ot" '(toggle-light-dark-theme :which-key "Toggle Dark/Light Theme"))
+   "O"  '(nil :which-key "Options")
+   "Ot" '(toggle-light-dark-theme :which-key "Toggle Dark/Light Theme"))
 
 
   ;; Buffer Functions
@@ -626,6 +600,8 @@
    :non-normal-prefix gleader-non
    "l"  '(nil :which-key "Line Manipulation")
    "lc" '(rainbow-mode :which-key "Toggle Color Codes")
+   "le" '(epa-encrypt-region :which-key "Encrypt Selection")
+   "ld" '(epa-decrypt-region :which-key "Decrypt Selection")
    "li" '(agressive-indent-mode :which-key "Toggle Aggressive Indenting")
    "ln" '(linum-mode :which-key "View Line Numbers")
    "lr" '(linum-relative-toggle :which-key "Toggle Relative Numbers")
@@ -633,6 +609,26 @@
    "lw" '(toggle-truncate-lines :which-key "Toggle Line Wrapping"))
 
 
+  ;; Org Mode Controls 
+  (general-define-key
+   :states '(normal motion insert emacs)
+   :prefix gleader
+   :non-normal-prefix gleader-non
+   "o"  '(nil :which-key "Org-Mode Scheduler")
+   "oo" '(org-agenda :which-key "Agenda View")
+   "oa" '(org-ctrl-c-ctrl-c :which-key "Activate (C-c)")
+   "ok" '(org-schedule :which-key "Schedule Task")
+   "od" '(org-deadline :which-key "Schedule Deadline")
+   "oc" '(org-evaluate-time-range :which-key "Recompute Clock")
+   "ol" '(org-clock-display :which-key "Display Clocks")
+   "oj" '(org-clock-goto :which-key "Jump to Running Task")
+   "ot" '(org-clock-in :which-key "Start Task")
+   "oT" '(org-set-tags-command :which-key "Set Tag")
+   "or" '(org-clock-report :which-key "Show Report")
+   "os" '(org-clock-out :which-key "Stop Task")
+   "ox" '(org-clock-cancel :which-key "Cancel Clock"))
+
+  
   ;; Word Functions
   (general-define-key
    :states '(normal motion insert emacs)
