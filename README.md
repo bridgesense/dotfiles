@@ -38,7 +38,7 @@ Emacs:
 ---
 Emacs has a huge performance advantage over Vi, although there is a time and place for every tool.  This is a custom brewed configuration of Emacs with influences from YADR, complete with familiar Vim keybindings.  Additionally, there is inline documentation with live hints for ease of discovery.  After entering Emacs just hit the leader key "," to get started.  Hit the leader key twice for a fuzzy command search.
 
-NOTE: You might install an up-to-date GUI version of Emacs for better clipboard sharing.  However, this setup file is compatible with the terminal version as well.  The first startup may take some time to load the additional packages.
+NOTE: You might install an up-to-date GUI version of Emacs for clipboard sharing.  However, this setup file is compatible with the terminal version as well.  The first startup may take some time to load the additional packages.
 
     
 ###To install this Emacs configuration without the rest of YADRLite:
@@ -47,7 +47,7 @@ NOTE: You might install an up-to-date GUI version of Emacs for better clipboard 
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/emacs.init > ~/.emacs    
 ```
 
-###On MacOS, [Homebrew](https://brew.sh) has a nice [Cask](https://caskroom.github.io) package for a GUI Emacs
+###On MacOS [Homebrew](https://brew.sh) has a nice [Cask](https://caskroom.github.io) package for a GUI Emacs
 
 ```bash
 brew cask install emacs-mac
