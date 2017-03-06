@@ -118,7 +118,7 @@ if [ "$action" == "install" ]; then
                 brew install vim --with-lua --with-override-system-vi
             fi
 
-            brew install zsh tmux reattach-to-user-namespace ack openssl php-code-sniffer
+            brew install zsh tmux reattach-to-user-namespace ack openssl php-code-sniffer boris
             # next line fixes bug with newest changes to MacOS security
             ln -s `brew --prefix openssl`/bin/openssl /usr/local/bin/openssl 2>/dev/null
             brew install aspell --with-lang-en

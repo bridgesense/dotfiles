@@ -256,8 +256,10 @@ lines downward first."
   :diminish yas-minor-mode
   :config
   (yas-global-mode 1))
+;; PHP Scratch
+(use-package php-scratch :ensure t)
 
-
+    
 ;; Help Mode
 ;; # # # # # # # # # # #
 (use-package which-key :ensure t
@@ -510,12 +512,12 @@ lines downward first."
    "ws" '(split-window-below :which-key "Horizontal Split")
    "wf" '(toggle-frame-fullscreen :which-key "Toggle Full Screen")
    "wh" '(evil-window-left :which-key "Select Window Left")
-   "wj" '(evil-window-up :which-key "Select Window Above")
-   "wk" '(evil-window-down :which-key "Select Window Below")
+   "wj" '(evil-window-down :which-key "Select Window Above")
+   "wk" '(evil-window-up :which-key "Select Window Below")
    "wl" '(evil-window-right :which-key "Select Window Right")
    "wH" '(evil-window-move-far-left :which-key "Move Window Left")
-   "wJ" '(evil-window-move-very-top :which-key "Move Window Up")
-   "wK" '(evil-window-move-very-bottom :which-key "Move Window Down")
+   "wJ" '(evil-window-move-very-bottom :which-key "Move Window Up")
+   "wK" '(evil-window-move-very-top :which-key "Move Window Down")
    "wL" '(evil-window-move-far-right :which-key "Move Window Right")
    "wo" '(other-window :which-key "Select Next Window"))
 
@@ -551,6 +553,7 @@ lines downward first."
    "ai" '(erc :which-key "IRC")
    "at" '(multi-term :which-key "Terminal")
    "am" '(magit-status :which-key "Magit")
+   "ap" '(php-scratch :which-key "PHP Scratch Pad")
    "aw" '(browse-web :which-key "Browse Web"))
 
 
@@ -564,7 +567,7 @@ lines downward first."
    "gb" '(geben-add-current-line-to-predefined-breakpoints :which-key "Add Breakpoint")
    "gc" '(geben-clear-predefined-breakpoints :which-key "Clear Breakpoints")
    "go" '(geben :which-key "Start Geben")
-   "gm" '(customize-variable/geben-path-mappings :which-key "set geben-path-mappings")
+   "gm" '((lambda () (interactive) (customize-variable 'geben-path-mappings)) :which-key "Set Path Mapping")
    "gr" '(geben-run :which-key "Continue to Breakpoint")
    "gx" '(geben-end :which-key "Stop Geben"))
 
