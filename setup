@@ -48,8 +48,7 @@ if [ "$action" == "remove" ]; then
         mv $dir/$dotfiles_old/.$cfile ~/ 2>/dev/null
     done
     rm -rf $dir 2>/dev/null
-    PS1="/w /u///$"
-    echo "Your original dotfiles have been restored."
+    echo "Your original dotfiles have been restored.  Please restart the terminal or re-login to supress error messages."
 fi
 
 
