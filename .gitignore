@@ -2,6 +2,7 @@
 backup/
 bash/plugin/*
 bash_profile
+bashrc
 Session.vim
 /emacs
 /emacs.d

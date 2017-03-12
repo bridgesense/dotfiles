@@ -10,7 +10,7 @@ USEREPO=yes
 dir=~/.yadrlite
 dotfiles_old=backup
 action="${1:-install}"
-declare -a files=('vim vimrc tmux.conf bash_profile vimrc.after emacs emacs.d')
+declare -a files=('vim vimrc tmux.conf bash_profile bashrc vimrc.after emacs emacs.d')
 declare -a plugins=('https://github.com/mileszs/ack.vim.git' 'https://github.com/jiangmiao/auto-pairs.git' 'https://github.com/godlygeek/csapprox.git' 'https://github.com/kien/ctrlp.vim.git' 'https://github.com/itchyny/lightline.vim.git' 'https://github.com/Shougo/neocomplete.vim.git' 'https://github.com/scrooloose/nerdtree.git' 'https://github.com/vim-syntastic/syntastic.git' 'https://github.com/christoomey/vim-tmux-navigator.git' 'https://github.com/joonty/vdebug.git' 'https://github.com/gorodinskiy/vim-coloresque.git' 'https://github.com/easymotion/vim-easymotion.git' 'https://github.com/tpope/vim-fugitive.git' 'https://github.com/airblade/vim-gitgutter.git' 'https://github.com/bridgesense/vim-hsftp.git' 'https://github.com/tpope/vim-obsession.git' 'https://github.com/tpope/vim-surround.git')
 declare -a tmuxplugins=('https://github.com/tmux-plugins/tmux-continuum.git' 'https://github.com/jtdaugherty/tmux-status.git' 'https://github.com/tmux-plugins/tmux-resurrect.git')
 declare -a bashplugins=('https://github.com/magicmonty/bash-git-prompt.git')
@@ -159,7 +159,8 @@ if [ "$action" == "install" ]; then
         git clone $tplug
     done
     cat ~/.bash_profile > $dir/bash_profile 2>/dev/null
-    cat $dir/bash/bashrc >> $dir/bash_profile 2>/dev/null
+    cat $dir/bash/bash_profile >> $dir/bash_profile 2>/dev/null
+    cat $dir/bash/bashrc > $dir/bashrc 2>/dev/null
     mkdir $dir/bash/plugin 2>/dev/null
     cd $dir/bash/plugin
     for bplug in "${bashplugins[@]}"; do
