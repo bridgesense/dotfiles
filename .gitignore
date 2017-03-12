@@ -1,5 +1,7 @@
 .DS_Store
 backup/
+bash/plugin/*
+bash_profile
 Session.vim
 /emacs
 /emacs.d
@@ -7,4 +9,3 @@ Session.vim
 tmux/plugin/*
 vim/bundle/*
 /vimrc.after
-zsh/plugin/*

@@ -10,10 +10,10 @@ USEREPO=yes
 dir=~/.yadrlite
 dotfiles_old=backup
 action="${1:-install}"
-declare -a files=('vim vimrc tmux.conf zshrc vimrc.after emacs emacs.d')
+declare -a files=('vim vimrc tmux.conf bash_profile vimrc.after emacs emacs.d')
 declare -a plugins=('https://github.com/mileszs/ack.vim.git' 'https://github.com/jiangmiao/auto-pairs.git' 'https://github.com/godlygeek/csapprox.git' 'https://github.com/kien/ctrlp.vim.git' 'https://github.com/itchyny/lightline.vim.git' 'https://github.com/Shougo/neocomplete.vim.git' 'https://github.com/scrooloose/nerdtree.git' 'https://github.com/vim-syntastic/syntastic.git' 'https://github.com/christoomey/vim-tmux-navigator.git' 'https://github.com/joonty/vdebug.git' 'https://github.com/gorodinskiy/vim-coloresque.git' 'https://github.com/easymotion/vim-easymotion.git' 'https://github.com/tpope/vim-fugitive.git' 'https://github.com/airblade/vim-gitgutter.git' 'https://github.com/bridgesense/vim-hsftp.git' 'https://github.com/tpope/vim-obsession.git' 'https://github.com/tpope/vim-surround.git')
 declare -a tmuxplugins=('https://github.com/tmux-plugins/tmux-continuum.git' 'https://github.com/jtdaugherty/tmux-status.git' 'https://github.com/tmux-plugins/tmux-resurrect.git')
-declare -a zshplugins=('https://github.com/sindresorhus/pure.git' 'https://github.com/zsh-users/zsh-syntax-highlighting.git')
+declare -a bashplugins=('https://github.com/magicmonty/bash-git-prompt.git')
 
 
 # # Routines
@@ -48,6 +48,7 @@ if [ "$action" == "remove" ]; then
         mv $dir/$dotfiles_old/.$cfile ~/ 2>/dev/null
     done
     rm -rf $dir 2>/dev/null
+    PS1="/w /u///$"
     echo "Your original dotfiles have been restored."
 fi
 
@@ -64,7 +65,7 @@ if [ "$action" == "update" ]; then
         git pull
         update $dir/vim/bundle
         update $dir/tmux/plugin
-        update $dir/zsh/plugin
+        update $dir/bash/plugin
         echo "The update is finished."
     fi
 fi
@@ -118,7 +119,7 @@ if [ "$action" == "install" ]; then
                 brew install vim --with-lua --with-override-system-vi
             fi
 
-            brew install zsh tmux reattach-to-user-namespace ack openssl php-code-sniffer boris
+            brew install tmux reattach-to-user-namespace ack openssl boris
             # next line fixes bug with newest changes to MacOS security
             ln -s `brew --prefix openssl`/bin/openssl /usr/local/bin/openssl 2>/dev/null
             brew install aspell --with-lang-en
@@ -128,33 +129,14 @@ if [ "$action" == "install" ]; then
             brew cask install emacs-mac 
         fi
 
-        echo 'set-option -g default-command "reattach-to-user-namespace -l zsh"' >> $dir/tmux.conf
         echo '# tmux status options'>> $dir/tmux.conf
         echo "set -g status-right '#($dir/tmux/plugin/tmux-status/tmux-status.sh $dir/tmux/tmux-status.conf)'" >> $dir/tmux.conf
-    elif [[ "$(uname)" == "Linux" ]]; then
-        if [[ "$(installed 'zsh --version')" == "yes" ]]; then
-            echo "set-option -g default command $(which zsh)" >> $dir/tmux.conf
-        fi
     else
         rm -rf $dir
         echo "I'm sorry, but your OS isn't supported yet."
         exit
     fi
 
-    if [[ "$(uname)" == "Darwin" ]]; then
-        if [[ "$(installed 'zsh --version')" == "yes" ]]; then		
-            case "$SHELL" in		
-                */zsh)		
-            ;;		
-                */bash)		
-                    echo "ZSH appears to be installed and is now being setup as this user's default shell. $(whoami)' validation is requested."		
-                    chsh -s $(which zsh) $(whoami)		
-                    ;;		
-                *)		
-            esac		
-        fi
-    fi 
-    
     echo '" Modifications to this file will not be overwritten when YADRLite is updated.' > $dir/vimrc.after
     echo '" If you are using iTerm and have installed the Solarized theme, try commenting out the line below.' >> $dir/vimrc.after
     echo "let g:yadr_using_unsolarized_terminal=1" >> $dir/vimrc.after
@@ -177,12 +159,13 @@ if [ "$action" == "install" ]; then
         echo "git clone $tplug"
         git clone $tplug
     done
-    mkdir $dir/zsh 2>/dev/null
-    mkdir $dir/zsh/plugin 2>/dev/null
-    cd $dir/zsh/plugin
-    for zplug in "${zshplugins[@]}"; do
-        echo "git clone $zplug"
-        git clone $zplug
+    cat ~/.bash_profile > $dir/bash_profile 2>/dev/null
+    cat $dir/bash/bashrc >> $dir/bash_profile 2>/dev/null
+    mkdir $dir/bash/plugin 2>/dev/null
+    cd $dir/bash/plugin
+    for bplug in "${bashplugins[@]}"; do
+        echo "git clone $bplug"
+        git clone $bplug
     done
 
 
@@ -196,8 +179,9 @@ if [ "$action" == "install" ]; then
     done
 
     if [[ "$(uname)" != "Darwin" ]]; then
-        echo "This script does not install packages for ack, tmux, zsh, zsh-dev or Vim with Lua support on Linux. That's something you might look into."
+        echo "This script does not install packages for ack, tmux or Vim with Lua support on Linux. That's something you might look into."
     fi
-
-    echo "The dotfiles are installed.  Please close your terminal and reopen it to get started."
+    
+    source ~/.bash_profile
+    echo "The dotfiles are installed."
 fi

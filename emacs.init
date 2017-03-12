@@ -1,4 +1,4 @@
-;;; ~/.emacs --- Emacs Inititialization File
+;; ~/.emacs --- Emacs Inititialization File
 ;;; Commentary:
 ;; This script contains a collection of shortcuts influenced by YADR.  Auto-popup
 ;; documentation is provided to introduce new users to the key shortcuts.
@@ -167,6 +167,10 @@ lines downward first."
 
 ;; Org Mode
 ;; # # # # # # # # # # #
+;; Set Clock Format
+(setq org-time-clocksum-format (quote (:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t)))
+;; For PDF printing on MacOS 
+(setenv "PATH" (concat (getenv "PATH") ":/Library/TeX/texbin"))
 ;; Symmetric Inline Encryption
 (require 'org-crypt)
 (org-crypt-use-before-save-magic)
@@ -259,7 +263,6 @@ lines downward first."
 ;; PHP Scratch
 (use-package php-scratch :ensure t)
 
-    
 ;; Help Mode
 ;; # # # # # # # # # # #
 (use-package which-key :ensure t
@@ -274,7 +277,7 @@ lines downward first."
 (use-package auto-complete :ensure t
   :diminish auto-complete-mode
   :config
-  (ac-config-default))
+  (global-auto-complete-mode t))
 
 
 ;; Git Gutter Fringe
@@ -320,8 +323,7 @@ lines downward first."
       (setq active-theme 'solarized-dark)
     (setq active-theme 'solarized-light))
   (load-theme active-theme t)
-  (powerline-reset)
-  (set-cursor-color "#268bd2"))
+  (powerline-reset))
 
 
 ;; Misc Helm Packages and Dependencies
@@ -375,7 +377,13 @@ lines downward first."
 ;; # # # # # # # # # # #
 (use-package spaceline :ensure t
   :config
-  (set-cursor-color "#268bd2")
+  (setq evil-normal-state-cursor '(box "#268bd2")
+        evil-insert-state-cursor '((bar . 3) "#cb4b16")
+        evil-visual-state-cursor '(box "#6c71c4")
+        evil-motion-state-cursor '(box "#859900")
+        evil-replace-state-cursor '(box "#dc322f")
+        evil-operator-state-cursor '(box "#d33682")
+        evil-emacs-state-cursor '(box "#00afaf"))
   (setq powerline-default-separator 'wave)
   (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
   (setq evil-emacs-state-tag "EMACS")
@@ -484,13 +492,10 @@ lines downward first."
    "=" '(enlarge-window :which-key "Grow Window")
    "a" '(helm-do-ag-project-root :which-key "Search Project")
    "c" '(simpleclip-copy :which-key "Copy to Clipboard")
-   "d" '(dired :which-key "Browse Project Root")
+   "d" '(deer :which-key "Browse Project Root")
    "e" '(flycheck-list-errors-toggle :which-key "Toggle Error List")
    "j" '(ace-jump-char-mode :which-key "Jump to Character")
    "n" '(dired-jump :which-key "Browse Current Directory")
-   "m" '(magit-status :which-key "Git Status")
-   "p" '(helm-projectile-find-file :which-key "Fuzzy File (CtrlP)")
-   "P" '(helm-projectile :which-key "Open Recent Project")
    "q" '(kill-this-buffer :which-key "Kill Buffer")
    "r" '(ranger :which-key "File Ranger")
    "Q" '(kill-emacs :which-key "Quit Emacs")
@@ -552,7 +557,6 @@ lines downward first."
    "a"  '(nil :which-key "Application Shortcuts")
    "ai" '(erc :which-key "IRC")
    "at" '(multi-term :which-key "Terminal")
-   "am" '(magit-status :which-key "Magit")
    "ap" '(php-scratch :which-key "PHP Scratch Pad")
    "aw" '(browse-web :which-key "Browse Web"))
 
@@ -572,14 +576,27 @@ lines downward first."
    "gx" '(geben-end :which-key "Stop Geben"))
 
 
+  ;; Project Functions
+  (general-define-key
+   :states '(normal motion insert emacs)
+   :prefix gleader
+   :non-normal-prefix gleader-non
+   "p"  '(nil :which-key "Project Commands")
+   "h" '(magit-log-buffer-file :which-key "History of Buffer")
+   "p" '(helm-projectile-find-file :which-key "Fuzzy File (CtrlP)")
+   "P" '(helm-projectile :which-key "Open Recent Project")
+   "m" '(magit-status :which-key "Git Status")) 
+    
+    
   ;; Search Functions
   (general-define-key
    :states '(normal motion insert emacs)
    :prefix gleader
    :non-normal-prefix gleader-non
    "s"  '(nil :which-key "Search Operations")
-   "sp" '(helm-do-ag-project-root :which-key "Search Project")
-   "sc" '(ace-jump-char-mode :which-key "Jump to Character")
+   "sd" '(helm-do-ag :which-key "Search in Directory")
+   "sp" '(helm-do-ag-project-root :which-key "Search in Project")
+   "sj" '(ace-jump-char-mode :which-key "Jump to Character")
    "ss" '(helm-swoop :which-key "Helm Swoop"))
 
 
@@ -592,8 +609,7 @@ lines downward first."
    "ff" '(helm-find-files :which-key "Open File")
    "fd" '(deer :which-key "File Browser")
    "fr" '(ranger :which-key "File Ranger")
-   "fp" '(helm-projectile-find-file :which-key "Find File")
-   "fn" '(neotree-project-dir-toggle :which-key "Toggle NeoTree"))
+   "fp" '(helm-projectile-find-file :which-key "Find File"))
 
 
   ;; Line Functions
@@ -646,7 +662,4 @@ lines downward first."
 
   )
 
-;; Warning!  Any lines modified below this point will be overwritten.
-
-(provide 'emacs)
-;;; .emacs ends here
+;; Warning!  Any lines modified below this point may be overwritten.
