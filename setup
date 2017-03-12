@@ -132,6 +132,8 @@ if [ "$action" == "install" ]; then
 
         echo '# tmux status options'>> $dir/tmux.conf
         echo "set -g status-right '#($dir/tmux/plugin/tmux-status/tmux-status.sh $dir/tmux/tmux-status.conf)'" >> $dir/tmux.conf
+    elif [[ "$(uname)" == "Linux" ]]; then
+        echo "Linux detected..."
     else
         rm -rf $dir
         echo "I'm sorry, but your OS isn't supported yet."
