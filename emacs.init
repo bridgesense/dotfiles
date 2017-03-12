@@ -4,13 +4,8 @@
 ;; documentation is provided to introduce new users to the key shortcuts.
 ;; Custom shortcuts can be accessed through typing the YADR leader "," in Evil mode
 ;; or "Ctrl-," in traditional Emacs modes.
-;;
-;; NOTE: Terminals only work in Emacs and Insert modes.  Emacs mode can be toggled
-;; by pressing "Ctrl-Z".  Text and passwords can be pasted into the terminal using
-;; "M-v" or "C-Esc".  Currently passwords can only be pasted properly using the
-;; GUI(windowed) version of Emacs.
-;; # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-;;; Code:
+;; ;; NOTE: Terminals only work in Emacs and Insert modes.  Emacs mode can be toggled ;; by pressing "Ctrl-Z".  Text and passwords can be pasted into the terminal using ;; "M-v" or "C-Esc".  Currently passwords can only be pasted properly using the
+;; GUI(windowed) version of Emacs. ;; # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #;;; Code:
 
 
 ;; Removes Top Toolbar and Scrollbar
@@ -119,7 +114,7 @@
   (evil-mode 1)
   ;; add conventional clipboard access
   (evil-define-key '(normal motion insert emacs) emacs-lisp-mode-map (kbd "M-c") 'simpleclip-copy
-                                                                     (kbd "M-v") 'simpleclip-paste))
+    (kbd "M-v") 'simpleclip-paste))
 (use-package evil-surround :ensure t
   :diminish evil-surround-mode
   :config
@@ -135,8 +130,8 @@
 ;; # # # # # # # # # # #
 (evil-define-motion evil-last-non-blank (count)
   "Move the cursor to the last non-blank character
-on the current line. If COUNT is given, move COUNT - 1
-lines downward first."
+                    on the current line. If COUNT is given, move COUNT - 1
+                    lines downward first."
   :type inclusive
   (evil-end-of-line count)
   (re-search-backward "^\\|[^[:space:]]")
@@ -169,7 +164,7 @@ lines downward first."
 ;; # # # # # # # # # # #
 ;; Set Clock Format
 (setq org-time-clocksum-format (quote (:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t)))
-;; For PDF printing on MacOS 
+;; For PDF printing on MacOS
 (setenv "PATH" (concat (getenv "PATH") ":/Library/TeX/texbin"))
 ;; Symmetric Inline Encryption
 (require 'org-crypt)
@@ -195,7 +190,7 @@ lines downward first."
 ;; Org Mode Timing Drawer
 (setq org-clock-into-drawer t)
 
- 
+
 ;; Fix the terminal
 ;; # # # # # # # # # # #
 (setq multi-term-program "/bin/bash")
@@ -273,12 +268,20 @@ lines downward first."
   (which-key-mode 1))
 
 
-;; Auto-Complete
+;; Autocompletion
 ;; # # # # # # # # # # #
-(use-package auto-complete :ensure t
-  :diminish auto-complete-mode
+(use-package company :ensure t
+  :diminish company-mode
   :config
-  (global-auto-complete-mode t))
+  (add-hook 'after-init-hook 'global-company-mode))
+(use-package company-php :ensure t
+  :config
+  (custom-set-variables 
+   '(company-backends
+     (quote
+      (company-bbdb company-nxml company-css company-eclim company-semantic company-clang company-xcode company-cmake company-capf company-files company-ac-php-backend
+                    (company-dabbrev-code company-gtags company-etags company-keywords)
+                    company-oddmuse company-dabbrev)))))
 
 
 ;; Git Gutter Fringe
@@ -489,9 +492,7 @@ lines downward first."
    ";" '(evil-commentary :which-key "Un/Comment")
    "[" '(shrink-window-horizontally :which-key "Contract Window")
    "]" '(enlarge-window-horizontally :which-key "Expand Window")
-   "-" '(shrink-window :which-key "Shrink Window")
-   "=" '(enlarge-window :which-key "Grow Window")
-   "a" '(helm-do-ag-project-root :which-key "Search Project")
+   "-" '(shrink-window :which-key "Shrink Window") "=" '(enlarge-window :which-key "Grow Window") "a" '(helm-do-ag-project-root :which-key "Search Project")
    "c" '(simpleclip-copy :which-key "Copy to Clipboard")
    "d" '(deer :which-key "Browse Project Root")
    "e" '(flycheck-list-errors-toggle :which-key "Toggle Error List")
@@ -589,10 +590,10 @@ lines downward first."
    "pp" '(helm-projectile-find-file :which-key "Fuzzy File (CtrlP)")
    "pP" '(helm-projectile :which-key "Open Recent Project")
    "ps" '(helm-do-ag-project-root :which-key "Search in Project")
-   "pm" '(magit-status :which-key "Git Status") 
+   "pm" '(magit-status :which-key "Git Status")
    "pw" '(helm-swoop :which-key "Helm Swoop"))
-    
-    
+
+
   ;; File Functions
   (general-define-key
    :states '(normal motion insert emacs)
@@ -621,7 +622,7 @@ lines downward first."
    "lw" '(toggle-truncate-lines :which-key "Toggle Line Wrapping"))
 
 
-  ;; Org Mode Controls 
+  ;; Org Mode Controls
   (general-define-key
    :states '(normal motion insert emacs)
    :prefix gleader
@@ -640,7 +641,7 @@ lines downward first."
    "os" '(org-clock-out :which-key "Stop Task")
    "ox" '(org-clock-cancel :which-key "Cancel Clock"))
 
-  
+
   ;; Word Functions
   (general-define-key
    :states '(normal motion insert emacs)
