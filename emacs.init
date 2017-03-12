@@ -544,6 +544,7 @@ lines downward first."
    :non-normal-prefix gleader-non
    "b"  '(nil :which-key "Buffer Operations")
    "bb" '(helm-buffers-list :which-key "List/Create Buffers")
+   "bj" '(ace-jump-char-mode :which-key "Jump to Character")
    "bs" '(save-buffer :which-key "Save Buffer")
    "bd" '(kill-this-buffer :which-key "Kill Buffer")
    "bn" '(next-buffer :which-key "Next Buffer")
@@ -583,24 +584,15 @@ lines downward first."
    :prefix gleader
    :non-normal-prefix gleader-non
    "p"  '(nil :which-key "Project Commands")
-   "h" '(magit-log-buffer-file :which-key "History of Buffer")
-   "p" '(helm-projectile-find-file :which-key "Fuzzy File (CtrlP)")
-   "P" '(helm-projectile :which-key "Open Recent Project")
-   "m" '(magit-status :which-key "Git Status")) 
+   "pd" '(helm-do-ag :which-key "Search in Directory")
+   "ph" '(magit-log-buffer-file :which-key "History of Buffer")
+   "pp" '(helm-projectile-find-file :which-key "Fuzzy File (CtrlP)")
+   "pP" '(helm-projectile :which-key "Open Recent Project")
+   "ps" '(helm-do-ag-project-root :which-key "Search in Project")
+   "pm" '(magit-status :which-key "Git Status") 
+   "pw" '(helm-swoop :which-key "Helm Swoop"))
     
     
-  ;; Search Functions
-  (general-define-key
-   :states '(normal motion insert emacs)
-   :prefix gleader
-   :non-normal-prefix gleader-non
-   "s"  '(nil :which-key "Search Operations")
-   "sd" '(helm-do-ag :which-key "Search in Directory")
-   "sp" '(helm-do-ag-project-root :which-key "Search in Project")
-   "sj" '(ace-jump-char-mode :which-key "Jump to Character")
-   "ss" '(helm-swoop :which-key "Helm Swoop"))
-
-
   ;; File Functions
   (general-define-key
    :states '(normal motion insert emacs)

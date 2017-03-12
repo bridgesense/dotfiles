@@ -94,7 +94,9 @@ if [ "$action" == "install" ]; then
         fi
     fi
     cp $dir/emacs.init $dir/emacs
-    cp $dir/tmux/tmux.conf $dir/tmux.conf
+    sed -i "s@multi-term-program.*@multi-term-program \"$(which bash)\")@" $dir/emacs 2>/dev/null
+    cat $dir/tmux/tmux.conf > $dir/tmux.conf
+    echo "set-option -g default command $(which zsh)" >> $dir/tmux.conf 
     if [[ "$(uname)" == "Darwin" ]]; then
         if [[ "$(installed 'brew info')" == "no" ]]; then
             if [[ "$(installed 'xcode-select -v')" == "no" ]]; then
