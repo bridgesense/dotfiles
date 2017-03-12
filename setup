@@ -182,6 +182,5 @@ if [ "$action" == "install" ]; then
         echo "This script does not install packages for ack, tmux or Vim with Lua support on Linux. That's something you might look into."
     fi
     
-    source ~/.bash_profile
-    echo "The dotfiles are installed."
+    echo "The dotfiles are installed. Restart the terminal or re-login to remote deployment to see changes."
 fi
