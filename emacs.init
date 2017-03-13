@@ -268,22 +268,6 @@
   (which-key-mode 1))
 
 
-;; Autocompletion
-;; # # # # # # # # # # #
-(use-package company :ensure t
-  :diminish company-mode
-  :config
-  (add-hook 'after-init-hook 'global-company-mode))
-(use-package company-php :ensure t
-  :config
-  (custom-set-variables 
-   '(company-backends
-     (quote
-      (company-bbdb company-nxml company-css company-eclim company-semantic company-clang company-xcode company-cmake company-capf company-files company-ac-php-backend
-                    (company-dabbrev-code company-gtags company-etags company-keywords)
-                    company-oddmuse company-dabbrev)))))
-
-
 ;; Git Gutter Fringe
 ;; # # # # # # # # # # #
 (use-package fringe-helper :ensure t)
@@ -474,6 +458,25 @@
 (use-package evil-magit :ensure t)
 
 
+;; Autocompletion
+;; # # # # # # # # # # #
+(use-package auto-complete :ensure t
+  :diminish auto-complete-mode
+  :config
+  (setq ac-auto-start 2)   ;; minimum characters to qualify
+  (setq ac-auto-show-menu 0.4)   ;; seconds before activation
+  (setq ac-ignore-case 'smart)    ;; t 'smart or nill
+  (ac-config-default)
+  (add-hook 'prog-mode-hook
+            (lambda ()
+              (add-to-list 'ac-sources 'ac-source-filename))))
+(use-package ac-php :ensure t
+  :config
+  (add-hook 'php-mode-hook
+            (lambda ()
+              (add-to-list 'ac-sources 'ac-source-php))))
+
+
 ;; leader key operation
 ;; # # # # # # # # # # #
 (setq gleader ",")
@@ -526,6 +529,8 @@
    "wJ" '(evil-window-move-very-bottom :which-key "Move Window Up")
    "wK" '(evil-window-move-very-top :which-key "Move Window Down")
    "wL" '(evil-window-move-far-right :which-key "Move Window Right")
+   "wn" '(other-frame :which-key "Switch Screens")
+   "wp" '(new-frame :which-key "Pop Out to Screen")
    "wo" '(other-window :which-key "Select Next Window"))
 
 
@@ -560,6 +565,7 @@
    "a"  '(nil :which-key "Application Shortcuts")
    "ai" '(erc :which-key "IRC")
    "at" '(multi-term :which-key "Terminal")
+   "am" '(gnus :which-key "News/Mail")
    "ap" '(php-scratch :which-key "PHP Scratch Pad")
    "aw" '(browse-web :which-key "Browse Web"))
 
@@ -657,3 +663,4 @@
   )
 
 ;; Warning!  Any lines modified below this point may be overwritten.
+
