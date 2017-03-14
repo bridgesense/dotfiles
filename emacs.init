@@ -463,10 +463,9 @@
 (use-package auto-complete :ensure t
   :diminish auto-complete-mode
   :config
-  (setq ac-auto-start 2)   ;; minimum characters to qualify
-  (setq ac-auto-show-menu 0.4)   ;; seconds before activation
-  (setq ac-ignore-case 'smart)    ;; t 'smart or nill
   (ac-config-default)
+  (ac-flyspell-workaround)
+  (ac-linum-workaround)
   (add-hook 'prog-mode-hook
             (lambda ()
               (add-to-list 'ac-sources 'ac-source-filename))))
@@ -571,7 +570,6 @@
 
 
   ;; Geben Functions
-  ;; See Reference: https://github.com/ahungry/geben/tree/readme#VMs
   (general-define-key
    :states '(normal motion insert emacs)
    :prefix gleader
@@ -636,13 +634,13 @@
    "o"  '(nil :which-key "Org-Mode Scheduler")
    "oo" '(org-agenda :which-key "Agenda View")
    "oa" '(org-ctrl-c-ctrl-c :which-key "Activate (C-c)")
-   "ok" '(org-schedule :which-key "Schedule Task")
    "od" '(org-deadline :which-key "Schedule Deadline")
    "oc" '(org-evaluate-time-range :which-key "Recompute Clock")
+   "ok" '(org-schedule :which-key "Schedule Task")
+   "og" '(org-set-tags-command :which-key "Set Tag")
    "ol" '(org-clock-display :which-key "Display Clocks")
    "oj" '(org-clock-goto :which-key "Jump to Running Task")
    "ot" '(org-clock-in :which-key "Start Task")
-   "oT" '(org-set-tags-command :which-key "Set Tag")
    "or" '(org-clock-report :which-key "Show Report")
    "os" '(org-clock-out :which-key "Stop Task")
    "ox" '(org-clock-cancel :which-key "Cancel Clock"))
@@ -663,4 +661,3 @@
   )
 
 ;; Warning!  Any lines modified below this point may be overwritten.
-

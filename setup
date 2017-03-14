@@ -6,7 +6,7 @@
 
 # # Options
 # # # # # # # # # # # # # # #
-USEREPO=yes
+USEREPO=no
 dir=~/.yadrlite
 dotfiles_old=backup
 action="${1:-install}"
@@ -162,9 +162,16 @@ if [ "$action" == "install" ]; then
         echo "git clone $tplug"
         git clone $tplug
     done
+    cat ~/.bashrc > $dir/bashrc 2>/dev/null
     cat ~/.bash_profile > $dir/bash_profile 2>/dev/null
-    cat $dir/bash/bash_profile >> $dir/bash_profile 2>/dev/null
-    cat $dir/bash/bashrc > $dir/bashrc 2>/dev/null
+    if [! grep -q "~/.bashrc" $dir/bash_profile] && [! grep -q "~/.bash_profile" $dir/bashrc]; then
+        cat $dir/bash/bashrc >> $dir/bashrc 2>/dev/null
+        echo "source ~/.bashrc" >> $dir/bash_profile 2>/dev/null
+    elif ! grep -q "~/.bashrc" $dir/bash_profile; then  
+        cat $dir/bash/bashrc >> $dir/bash_profile 2>/dev/null
+    else
+        cat $dir/bash/bashrc >> $dir/bashrc 2>/dev/null
+    fi
     mkdir $dir/bash/plugin 2>/dev/null
     cd $dir/bash/plugin
     for bplug in "${bashplugins[@]}"; do
