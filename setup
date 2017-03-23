@@ -94,6 +94,7 @@ if [ "$action" == "install" ]; then
         fi
     fi
     cp $dir/emacs.init $dir/emacs
+    mkdir $dir/emacs.d
     sed -i "s@multi-term-program.*@multi-term-program \"$(which bash)\")@" $dir/emacs 2>/dev/null
     cat $dir/tmux/tmux.conf > $dir/tmux.conf
     echo "set-option -g default command $(which bash)" >> $dir/tmux.conf 
@@ -120,7 +121,7 @@ if [ "$action" == "install" ]; then
                 brew install vim --with-lua --with-override-system-vi
             fi
 
-            brew install tmux reattach-to-user-namespace ack openssl boris
+            brew install tmux reattach-to-user-namespace ack openssl boris 
             # next line fixes bug with newest changes to MacOS security
             ln -s `brew --prefix openssl`/bin/openssl /usr/local/bin/openssl 2>/dev/null
             brew install aspell --with-lang-en
