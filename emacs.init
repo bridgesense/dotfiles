@@ -207,7 +207,13 @@
               (define-key term-raw-map (kbd "<escape>") 'term-send-esc)
               (define-key term-raw-map (kbd "<delete>") 'term-send-backspace)
               (define-key term-raw-map (kbd "<backspace>") 'term-send-backspace))))
-
+(defun term-toggle-mode ()
+  "Toggles term between line mode and char mode"
+  (interactive)
+  (if (term-in-line-mode)
+      (term-char-mode)
+    (term-line-mode)))
+    
 
 ;; smooth scrolling
 ;; # # # # # # # # # # #
@@ -621,6 +627,7 @@
    "ld" '(epa-decrypt-region :which-key "Decrypt Selection")
    "li" '(agressive-indent-mode :which-key "Toggle Aggressive Indenting")
    "ln" '(linum-mode :which-key "View Line Numbers")
+   "lm" '(term-toggle-mode :which-key "(Terminal Only) Toggle Line/Character Mode")
    "lr" '(linum-relative-toggle :which-key "Toggle Relative Numbers")
    "ls" '(delete-trailing-whitespace :which-key "Delete Trailing Whitespaces")
    "lw" '(toggle-truncate-lines :which-key "Toggle Line Wrapping"))
