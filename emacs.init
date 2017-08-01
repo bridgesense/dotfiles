@@ -234,7 +234,9 @@
   :config
   (add-hook 'term-mode-hook
             (lambda ()
-              (evil-set-initial-state 'term-mode 'emacs)
+              (if window-system
+		(evil-set-initial-state 'term-mode 'emacs)
+		(evil-set-initial-state 'term-mode 'insert))
               (setq term-buffer-maximum-size 10000)
               (setq show-trailing-whitespace nil)
               (autopair-mode -1)
