@@ -14,13 +14,13 @@ Installation:
 bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
 ```
 
-###Update:
+#### Update:
 
 ```bash
 bash ~/.yadrlite/setup update
 ```
 
-###Uninstall and Restore to Prior Configuration:
+#### Uninstall and Restore to Prior Configuration:
 
 ```bash
 bash ~/.yadrlite/setup remove
@@ -41,13 +41,13 @@ Emacs has a huge performance advantage over Vi, although there is a time and pla
 NOTE: You might install an up-to-date GUI version of Emacs for clipboard sharing.  However, this setup file is compatible with the terminal version as well.  The first startup may take some time to load the additional packages.
 
     
-###To install this Emacs configuration without the rest of YADRLite:
+#### To install this Emacs configuration without the rest of YADRLite:
     
 ```bash
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/emacs.init > ~/.emacs    
 ```
 
-###On MacOS [Homebrew](https://brew.sh) has a nice [Cask](https://caskroom.github.io) package for a GUI Emacs
+#### On MacOS [Homebrew](https://brew.sh) has a nice [Cask](https://caskroom.github.io) package for a GUI Emacs
 
 ```bash
 brew cask install emacs-mac

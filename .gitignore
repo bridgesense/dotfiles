@@ -9,4 +9,5 @@
 /tmux.conf
 /tmux/plugin/*
 /vim/bundle/*
+/vim/Session.vim
 /vimrc.after

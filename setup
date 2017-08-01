@@ -11,7 +11,7 @@ dir=~/.yadrlite
 dotfiles_old=backup
 action="${1:-install}"
 declare -a files=('vim vimrc tmux.conf bash_profile bashrc vimrc.after emacs emacs.d')
-declare -a plugins=('https://github.com/mileszs/ack.vim.git' 'https://github.com/jiangmiao/auto-pairs.git' 'https://github.com/godlygeek/csapprox.git' 'https://github.com/kien/ctrlp.vim.git' 'https://github.com/itchyny/lightline.vim.git' 'https://github.com/Shougo/neocomplete.vim.git' 'https://github.com/scrooloose/nerdtree.git' 'https://github.com/vim-syntastic/syntastic.git' 'https://github.com/christoomey/vim-tmux-navigator.git' 'https://github.com/joonty/vdebug.git' 'https://github.com/gorodinskiy/vim-coloresque.git' 'https://github.com/easymotion/vim-easymotion.git' 'https://github.com/tpope/vim-fugitive.git' 'https://github.com/airblade/vim-gitgutter.git' 'https://github.com/bridgesense/vim-hsftp.git' 'https://github.com/tpope/vim-obsession.git' 'https://github.com/tpope/vim-surround.git')
+declare -a plugins=('https://github.com/mileszs/ack.vim.git' 'https://github.com/jiangmiao/auto-pairs.git' 'https://github.com/godlygeek/csapprox.git' 'https://github.com/kien/ctrlp.vim.git' 'https://github.com/itchyny/lightline.vim.git' 'https://github.com/Shougo/neocomplete.vim.git' 'https://github.com/scrooloose/nerdtree.git' 'https://github.com/vim-syntastic/syntastic.git' 'https://github.com/christoomey/vim-tmux-navigator.git' 'https://github.com/joonty/vdebug.git' 'https://github.com/gorodinskiy/vim-coloresque.git' 'https://github.com/easymotion/vim-easymotion.git' 'https://github.com/tpope/vim-fugitive.git' 'https://github.com/airblade/vim-gitgutter.git' 'https://github.com/bridgesense/vim-hsftp.git' 'https://github.com/tpope/vim-obsession.git' 'https://github.com/tpope/vim-surround.git' 'https://github.com/morhetz/gruvbox.git')
 declare -a tmuxplugins=('https://github.com/tmux-plugins/tmux-continuum.git' 'https://github.com/jtdaugherty/tmux-status.git' 'https://github.com/tmux-plugins/tmux-resurrect.git')
 declare -a bashplugins=('https://github.com/magicmonty/bash-git-prompt.git')
 
@@ -142,8 +142,8 @@ if [ "$action" == "install" ]; then
     fi
 
     echo '" Modifications to this file will not be overwritten when YADRLite is updated.' > $dir/vimrc.after
-    echo '" If you are using iTerm and have installed the Solarized theme, try commenting out the line below.' >> $dir/vimrc.after
-    echo "let g:yadr_using_unsolarized_terminal=1" >> $dir/vimrc.after
+    echo '" If you are using a terminal and have installed the Gruvbox theme, try commenting out the line below.' >> $dir/vimrc.after
+    echo "let g:yadr_using_gruvbox_terminal=1" >> $dir/vimrc.after
 
     echo "" >> $dir/vimrc.after
     echo '" Modify languages as needed.' >> $dir/vimrc.after

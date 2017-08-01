@@ -4,8 +4,13 @@
 ;; documentation is provided to introduce new users to the key shortcuts.
 ;; Custom shortcuts can be accessed through typing the YADR leader "," in Evil mode
 ;; or "Ctrl-," in traditional Emacs modes.
-;; ;; NOTE: Terminals only work in Emacs and Insert modes.  Emacs mode can be toggled ;; by pressing "Ctrl-Z".  Text and passwords can be pasted into the terminal using ;; "M-v" or "C-Esc".  Currently passwords can only be pasted properly using the
-;; GUI(windowed) version of Emacs. ;; # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #;;; Code:
+;;
+;; NOTE: Terminals only work in Emacs and Insert modes.  Emacs mode can be toggled
+;; by pressing "Ctrl-Z".  Text and passwords can be pasted into the terminal using
+;; "M-v" or "C-Esc".  Currently passwords can only be pasted properly using the
+;; GUI(windowed) version of Emacs.
+;; # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+;;; Code:
 
 
 ;; Removes Top Toolbar and Scrollbar
@@ -93,6 +98,10 @@
 (use-package diminish :ensure t)
 
 
+;; CSV Mode
+(use-package csv-mode :ensure t)
+
+
 ;; SimpleClip
 ;; # # # # # # # # # # #
 ;; Fixes cut/paste in Ansi-Terminal and other places
@@ -108,13 +117,13 @@
 
 ;; Evil Vim & Plugins
 ;; # # # # # # # # # # #
+(add-hook 'geben-mode-hook
+          (lambda ()
+            (evil-set-initial-state 'geben-mode 'emacs)))
 (use-package evil :ensure t
   :diminish evil-mode
   :config
-  (evil-mode 1)
-  ;; add conventional clipboard access
-  (evil-define-key '(normal motion insert emacs) emacs-lisp-mode-map (kbd "M-c") 'simpleclip-copy
-    (kbd "M-v") 'simpleclip-paste))
+  (evil-mode 1))
 (use-package evil-surround :ensure t
   :diminish evil-surround-mode
   :config
@@ -175,20 +184,34 @@
 ;; Symmetric File Encryption
 (require 'epa-file)
 (epa-file-enable)
-(setq epa-file-select-keys nil)
+;;(setq epa-file-select-keys nil)
 ;; Theme Conventions for Org Mode
 ;; Hide emphasis marks
 (setq org-hide-emphasis-markers t)
 ;; Add bullets for lists and convential clipboard access
-(use-package org-bullets :ensure t
+(if window-system (use-package org-bullets :ensure t
   :config
   (add-hook 'org-mode-hook
             (lambda ()
               (org-bullets-mode 1)
               (local-set-key (kbd "M-c") 'simpleclip-copy)
-              (local-set-key (kbd "M-v") 'simpleclip-paste))))
+              (local-set-key (kbd "M-v") 'simpleclip-paste)
+              ))))
 ;; Org Mode Timing Drawer
 (setq org-clock-into-drawer t)
+;; Org Mode Evil Compatiblity Fix
+(add-hook 'org-mode-hook
+          (lambda ()
+            (define-key evil-normal-state-map (kbd "TAB") 'org-cycle)))
+
+;; Artist Mode
+(evil-set-initial-state 'artist-mode 'emacs)
+(defun toggle-artist-mode ()
+  "Toggles artist mode"
+  (interactive)
+  (if (bound-and-true-p artist-mode)
+      (artist-mode-off)
+    (artist-mode)))
 
 
 ;; Fix the terminal
@@ -213,7 +236,7 @@
   (if (term-in-line-mode)
       (term-char-mode)
     (term-line-mode)))
-    
+
 
 ;; smooth scrolling
 ;; # # # # # # # # # # #
@@ -270,7 +293,7 @@
 (use-package which-key :ensure t
   :diminish which-key-mode
   :config
-  (set-face-attribute 'which-key-key-face nil :foreground "#00afaf")
+  (set-face-attribute 'which-key-key-face nil :foreground "#427b58")
   (which-key-mode 1))
 
 
@@ -278,44 +301,26 @@
 ;; # # # # # # # # # # #
 (use-package fringe-helper :ensure t)
 (use-package git-gutter :ensure t
-  :diminish git-gutter-mode)
-(if window-system (use-package git-gutter-fringe :ensure t
-                    :config
-                    (global-git-gutter-mode +1)))
+  :diminish git-gutter-mode
+  :config
+  (global-git-gutter-mode +1))
+(if window-system (use-package git-gutter-fringe :ensure t))
 
 
-;; Solarized Theme
+;; Gruvbox Theme
 ;; # # # # # # # # # # #
-(if window-system (use-package solarized-theme :ensure t
-                    :config
-                    ;; make the fringe stand out from the background
-                    (setq solarized-distinct-fringe-background t)
-                    ;; Don't change the font for some headings and titles
-                    (setq solarized-use-variable-pitch nil)
-                    ;; make the modeline high contrast
-                    (setq solarized-high-contrast-mode-line t)
-                    ;; Use less bolding (setq solarized-use-less-bold t)
-                    ;; Use more italics
-                    (setq solarized-use-more-italic t)
-                    ;; Use less colors for indicators such as git:gutter, flycheck and similar
-                    (setq solarized-emphasize-indicators nil)
-                    ;; Don't change size of org-mode headlines (but keep other size-changes)
-                    (setq solarized-scale-org-headlines nil)
-                    ;; Avoid all font-size changes
-                    (setq solarized-height-minus-1 1)
-                    (setq solarized-height-plus-1 1)
-                    (setq solarized-height-plus-2 1)
-                    (setq solarized-height-plus-3 1)
-                    (setq solarized-height-plus-4 1)
-                    (setq active-theme 'solarized-dark)
-                    (load-theme 'solarized-dark t)))
+(use-package gruvbox-theme :ensure t
+  :config
+  (setq active-theme 'gruvbox-dark-soft)
+  (load-theme active-theme t))
+
 
 (defun toggle-light-dark-theme ()
   "Toggle Light and Dark themes"
   (interactive)
-  (if (eq active-theme 'solarized-light)
-      (setq active-theme 'solarized-dark)
-    (setq active-theme 'solarized-light))
+  (if (eq active-theme 'gruvbox-light-soft)
+      (setq active-theme 'gruvbox-dark-soft)
+    (setq active-theme 'gruvbox-light-soft))
   (load-theme active-theme t)
   (powerline-reset))
 
@@ -332,8 +337,7 @@
 ;; Highlight current line number
 (use-package hlinum :ensure t
   :config
-  (hlinum-activate)
-  (set-face-attribute 'linum-highlight-face nil :background "#0b3741" :foreground "#258fcf"))
+  (hlinum-activate))
 
 
 ;; Add relative line numbering option
@@ -369,15 +373,19 @@
 
 ;; Smart Mode Line
 ;; # # # # # # # # # # #
+(if (not (window-system))
+    (use-package evil-terminal-cursor-changer :ensure t
+      :config
+      (evil-terminal-cursor-changer-activate)))
 (use-package spaceline :ensure t
   :config
-  (setq evil-normal-state-cursor '(box "#268bd2")
-        evil-insert-state-cursor '((bar . 3) "#cb4b16")
-        evil-visual-state-cursor '(box "#6c71c4")
-        evil-motion-state-cursor '(box "#859900")
-        evil-replace-state-cursor '(box "#dc322f")
-        evil-operator-state-cursor '(box "#d33682")
-        evil-emacs-state-cursor '(box "#00afaf"))
+  (setq evil-normal-state-cursor '(box "#427b58")
+        evil-insert-state-cursor '((bar . 3) "#af3a03")
+        evil-visual-state-cursor '(box "#8f3f71")
+        evil-motion-state-cursor '(box "#79740e")
+        evil-replace-state-cursor '(box "#9d0006")
+        evil-operator-state-cursor '(box "#b57614")
+        evil-emacs-state-cursor '(box "#076678"))
   (setq powerline-default-separator 'wave)
   (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
   (setq evil-emacs-state-tag "EMACS")
@@ -390,14 +398,13 @@
   (spaceline-spacemacs-theme)
   (spaceline-toggle-minor-modes-off)
   (spaceline-toggle-hud-off)
-  (set-face-attribute 'spaceline-evil-emacs nil :background "#00afaf")
-  (set-face-attribute 'spaceline-evil-insert nil :background "#cb4b16")
-  (set-face-attribute 'spaceline-evil-motion nil :background "#859900")
-  (set-face-attribute 'spaceline-evil-normal nil :background "#268bd2")
-  (set-face-attribute 'spaceline-evil-replace nil :background "#dc322f")
-  (set-face-attribute 'spaceline-evil-visual nil :background "#6c71c4")
+  (set-face-attribute 'spaceline-evil-emacs nil :background "#076678")
+  (set-face-attribute 'spaceline-evil-insert nil :background "#af3a03")
+  (set-face-attribute 'spaceline-evil-motion nil :background "#79740e")
+  (set-face-attribute 'spaceline-evil-normal nil :background "#427b58")
+  (set-face-attribute 'spaceline-evil-replace nil :background "#9d0006")
+  (set-face-attribute 'spaceline-evil-visual nil :background "#8f3f71")
   (powerline-reset))
-
 
 ;; Projectile (better than ctrlp)
 ;; # # # # # # # # # # #
@@ -455,6 +462,14 @@
   (setq ranger-cleanup-eagerly t))
 
 
+;; Refresh Buffer
+;; # # # # # # # # # # #
+(defun revert-buffer-no-confirm ()
+  "Revert buffer without confirmation."
+  (interactive)
+  (revert-buffer :ignore-auto :noconfirm))
+
+
 ;; Magit a Git handler
 ;; # # # # # # # # # # #
 (use-package magit :ensure t
@@ -505,13 +520,12 @@
    "d" '(ranger :which-key "File Ranger")
    "e" '(flycheck-list-errors-toggle :which-key "Toggle Error List")
    "j" '(ace-jump-char-mode :which-key "Jump to Character")
+   "n" '(deer :which-key "Browse Current Directory")
    "q" '(kill-this-buffer :which-key "Kill Buffer")
-   "n" '(deer :which-key "Browse Directory")
    "Q" '(kill-emacs :which-key "Quit Emacs")
    "v" '(simpleclip-paste :which-key "Paste from Clipboard")
    "x" '(next-buffer :which-key "Next Buffer")
-   "z" '(previous-buffer :which-key "Previous Buffer")
-   )
+   "z" '(previous-buffer :which-key "Previous Buffer"))
 
 
   ;; Window Functions
@@ -534,8 +548,9 @@
    "wK" '(evil-window-move-very-top :which-key "Move Window Down")
    "wL" '(evil-window-move-far-right :which-key "Move Window Right")
    "wn" '(other-frame :which-key "Switch Screens")
-   "wp" '(new-frame :which-key "Pop Out to Screen")
-   "wo" '(other-window :which-key "Select Next Window"))
+   "wp" '(make-frame :which-key "Pop Out to Screen")
+   "wo" '(other-window :which-key "Select Next Window")
+   "wx" '(delete-frame :which-key "Close Screen"))
 
 
   ;; Options
@@ -558,7 +573,8 @@
    "bs" '(save-buffer :which-key "Save Buffer")
    "bd" '(kill-this-buffer :which-key "Kill Buffer")
    "bn" '(next-buffer :which-key "Next Buffer")
-   "bp" '(previous-buffer :which-key "Previous Buffer"))
+   "bp" '(previous-buffer :which-key "Previous Buffer")
+   "br" '(revert-buffer-no-confirm :which-key "Refresh Buffer"))
 
 
   ;; Applicaitons
@@ -586,6 +602,15 @@
    "gm" '((lambda () (interactive) (customize-variable 'geben-path-mappings)) :which-key "Set Path Mapping")
    "gr" '(geben-run :which-key "Continue to Breakpoint")
    "gx" '(geben-end :which-key "Stop Geben"))
+
+
+  ;; Mode Toggles
+  (general-define-key
+   :states '(normal motion insert emacs)
+   :prefix gleader
+   :non-normal-prefix gleader-non
+   "m" '(nil :which-key "Modes")
+   "ma" '(toggle-artist-mode :which-key "Artist Mode"))
 
 
   ;; Project Functions
