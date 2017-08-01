@@ -206,10 +206,10 @@
             (define-key evil-normal-state-map (kbd "C-j") 'org-metaup)
             (define-key evil-normal-state-map (kbd "C-k") 'org-metadown)
             (define-key evil-normal-state-map (kbd "C-l") 'org-metaright)
-            (define-key evil-normal-state-map (kbd "C-H") 'org-table-delete-column)
-            (define-key evil-normal-state-map (kbd "C-J") 'org-table-kill-row)
-            (define-key evil-normal-state-map (kbd "C-K") 'org-table-insert-row)
-            (define-key evil-normal-state-map (kbd "C-L") 'org-table-insert-column)
+            (define-key evil-normal-state-map "H" 'org-shiftleft)
+            (define-key evil-normal-state-map "J" 'org-shiftup)
+            (define-key evil-normal-state-map "K" 'org-shiftdown)
+            (define-key evil-normal-state-map "L" 'org-shiftright)
             (define-key evil-normal-state-map (kbd "TAB") 'org-cycle)))
 
 
