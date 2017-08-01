@@ -159,8 +159,12 @@
   (global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
   (global-set-key (kbd "C-x C-f") #'helm-find-files)
   (helm-mode 1))
+;; escape quits Terminal work around 
+(bind-key "<escape>" 'isearch-cancel isearch-mode-map)
+(bind-key "<escape>" 'helm-keyboard-quit helm-map)
+(bind-key "<escape>" 'helm-keyboard-quit helm-comp-read-map)
 
-
+    
 ;; Autopair Mode
 ;; # # # # # # # # # # #
 (use-package autopair :ensure t

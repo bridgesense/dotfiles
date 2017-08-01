@@ -11,7 +11,7 @@ dir=~/.yadrlite
 dotfiles_old=backup
 action="${1:-install}"
 declare -a files=('vim vimrc tmux.conf bash_profile bashrc vimrc.after emacs emacs.d')
-declare -a plugins=('https://github.com/mileszs/ack.vim.git' 'https://github.com/jiangmiao/auto-pairs.git' 'https://github.com/godlygeek/csapprox.git' 'https://github.com/kien/ctrlp.vim.git' 'https://github.com/itchyny/lightline.vim.git' 'https://github.com/Shougo/neocomplete.vim.git' 'https://github.com/scrooloose/nerdtree.git' 'https://github.com/vim-syntastic/syntastic.git' 'https://github.com/christoomey/vim-tmux-navigator.git' 'https://github.com/joonty/vdebug.git' 'https://github.com/gorodinskiy/vim-coloresque.git' 'https://github.com/easymotion/vim-easymotion.git' 'https://github.com/tpope/vim-fugitive.git' 'https://github.com/airblade/vim-gitgutter.git' 'https://github.com/bridgesense/vim-hsftp.git' 'https://github.com/tpope/vim-obsession.git' 'https://github.com/tpope/vim-surround.git' 'https://github.com/morhetz/gruvbox.git')
+declare -a plugins=('https://github.com/rking/ag.vim.git' 'https://github.com/jiangmiao/auto-pairs.git' 'https://github.com/godlygeek/csapprox.git' 'https://github.com/kien/ctrlp.vim.git' 'https://github.com/itchyny/lightline.vim.git' 'https://github.com/Shougo/neocomplete.vim.git' 'https://github.com/scrooloose/nerdtree.git' 'https://github.com/vim-syntastic/syntastic.git' 'https://github.com/christoomey/vim-tmux-navigator.git' 'https://github.com/joonty/vdebug.git' 'https://github.com/gorodinskiy/vim-coloresque.git' 'https://github.com/easymotion/vim-easymotion.git' 'https://github.com/tpope/vim-fugitive.git' 'https://github.com/airblade/vim-gitgutter.git' 'https://github.com/bridgesense/vim-hsftp.git' 'https://github.com/tpope/vim-obsession.git' 'https://github.com/tpope/vim-surround.git' 'https://github.com/morhetz/gruvbox.git')
 declare -a tmuxplugins=('https://github.com/tmux-plugins/tmux-continuum.git' 'https://github.com/jtdaugherty/tmux-status.git' 'https://github.com/tmux-plugins/tmux-resurrect.git')
 declare -a bashplugins=('https://github.com/magicmonty/bash-git-prompt.git')
 
@@ -79,7 +79,7 @@ if [ "$action" == "install" ]; then
         echo "YADRLite is already installed."
         exit
     fi
-    
+
     if [[ "$(installed 'git --version')" == "no" ]]; then
         echo "'Git' doesn't seem to be installed.  Install it. :)"
         exit
@@ -97,7 +97,7 @@ if [ "$action" == "install" ]; then
     mkdir $dir/emacs.d
     sed -i "s@multi-term-program.*@multi-term-program \"$(which bash)\")@" $dir/emacs 2>/dev/null
     cat $dir/tmux/tmux.conf > $dir/tmux.conf
-    echo "set-option -g default command $(which bash)" >> $dir/tmux.conf 
+    echo "set-option -g default command $(which bash)" >> $dir/tmux.conf
     if [[ "$(uname)" == "Darwin" ]]; then
         if [[ "$(installed 'brew info')" == "no" ]]; then
             if [[ "$(installed 'xcode-select -v')" == "no" ]]; then
@@ -121,14 +121,14 @@ if [ "$action" == "install" ]; then
                 brew install vim --with-lua --with-override-system-vi
             fi
 
-            brew install tmux reattach-to-user-namespace ack openssl boris 
+            brew install tmux reattach-to-user-namespace the_silver_searcher openssl boris
             # next line fixes bug with newest changes to MacOS security
             ln -s `brew --prefix openssl`/bin/openssl /usr/local/bin/openssl 2>/dev/null
             brew install aspell --with-lang-en
             # fixes the cruddy looking font in Emacs on MacOS
             defaults write org.gnu.Emacs AppleFontSmoothing -int 0
-            brew cask install gpgtools-beta 
-            brew cask install emacs-mac 
+            brew cask install gpgtools-beta
+            brew cask install emacs-mac
         fi
 
         echo '# tmux status options'>> $dir/tmux.conf
@@ -168,7 +168,7 @@ if [ "$action" == "install" ]; then
     if [! grep -q "~/.bashrc" $dir/bash_profile] && [! grep -q "~/.bash_profile" $dir/bashrc]; then
         cat $dir/bash/bashrc >> $dir/bashrc 2>/dev/null
         echo "source ~/.bashrc" >> $dir/bash_profile 2>/dev/null
-    elif ! grep -q "~/.bashrc" $dir/bash_profile; then  
+    elif ! grep -q "~/.bashrc" $dir/bash_profile; then
         cat $dir/bash/bashrc >> $dir/bash_profile 2>/dev/null
     else
         cat $dir/bash/bashrc >> $dir/bashrc 2>/dev/null
@@ -191,8 +191,8 @@ if [ "$action" == "install" ]; then
     done
 
     if [[ "$(uname)" != "Darwin" ]]; then
-        echo "This script does not install packages for ack, tmux or Vim with Lua support on Linux. That's something you might look into."
+        echo "This script does not install packages for tmux or Vim with Lua support on Linux. That's something you might look into."
     fi
-    
+
     echo "The dotfiles are installed. Restart the terminal or re-login to remote deployment to see changes."
 fi
