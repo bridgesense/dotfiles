@@ -189,20 +189,29 @@
 ;; Hide emphasis marks
 (setq org-hide-emphasis-markers t)
 ;; Add bullets for lists and convential clipboard access
-(if window-system (use-package org-bullets :ensure t
+(use-package org-bullets :ensure t
   :config
   (add-hook 'org-mode-hook
             (lambda ()
               (org-bullets-mode 1)
               (local-set-key (kbd "M-c") 'simpleclip-copy)
               (local-set-key (kbd "M-v") 'simpleclip-paste)
-              ))))
+              )))
 ;; Org Mode Timing Drawer
 (setq org-clock-into-drawer t)
-;; Org Mode Evil Compatiblity Fix
+;; Org Mode Evil compatiblity workaround for terminal
 (add-hook 'org-mode-hook
           (lambda ()
+            (define-key evil-normal-state-map (kbd "C-h") 'org-metaleft)
+            (define-key evil-normal-state-map (kbd "C-j") 'org-metaup)
+            (define-key evil-normal-state-map (kbd "C-k") 'org-metadown)
+            (define-key evil-normal-state-map (kbd "C-l") 'org-metaright)
+            (define-key evil-normal-state-map (kbd "C-H") 'org-table-delete-column)
+            (define-key evil-normal-state-map (kbd "C-J") 'org-table-kill-row)
+            (define-key evil-normal-state-map (kbd "C-K") 'org-table-insert-row)
+            (define-key evil-normal-state-map (kbd "C-L") 'org-table-insert-column)
             (define-key evil-normal-state-map (kbd "TAB") 'org-cycle)))
+
 
 ;; Artist Mode
 (evil-set-initial-state 'artist-mode 'emacs)
@@ -602,15 +611,6 @@
    "gm" '((lambda () (interactive) (customize-variable 'geben-path-mappings)) :which-key "Set Path Mapping")
    "gr" '(geben-run :which-key "Continue to Breakpoint")
    "gx" '(geben-end :which-key "Stop Geben"))
-
-
-  ;; Mode Toggles
-  (general-define-key
-   :states '(normal motion insert emacs)
-   :prefix gleader
-   :non-normal-prefix gleader-non
-   "m" '(nil :which-key "Modes")
-   "ma" '(toggle-artist-mode :which-key "Artist Mode"))
 
 
   ;; Project Functions
