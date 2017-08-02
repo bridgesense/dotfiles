@@ -2,7 +2,7 @@
 
 Credit:
 ---
-This dotfile repo is heavily based on [YADR](https://github.com/skwp/dotfiles) which is a really solid dotfile package created by Yan Pritzker and worked on by several others.  This is not intended to be a fork of YADR.  At the same time, I take no credit here either.  This is just a personal collection of settings from YADR trimmed down considerably for the sake of speed and portability.  
+This dotfile repo is heavily based on [YADR](https://github.com/skwp/dotfiles) which is a solid dotfile package created by Yan Pritzker and worked on by several others.  This is not intended to be a fork of YADR.  At the same time, I take no credit here either.  This is just a personal collection of settings from YADR trimmed down considerably for the sake of speed and portability.  
 
 Check out the original repo, [YADR](https://github.com/skwp/dotfiles) especially if you work in Python or Ruby.
 
