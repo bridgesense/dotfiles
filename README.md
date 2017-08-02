@@ -32,7 +32,7 @@ bash ~/.yadrlite/setup remove
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/emacs.init > ~/.emacs    
 ```
 
-#### On MacOS [Homebrew](https://brew.sh) has a nice [Cask](https://caskroom.github.io) package for a GUI Emacs
+#### On MacOS [Homebrew](https://brew.sh) has a nice [Cask](https://caskroom.github.io) package for an GUI Emacs
 
 ```bash
 brew cask install emacs-mac
