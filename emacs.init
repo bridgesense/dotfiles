@@ -17,7 +17,7 @@
 ;; # # # # # # # # # # #
 (if window-system (tool-bar-mode -1))
 (if window-system (scroll-bar-mode -1))
-(if window-system (menu-bar-mode -1))
+(menu-bar-mode -1)
 
 
 ;; Handiles Backup Files
