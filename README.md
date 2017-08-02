@@ -33,13 +33,17 @@ Shortcuts have been pulled over from YADR, so those working with YADR should fee
 
 As with YADR, most of the key mapping can be found in the settings directory for reference.  More information may come later in offering examples on how to use YADRLite with [Xdebug] (https://xdebug.org) and a few other tools.  This package is ready for deployment on MacOS and Linux distros. 
 
+Vim:
+---
+![screenshot](http://i.imgur.com/AX1WEIR.png)
+
 
 Emacs:
 ---
-Emacs has a huge performance advantage over Vi, although there is a time and place for every tool.  This is a custom brewed configuration of Emacs with influences from YADR, complete with familiar Vim keybindings.  Additionally, there is inline documentation with live hints for ease of discovery.  After entering Emacs just hit the leader key "," to get started.  Hit the leader key twice for a fuzzy command search.
+![screenshot](http://i.imgur.com/hfOJ6oi.png)
 
-NOTE: You might install an up-to-date GUI version of Emacs for clipboard sharing.  However, this setup file is compatible with the terminal version as well.  The first startup may take some time to load the additional packages.
 
+Emacs has a huge performance advantage over Vi. This Emacs configuration includes the Evil package which emulates Vim's modal functionality.  When in Evil mode Emacs will share some of the custom keybindings in the YADR package including the leader key (,).  Switching between Emacs and Evil mode can be done with C-z. There is inline documentation with live hints for ease of discovery.  After entering Emacs just hit the leader key "," to get started.  Hit the leader key twice for a fuzzy command search.
     
 #### To install this Emacs configuration without the rest of YADRLite:
     
