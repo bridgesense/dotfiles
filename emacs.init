@@ -4,11 +4,6 @@
 ;; documentation is provided to introduce new users to the key shortcuts.
 ;; Custom shortcuts can be accessed through typing the YADR leader "," in Evil mode
 ;; or "Ctrl-," in traditional Emacs modes.
-;;
-;; NOTE: Terminals only work in Emacs and Insert modes.  Emacs mode can be toggled
-;; by pressing "Ctrl-Z".  Text and passwords can be pasted into the terminal using
-;; "M-v" or "C-Esc".  Currently passwords can only be pasted properly using the
-;; GUI(windowed) version of Emacs.
 ;; # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 ;;; Code:
 
@@ -18,7 +13,6 @@
 (if window-system (tool-bar-mode -1))
 (if window-system (scroll-bar-mode -1))
 (menu-bar-mode -1)
-
 
 ;; Handiles Backup Files
 ;; # # # # # # # # # # #
@@ -111,8 +105,12 @@
   (simpleclip-mode 1)
   (global-set-key [M-c] 'simpleclip-copy)
   (global-set-key [M-v] 'simpleclip-paste)
-  ;; failsafe paste mode
-  (global-set-key [C-escape] 'simpleclip-paste))
+  ;; osx clipboard fix for GUI and Terminal
+  (if (eq system-type 'darwin)
+      (defun simpleclip-set-contents (str-val)
+        (with-temp-buffer
+              (insert str-val)
+              (call-process-region (point-min) (point-max) "/usr/bin/pbcopy")))))
 
 
 ;; Evil Vim & Plugins
@@ -234,15 +232,13 @@
   :config
   (add-hook 'term-mode-hook
             (lambda ()
-              (if window-system
-		(evil-set-initial-state 'term-mode 'emacs)
-		(evil-set-initial-state 'term-mode 'insert))
+              (evil-set-initial-state 'term-mode 'emacs)
               (setq term-buffer-maximum-size 10000)
               (setq show-trailing-whitespace nil)
               (autopair-mode -1)
               (define-key term-raw-map (kbd "M-c") 'simpleclip-copy)
               (define-key term-raw-map (kbd "M-v") 'simpleclip-paste)
-              (define-key term-raw-map (kbd "<escape>") 'term-send-esc)
+              ;; use C-c c-e for term-send-esc
               (define-key term-raw-map (kbd "<delete>") 'term-send-backspace)
               (define-key term-raw-map (kbd "<backspace>") 'term-send-backspace))))
 (defun term-toggle-mode ()
