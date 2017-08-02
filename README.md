@@ -26,6 +26,17 @@ bash ~/.yadrlite/setup update
 bash ~/.yadrlite/setup remove
 ```
 
+#### To install this Emacs configuration without the rest of YADRLite:
+    
+```bash
+curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/emacs.init > ~/.emacs    
+```
+
+#### On MacOS [Homebrew](https://brew.sh) has a nice [Cask](https://caskroom.github.io) package for a GUI Emacs
+
+```bash
+brew cask install emacs-mac
+```
 
 What's Included:
 ---
@@ -43,14 +54,3 @@ Emacs:
 
 Emacs has a huge performance advantage over Vi. This Emacs configuration includes the Evil package which emulates Vim's modal functionality.  When in Evil mode Emacs will share some of the custom keybindings in the YADR package including the leader key (,).  Switching between Emacs and Evil mode can be done with C-z. There is inline documentation with live hints for ease of discovery.  After entering Emacs just hit the leader key "," to get started.  Hit the leader key twice for a fuzzy command search.
     
-#### To install this Emacs configuration without the rest of YADRLite:
-    
-```bash
-curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/emacs.init > ~/.emacs    
-```
-
-#### On MacOS [Homebrew](https://brew.sh) has a nice [Cask](https://caskroom.github.io) package for a GUI Emacs
-
-```bash
-brew cask install emacs-mac
-```
