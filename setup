@@ -129,6 +129,7 @@ if [ "$action" == "install" ]; then
             defaults write org.gnu.Emacs AppleFontSmoothing -int 0
             brew cask install gpgtools-beta
             brew cask install emacs-mac
+            brew cask install font-source-code-pro
         fi
 
         echo '# tmux status options'>> $dir/tmux.conf
