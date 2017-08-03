@@ -54,5 +54,5 @@ Emacs:
 
 Emacs 24.4 or higher is preferred.
     
-Emacs has a huge performance advantage over Vi.  This Emacs configuration includes the Evil package which emulates Vim's modal functionality.  In Evil mode Emacs shares some of the same custom keybindings familiar the YADR package.  Switching between Emacs and Evil mode can be done with C-z. There is inline documentation with live hints for ease of discovery.  After entering Emacs just hit the leader key (,) to get started.  Hit the leader key twice for a fuzzy command search.
+Emacs has a huge performance advantage over Vi.  This configuration includes the Evil package which emulates Vim's modal functionality.  In Evil mode Emacs shares keybindings familiar to the YADR package.  Switching between Emacs and Evil mode is done by C-z. There is inline documentation with live hints for ease of discovery.  After entering Emacs just hit the leader key (,) to get started.  Hit the leader key twice for a fuzzy command search.
     
