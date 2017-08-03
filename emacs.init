@@ -14,6 +14,7 @@
 (if window-system (scroll-bar-mode -1))
 (menu-bar-mode -1)
 
+
 ;; Handiles Backup Files
 ;; # # # # # # # # # # #
 (setq
@@ -103,23 +104,22 @@
   :diminish simpleclip-mode
   :config
   (simpleclip-mode 1)
-  (global-set-key [M-c] 'simpleclip-copy)
   (global-set-key [M-v] 'simpleclip-paste)
   ;; osx clipboard fix for GUI and Terminal
   (if (eq system-type 'darwin)
-      (defun simpleclip-set-contents (str-val)
+      (defun simpleclip-set-contents
+          (str-val)
         (with-temp-buffer
-              (insert str-val)
-              (call-process-region (point-min) (point-max) "/usr/bin/pbcopy")))))
+          (insert str-val)
+          (call-process-region (point-min) (point-max) "/usr/bin/pbcopy"))))) 
 
 
 ;; Evil Vim & Plugins
 ;; # # # # # # # # # # #
-(add-hook 'geben-mode-hook
-          (lambda ()
+(add-hook 'geben-mode-hook 
+          (lambda () 
             (evil-set-initial-state 'geben-mode 'emacs)))
-(use-package evil :ensure t
-  :diminish evil-mode
+(use-package evil :ensure t :diminish evil-mode
   :config
   (evil-mode 1))
 (use-package evil-surround :ensure t
@@ -162,7 +162,7 @@
 (bind-key "<escape>" 'helm-keyboard-quit helm-map)
 (bind-key "<escape>" 'helm-keyboard-quit helm-comp-read-map)
 
-    
+
 ;; Autopair Mode
 ;; # # # # # # # # # # #
 (use-package autopair :ensure t
@@ -196,7 +196,6 @@
   (add-hook 'org-mode-hook
             (lambda ()
               (org-bullets-mode 1)
-              (local-set-key (kbd "M-c") 'simpleclip-copy)
               (local-set-key (kbd "M-v") 'simpleclip-paste)
               )))
 ;; Org Mode Timing Drawer
@@ -213,10 +212,7 @@
             (define-key evil-normal-state-map "K" 'org-shiftdown)
             (define-key evil-normal-state-map "L" 'org-shiftright)
             (define-key evil-normal-state-map (kbd "TAB") 'org-cycle)))
-
-
-;; Artist Mode
-(evil-set-initial-state 'artist-mode 'emacs)
+;; Artist Mode (evil-set-initial-state 'artist-mode 'emacs)
 (defun toggle-artist-mode ()
   "Toggles artist mode"
   (interactive)
@@ -236,7 +232,6 @@
               (setq term-buffer-maximum-size 10000)
               (setq show-trailing-whitespace nil)
               (autopair-mode -1)
-              (define-key term-raw-map (kbd "M-c") 'simpleclip-copy)
               (define-key term-raw-map (kbd "M-v") 'simpleclip-paste)
               ;; use C-c c-e for term-send-esc
               (define-key term-raw-map (kbd "<delete>") 'term-send-backspace)
@@ -287,11 +282,10 @@
         (call-interactively 'flycheck-list-errors)
       (delete-window flycheck-errors-window))))
 ;; Show Matching Pairs
-(show-paren-mode 1)
+(show-paren-mode 1) 
 ;; Show HTML Colors
-(use-package rainbow-mode :ensure t
-  :diminish rainbow-mode)
-;; YASnippet
+(use-package rainbow-mode :ensure t :diminish rainbow-mode) 
+;; YASnippet 
 (use-package yasnippet :ensure t
   :diminish yas-minor-mode
   :config
@@ -299,12 +293,13 @@
 ;; PHP Scratch
 (use-package php-scratch :ensure t)
 
+
 ;; Help Mode
 ;; # # # # # # # # # # #
 (use-package which-key :ensure t
   :diminish which-key-mode
   :config
-  (set-face-attribute 'which-key-key-face nil :foreground "#427b58")
+  (set-face-attribute 'which-key-key-face nil :foreground "#83a598")
   (which-key-mode 1))
 
 
@@ -324,8 +319,6 @@
   :config
   (setq active-theme 'gruvbox-dark-soft)
   (load-theme active-theme t))
-
-
 (defun toggle-light-dark-theme ()
   "Toggle Light and Dark themes"
   (interactive)
@@ -333,7 +326,49 @@
       (setq active-theme 'gruvbox-dark-soft)
     (setq active-theme 'gruvbox-light-soft))
   (load-theme active-theme t)
+  (gruvbox-modeline-reset)
   (powerline-reset))
+(defun gruvbox-modeline-reset ()
+  "Dark Mode Line"
+  (if (eq active-theme 'gruvbox-light-soft)
+      (progn
+        (set-face-attribute 'mode-line nil 
+                            :foreground "#282828"
+                            :background "#bdae93")
+        (set-face-attribute 'mode-line-inactive nil 
+                            :foreground "#928374"
+                            :background "#fbf1c7")
+        (set-face-attribute 'powerline-active1 nil 
+                            :foreground "#ebdbb2"
+                            :background "#928374")
+        (set-face-attribute 'powerline-active2 nil 
+                            :foreground "#3c3836"
+                            :background "#d5c4a1")
+        (set-face-attribute 'powerline-inactive1 nil 
+                            :foreground "#928374"
+                            :background "#ebdbb2")
+        (set-face-attribute 'powerline-inactive2 nil 
+                            :foreground "#928374"
+                            :background "#fbf1c7:"))
+    (progn
+      (set-face-attribute 'mode-line nil 
+                          :foreground "#ebdbb2"
+                          :background "#504945")
+      (set-face-attribute 'mode-line-inactive nil 
+                          :foreground "#bdae93"
+                          :background "#282828")
+      (set-face-attribute 'powerline-active1 nil 
+                          :foreground "#ebdbb2"
+                          :background "#928374")
+      (set-face-attribute 'powerline-active2 nil 
+                          :foreground "#bdae93"
+                          :background "#3c3836")
+      (set-face-attribute 'powerline-inactive1 nil 
+                          :foreground "#bdae93"
+                          :background "#282828")
+      (set-face-attribute 'powerline-inactive2 nil 
+                          :foreground "#bdae93"
+                          :background "#1d2021"))))
 
 
 ;; Misc Helm Packages and Dependencies
@@ -358,9 +393,7 @@
 
 ;; Ace Jump Mode (a very nice Easy Motion alternative)
 ;; # # # # # # # # # # #
-(use-package ace-jump-mode :ensure t
-  :diminish ace-jump-mode)
-
+(use-package ace-jump-mode :ensure t :diminish ace-jump-mode) 
 
 ;; Spell Check
 ;; # # # # # # # # # # #
@@ -388,15 +421,16 @@
     (use-package evil-terminal-cursor-changer :ensure t
       :config
       (evil-terminal-cursor-changer-activate)))
+
 (use-package spaceline :ensure t
   :config
-  (setq evil-normal-state-cursor '(box "#427b58")
-        evil-insert-state-cursor '((bar . 3) "#af3a03")
-        evil-visual-state-cursor '(box "#8f3f71")
-        evil-motion-state-cursor '(box "#79740e")
-        evil-replace-state-cursor '(box "#9d0006")
-        evil-operator-state-cursor '(box "#b57614")
-        evil-emacs-state-cursor '(box "#076678"))
+  (setq evil-normal-state-cursor '(box "#bdae93")
+        evil-insert-state-cursor '((bar . 3) "#83a598")
+        evil-visual-state-cursor '(box "#fabd2f")
+        evil-motion-state-cursor '(box "#d3869b")
+        evil-replace-state-cursor '(box "#cc241d")
+        evil-operator-state-cursor '(box "#b8bb26")
+        evil-emacs-state-cursor '(box "#098B9F"))
   (setq powerline-default-separator 'wave)
   (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
   (setq evil-emacs-state-tag "EMACS")
@@ -409,13 +443,15 @@
   (spaceline-spacemacs-theme)
   (spaceline-toggle-minor-modes-off)
   (spaceline-toggle-hud-off)
-  (set-face-attribute 'spaceline-evil-emacs nil :background "#076678")
-  (set-face-attribute 'spaceline-evil-insert nil :background "#af3a03")
-  (set-face-attribute 'spaceline-evil-motion nil :background "#79740e")
-  (set-face-attribute 'spaceline-evil-normal nil :background "#427b58")
-  (set-face-attribute 'spaceline-evil-replace nil :background "#9d0006")
-  (set-face-attribute 'spaceline-evil-visual nil :background "#8f3f71")
+  (set-face-attribute 'spaceline-evil-emacs nil :background "#098B9F")
+  (set-face-attribute 'spaceline-evil-insert nil :background "#83a598")
+  (set-face-attribute 'spaceline-evil-motion nil :background "#d3869b")
+  (set-face-attribute 'spaceline-evil-normal nil :background "#bdae93")
+  (set-face-attribute 'spaceline-evil-replace nil :background "#cc241d")
+  (set-face-attribute 'spaceline-evil-visual nil :background "#fabd2f")
+  (gruvbox-modeline-reset)
   (powerline-reset))
+
 
 ;; Projectile (better than ctrlp)
 ;; # # # # # # # # # # #
@@ -534,7 +570,7 @@
    "n" '(deer :which-key "Browse Current Directory")
    "q" '(kill-this-buffer :which-key "Kill Buffer")
    "Q" '(kill-emacs :which-key "Quit Emacs")
-   "v" '(simpleclip-paste :which-key "Paste from Clipboard")
+   "v" '(simpleclip-paste :which-key "Paste from Clipboard [GUI]")
    "x" '(next-buffer :which-key "Next Buffer")
    "z" '(previous-buffer :which-key "Previous Buffer"))
 
