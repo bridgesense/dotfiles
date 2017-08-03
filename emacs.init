@@ -6,9 +6,7 @@
 ;; or "Ctrl-," in traditional Emacs modes.
 ;; # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 ;;; Code:
-(if (version< emacs-version "24.4")
-    (message "WARNING! YADRLite requires Emacs 24.4 or higher."))
-    
+
 
 ;; Removes Top Toolbar and Scrollbar
 ;; # # # # # # # # # # #
@@ -38,10 +36,10 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:height 140 :family "Source Code Pro"))))
  '(org-document-title ((t (:inherit default :weight bold :foreground "black" :font "Lucida Grande" :height 1.5 :underline nil))))
- '(org-level-1 ((t (:inherit default :weight bold :font "Lucida Grande" :height 1.5))))
- '(org-level-2 ((t (:inherit default :weight bold :font "Lucida Grande" :height 1.25))))
- '(org-level-3 ((t (:inherit default :weight bold :font "Lucida Grande" :height 1.15))))
- '(org-level-4 ((t (:inherit default :weight bold :font "Lucida Grande" :height 1.1))))
+ '(org-level-1 ((t (:inherit default :weight bold :font "Lucida Grande" :height 1.25))))
+ '(org-level-2 ((t (:inherit default :weight bold :font "Lucida Grande" :height 1.15))))
+ '(org-level-3 ((t (:inherit default :weight bold :font "Lucida Grande" :height 1.10))))
+ '(org-level-4 ((t (:inherit default :weight bold :font "Lucida Grande" ))))
  '(org-level-5 ((t (:inherit default :weight bold :font "Lucida Grande"))))
  '(org-level-6 ((t (:inherit default :weight bold :font "Lucida Grande"))))
  '(org-level-7 ((t (:inherit default :weight bold :font "Lucida Grande"))))
@@ -161,7 +159,7 @@
   ;; escape quits Terminal work around 
   (bind-key "<escape>" 'isearch-cancel isearch-mode-map)
   (bind-key "<escape>" 'helm-keyboard-quit helm-map)
-  (bind-key "<escape>" 'helm-keyboard-quit helm-comp-read-map) 
+  (bind-key "<escape>" 'helm-keyboard-quit helm-comp-read-map)
   (helm-mode 1))
 
 
@@ -380,8 +378,8 @@
 
 ;; Spruce Up line numbers
 ;; # # # # # # # # # # #
-;; Line numbering off by default
-;; (linum-on)
+;; Line numbering on by default
+;; (global-linum-mode 1)
 ;; Highlight current line number
 (use-package hlinum :ensure t
   :config

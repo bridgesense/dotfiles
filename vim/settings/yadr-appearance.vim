@@ -19,12 +19,21 @@ if has("gui_running")
   end
 else
   let g:CSApprox_loaded = 1
-
-  " For people using a terminal 
-  if exists("g:yadr_using_gruvbox_terminal")
-    let g:gruvbox_termcolors=256
-  end
 endif
 
-colorscheme gruvbox 
+" Light/Dark Theme Switch
+let g:gruvboxtheme="dark"
+let g:gruvbox_termcolors=256
+function! ToggleGruvbox()
+    if g:gruvboxtheme == "light" 
+        let g:gruvboxtheme="dark"
+        set background=dark
+    else
+        let g:gruvboxtheme="light"
+        set background=light
+    endif
+
+endfunction
+nnoremap <silent> ,Ot :call ToggleGruvbox()<CR>
+colorscheme gruvbox
 set background=dark
