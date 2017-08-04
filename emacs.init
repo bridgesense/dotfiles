@@ -156,13 +156,19 @@
   (global-set-key (kbd "M-x") 'helm-M-x)
   (global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
   (global-set-key (kbd "C-x C-f") #'helm-find-files)
+  (add-hook 'helm-mode-hook
+            (lambda ()
+              ;; escape quits helm 
+              (bind-key "<escape>" 'isearch-cancel isearch-mode-map)
+              (bind-key "<escape>" 'helm-keyboard-quit helm-map)
+              (bind-key "<escape>" 'helm-keyboard-quit helm-comp-read-map)
+              ;; adds paste functionality to helm
+              (define-key isearch-mode-map (kbd "M-v") 'simpleclip-paste)
+              (define-key helm-map (kbd "M-v") 'simpleclip-paste)
+              (define-key helm-comp-read-map (kbd "M-v") 'simpleclip-paste))) 
   (helm-mode 1))
-;; escape quits in Terminal work around 
-(bind-key "<escape>" 'isearch-cancel isearch-mode-map)
-(bind-key "<escape>" 'helm-keyboard-quit helm-map)
-(bind-key "<escape>" 'helm-keyboard-quit helm-comp-read-map)
 
-    
+
 ;; Autopair Mode
 ;; # # # # # # # # # # #
 (use-package autopair :ensure t
@@ -211,6 +217,7 @@
             (define-key evil-normal-state-map "J" 'org-shiftup)
             (define-key evil-normal-state-map "K" 'org-shiftdown)
             (define-key evil-normal-state-map "L" 'org-shiftright)
+            (define-key evil-insert-state-map (kbd "M-v") 'simpleclip-paste)
             (define-key evil-normal-state-map (kbd "TAB") 'org-cycle)))
 ;; Artist Mode (evil-set-initial-state 'artist-mode 'emacs)
 (defun toggle-artist-mode ()
@@ -693,8 +700,9 @@
    "p"  '(nil :which-key "Project Commands")
    "pd" '(helm-do-ag :which-key "Search in Directory")
    "ph" '(magit-log-buffer-file :which-key "History of Buffer")
-   "pp" '(helm-projectile-find-file :which-key "Fuzzy File (CtrlP)")
+   "pf" '(helm-projectile-find-file :which-key "Fuzzy File (CtrlP)")
    "pP" '(helm-projectile :which-key "Open Recent Project")
+   "pp" '(helm-resume :which-key "Helm Resume")
    "ps" '(helm-do-ag-project-root :which-key "Search in Project")
    "pm" '(magit-status :which-key "Git Status")
    "pw" '(helm-swoop :which-key "Helm Swoop"))
