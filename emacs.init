@@ -38,8 +38,8 @@
  '(org-document-title ((t (:inherit default :weight bold :foreground "black" :font "Lucida Grande" :height 1.5 :underline nil))))
  '(org-level-1 ((t (:inherit default :weight bold :font "Lucida Grande" :height 1.25))))
  '(org-level-2 ((t (:inherit default :weight bold :font "Lucida Grande" :height 1.15))))
- '(org-level-3 ((t (:inherit default :weight bold :font "Lucida Grande" :height 1.10))))
- '(org-level-4 ((t (:inherit default :weight bold :font "Lucida Grande" ))))
+ '(org-level-3 ((t (:inherit default :weight bold :font "Lucida Grande" :height 1.1))))
+ '(org-level-4 ((t (:inherit default :weight bold :font "Lucida Grande"))))
  '(org-level-5 ((t (:inherit default :weight bold :font "Lucida Grande"))))
  '(org-level-6 ((t (:inherit default :weight bold :font "Lucida Grande"))))
  '(org-level-7 ((t (:inherit default :weight bold :font "Lucida Grande"))))
@@ -159,7 +159,7 @@
   ;; escape quits Terminal work around 
   (bind-key "<escape>" 'isearch-cancel isearch-mode-map)
   (bind-key "<escape>" 'helm-keyboard-quit helm-map)
-  (bind-key "<escape>" 'helm-keyboard-quit helm-comp-read-map)
+  (bind-key "<escape>" 'helm-keyboard-quit helm-comp-read-map) 
   (helm-mode 1))
 
 
@@ -260,12 +260,47 @@
 
 ;; Syntax
 ;; # # # # # # # # # # #
+(setq web-mode-ac-sources-alist
+      '(("css" . (ac-source-words-in-buffer ac-source-css-property))
+        ("html" . (ac-source-words-in-buffer ac-source-abbrev))
+        ("php" . (ac-source-words-in-buffer
+                  ac-source-words-in-same-mode-buffers
+                  ac-source-dictionary))))
+(use-package web-mode :ensure t
+  :diminish web-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode)))
+(use-package xah-css-mode :ensure t
+  :diminish css-mode)
 (use-package php-mode :ensure t
   :diminish php-mode)
+(use-package coffee-mode :ensure t
+  :diminish coffee-mode)
+(use-package coffee-mode :ensure t
+  :diminish sass-mode)
+(use-package csv-mode :ensure t
+  :diminish csv-mode)
+(use-package json-mode :ensure t
+  :diminish json-mode)
+(use-package multi-web-mode :ensure t
+  :config
+  (setq mweb-default-major-mode 'web-mode)
+  (setq mweb-tags '((php-mode "<\\?php\\|<\\?[\r\n\s]\\|<\\?=" "\\?>")
+                    (js-mode "<script +\\(type=\"text/javascript\"\\|language=\"javascript\"\\)[^>]*>" "</script>")
+                    (css-mode "<style +type=\"text/css\"[^>]*>" "</style>")))
+  (setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5"))
+  (multi-web-global-mode 1))
 (use-package flycheck :ensure t
   :diminish flycheck-mode
   :config
   (global-flycheck-mode)
+  (flycheck-add-mode 'html-tidy 'web-mode)
   (add-to-list 'display-buffer-alist
                `(,(rx bos "*Flycheck errors*" eos)
                  (display-buffer-reuse-window
@@ -273,7 +308,6 @@
                  (side            . bottom)
                  (reusable-frames . visible)
                  (window-height   . 0.15))))
-
 (defun flycheck-list-errors-toggle ()
   "Toggle the error list for the current buffer."
   (interactive)
