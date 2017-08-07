@@ -158,7 +158,7 @@
   (global-set-key (kbd "C-x C-f") #'helm-find-files)
   (add-hook 'helm-mode-hook
             (lambda ()
-              ;; escape quits helm 
+              ;; escape quits in Terminal work around 
               (bind-key "<escape>" 'isearch-cancel isearch-mode-map)
               (bind-key "<escape>" 'helm-keyboard-quit helm-map)
               (bind-key "<escape>" 'helm-keyboard-quit helm-comp-read-map)
@@ -217,9 +217,9 @@
             (define-key evil-normal-state-map "J" 'org-shiftup)
             (define-key evil-normal-state-map "K" 'org-shiftdown)
             (define-key evil-normal-state-map "L" 'org-shiftright)
-            (define-key evil-insert-state-map (kbd "M-v") 'simpleclip-paste)
             (define-key evil-normal-state-map (kbd "TAB") 'org-cycle)))
-;; Artist Mode (evil-set-initial-state 'artist-mode 'emacs)
+;; Artist Mode
+(evil-set-initial-state 'artist-mode 'emacs)
 (defun toggle-artist-mode ()
   "Toggles artist mode"
   (interactive)
@@ -282,7 +282,14 @@
   (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode)))
+  (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+  (add-hook 'web-mode-hook
+            (lambda ()
+              (local-set-key '[backtab] 'indent-relative)
+              (setq indent-tabs-mode nil)
+              (setq web-mode-markup-indent-offset 2
+                    web-mode-css-indent-offset 2
+                    web-mode-code-indent-offset 2))))
 (use-package xah-css-mode :ensure t
   :diminish css-mode)
 (use-package php-mode :ensure t
@@ -295,14 +302,6 @@
   :diminish csv-mode)
 (use-package json-mode :ensure t
   :diminish json-mode)
-(use-package multi-web-mode :ensure t
-  :config
-  (setq mweb-default-major-mode 'web-mode)
-  (setq mweb-tags '((php-mode "<\\?php\\|<\\?[\r\n\s]\\|<\\?=" "\\?>")
-                    (js-mode "<script +\\(type=\"text/javascript\"\\|language=\"javascript\"\\)[^>]*>" "</script>")
-                    (css-mode "<style +type=\"text/css\"[^>]*>" "</style>")))
-  (setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5"))
-  (multi-web-global-mode 1))
 (use-package flycheck :ensure t
   :diminish flycheck-mode
   :config
@@ -333,6 +332,14 @@
   (yas-global-mode 1))
 ;; PHP Scratch
 (use-package php-scratch :ensure t)
+;; Toggle PHP/Web Mode
+(defun toggle-php-flavor-mode ()
+  "Toggle mode between PHP & Web-Mode Helper modes."
+  (interactive)
+  (cond ((string= mode-name "PHP/l")
+         (web-mode))
+        ((string= mode-name "Web")
+         (php-mode))))
 
 
 ;; Help Mode
@@ -513,7 +520,7 @@
 (use-package page-break-lines :ensure t
   :diminish page-break-lines-mode)
 (setq dashboard-banner-logo-title "Welcome to YADRLite")
-(setq dashboard-items '((recents  . 10)
+(setq dashboard-items '((recents  . 15)
                         (bookmarks . 5)
                         (projects . 5)))
 (use-package dashboard :ensure t
@@ -582,6 +589,13 @@
   :config
   (add-hook 'php-mode-hook
             (lambda ()
+              (auto-complete-mode t)       
+              ;;(require 'ac-php)                    
+              (yas-global-mode 1)                 
+              (setq indent-tabs-mode nil)
+              (setq c-basic-offset 4)
+              (setq php-template-compatibility nil)
+              (subword-mode 1)
               (add-to-list 'ac-sources 'ac-source-php))))
 
 
@@ -603,7 +617,9 @@
    ";" '(evil-commentary :which-key "Un/Comment")
    "[" '(shrink-window-horizontally :which-key "Contract Window")
    "]" '(enlarge-window-horizontally :which-key "Expand Window")
-   "-" '(shrink-window :which-key "Shrink Window") "=" '(enlarge-window :which-key "Grow Window") "a" '(helm-do-ag-project-root :which-key "Search Project")
+   "-" '(shrink-window :which-key "Shrink Window")
+   "=" '(enlarge-window :which-key "Grow Window")
+   "a" '(helm-do-ag-project-root :which-key "Search Project")
    "c" '(simpleclip-copy :which-key "Copy to Clipboard")
    "d" '(ranger :which-key "File Ranger")
    "e" '(flycheck-list-errors-toggle :which-key "Toggle Error List")
@@ -705,6 +721,7 @@
    "pp" '(helm-resume :which-key "Helm Resume")
    "ps" '(helm-do-ag-project-root :which-key "Search in Project")
    "pm" '(magit-status :which-key "Git Status")
+   "pm" '(magit-status :which-key "Git Status")
    "pw" '(helm-swoop :which-key "Helm Swoop"))
 
 
@@ -726,6 +743,7 @@
    :prefix gleader
    :non-normal-prefix gleader-non
    "l"  '(nil :which-key "Line Manipulation")
+   "la" '(toggle-artist-mode :which-key "Draw With Cursor [Emacs Mode]")
    "lc" '(rainbow-mode :which-key "Toggle Color Codes")
    "le" '(epa-encrypt-region :which-key "Encrypt Selection")
    "ld" '(epa-decrypt-region :which-key "Decrypt Selection")
@@ -734,6 +752,7 @@
    "lm" '(term-toggle-mode :which-key "(Terminal Only) Toggle Line/Character Mode")
    "lr" '(linum-relative-toggle :which-key "Toggle Relative Numbers")
    "ls" '(delete-trailing-whitespace :which-key "Delete Trailing Whitespaces")
+   "lt" '(toggle-php-flavor-mode :which-key "Toggle PHP/Web Mode Highlighting")
    "lw" '(toggle-truncate-lines :which-key "Toggle Line Wrapping"))
 
 
