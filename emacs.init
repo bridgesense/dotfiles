@@ -240,7 +240,7 @@
               (setq show-trailing-whitespace nil)
               (autopair-mode -1)
               (define-key term-raw-map (kbd "M-v") 'simpleclip-paste)
-              ;; use C-c c-e for term-send-esc
+              (define-key term-raw-map (kbd "<escape>") 'term-send-esc)
               (define-key term-raw-map (kbd "<delete>") 'term-send-backspace)
               (define-key term-raw-map (kbd "<backspace>") 'term-send-backspace))))
 (defun term-toggle-mode ()
@@ -276,8 +276,9 @@
 (use-package web-mode :ensure t
   :diminish web-mode
   :config
-  (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
+  (add-to-list 'auto-mode-alist '("\\.phtml\\'" . php-mode))
+  (add-to-list 'auto-mode-alist '("\\.tpl\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
