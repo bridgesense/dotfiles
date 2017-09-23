@@ -116,9 +116,6 @@
 
 ;; Evil Vim & Plugins
 ;; # # # # # # # # # # #
-(add-hook 'geben-mode-hook 
-          (lambda () 
-            (evil-set-initial-state 'geben-mode 'emacs)))
 (use-package evil :ensure t :diminish evil-mode
   :config
   (evil-mode 1))
@@ -210,12 +207,12 @@
 (add-hook 'org-mode-hook
           (lambda ()
             (define-key evil-normal-state-map (kbd "C-h") 'org-metaleft)
-            (define-key evil-normal-state-map (kbd "C-j") 'org-metaup)
-            (define-key evil-normal-state-map (kbd "C-k") 'org-metadown)
+            (define-key evil-normal-state-map (kbd "C-k") 'org-metaup)
+            (define-key evil-normal-state-map (kbd "C-j") 'org-metadown)
             (define-key evil-normal-state-map (kbd "C-l") 'org-metaright)
             (define-key evil-normal-state-map "H" 'org-shiftleft)
-            (define-key evil-normal-state-map "J" 'org-shiftup)
-            (define-key evil-normal-state-map "K" 'org-shiftdown)
+            (define-key evil-normal-state-map "K" 'org-shiftup)
+            (define-key evil-normal-state-map "J" 'org-shiftdown)
             (define-key evil-normal-state-map "L" 'org-shiftright)
             (define-key evil-normal-state-map (kbd "TAB") 'org-cycle)))
 ;; Artist Mode
@@ -534,10 +531,10 @@
 (use-package geben :ensure t
   :diminish geben-mode
   :config
-  (add-hook 'geben-mode-hook
-            (lambda ()
-              (evil-set-initial-state 'geben-mode 'emacs)))
-  (setq geben-dbgp-default-port 9041))
+  (setq geben-dbgp-default-port 9041)
+  (add-hook 'geben-mode-hook 
+          (lambda () 
+            (evil-set-initial-state 'geben-mode 'emacs))))
 
 
 ;; Rangerlike File Browser
