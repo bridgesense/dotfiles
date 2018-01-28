@@ -603,14 +603,15 @@
 (setq gleader-non "C-,")
 (use-package general :ensure t
   :config
-  (general-evil-setup t)
-
+  (general-evil-setup)
+  (general-override-mode)
 
   ;; Single Key Functions (YADR Remnants)
   (general-define-key
-   :states '(normal motion insert emacs)
-   :prefix gleader
+   :prefix gleader 
    :non-normal-prefix gleader-non
+   :states '(normal visual motion insert emacs)
+   :keymaps 'override 
    "," '(helm-M-x :which-key "Search for Command")
    ";" '(evil-commentary :which-key "Un/Comment")
    "[" '(shrink-window-horizontally :which-key "Contract Window")
@@ -632,9 +633,10 @@
 
   ;; Window Functions
   (general-define-key
-   :states '(normal motion insert emacs)
-   :prefix gleader
+   :prefix gleader 
    :non-normal-prefix gleader-non
+   :states '(normal visual motion insert emacs)
+   :keymaps 'override 
    "w"  '(nil :which-key "Window Operations")
    "wd" '(delete-window :which-key "Kill Window")
    "wc" '(delete-other-windows :which-key "Clear All but Currenet")
@@ -657,18 +659,20 @@
 
   ;; Options
   (general-define-key
-   :states '(normal motion insert emacs)
-   :prefix gleader
+   :prefix gleader 
    :non-normal-prefix gleader-non
+   :states '(normal visual motion insert emacs)
+   :keymaps 'override 
    "O"  '(nil :which-key "Options")
    "Ot" '(toggle-light-dark-theme :which-key "Toggle Dark/Light Theme"))
 
 
   ;; Buffer Functions
   (general-define-key
-   :states '(normal motion insert emacs)
-   :prefix gleader
+   :prefix gleader 
    :non-normal-prefix gleader-non
+   :states '(normal visual motion insert emacs) 
+   :keymaps 'override 
    "b"  '(nil :which-key "Buffer Operations")
    "bb" '(helm-buffers-list :which-key "List/Create Buffers")
    "bj" '(ace-jump-char-mode :which-key "Jump to Character")
@@ -681,9 +685,10 @@
 
   ;; Applicaitons
   (general-define-key
-   :states '(normal motion insert emacs)
-   :prefix gleader
+   :prefix gleader 
    :non-normal-prefix gleader-non
+   :states '(normal visual motion insert emacs)
+   :keymaps 'override
    "a"  '(nil :which-key "Application Shortcuts")
    "ai" '(erc :which-key "IRC")
    "at" '(multi-term :which-key "Terminal")
@@ -694,9 +699,10 @@
 
   ;; Geben Functions
   (general-define-key
-   :states '(normal motion insert emacs)
-   :prefix gleader
+   :prefix gleader 
    :non-normal-prefix gleader-non
+   :states '(normal visual motion insert emacs)
+   :keymaps 'override 
    "g"  '(nil :which-key "Geben (DBGp)")
    "gb" '(geben-add-current-line-to-predefined-breakpoints :which-key "Add Breakpoint")
    "gc" '(geben-clear-predefined-breakpoints :which-key "Clear Breakpoints")
@@ -708,9 +714,10 @@
 
   ;; Project Functions
   (general-define-key
-   :states '(normal motion insert emacs)
-   :prefix gleader
+   :prefix gleader 
    :non-normal-prefix gleader-non
+   :states '(normal visual motion insert emacs)
+   :keymaps 'override 
    "p"  '(nil :which-key "Project Commands")
    "pd" '(helm-do-ag :which-key "Search in Directory")
    "ph" '(magit-log-buffer-file :which-key "History of Buffer")
@@ -725,9 +732,10 @@
 
   ;; File Functions
   (general-define-key
-   :states '(normal motion insert emacs)
-   :prefix gleader
+   :prefix gleader 
    :non-normal-prefix gleader-non
+   :states '(normal visual motion insert emacs)
+   :keymaps 'override 
    "f"  '(nil :which-key "File Operations")
    "ff" '(helm-find-files :which-key "Open File")
    "fd" '(deer :which-key "File Browser")
@@ -737,9 +745,10 @@
 
   ;; Line Functions
   (general-define-key
-   :states '(normal motion insert emacs)
-   :prefix gleader
+   :prefix gleader 
    :non-normal-prefix gleader-non
+   :states '(normal visual motion insert emacs)
+   :keymaps 'override 
    "l"  '(nil :which-key "Line Manipulation")
    "la" '(toggle-artist-mode :which-key "Draw With Cursor [Emacs Mode]")
    "lc" '(rainbow-mode :which-key "Toggle Color Codes")
@@ -756,9 +765,10 @@
 
   ;; Org Mode Controls
   (general-define-key
-   :states '(normal motion insert emacs)
-   :prefix gleader
+   :prefix gleader 
    :non-normal-prefix gleader-non
+   :states '(normal visual motion insert emacs)
+   :keymaps 'override 
    "o"  '(nil :which-key "Org-Mode Scheduler")
    "oo" '(org-agenda :which-key "Agenda View")
    "oa" '(org-ctrl-c-ctrl-c :which-key "Activate (C-c)")
@@ -776,16 +786,16 @@
 
   ;; Word Functions
   (general-define-key
-   :states '(normal motion insert emacs)
-   :prefix gleader
+   :prefix gleader 
    :non-normal-prefix gleader-non
+   :states '(normal visual motion insert emacs)
+   :keymaps 'override 
    "W"  '(nil :which-key "Word Functions")
    "Ws" '(flyspell-mode :which-key "View Spelling Errors")
    "Wc" '(helm-flyspell-correct :which-key "Correct Spelling")
    "Wd" '(define-word-at-point :which-key "See Definition")
    "Wt" '(synonymous-synonyms :which-key "See Synonyms")
-   "Wa" '(synonymous-antonyms :which-key "See Antonyms"))
-
-  )
+   "Wa" '(synonymous-antonyms :which-key "See Antonyms")) 
+)
 
 ;; Warning!  Any lines modified below this point may be overwritten.
