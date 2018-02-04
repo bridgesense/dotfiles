@@ -127,9 +127,9 @@ if [ "$action" == "install" ]; then
             brew install aspell --with-lang-en
             # fixes the cruddy looking font in Emacs on MacOS
             defaults write org.gnu.Emacs AppleFontSmoothing -int 0
-            brew cask install gpgtools-beta
-            brew cask install emacs-mac
-            brew cask install font-source-code-pro
+            brew tap caskroom/versions && brew cask install gpg-suite-beta
+            brew tap railwaycat/emacsmacport && brew cask install emacs-mac
+            brew tap caskroom/fonts && brew cask install font-source-code-pro
         fi
 
         echo '# tmux status options'>> $dir/tmux.conf
