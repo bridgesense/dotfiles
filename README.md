@@ -35,7 +35,7 @@ curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/emacs.init > 
 #### On MacOS [Homebrew](https://brew.sh) has a nice [Cask](https://caskroom.github.io) package for an GUI Emacs
 
 ```bash
-brew cask install emacs-mac
+brew tap railwaycat/emacsmacport && brew cask install emacs-mac
 ```
 
 What's Included:
