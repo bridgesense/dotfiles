@@ -166,7 +166,7 @@ if [ "$action" == "install" ]; then
     done
     cat ~/.bashrc > $dir/bashrc 2>/dev/null
     cat ~/.bash_profile > $dir/bash_profile 2>/dev/null
-    if [! grep -q "~/.bashrc" $dir/bash_profile] && [! grep -q "~/.bash_profile" $dir/bashrc]; then
+    if ! grep -q "~/.bashrc" $dir/bash_profile && ! grep -q "~/.bash_profile" $dir/bashrc; then
         cat $dir/bash/bashrc >> $dir/bashrc 2>/dev/null
         echo "source ~/.bashrc" >> $dir/bash_profile 2>/dev/null
     elif ! grep -q "~/.bashrc" $dir/bash_profile; then
