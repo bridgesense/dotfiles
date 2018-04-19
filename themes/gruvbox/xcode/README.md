@@ -1,56 +1,21 @@
-# Gruvbox for Xcode
+# Gruvbox Theme for Xcode!
 
-## How to Install
+An Xcode theme that colour-matches the wonderful gruvbox theme for vim! [The gruvbox vim repo](https://github.com/morhetz/gruvbox) describes its theme as: 
 
-1. Create Xcode custom themes folder: `~/Library/Developer/Xcode/UserData/FontAndColorThemes/`
+> Designed as a bright theme with pastel 'retro groove' colors and light/dark mode switching in the way of solarized. The main focus when developing gruvbox is to keep colors easily distinguishable, contrast enough and still pleasant for the eyes.
 
-    ```
-    $ mkdir -p ~/Library/Developer/Xcode/UserData/FontAndColorThemes/
-    ```
-1. Download `*.dvtcolortheme` files to this folder.
-1. Restart Xcode. Gruvbox dark and light themes will appear in *Fonts & Colors* list in Xcode Preferences.
+## Installation
+1. Download the [.zip file](https://github.com/jstheoriginal/gruvbox-theme-for-xcode/archive/master.zip) from this repo.
+1. Close Xcode.
+1. Open Finder then from the menu bar choose `Go` -> `Go to folder...`.
+1. Paste `~/Library/Developer/Xcode/UserData/FontAndColorThemes/` into the pop-up to open your Xcode themes folder. If this folder does not yet exist, you will need to create it first.
+1. Copy the unzipped `Gruvbox.dvtcolortheme` file into the folder.
+1. Open Xcode and go to Xcode > `Preferences...`
+1. Under `Fonts & Colors`, choose `Gruvbox` from the list and apply it.
+1. Enjoy!
 
-Alternatively, you can also create symbolic links to your copy of Xcode `*.dvtcolortheme` files inside `FontAndColorThemes` folder.
+_**Note:** The theme is set to use SF Mono (San Francisco Mono). The font used in the screenshot is [DejaVu Sans Mono for Powerline](https://github.com/powerline/fonts/tree/master/DejaVuSansMono) if you want to use it._
 
-For example,
+## Screenshot
 
-1. Clone `gruvbox-contrib`
-2. `cd gruvbox-contrib/xcode`
-3. Then
-	```
-    ln -s `pwd`/"Gruvbox Dark (SF Mono 11).dvtcolortheme" ~/Library/Developer/Xcode/UserData/FontAndColorThemes/"Gruvbox Dark (SF Mono 11).dvtcolortheme"
-    ```
-
-If you are using fish shell, you can use this loop,
-
-```fish
-for file in *
-    echo $file
-    ln -s ""(pwd)/$file ~/Library/Developer/Xcode/UserData/FontAndColorThemes/$file""
-end
-```
-
-## Fonts
-
-Xcode themes have fonts embedded in them. Follow these steps to change font or font size,
-
-Say you want to use Menlo font with 11.0 pt size.
-
-1. Create a copy of `Gruvbox Dark (Inconsolata 14).dvtcolortheme`
-2. Open it in your favorite editor
-3. Replace all instances of `Inconsolata - 14.0` with `Menlo-Regular - 11.0`
-4. Save file and restart Xcode
-
-## Inconsolata Font
-
-You can install [Inconsolata](http://levien.com/type/myfonts/inconsolata.html) font using `brew cask`. First make sure you have [`brew`](http://brew.sh/) and [`Cask`](https://caskroom.github.io/) installed. Then follow these steps,
-
-1. `brew tap caskroom/fonts`
-1. `brew cask install font-inconsolata`
-
-## Acknowledgements
-
-Xcode themes were generated with the help of following projects,
-
-1. [jameshurst/gruvbox-templates](https://github.com/jameshurst/gruvbox-templates/)
-2. [talha131/gruvbox-templates](https://github.com/talha131/gruvbox-templates)
+![A preview of the gruvbox Xcode Theme](https://github.com/jstheoriginal/gruvbox-theme-for-xcode/blob/master/Preview.png)
