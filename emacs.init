@@ -510,8 +510,8 @@
 (use-package helm-ag :ensure t
   :config
   (custom-set-variables
-   '(helm-ag-base-command "ack --nocolor --nogroup")))
-
+    '(helm-ag-base-command "ag --nocolor --nogroup"))) 
+    ;;'(helm-ag-base-command "ack --nocolor --nogroup")))
 
 ;; Dashboard
 ;; # # # # # # # # # # #
