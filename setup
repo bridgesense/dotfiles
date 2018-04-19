@@ -123,7 +123,7 @@ if [ "$action" == "install" ]; then
                 brew install vim --with-lua --with-override-system-vi
             fi
 
-            brew install tmux reattach-to-user-namespace the_silver_searcher openssl boris
+            brew install tmux reattach-to-user-namespace the_silver_searcher ack openssl boris
             # next line fixes bug with newest changes to MacOS security
             ln -s `brew --prefix openssl`/bin/openssl /usr/local/bin/openssl 2>/dev/null
             brew install aspell --with-lang-en
