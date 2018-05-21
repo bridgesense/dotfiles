@@ -34,16 +34,16 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:height 140 :family "Source Code Pro"))))
- '(org-document-title ((t (:inherit default :weight bold :foreground "black" :font "Lucida Grande" :height 1.5 :underline nil))))
- '(org-level-1 ((t (:inherit default :weight bold :font "Lucida Grande" :height 1.25))))
- '(org-level-2 ((t (:inherit default :weight bold :font "Lucida Grande" :height 1.15))))
- '(org-level-3 ((t (:inherit default :weight bold :font "Lucida Grande" :height 1.1))))
- '(org-level-4 ((t (:inherit default :weight bold :font "Lucida Grande"))))
- '(org-level-5 ((t (:inherit default :weight bold :font "Lucida Grande"))))
- '(org-level-6 ((t (:inherit default :weight bold :font "Lucida Grande"))))
- '(org-level-7 ((t (:inherit default :weight bold :font "Lucida Grande"))))
- '(org-level-8 ((t (:inherit default :weight bold :font "Lucida Grande")))))
+ '(default ((t (:height 140 :family "Source Code Pro" "Monaco" "Dejavu Sans Mono"))))
+ '(org-document-title ((t (:inherit default :weight bold :foreground "black" :height 1.5 :underline nil))))
+ '(org-level-1 ((t (:inherit default :weight bold :height 1.25))))
+ '(org-level-2 ((t (:inherit default :weight bold :height 1.15))))
+ '(org-level-3 ((t (:inherit default :weight bold :height 1.1))))
+ '(org-level-4 ((t (:inherit default :weight bold))))
+ '(org-level-5 ((t (:inherit default :weight bold))))
+ '(org-level-6 ((t (:inherit default :weight bold))))
+ '(org-level-7 ((t (:inherit default :weight bold))))
+ '(org-level-8 ((t (:inherit default :weight bold)))))
 (set-frame-parameter (selected-frame) 'alpha '(95 . 95))
 (add-to-list 'default-frame-alist '(alpha . (95 . 95)))
 
