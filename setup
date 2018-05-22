@@ -131,13 +131,13 @@ if [ "$action" == "install" ]; then
             defaults write org.gnu.Emacs AppleFontSmoothing -int 0
             brew cask install gpg-suite
             brew tap railwaycat/emacsmacport && brew cask install emacs-mac
-            brew tap caskroom/fonts && brew cask install font-source-code-pro
+            brew tap caskroom/fonts && brew cask install font-dejavu-sans
         fi
 
         echo '# tmux status options'>> $dir/tmux.conf
         echo "set -g status-right '#($dir/tmux/plugin/tmux-status/tmux-status.sh $dir/tmux/tmux-status.conf)'" >> $dir/tmux.conf
     elif [[ "$(uname)" == "Linux" ]]; then
-        echo "Linux detected..."
+        echo "Gnu/Linux detected..."
     else
         rm -rf $dir
         echo "I'm sorry, but your OS isn't supported yet."
@@ -194,7 +194,7 @@ if [ "$action" == "install" ]; then
     done
 
     if [[ "$(uname)" != "Darwin" ]]; then
-        echo "This script does not install packages for tmux or Vim with Lua support on Linux. That's something you might look into."
+        echo "This script does not install ack, emacs, tmux or Vim with Lua support on Linux. That's something you might look into."
     fi
 
     echo "The dotfiles are installed. Restart the terminal or re-login to remote deployment to see changes."
