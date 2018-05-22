@@ -34,7 +34,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:height 140 :family "Source Code Pro" "Monaco" "Dejavu Sans Mono"))))
+ '(default ((t (:height 140 :family "Dejavu Sans Mono" "Monaco"))))
  '(org-document-title ((t (:inherit default :weight bold :foreground "black" :height 1.5 :underline nil))))
  '(org-level-1 ((t (:inherit default :weight bold :height 1.25))))
  '(org-level-2 ((t (:inherit default :weight bold :height 1.15))))
@@ -510,8 +510,9 @@
 (use-package helm-ag :ensure t
   :config
   (custom-set-variables
-    '(helm-ag-base-command "ag --nocolor --nogroup"))) 
-    ;;'(helm-ag-base-command "ack --nocolor --nogroup")))
+    ;;bug in ag not on first search 
+    ;;'(helm-ag-base-command "ag --nocolor --nogroup"))) 
+    '(helm-ag-base-command "ack --nocolor --nogroup")))
 
 ;; Dashboard
 ;; # # # # # # # # # # #
