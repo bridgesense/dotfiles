@@ -188,8 +188,6 @@
 (setq auto-save-default nil)
 ;; Symmetric File Encryption
 (require 'epa-file)
-;;GPG Workaround for MacOS
-;;(custom-set-variables '(epg-gpg-program  "/usr/local/bin/gpg"))
 (epa-file-enable)
 ;;(setq epa-file-select-keys nil)
 ;; Theme Conventions for Org Mode
@@ -248,7 +246,10 @@
   (if (term-in-line-mode)
       (term-char-mode)
     (term-line-mode)))
-
+(use-package exec-path-from-shell :ensure t
+  :config
+  (when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize)))
 
 ;; smooth scrolling
 ;; # # # # # # # # # # #
