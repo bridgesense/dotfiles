@@ -130,7 +130,7 @@ if [ "$action" == "install" ]; then
             # fixes the cruddy looking font in Emacs on MacOS
             defaults write org.gnu.Emacs AppleFontSmoothing -int 0
             brew cask install gpg-suite
-            brew tap railwaycat/emacsmacport && brew cask install emacs-mac
+            brew cask install emacs
             brew tap caskroom/fonts && brew cask install font-dejavu-sans
         fi
 
