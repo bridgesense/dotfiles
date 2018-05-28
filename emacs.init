@@ -188,6 +188,8 @@
 (setq auto-save-default nil)
 ;; Symmetric File Encryption
 (require 'epa-file)
+;;GPG Workaround for MacOS
+;;(custom-set-variables '(epg-gpg-program  "/usr/local/bin/gpg"))
 (epa-file-enable)
 ;;(setq epa-file-select-keys nil)
 ;; Theme Conventions for Org Mode
