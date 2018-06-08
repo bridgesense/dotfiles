@@ -1,3 +1,5 @@
+### NOTICE: My dotfiles are now being maintained at [https://gitlab.com/bridgesense/dotfiles](https://gitlab.com/bridgesense/dotfiles)
+
 # YADRLite #
 
 Credit:
