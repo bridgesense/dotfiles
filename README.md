@@ -61,9 +61,9 @@ Emacs has a huge performance advantage over Vi.  This configuration includes the
 
 Emacs Shortcuts
 --- 
-The [General](https://github.com/noctuid/general.el) plugin has been included with this Emacs configuration. There is no need to hold the comma (the leader key borrowed from YADR) before pressing the second character. The following shortcuts can be selected concurrantly in the order presented which is a nice alternative to the Emacs Pinky.  
+The [General](https://github.com/noctuid/general.el) plugin has been included with this Emacs configuration. There is no need to hold the comma down (the leader key borrowed from YADR) before pressing the next key. The following shortcuts can be typed concurrantly in the order presented which is a nice alternative to the Emacs Pinky.  
         
-### Single Key Shortcuts:
+#### Single Key Shortcuts:
 * `,,` Search for a command, M-X equivalentThe f
 * `,;` Comment or uncomment code blocks
 * `,[` Contract vertically split Window
@@ -81,13 +81,13 @@ The [General](https://github.com/noctuid/general.el) plugin has been included wi
 * `,x` Cycle to next buffer
 * `,z` Cycle to previous buffer           
 
-### Buffer Shortcuts:
+#### Buffer Shortcuts:
 * `,bb` List/Create buffers
 * `,bs` Save buffer
 * `:w` Save buffer, VIM equivalent
 * `,br` Refresh buffer
 
-### Window Shortcuts:
+#### Window Shortcuts:
 * `,wd` Delete windown
 * `,wc` Delete all other windows except current window
 * `,wf` Toggle Emacs full screen
@@ -106,14 +106,14 @@ The [General](https://github.com/noctuid/general.el) plugin has been included wi
 * `,wv` Split window vertically
 * `,wx` Close screen                                
 
-### Emacs Applications:
+#### Emacs Applications:
 * `,ai` Open IRC
 * `,at` Open a terminal
 * `,am` Open Gnus for News/Email
 * `,ap` Open a PHP scratch pad or interactive shell, requires Boris
 * `,aw` Browse the web from Emacs
 
-### Geben (Xdebug) Shortcuts:
+#### Geben (Xdebug) Shortcuts:
 * `,gb` Add Breakpoint to current line
 * `,gc` Clear all breakpoints
 * `,gm` Setup path mapping ([see explanation](https://gitlab.com/bridgesense/lampready#emacs-geben-settings))
@@ -122,7 +122,7 @@ The [General](https://github.com/noctuid/general.el) plugin has been included wi
 * `,gv` View context 
 * `,gx` Stop Geben    
 
-### Line Shortcuts:
+#### Line Shortcuts:
 * `,la` Artist mode, draw on screen with cursor
 * `,lc` Toggle HTML color codes
 * `,le` Encrypt selection
@@ -135,10 +135,10 @@ The [General](https://github.com/noctuid/general.el) plugin has been included wi
 * `,lt` Toggle PHP/Web mode highlighting
 * `,lw` Toggle line wrapping    
 
-### Emacs Display Options:
+#### Emacs Display Options:
 * `,Ot` Toggle Dark/Light Theme
 
-### Org-Mode Shortcuts: 
+#### Org-Mode Shortcuts: 
 * `,oo` Agenda View, be sure to adjust position wth org-agenda-file-to-front 
 * `,oa` Activate current line
 * `,od` Schedule deadline
@@ -152,7 +152,7 @@ The [General](https://github.com/noctuid/general.el) plugin has been included wi
 * `,os` Stop task
 * `,ox` Cancel clock        
 
-### Project Shortcuts: 
+#### Project Shortcuts: 
 * `,pd` Search in directory
 * `,ph` History of buffer
 * `,pf` Fuzzy file finder (CtrlP)
@@ -162,7 +162,7 @@ The [General](https://github.com/noctuid/general.el) plugin has been included wi
 * `,pm` Git status with Magit
 * `,pw` Swoop
 
-### Word Shortcuts:
+#### Word Shortcuts:
 * `,Ws` View spelling errors
 * `,Wc` Correct spelling of word under cursor
 * `,Wd` See definition of word under cursor
@@ -174,7 +174,7 @@ Tmux Shortcuts
 ---
 The leader key Ctrl-a can be followed by the next key concurrently without holding them all down at once.
     
-### General Shortcuts:
+#### General Shortcuts:
 * `Ctrl-a d` Detatch from current session and close Tmux.  Run `tmux attach` to resume later.
 * `Ctrl-a h` Focus on window left of the current one
 * `Ctrl-a j` Focus on window above the current one
@@ -191,7 +191,7 @@ The leader key Ctrl-a can be followed by the next key concurrently without holdi
 VIM Shortcuts
 ---    
 
-### Buffer and Screen Navigation:
+#### Buffer and Screen Navigation:
 * `,z` - go to previous buffer (:bp)
 * `,x` - go to next buffer (:bn)
 * Use `Cmd-1` thru `Cmd-9` to switch to a specific tab number (like iTerm and Chrome) - and tabs have been set up to show numbers (`Alt` in Linux)
@@ -202,7 +202,7 @@ VIM Shortcuts
 * `,qo` - open quickfix window (this is where output from Grep goes)
 * `,qc` - close quickfix
     
-### Code/Search Navigation:
+#### Code/Search Navigation:
 * `Cmd-j` and `Cmd-k` to move up and down roughly by functions (`Alt` in Linux)
 * `Ctrl-o` - Old cursor position - this is a standard mapping but very useful, so included here
 * `Ctrl-i` - opposite of Ctrl-O (again, this is standard)
@@ -225,7 +225,7 @@ VIM Shortcuts
 * Spacebar - Sneak - type two characters to move there in a line. Kind of like vim's `f` but more accurate.
 * `:Gsearch foo` - global search, then do your normal `%s/search/replace/g` and follow up with `:Greplace` to replace across all files. When done use `:wall` to write all the files.
 
-### File Navigation:
+#### File Navigation:
 * `,t` - CtrlP fuzzy file selector
 * `,b` - CtrlP buffer selector - great for jumping to a file you already have open
 * `Cmd-Shift-M` - jump to method - CtrlP tag search within current buffer
@@ -234,14 +234,14 @@ VIM Shortcuts
 * `,n` - Show current file in NERDTree
 * `Cmd-Shift-P` - Clear CtrlP cache
 
-### Better keystrokes for common editing commands:  
+#### Better keystrokes for common editing commands:  
 * Ctrl-Space to autocomplete. Tab for snipmate snippets.
 * `,#` `,"` `,'` `,]` `,)` `,}` to surround a word in these common wrappers. the # does #{ruby interpolation}. works in visual mode (thanks @cj). Normally these are done with something like `ysw#`
 * `Cmd-'`, `Cmd-"`, `Cmd-]`, `Cmd-)`, etc to change content inside those surrounding marks. You don't have to be inside them (`Alt` in Linux)
 * `,.` to go to last edit location (same as `'.`) because the apostrophe is hard on the pinky
 * `,ci` to change inside any set of quotes/brackets/etc
 
-### Misc:
+#### Misc:
 * `Ctrl-p` after pasting - Use `p` to paste and `Ctrl-p` to cycle through previous pastes.
 * `,yw` - yank a word from anywhere within the word (so you don't have to go to the beginning of it)
 * `,ow` - overwrite a word with whatever is in your yank buffer - you can be anywhere on the word. saves having to visually select it
@@ -250,6 +250,6 @@ VIM Shortcuts
 * `:Wrap` - wrap long lines (e.g. when editing markdown files)
 * `Cmd-/` - toggle comments (usually gcc from tComment) (`Alt` in Linux)
 
-### Vim Dev:
+#### Vim Dev:
 * `,vc` - (Vim Command) copies the command under your cursor and executes it in vim. Great for testing single line changes to vimrc.
 * `,vr` - (Vim Reload) source current file as a vim file
