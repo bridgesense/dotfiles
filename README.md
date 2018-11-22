@@ -58,6 +58,7 @@ Emacs 24.4 or higher is preferred.
     
 Emacs has a huge performance advantage over Vi.  This configuration includes the [Evil](https://www.emacswiki.org/emacs/Evil) package which emulates Vim's modal functionality.  In Evil mode Emacs shares keybindings familiar to the YADR package.  Switching between Emacs and Evil mode is done by C-z. There is inline documentation with live hints for ease of discovery.  After entering Emacs just hit the leader key (,) to get started.  Hit the leader key twice for a fuzzy command search.
 
+
 Emacs Shortcuts
 --- 
 The [General](https://github.com/noctuid/general.el) plugin has been included with this Emacs configuration. There is no need to hold the comma (the leader key borrowed from YADR) before pressing the second character. The following shortcuts can be selected concurrantly in the order presented which is a nice alternative to the Emacs Pinky.  
@@ -148,14 +149,14 @@ The [General](https://github.com/noctuid/general.el) plugin has been included wi
 * `,oj` Jump to running task
 * `,ot` Start task
 * `,or` Show report
-* ',os` Stop task
+* `,os` Stop task
 * `,ox` Cancel clock        
 
 ### Project Shortcuts: 
 * `,pd` Search in directory
 * `,ph` History of buffer
 * `,pf` Fuzzy file finder (CtrlP)
-* `,pP' Open recent project
+* `,pP` Open recent project
 * `,pp` Resume previous search/filter 
 * `,ps` Search in current project
 * `,pm` Git status with Magit
@@ -167,7 +168,8 @@ The [General](https://github.com/noctuid/general.el) plugin has been included wi
 * `,Wd` See definition of word under cursor
 * `,Wt` See synonyms (thesaurus) of word under cursor
 * `,Wa` See antonyms of word under cursor
-                 
+              
+              
 Tmux Shortcuts
 ---
 The leader key Ctrl-a can be followed by the next key concurrently without holding them all down at once.
@@ -184,6 +186,7 @@ The leader key Ctrl-a can be followed by the next key concurrently without holdi
 * `Ctrl-a L` Shift current window pane right   
 * `Ctrl-a s` Create new window horizontally below current one 
 * `Ctrl-a v` Create new window vertically to right of current one
+         
          
 VIM Shortcuts
 ---    
