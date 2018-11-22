@@ -76,7 +76,7 @@ The [General](https://github.com/noctuid/general.el) plugin has been included wi
 * `,jx` Jump to character x
 * `,n` Browse current directory, Nerdtree equivalent
 * `,q` Kill current buffer
-* `:q` or `:q!` Kill current buffer, VIM equivalent
+* `:q` or `:q!` Kill current buffer, Note: all standard VIM controls apply
 * `,Q` Quit Emacs
 * `,x` Cycle to next buffer
 * `,z` Cycle to previous buffer           
