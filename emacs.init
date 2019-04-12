@@ -1,4 +1,4 @@
-;; ~/.emacs --- Emacs Inititialization File
+; ~/.emacs --- Emacs Inititialization File
 ;;; Commentary:
 ;; This script contains a collection of shortcuts influenced by YADR.  Auto-popup
 ;; documentation is provided to introduce new users to the key shortcuts.
@@ -34,7 +34,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:height 140 :family "Dejavu Sans Mono" "Monaco"))))
+ '(default ((t (:height 120 :family "Dejavu Sans Mono" "Monaco"))))
  '(org-document-title ((t (:inherit default :weight bold :foreground "black" :height 1.5 :underline nil))))
  '(org-level-1 ((t (:inherit default :weight bold :height 1.25))))
  '(org-level-2 ((t (:inherit default :weight bold :height 1.15))))
@@ -78,7 +78,6 @@
 ;; Treat clipboard input as UTF-8 string first; compound text next, etc.
 (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
-
 ;; Package Management
 ;; # # # # # # # # # # #
 (unless (package-installed-p 'use-package)
@@ -97,21 +96,10 @@
 (use-package csv-mode :ensure t)
 
 
-;; SimpleClip
 ;; # # # # # # # # # # #
 ;; Fixes cut/paste in Ansi-Terminal and other places
-(use-package simpleclip :ensure t
-  :diminish simpleclip-mode
-  :config
-  (simpleclip-mode 1)
-  (global-set-key [M-v] 'simpleclip-paste)
-  ;; osx clipboard fix for GUI and Terminal
-  (if (eq system-type 'darwin)
-      (defun simpleclip-set-contents
-          (str-val)
-        (with-temp-buffer
-          (insert str-val)
-          (call-process-region (point-min) (point-max) "/usr/bin/pbcopy"))))) 
+(setq x-select-enable-clipboard t)
+(setq x-select-enable-primary t)
 
 
 ;; Evil Vim & Plugins
@@ -128,7 +116,13 @@
   :diminish evil-commentary-mode
   :config
   (evil-commentary-mode 1))
-
+(define-key evil-normal-state-map (kbd "C-v") 'clipboard-yank)
+;; browse in emacs mode
+(add-hook 'eww-mode-hook
+            (lambda ()
+              (evil-set-initial-state 'eww-mode 'emacs)))
+;; Helps prevent excess cpu during visual mode 
+(setq auto-window-vscroll nil)
 
 ;; More Vim-like
 ;; # # # # # # # # # # #
@@ -160,9 +154,9 @@
               (bind-key "<escape>" 'helm-keyboard-quit helm-map)
               (bind-key "<escape>" 'helm-keyboard-quit helm-comp-read-map)
               ;; adds paste functionality to helm
-              (define-key isearch-mode-map (kbd "M-v") 'simpleclip-paste)
-              (define-key helm-map (kbd "M-v") 'simpleclip-paste)
-              (define-key helm-comp-read-map (kbd "M-v") 'simpleclip-paste))) 
+              (define-key isearch-mode-map (kbd "C-v") 'clipboard-yank)
+              (define-key helm-map (kbd "C-v") 'clipboard-yank)
+              (define-key helm-comp-read-map (kbd "C-v") 'clipboard-yank)))
   (helm-mode 1))
 
 
@@ -178,8 +172,6 @@
 ;; # # # # # # # # # # #
 ;; Set Clock Format
 (setq org-time-clocksum-format (quote (:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t)))
-;; For PDF printing on MacOS
-(setenv "PATH" (concat (getenv "PATH") ":/Library/TeX/texbin"))
 ;; Symmetric Inline Encryption
 (require 'org-crypt)
 (org-crypt-use-before-save-magic)
@@ -199,7 +191,7 @@
   (add-hook 'org-mode-hook
             (lambda ()
               (org-bullets-mode 1)
-              (local-set-key (kbd "M-v") 'simpleclip-paste)
+              (local-set-key (kbd "C-v") 'clipboard-yank)
               )))
 ;; Org Mode Timing Drawer
 (setq org-clock-into-drawer t)
@@ -233,10 +225,13 @@
   (add-hook 'term-mode-hook
             (lambda ()
               (evil-set-initial-state 'term-mode 'emacs)
-              (setq term-buffer-maximum-size 10000)
+              (setq term-buffer-maximum-size 25000)
               (setq show-trailing-whitespace nil)
+              (prefer-coding-system 'utf-8)
               (autopair-mode -1)
-              (define-key term-raw-map (kbd "M-v") 'simpleclip-paste)
+              (define-key term-raw-map (kbd "C-v") 'term-paste)
+              (define-key term-raw-map (kbd "<prior>") 'scroll-down)
+              (define-key term-raw-map (kbd "<next>") 'scroll-up)
               (define-key term-raw-map (kbd "<escape>") 'term-send-esc)
               (define-key term-raw-map (kbd "<delete>") 'term-send-backspace)
               (define-key term-raw-map (kbd "<backspace>") 'term-send-backspace))))
@@ -276,28 +271,43 @@
 (use-package web-mode :ensure t
   :diminish web-mode
   :config
-  (add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
-  (add-to-list 'auto-mode-alist '("\\.phtml\\'" . php-mode))
-  (add-to-list 'auto-mode-alist '("\\.tpl\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.htm[l]?\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
+  (add-to-list 'auto-mode-alist '("\\.phtml\\'" . php-mode))
+  (add-to-list 'auto-mode-alist '("\\.css\\'" . css-mode))
+  (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
+  (add-to-list 'auto-mode-alist '("\\.tpl\\'" . web-mode))
   (add-hook 'web-mode-hook
             (lambda ()
               (local-set-key '[backtab] 'indent-relative)
+              (rainbow-mode 1)
               (setq indent-tabs-mode nil)
+              (setq web-mode-enable-auto-pairing t)
+              (setq web-mode-enable-comment-interpolation t)
+              (setq web-mode-enable-heredoc-fontification t)
+              (setq web-mode-enable-current-element-highlight t)
+              (setq web-mode-enable-current-column-highlight t)
               (setq web-mode-markup-indent-offset 2
                     web-mode-css-indent-offset 2
                     web-mode-code-indent-offset 2))))
+  (add-hook 'css-mode-hook
+              (lambda ()
+                (rainbow-mode 1)))
+  (add-hook 'scss-mode-hook
+              (lambda ()
+                (rainbow-mode 1)))
 (use-package xah-css-mode :ensure t
   :diminish css-mode)
 (use-package php-mode :ensure t
   :diminish php-mode)
 (use-package coffee-mode :ensure t
   :diminish coffee-mode)
-(use-package coffee-mode :ensure t
+(use-package sass-mode :ensure t
   :diminish sass-mode)
 (use-package csv-mode :ensure t
   :diminish csv-mode)
@@ -341,8 +351,32 @@
          (web-mode))
         ((string= mode-name "Web")
          (php-mode))))
+;; Web Beautify
+(use-package web-beautify :ensure t)
+(defun beautify-code ()
+  "Beautify CSS, HTML or JS"
+  (interactive)
+  (cond
+    ((eq major-mode 'js-mode) (web-beautify-js))
+    ((eq major-mode 'json-mode) (web-beautify-js))
+    ((eq major-mode 'sgml-mode) (web-beautify-html))
+    ((eq major-mode 'web-mode) (web-beautify-html))
+    ((eq major-mode 'xah-css-mode) (web-beautify-css))
+    ((eq major-mode 'css-mode) (web-beautify-css))
+    ((eq major-mode 'scss-mode) (web-beautify-css))
+    ((indent-region (point-min) (point-max)))))
 
 
+;; Shorten Margins of Latex Exports
+(setq org-latex-packages-alist '(("margin=2cm" "geometry" nil)))
+
+
+;; Use LuaLatex instead of default 
+(setq org-latex-pdf-process
+    '("lualatex -shell-escape -interaction nonstopmode %f"
+    "lualatex -shell-escape -interaction nonstopmode %f")) 
+
+    
 ;; Help Mode
 ;; # # # # # # # # # # #
 (use-package which-key :ensure t
@@ -430,9 +464,9 @@
 ;; Line numbering on by default
 ;; (global-linum-mode 1)
 ;; Highlight current line number
-(use-package hlinum :ensure t
-  :config
-  (hlinum-activate))
+;; (use-package hlinum :ensure t
+;;  :config
+;;  (hlinum-activate))
 
 
 ;; Add relative line numbering option
@@ -504,7 +538,8 @@
 
 ;; Projectile (better than ctrlp)
 ;; # # # # # # # # # # #
-(setq projectile-indexing-method 'git)
+;; uncomment next line for MacOS
+;; (setq projectile-indexing-method 'git)
 (use-package projectile :ensure t
   :diminish projectile-mode
   :config
@@ -535,10 +570,7 @@
 (use-package geben :ensure t
   :diminish geben-mode
   :config
-  (setq geben-dbgp-default-port 9041)
-  (add-hook 'geben-mode-hook 
-          (lambda () 
-            (evil-set-initial-state 'geben-mode 'emacs))))
+  (setq geben-dbgp-default-port 9041))
 
 
 ;; Rangerlike File Browser
@@ -576,29 +608,56 @@
 (use-package evil-magit :ensure t)
 
 
-;; Autocompletion
-;; # # # # # # # # # # #
-(use-package auto-complete :ensure t
-  :diminish auto-complete-mode
-  :config
-  (ac-config-default)
-  (ac-flyspell-workaround)
-  (ac-linum-workaround)
-  (add-hook 'prog-mode-hook
-            (lambda ()
-              (add-to-list 'ac-sources 'ac-source-filename))))
+;; Auto Completion with Company
+(use-package bbdb :ensure t
+             :config
+             (setq bbdb-file "~/.bbdb")
+             (setq bbdb-complete-name-full-completion t)
+             (setq bbdb-completion-type 'primary-or-name)
+             (setq bbdb-complete-name-allow-cycling t)
+             (setq bbdb-message-all-addresses t)
+             (setq bbdb-pop-up-window-size 0.25)
+             (setq bbdb-mua-pop-up-window-size 0.25)
+             (setq bbdb-mua-update-interactive-p '(query . create))
+             (bbdb-initialize 'gnus 'message 'sendmail)
+             (add-hook 'gnus-startup-hook 'bbdb-insinuate-gnus)
+             (add-hook 'mail-setup-hook 'bbdb-insinuate-sendmail)
+             (bbdb-mua-auto-update-init 'message)
+             (setq bbdb-mua-auto-update-p 'query))
+;; auto-complete emacs address using bbdb UI
+(add-hook 'message-mode-hook
+    '(lambda ()
+        (flyspell-mode t)
+        (local-set-key (kbd "TAB") 'bbdb-complete-name)))
+;; turn off auto carraige return after 70 chars
+(add-hook 'message-mode-hook 'turn-off-auto-fill)
+(use-package bbdb-vcard :ensure t)
+(use-package company-php :ensure t)
 (use-package ac-php :ensure t
-  :config
-  (add-hook 'php-mode-hook
-            (lambda ()
-              (auto-complete-mode t)       
-              ;;(require 'ac-php)                    
-              (yas-global-mode 1)                 
-              (setq indent-tabs-mode nil)
-              (setq c-basic-offset 4)
-              (setq php-template-compatibility nil)
-              (subword-mode 1)
-              (add-to-list 'ac-sources 'ac-source-php))))
+            :config
+            (ac-php-core-eldoc-setup)) 
+(use-package company-web :ensure t)
+(use-package company-quickhelp :ensure t)
+(use-package cl-lib :ensure t)
+(use-package hippie-exp-ext :ensure t)
+(use-package company :ensure t
+             :diminish company-mode
+             :config
+             (add-hook 'after-init-hook 'global-company-mode)
+             (add-to-list 'company-backends 'company-web)
+             (add-to-list 'company-backends 'company-quickhelp)
+             (add-to-list 'company-backends 'company-php)
+             (add-to-list 'company-backends 'company-ac-php-backend)
+             (add-to-list 'company-backends 'php-extras-company)
+             (add-to-list 'company-backends 'company-Yasnippet)
+             (add-to-list 'company-backends 'company-dabbrev)
+             (add-to-list 'company-backends 'company-capf)
+             (add-to-list 'company-backends 'company-files)
+             (setq company-tooltip-limit 20)
+             (setq company-tooltip-align-annotations 't)
+             (setq company-idle-delay .3)
+             (setq company-minimum-prefix-length 1)
+             (setq company-begin-commands '(self-insert-command)))
 
 
 ;; leader key operation
@@ -623,17 +682,26 @@
    "-" '(shrink-window :which-key "Shrink Window")
    "=" '(enlarge-window :which-key "Grow Window")
    "a" '(helm-do-ag-project-root :which-key "Search Project")
-   "c" '(simpleclip-copy :which-key "Copy to Clipboard")
    "d" '(ranger :which-key "File Ranger")
    "e" '(flycheck-list-errors-toggle :which-key "Toggle Error List")
    "j" '(ace-jump-char-mode :which-key "Jump to Character")
    "n" '(deer :which-key "Browse Current Directory")
    "q" '(kill-this-buffer :which-key "Kill Buffer")
    "Q" '(kill-emacs :which-key "Quit Emacs")
-   "v" '(simpleclip-paste :which-key "Paste from Clipboard [GUI]")
+   "r" '(bbdb :which-key "Search Rolodex")
    "x" '(next-buffer :which-key "Next Buffer")
    "z" '(previous-buffer :which-key "Previous Buffer"))
 
+  ;; Buffer Functions
+  (general-define-key
+   :prefix gleader 
+   :non-normal-prefix gleader-non
+   :states '(normal visual motion insert emacs) 
+   :keymaps 'override 
+   "b"  '(nil :which-key "Buffer Operations")
+   "bb" '(helm-buffers-list :which-key "List/Create Buffers")
+   "bs" '(save-buffer :which-key "Save Buffer")
+   "br" '(revert-buffer-no-confirm :which-key "Refresh Buffer"))
 
   ;; Window Functions
   (general-define-key
@@ -644,8 +712,6 @@
    "w"  '(nil :which-key "Window Operations")
    "wd" '(delete-window :which-key "Kill Window")
    "wc" '(delete-other-windows :which-key "Clear All but Currenet")
-   "wv" '(split-window-right :which-key "Vertical Split")
-   "ws" '(split-window-below :which-key "Horizontal Split")
    "wf" '(toggle-frame-fullscreen :which-key "Toggle Full Screen")
    "wh" '(evil-window-left :which-key "Select Window Left")
    "wj" '(evil-window-down :which-key "Select Window Above")
@@ -656,37 +722,13 @@
    "wK" '(evil-window-move-very-top :which-key "Move Window Down")
    "wL" '(evil-window-move-far-right :which-key "Move Window Right")
    "wn" '(other-frame :which-key "Switch Screens")
-   "wp" '(make-frame :which-key "Pop Out to Screen")
    "wo" '(other-window :which-key "Select Next Window")
+   "wp" '(make-frame :which-key "Pop Out to Screen")
+   "ws" '(split-window-below :which-key "Horizontal Split")
+   "wv" '(split-window-right :which-key "Vertical Split")
    "wx" '(delete-frame :which-key "Close Screen"))
 
-
-  ;; Options
-  (general-define-key
-   :prefix gleader 
-   :non-normal-prefix gleader-non
-   :states '(normal visual motion insert emacs)
-   :keymaps 'override 
-   "O"  '(nil :which-key "Options")
-   "Ot" '(toggle-light-dark-theme :which-key "Toggle Dark/Light Theme"))
-
-
-  ;; Buffer Functions
-  (general-define-key
-   :prefix gleader 
-   :non-normal-prefix gleader-non
-   :states '(normal visual motion insert emacs) 
-   :keymaps 'override 
-   "b"  '(nil :which-key "Buffer Operations")
-   "bb" '(helm-buffers-list :which-key "List/Create Buffers")
-   "bj" '(ace-jump-char-mode :which-key "Jump to Character")
-   "bs" '(save-buffer :which-key "Save Buffer")
-   "bd" '(kill-this-buffer :which-key "Kill Buffer")
-   "bn" '(next-buffer :which-key "Next Buffer")
-   "bp" '(previous-buffer :which-key "Previous Buffer")
-   "br" '(revert-buffer-no-confirm :which-key "Refresh Buffer"))
-
-
+  
   ;; Applicaitons
   (general-define-key
    :prefix gleader 
@@ -699,39 +741,6 @@
    "am" '(gnus :which-key "News/Mail")
    "ap" '(php-scratch :which-key "PHP Scratch Pad")
    "aw" '(browse-web :which-key "Browse Web"))
-
-
-  ;; Geben Functions
-  (general-define-key
-   :prefix gleader 
-   :non-normal-prefix gleader-non
-   :states '(normal visual motion insert emacs)
-   :keymaps 'override 
-   "g"  '(nil :which-key "Geben (DBGp)")
-   "gb" '(geben-add-current-line-to-predefined-breakpoints :which-key "Add Breakpoint")
-   "gc" '(geben-clear-predefined-breakpoints :which-key "Clear Breakpoints")
-   "go" '(geben :which-key "Start Geben")
-   "gm" '((lambda () (interactive) (customize-variable 'geben-path-mappings)) :which-key "Set Path Mapping")
-   "gr" '(geben-run :which-key "Continue to Breakpoint")
-   "gx" '(geben-end :which-key "Stop Geben"))
-
-
-  ;; Project Functions
-  (general-define-key
-   :prefix gleader 
-   :non-normal-prefix gleader-non
-   :states '(normal visual motion insert emacs)
-   :keymaps 'override 
-   "p"  '(nil :which-key "Project Commands")
-   "pd" '(helm-do-ag :which-key "Search in Directory")
-   "ph" '(magit-log-buffer-file :which-key "History of Buffer")
-   "pf" '(helm-projectile-find-file :which-key "Fuzzy File (CtrlP)")
-   "pP" '(helm-projectile :which-key "Open Recent Project")
-   "pp" '(helm-resume :which-key "Helm Resume")
-   "ps" '(helm-do-ag-project-root :which-key "Search in Project")
-   "pm" '(magit-status :which-key "Git Status")
-   "pm" '(magit-status :which-key "Git Status")
-   "pw" '(helm-swoop :which-key "Helm Swoop"))
 
 
   ;; File Functions
@@ -747,6 +756,22 @@
    "fp" '(helm-projectile-find-file :which-key "Find File"))
 
 
+  ;; Geben Functions
+  (general-define-key
+   :prefix gleader 
+   :non-normal-prefix gleader-non
+   :states '(normal visual motion insert emacs)
+   :keymaps 'override 
+   "g"  '(nil :which-key "Geben (DBGp)")
+   "gb" '(geben-add-current-line-to-predefined-breakpoints :which-key "Add Breakpoint")
+   "gc" '(geben-clear-predefined-breakpoints :which-key "Clear Breakpoints")
+   "gm" '((lambda () (interactive) (customize-variable 'geben-path-mappings)) :which-key "Set Path Mapping")
+   "go" '(geben :which-key "Start Geben")
+   "gr" '(geben-run :which-key "Continue to Breakpoint")
+   "gv" '(geben-display-context :which-key "View Context")
+   "gx" '(geben-end :which-key "Stop Geben"))
+
+
   ;; Line Functions
   (general-define-key
    :prefix gleader 
@@ -755,16 +780,27 @@
    :keymaps 'override 
    "l"  '(nil :which-key "Line Manipulation")
    "la" '(toggle-artist-mode :which-key "Draw With Cursor [Emacs Mode]")
+   "lb" '(beautify-code :which-key "Beautify Code")
    "lc" '(rainbow-mode :which-key "Toggle Color Codes")
    "le" '(epa-encrypt-region :which-key "Encrypt Selection")
    "ld" '(epa-decrypt-region :which-key "Decrypt Selection")
    "li" '(agressive-indent-mode :which-key "Toggle Aggressive Indenting")
-   "ln" '(linum-mode :which-key "View Line Numbers")
+   "ln" '(display-line-numbers-mode :which-key "View Line Numbers")
    "lm" '(term-toggle-mode :which-key "(Terminal Only) Toggle Line/Character Mode")
    "lr" '(linum-relative-toggle :which-key "Toggle Relative Numbers")
    "ls" '(delete-trailing-whitespace :which-key "Delete Trailing Whitespaces")
    "lt" '(toggle-php-flavor-mode :which-key "Toggle PHP/Web Mode Highlighting")
    "lw" '(toggle-truncate-lines :which-key "Toggle Line Wrapping"))
+
+
+  ;; Options
+  (general-define-key
+   :prefix gleader 
+   :non-normal-prefix gleader-non
+   :states '(normal visual motion insert emacs)
+   :keymaps 'override 
+   "O"  '(nil :which-key "Options")
+   "Ot" '(toggle-light-dark-theme :which-key "Toggle Dark/Light Theme"))
 
 
   ;; Org Mode Controls
@@ -786,6 +822,23 @@
    "or" '(org-clock-report :which-key "Show Report")
    "os" '(org-clock-out :which-key "Stop Task")
    "ox" '(org-clock-cancel :which-key "Cancel Clock"))
+
+
+  ;; Project Functions
+  (general-define-key
+   :prefix gleader 
+   :non-normal-prefix gleader-non
+   :states '(normal visual motion insert emacs)
+   :keymaps 'override 
+   "p"  '(nil :which-key "Project Commands")
+   "pd" '(helm-do-ag :which-key "Search in Directory")
+   "ph" '(magit-log-buffer-file :which-key "History of Buffer")
+   "pf" '(helm-projectile-find-file :which-key "Fuzzy File (CtrlP)")
+   "pP" '(helm-projectile :which-key "Open Recent Project")
+   "pp" '(helm-resume :which-key "Helm Resume")
+   "ps" '(helm-do-ag-project-root :which-key "Search in Project")
+   "pm" '(magit-status :which-key "Git Status")
+   "pw" '(helm-swoop :which-key "Helm Swoop"))
 
 
   ;; Word Functions
