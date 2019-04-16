@@ -35,7 +35,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:height 120 :family "Dejavu Sans Mono" "Monaco"))))
- '(org-document-title ((t (:inherit default :weight bold :foreground "black" :height 1.5 :underline nil))))
  '(org-level-1 ((t (:inherit default :weight bold :height 1.25))))
  '(org-level-2 ((t (:inherit default :weight bold :height 1.15))))
  '(org-level-3 ((t (:inherit default :weight bold :height 1.1))))
@@ -370,6 +369,12 @@
 ;; Shorten Margins of Latex Exports
 (setq org-latex-packages-alist '(("margin=2cm" "geometry" nil)))
 
+;; Fix page numbers in table of contents for Orgmode exports
+(setq
+  org-latex-pdf-process
+  '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+    "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+    "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
 
 ;; Use LuaLatex instead of default 
 (setq org-latex-pdf-process
