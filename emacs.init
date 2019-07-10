@@ -234,6 +234,13 @@
             (define-key evil-normal-state-map "J" 'org-shiftdown)
             (define-key evil-normal-state-map "L" 'org-shiftright)
             (define-key evil-normal-state-map (kbd "TAB") 'org-cycle)))
+;; Plantuml
+;; http://eschulte.github.io/babel-dev/DONE-integrate-plantuml-support.html
+(use-package plantuml-mode :ensure t)
+(use-package flycheck-plantuml :ensure t)
+(org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))
+(setq org-plantuml-jar-path
+            (expand-file-name "~/.yadrlite/src/org/contrib/scripts/plantuml.jar"))
 ;; Artist Mode
 (evil-set-initial-state 'artist-mode 'emacs)
 (defun toggle-artist-mode ()
@@ -332,8 +339,8 @@
   :diminish css-mode)
 (use-package php-mode :ensure t
   :diminish php-mode)
-(defun php-syntax-propertize-function (start end)
-  "This may break PHP syntax highlighting for increased performance.")
+;;(defun php-syntax-propertize-function (start end)
+;;  "This may break PHP syntax highlighting for increased performance.")
 (use-package coffee-mode :ensure t
   :diminish coffee-mode)
 (use-package sass-mode :ensure t
@@ -394,10 +401,6 @@
     ((eq major-mode 'css-mode) (web-beautify-css))
     ((eq major-mode 'scss-mode) (web-beautify-css))
     ((indent-region (point-min) (point-max)))))
-
-
-;; Shorten Margins of Latex Exports
-(setq org-latex-packages-alist '(("margin=2cm" "geometry" nil)))
 
 ;; Fix page numbers in table of contents for Orgmode exports
 (setq
