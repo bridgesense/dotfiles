@@ -224,3 +224,5 @@ bindsym XF86Search		                exec $BROWSER https://duckduckgo.com
 bindsym XF86Display		                exec --no-startup-id arandr
 bindsym XF86Documents		            exec $term -e ranger ~/Documents
 bindsym XF86WLAN		                exec $netrefresh
+bindsym XF86MonBrightnessDown            exec --no-startup-id xbacklight -dec 10
+bindsym XF86MonBrightnessUp           exec --no-startup-id xbacklight -inc 10
