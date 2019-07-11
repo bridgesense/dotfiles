@@ -34,7 +34,7 @@
 *color7:  #a89984
 *color15: #ebdbb2
 !! Transparency (0-255):
-*.alpha: 230 
+!!*.alpha: 230 
 !! Set a default font and font size as below:
 !! *.font: NotoMono_Regular-13;
 !! Xterm Settings

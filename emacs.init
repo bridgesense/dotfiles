@@ -104,6 +104,9 @@
 (set-keyboard-coding-system 'utf-8)
 ;; Treat clipboard input as UTF-8 string first; compound text next, etc.
 (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+;; GPUPG Fix
+(setf epa-pinentry-mode 'loopback)
+
 
 ;; Package Management
 ;; # # # # # # # # # # #
@@ -253,7 +256,7 @@
 
 ;; Fix the terminal
 ;; # # # # # # # # # # #
-(setq multi-term-program "/bin/bash")
+(setq multi-term-program "/usr/bin/bash")
 (use-package multi-term :ensure t
   :config
   (add-hook 'term-mode-hook

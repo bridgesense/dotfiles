@@ -26,7 +26,7 @@ set $menu "rofi -combi-modi window,drun,ssh -modi combi -show combi"
 # set $menu dmenu_run
 
 # #---Starting External Scripts---# #
-# Start Sound
+# Start Sound 
 exec --no-startup-id pulseaudio --start
 # escape/caps keyswapping:
 exec --no-startup-id setxkbmap -option caps:swapescape
@@ -34,8 +34,8 @@ exec --no-startup-id setxkbmap -option caps:swapescape
 exec --no-startup-id dunst
 # Composite manager:
 exec --no-startup-id xcompmgr -c -f -n
-# Unclutter makes the mouse invisible after a brief period
-exec --no-startup-id unclutter
+# Xbanish makes the mouse invisible after a brief period
+exec --no-startup-id xbanish
 # simple lockout screen that leaves the machine running
 exec --no-startup-id xautolock -time 10 -locker "i3lock -c 000000"
 # blue-light adaptation
@@ -49,28 +49,27 @@ exec --no-startup-id amixer set Capture cap
 
 # Set Xresources colors:
 set_from_resource $darkblack	color0
-set_from_resource $black	    color8
-set_from_resource $darkred	    color1
-set_from_resource $red		    color9
+set_from_resource $black	color8
+set_from_resource $darkred	color1
+set_from_resource $red		color9
 set_from_resource $darkgreen	color2
-set_from_resource $green	    color10
+set_from_resource $green	color10
 set_from_resource $darkyellow	color3
-set_from_resource $yellow	    color11
-set_from_resource $darkblue	    color4
-set_from_resource $blue		    color12
+set_from_resource $yellow	color11
+set_from_resource $darkblue	color4
+set_from_resource $blue		color12
 set_from_resource $darkmagenta	color5
-set_from_resource $magenta	    color13
-set_from_resource $darkcyan	    color6
-set_from_resource $cyan		    color14
+set_from_resource $magenta	color13
+set_from_resource $darkcyan	color6
+set_from_resource $cyan		color14
 set_from_resource $darkwhite	color7
-set_from_resource $white	    color15
-set $transparent		        #00000000
+set_from_resource $white	color15
+set $transparent	        #00000000
 
-#                           BORDER		    BACKGROUND	    TEXT		INDICATOR       CHILD_BORDER
-client.focused	            $red		    $red		    $magenta	$darkmagenta	$darkblue
-client.unfocused	        $transparent	$blue		    $white		$darkblue		$darkblack
-client.focused_inactive	    $transparent	$blue		    $white		$darkblue		$darkblack
-client.urgent		        $darkred	    $darkred	    $black		$darkred		$darkred
+client.focused $red $red $magenta $darkmagenta $darkblue
+client.unfocused $transparent $blue $white $darkblue $darkblack
+client.focused_inactive $transparent $blue $white $darkblue $darkblack
+client.urgent $darkred $black $darkred $darkred
 client.background $black
 
 bar {
