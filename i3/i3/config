@@ -101,6 +101,8 @@ bindsym $mod+n 			    exec $term -e ranger
 bindsym $mod+a	            exec --no-startup-id $BROWSER
 bindsym $mod+o			    exec $term -e calcurse
 bindsym $mod+r              exec --no-startup-id ~/.config/i3/screen_init.sh
+bindsym $mod+escape         exec --no-startup-id setxkbmap -option caps:swapescape
+
 
 # #---i3 Bindings---# #
 bindsym $mod+Shift+BackSpace	exec --no-startup-id $reboot
@@ -202,7 +204,7 @@ bindsym $mod+Shift+Right 	move right
 # #---Extra XF86 Keys---# #
 # These are the extra media keys that some keyboards have.
 bindsym XF86AudioMicMute 	            exec --no-startup-id amixer set Capture toggle
-bindsym XF86AudioMute		            exec --no-startup-id amixer set Master toggle
+bindsym XF86AudioMute		            exec --no-startup-id pactl set-sink-mute 0 toggle 
 bindsym XF86AudioLowerVolume	        exec --no-startup-id amixer set Master 2%-
 bindsym Shift+XF86AudioLowerVolume	    exec --no-startup-id amixer set Master 10%-
 bindsym Control+XF86AudioLowerVolume	exec --no-startup-id amixer set Master 1%-
