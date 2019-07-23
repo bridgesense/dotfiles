@@ -108,7 +108,7 @@
 (setf epa-pinentry-mode 'loopback)
 
 
-;; File Management
+;; File Managementa
 ;; # # # # # # # # # # #
 (defun my-put-file-name-on-clipboard ()
   "Put the current file name on the clipboard"
@@ -287,6 +287,18 @@
               (define-key term-raw-map (kbd "<escape>") 'term-send-esc)
               (define-key term-raw-map (kbd "<delete>") 'term-send-backspace)
               (define-key term-raw-map (kbd "<backspace>") 'term-send-backspace))))
+;; toggles line mode when flipping states
+(add-hook 'evil-normal-state-entry-hook
+     (lambda ()
+       (if (eq major-mode 'term-mode)
+         (term-line-mode))))
+(add-hook 'evil-emacs-state-entry-hook
+      (lambda ()
+        (when (eq major-mode 'term-mode)
+          (if (term-in-line-mode)
+             (condition-case nil
+                   (term-char-mode)
+                (error nil))))))
 (defun term-toggle-mode ()
   "Toggles term between line mode and char mode"
   (interactive)
