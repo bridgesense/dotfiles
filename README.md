@@ -1,4 +1,4 @@
-### NOTICE: My dotfiles are also being maintained at [https://gitlab.com/bridgesense/dotfiles](https://gitlab.com/bridgesense/dotfiles)
+### NOTICE: These dotfiles are also being maintained at [https://gitlab.com/bridgesense/dotfiles](https://gitlab.com/bridgesense/dotfiles)
 
 # YADRLite #
 
