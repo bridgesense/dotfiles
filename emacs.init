@@ -104,8 +104,23 @@
 (set-keyboard-coding-system 'utf-8)
 ;; Treat clipboard input as UTF-8 string first; compound text next, etc.
 (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
-;; GPUPG Fix
+;; GPUPG Fix 
 (setf epa-pinentry-mode 'loopback)
+
+
+;; File Management
+;; # # # # # # # # # # #
+(defun my-put-file-name-on-clipboard ()
+  "Put the current file name on the clipboard"
+  (interactive)
+  (let ((filename (if (equal major-mode 'dired-mode)
+                      default-directory
+                    (buffer-file-name))))
+    (when filename
+      (with-temp-buffer
+        (insert filename)
+        (clipboard-kill-region (point-min) (point-max)))
+      (message filename))))
 
 
 ;; Package Management
@@ -282,6 +297,7 @@
   :config
   (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize)))
+
 
 ;; smooth scrolling
 ;; # # # # # # # # # # #
@@ -793,6 +809,7 @@
    :states '(normal visual motion insert emacs)
    :keymaps 'override
    "f"  '(nil :which-key "File Operations")
+   "fc" '(my-put-file-name-on-clipboard :which-key "Copy File Path")'
    "ff" '(helm-find-files :which-key "Open File")
    "fd" '(deer :which-key "File Browser")
    "fr" '(ranger :which-key "File Ranger")

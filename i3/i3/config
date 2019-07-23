@@ -29,7 +29,7 @@ set $menu "rofi -combi-modi window,drun,ssh -modi combi -show combi"
 # Start Sound 
 exec --no-startup-id pulseaudio --start
 # escape/caps keyswapping:
-exec --no-startup-id setxkbmap -option caps:swapescape
+# exec --no-startup-id setxkbmap -option caps:swapescape
 # Starts dunst for notifications:
 exec --no-startup-id dunst
 # Composite manager:
