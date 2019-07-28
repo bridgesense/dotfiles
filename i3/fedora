@@ -11,7 +11,7 @@ USER="${1:francis}"
 # # # # # # # # # # # # # # #
 dnf update -y
 dnf install -y @development-tools autoconf automake git
-# bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
+bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
 su -c 'bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
 
 # Install RPM Fusion
@@ -31,7 +31,7 @@ dnf install -y xbacklight feh xautolock
 dnf install -y lxappearance arc-theme rofi redshift-gdk
 dnf install -y pulseaudio alsa-utils pulseaudio-utils xcompmgr
 dnf install -y arandr zenity rxvt-unicode-256color flameshot
-dnf install -y wicd-curses blueman gnome-keyring
+dnf install -y wicd wicd-curses blueman gnome-keyring
 dnf install -y dunst libnotify
 dnf install -y calcurse python3-httplib2 wordnet
 dnf install -y texlive-latex
@@ -49,6 +49,11 @@ dnf install -y nomacs
 dnf install -y gnome-disk-utility
 dnf install -y cups hplip hplip-gui
 dnf install -y policycoreutils-gui setools-console setroubleshoot
+dnf install -y nextcloud-client
+# patch wicd-curses
+patch /usr/share/wicd/curses/wicd-curses.py < ~/.yadrlite/src/org/wicd-curses/wicd.patch
+systemctl enable wicd
+audit2allow -l -a -M selwicd
 # install xbanish
 sudo dnf install libXt-devel libXfixes-devel libXi-devel
 mkdir -p ~/lab
@@ -79,6 +84,8 @@ su -c 'cp ~/.yadrlite/i3/i3/*.sh ~/.config/i3' $USER
 su -c 'cp ~/.yadrlite/i3/i3/config ~/.config/i3' $USER
 su -c 'cp ~/.yadrlite/i3/xinitrc ~/.xinitrc' $USER
 su -c 'cp -r ~/.yadrlite/i3/rofi ~/.config' $USER
+sed -i '/export SYSTEMD_PAGER\=/a alias vi="vimx"\nalias vim="vimx"' /home/$USER/.bashrc
+echo "# Give the following users Sudoers Access\n$USER ALL=(ALL)  ALL" >> /etc/sudoers
 echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
 # activate dunst
 systemctl enable --user dunst.service
@@ -113,8 +120,9 @@ echo '    Identifier "Intel Graphics"' >> /etc/X11/xorg.conf.d/20-intel.conf
 echo '    Driver "intel"' >> /etc/X11/xorg.conf.d/20-intel.conf
 echo '    Option "TearFree" "true"' >> /etc/X11/xorg.conf.d/20-intel.conf
 echo 'EndSection' >> /etc/X11/xorg.conf.d/20-intel.conf
+# enable thinkfan
+systemctl enable thinkfan
 
- 
 # install code editors
 dnf install -y tmux emacs ranger the_silver_searcher ack
 dnf install -y vim-enhanced vim-X11
