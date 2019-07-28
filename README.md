@@ -1,5 +1,3 @@
-### NOTICE: These dotfiles are also being maintained at [https://gitlab.com/bridgesense/dotfiles](https://gitlab.com/bridgesense/dotfiles)
-
 # YADRLite #
 
 Credit:
@@ -13,7 +11,7 @@ Installation:
 ---
 
 ```bash
-bash -c "`curl -fsSL https://gitlab.com/bridgesense/dotfiles/raw/master/setup`"
+bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
 ```
 
 #### Update:
@@ -31,7 +29,7 @@ bash ~/.yadrlite/setup remove
 #### To install this Emacs configuration without the rest of YADRLite:
     
 ```bash
-curl https://gitlab.com/bridgesense/dotfiles/raw/master/emacs.init > ~/.emacs    
+curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/emacs.init > ~/.emacs    
 ```
 
 #### On MacOS [Homebrew](https://brew.sh) has a nice [Cask](https://emacsformacosx.com) package for a GUI version of Emacs
@@ -172,7 +170,7 @@ The [General](https://github.com/noctuid/general.el) plugin has been included wi
               
 Tmux Shortcuts
 ---
-The leader key Ctrl-a can be followed by the next key concurrently without holding them all down at once.
+The leader key Ctrl-a can be followed by the next key concurrently without holding them all down at once.  This installation includes [Tmux Ressurrect](https://github.com/tmux-plugins/tmux-resurrect) and is configured to save VIM sessions when detatching which may be brought up again after a reboot using `tmux a -t <session_no>`.  Use `tmux ls` to list saved sessions.
     
 #### General Shortcuts:
 * `Ctrl-a d` Detatch from current session and close Tmux.  Run `tmux attach` to resume later.

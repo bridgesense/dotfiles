@@ -1,0 +1,135 @@
+#!/bin/bash
+# Fedora Workstation Setup
+# # # # # # # # # # # # # # #
+
+# Options
+# # # # # # # # # # # # # # #
+USER="${1:francis}"
+
+# Run as root
+# Commandline Tools
+# # # # # # # # # # # # # # #
+dnf update -y
+dnf install -y @development-tools autoconf automake git
+# bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
+su -c 'bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
+
+# Install RPM Fusion
+# # # # # # # # # # # # # # #
+dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+
+# Install Sphere 
+# # # # # # # # # # # # # # #
+dnf install -y https://github.com/rpmsphere/noarch/blob/master/r/rpmsphere-release-30-1.noarch.rpm
+
+# Install i3 
+# # # # # # # # # # # # # # #
+dnf install -y @base-x @Fonts i3 i3lock 
+# installs supporting apps used in i3 configuration
+dnf install -y xbacklight feh xautolock
+dnf install -y lxappearance arc-theme rofi redshift-gdk
+dnf install -y pulseaudio alsa-utils pulseaudio-utils xcompmgr
+dnf install -y arandr zenity rxvt-unicode-256color flameshot
+dnf install -y wicd-curses blueman gnome-keyring
+dnf install -y dunst libnotify
+dnf install -y calcurse python3-httplib2 wordnet
+dnf install -y texlive-latex
+dnf install -y texlive-collection-latex texlive-collection-latexextra
+dnf install -y papirus-icon-theme
+dnf install -y nemo
+dnf install -y acpi thinkfan
+dnf install -y NetworkManager-openvpn-gnome
+dnf install -y firewall-config
+dnf install -y mupdf 
+dnf install -y calcurse
+dnf install -y system-config-printer
+dnf install -y simple-scan
+dnf install -y nomacs
+dnf install -y gnome-disk-utility
+dnf install -y cups hplip hplip-gui
+dnf install -y policycoreutils-gui setools-console setroubleshoot
+# install xbanish
+sudo dnf install libXt-devel libXfixes-devel libXi-devel
+mkdir -p ~/lab
+cd ~/lab
+git clone https://github.com/jcs/xbanish.git
+cd xbanish
+make install
+# install i3 Gaps
+dnf install -y libxcb-devel xcb-util-keysyms-devel xcb-util-devel 
+dnf install -y xcb-util-wm-devel xcb-util-xrm-devel yajl-devel 
+dnf install -y libXrandr-devel startup-notification-devel 
+dnf install -y libev-devel xcb-util-cursor-devel libXinerama-devel 
+dnf install -y libxkbcommon-devel libxkbcommon-x11-devel 
+dnf install -y pcre-devel pango-devel
+cd ~/lab
+git clone https://www.github.com/Airblader/i3 i3-gaps
+cd i3-gaps/
+git checkout gaps && git pull
+autoreconf -fi
+rm -rf build/
+mkdir -p build && cd build/
+../configure --prefix=/usr --sysconfdir=/etc --disable-sanitizers
+make && make install
+# copy over system start resources
+su -c 'cp -f ~/.yadrlite/i3/Xresources ~/.Xresources' $USER
+su -c 'mkdir -p ~/.config/i3' $USER
+su -c 'cp ~/.yadrlite/i3/i3/*.sh ~/.config/i3' $USER
+su -c 'cp ~/.yadrlite/i3/i3/config ~/.config/i3' $USER
+su -c 'cp ~/.yadrlite/i3/xinitrc ~/.xinitrc' $USER
+su -c 'cp -r ~/.yadrlite/i3/rofi ~/.config' $USER
+echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
+# activate dunst
+systemctl enable --user dunst.service
+systemctl start --user dunst.service
+su -c "cp rf ~/.yadrlite/i3/dunst ~/.config" $USER
+# any changes to the configuration
+eval $(dbus-launch)
+# help the sound
+echo "resample-method = soxr-vhq" >> /etc/pulse/daemon.conf
+echo "default-sample-format = float32le" >> /etc/pulse/daemon.conf
+echo "default-sample-rate = 96000" >> /etc/pulse/daemon.conf
+echo "alternate-sample-rate = 96000" >> /etc/pulse/daemon.conf
+echo "default-sample-channels = 2" >> /etc/pulse/daemon.conf
+echo "default-channel-map = front-left,front-right" >> /etc/pulse/daemon.conf
+echo "default-fragments = 2" >> /etc/pulse/daemon.conf
+echo "default-fragment-size-msec = 125" >> /etc/pulse/daemon.conf
+echo "resample-method = soxr-vhq" >> /etc/pulse/daemon.conf
+echo "enable-lfe-remixing = yes" >> /etc/pulse/daemon.conf
+echo "high-priority = yes" >> /etc/pulse/daemon.conf
+echo "nice-level = -11" >> /etc/pulse/daemon.conf
+echo "realtime-scheduling = yes" >> /etc/pulse/daemon.conf
+echo "realtime-priority = 9" >> /etc/pulse/daemon.conf
+echo "rlimit-rtprio = 9" >> /etc/pulse/daemon.conf
+echo "rlimit-rttime = -1" >> /etc/pulse/daemon.conf
+echo "daemonize = yes" >> /etc/pulse/daemon.conf
+echo "autospawn = no" >> /etc/pulse/client.conf
+# set timezone
+timedatectl set-timezone America/Los_Angeles
+# fix screen tearing
+echo 'Section "Device"' >> /etc/X11/xorg.conf.d/20-intel.conf 
+echo '    Identifier "Intel Graphics"' >> /etc/X11/xorg.conf.d/20-intel.conf
+echo '    Driver "intel"' >> /etc/X11/xorg.conf.d/20-intel.conf
+echo '    Option "TearFree" "true"' >> /etc/X11/xorg.conf.d/20-intel.conf
+echo 'EndSection' >> /etc/X11/xorg.conf.d/20-intel.conf
+
+ 
+# install code editors
+dnf install -y tmux emacs ranger the_silver_searcher ack
+dnf install -y vim-enhanced vim-X11
+# install PHP tools
+sudo dnf install -y php
+# boris
+curl -L -O https://github.com/borisrepl/boris/releases/download/v1.0.8/boris.phar
+chmod +x boris.phar
+sudo mv boris.phar /usr/local/bin/boris
+sudo dnf install -y php-json
+cd ~/lab
+git clone https://github.com/xcwen/phpctags.git
+cd phpctags
+make
+cp phpctags.phar /usr/local/bin/
+dnf install -y nodejs nodejs-yarn
+gem install compass sass
+

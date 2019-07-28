@@ -17,7 +17,7 @@ set showcmd                     "Show incomplete cmds down the bottom
 set showmode                    "Show current mode down the bottom
 set gcr=a:blinkon0              "Disable cursor blink
 set noerrorbells                "No sounds or flashing
-set visualbell   
+set visualbell 
 set t_vb=
 set autoread                    "Reload files changed outside vim
 

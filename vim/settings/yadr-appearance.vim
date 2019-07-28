@@ -37,3 +37,7 @@ endfunction
 nnoremap <silent> ,Ot :call ToggleGruvbox()<CR>
 colorscheme gruvbox
 set background=dark
+" transparence fix
+hi! Normal ctermbg=NONE guibg=NONE
+hi! NonText ctermbg=NONE guibg=NONE
+

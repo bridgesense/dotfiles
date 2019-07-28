@@ -1,11 +1,6 @@
 # vim: filetype=i3
 #
 # File originally by Luke Smith
-# This config file will use environmental variables such as $BROWSER and $TERMINAL.
-# You can set these variables in ~/.profile or ~/.bash_profile if you have it as below:
-#
-# export BROWSER="firefox"
-# export TERMINAL="uxrvt"
 
 # #---Basic Definitions---# #
 # Needed for i3-gaps
@@ -13,11 +8,10 @@ for_window [class="^.*"] border pixel 2
 for_window [class="^.*"][window_type=dialog] focus
 gaps inner 5
 gaps outer 5
-set $term --no-startup-id $TERMINAL
+set $term --no-startup-id urxvt256c 
 set $mod Mod4
 set $shutdown ~/.config/i3/shutdown.sh
 set $reboot  ~/.config/i3/reboot.sh
-set $netrefresh "systemctl restart networking"
 set $hibernate "systemctl suspend && xautolock -locknow" 
 
 # whisker menu selection
@@ -28,8 +22,6 @@ set $menu "rofi -combi-modi window,drun,ssh -modi combi -show combi"
 # #---Starting External Scripts---# #
 # Start Sound 
 exec --no-startup-id pulseaudio --start
-# escape/caps keyswapping:
-# exec --no-startup-id setxkbmap -option caps:swapescape
 # Starts dunst for notifications:
 exec --no-startup-id dunst
 # Composite manager:
@@ -46,6 +38,7 @@ exec --no-startup-id ~/.config/i3/screen_init.sh
 exec --no-startup-id amixer set Capture cap
 # turn on flameshot
 # exec --no-startup-id flameshot 
+# autoconnect mouse
 
 # Set Xresources colors:
 set_from_resource $darkblack	color0
@@ -98,7 +91,6 @@ bindsym $mod+space  	    exec --no-startup-id $menu
 bindsym $mod+d 			    exec --no-startup-id nemo --no-desktop
 bindsym $mod+i 			    exec $term -e htop
 bindsym $mod+n 			    exec $term -e ranger
-bindsym $mod+a	            exec --no-startup-id $BROWSER
 bindsym $mod+o			    exec $term -e calcurse
 bindsym $mod+r              exec --no-startup-id ~/.config/i3/screen_init.sh
 bindsym $mod+escape         exec --no-startup-id setxkbmap -option caps:swapescape
@@ -180,16 +172,18 @@ bindsym $mod+Shift+9	move container to workspace $ws9
 bindsym $mod+Shift+0	move container to workspace $ws10
 
 # #---Function Buttons---# #
-bindsym $mod+F1	    exec --no-startup-id $BROWSER https://gitlab.com/bridgesense/dotfiles
-bindsym $mod+F2     exec --no-startup-id i3lock -i ~/.config/i3/wallpaper.png
-bindsym $mod+F4		exec --no-startup-id $hibernate
-bindsym $mod+F5		exec --no-startup-id $netrefresh
-bindsym $mod+F6     exec $term -e alsamixer -c 0
-bindsym $mod+F7		exec --no-startup-id arandr
-bindsym $mod+F8     exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "Device Enabled" 0 && notify-send "Touchpad Off" --expire-time=600
-bindsym $mod+F9     exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "Device Enabled" 1 && notify-send "Touchpad On" --expire-time=600
-bindsym $mod+F10    exec $term -e wicd-curses
-bindsym $mod+F11    exec $term -e sudo openvpn --config ~/Nextcloud/office/network/bdesk.ovpn
+bindsym $mod+F1     exec $term -e alsamixer -c 0
+bindsym $mod+F2     exec $term -e alsamixer -c 0
+bindsym $mod+F3     exec $term -e alsamixer -c 0
+bindsym $mod+F4     exec $term -e alsamixer -c 0
+bindsym $mod+F5		exec --no-startup-id $hibernate
+bindsym $mod+F6		exec --no-startup-id $hibernate
+bindsym $mod+F7     exec $term -e sudo openvpn --config ~/Nextcloud/office/network/bdesk.ovpn
+bindsym $mod+F8     exec $term -e wicd-curses
+bindsym $mod+F9     exec --no-startup-id xautolock -locknow 
+bindsym $mod+F10	exec --no-startup-id arandr
+bindsym $mod+F11    exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "Device Enabled" 0 && notify-send "Touchpad Off" --expire-time=600
+bindsym $mod+F12    exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "Device Enabled" 1 && notify-send "Touchpad On" --expire-time=600
 
 # #---Arrow Keys---# #
 bindsym $mod+Left		    focus left
