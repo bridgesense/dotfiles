@@ -1,5 +1,10 @@
-#!/bin/bash
+#/bin/bash
 # Fedora Workstation Setup
+# WARNING: This is a personal installation script.
+# Please review this script and adjust it to your needs prior to running the script.
+# This script is intended for a minimal Fedora Workstation installation
+# run as root:
+# bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/i3/fedora`"
 # # # # # # # # # # # # # # #
 
 # Options
