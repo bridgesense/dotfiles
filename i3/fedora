@@ -17,7 +17,7 @@ USER="${1:francis}"
 # # # # # # # # # # # # # # #
 dnf update -y
 dnf install -y autoconf automake git
-dnf install -y group install -y development-tools rpm-development-tools c-development
+dnf install group install -y development-tools rpm-development-tools c-development
 bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
 su -c 'bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
 
@@ -91,13 +91,15 @@ su -c 'cp ~/.yadrlite/i3/i3/*.sh ~/.config/i3' $USER
 su -c 'cp ~/.yadrlite/i3/i3/config ~/.config/i3' $USER
 su -c 'cp ~/.yadrlite/i3/xinitrc ~/.xinitrc' $USER
 su -c 'cp -r ~/.yadrlite/i3/rofi ~/.config' $USER
-sed -i '/export SYSTEMD_PAGER\=/a alias vi="vimx"\nalias vim="vimx"' /home/$USER/.bashrc
-echo "# Give the following users Sudoers Access\n$USER ALL=(ALL)  ALL" >> /etc/sudoers
+su -c "cp -r ~/.yadrlite/i3/ranger ~/.config" $USER
+sed -i '/Default Prompt/a alias vi="vimx"\nalias vim="vimx"' /home/$USER/.bashrc
+sed -i '/Default Prompt/a alias vi="vimx"\nalias vim="vimx"' /root/.bashrc
+printf "# Give the following users Sudoers Access\n$USER ALL=(ALL)  ALL" >> /etc/sudoers
 echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
 # activate dunst
 systemctl enable --user dunst.service
 systemctl start --user dunst.service
-su -c "cp rf ~/.yadrlite/i3/dunst ~/.config" $USER
+su -c "cp -r ~/.yadrlite/i3/dunst ~/.config" $USER
 # any changes to the configuration
 eval $(dbus-launch)
 # help the sound
