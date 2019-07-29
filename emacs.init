@@ -81,7 +81,7 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 (package-initialize)
-
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
 ;; Misc
 ;; # # # # # # # # # # #
@@ -135,10 +135,6 @@
 ;; For Diminishing TMI stuff on the mode line
 ;; # # # # # # # # # # #
 (use-package diminish :ensure t)
-
-
-;; CSV Mode
-(use-package csv-mode :ensure t)
 
 
 ;; # # # # # # # # # # #
