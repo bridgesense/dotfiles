@@ -139,7 +139,7 @@ dnf install -y php
 curl -L -O https://github.com/borisrepl/boris/releases/download/v1.0.8/boris.phar
 chmod +x boris.phar
 mv boris.phar /usr/local/bin/boris
-dnf install -y php-json
+dnf install -y php-json php-readline
 cd ~/lab
 git clone https://github.com/xcwen/phpctags.git
 cd phpctags
