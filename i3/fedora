@@ -4,14 +4,14 @@
 # Please review this script and adjust it to your needs prior to running the script.
 # This script is intended for a minimal Fedora Workstation installation
 # run as root:
-# bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/i3/fedora` <username>"
+# curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/i3/fedora > fedora
+# bash fedora <username>
 # # # # # # # # # # # # # # #
 
 # Options
 # # # # # # # # # # # # # # #
 USER="${1:francis}"
-echo $USER
-exit
+
 # Run as root
 # Commandline Tools
 # # # # # # # # # # # # # # #
