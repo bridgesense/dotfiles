@@ -34,7 +34,7 @@ rpm -Uvh http://rpm.livna.org/repo/18/x86_64/libdvdcss-1.2.12-1.fc17.remi.x86_64
 dnf install -y @base-x @Fonts i3 i3lock 
 # installs supporting apps used in i3 configuration
 dnf install -y xbacklight feh xautolock grub2-breeze-theme
-dnf install -y lxappearance arc-theme rofi redshift
+dnf install -y lxappearance arc-theme rofi redshift-gtk
 dnf install -y pulseaudio alsa-utils pulseaudio-utils xcompmgr
 dnf install -y arandr zenity rxvt-unicode-256color flameshot
 dnf install -y wicd wicd-curses dhcp-client iw wpa_supplicant 
