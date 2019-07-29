@@ -27,7 +27,7 @@ dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-releas
 dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
 # Install RPM Sphere
-rpm -Uvh http://rpm.livna.org/repo/18/x86_64/libdvdcss-1.2.12-1.fc17.remi.x86_64.rpm
+rpm -Uvh https://github.com/rpmsphere/noarch/raw/master/r/rpmsphere-release-30-1.noarch.rpm
 
 # Install i3 
 # # # # # # # # # # # # # # #
@@ -57,6 +57,7 @@ dnf install -y gnome-disk-utility
 dnf install -y cups hplip hplip-gui
 dnf install -y policycoreutils-gui setools-console setroubleshoot
 dnf install -y flatpakunextcloud-client
+dnf install -y wine winetricks
 # DVD Codecs
 dnf install -y vlc
 rpm -Uvh http://rpm.livna.org/repo/18/x86_64/libdvdcss-1.2.12-1.fc17.remi.x86_64.rpm
@@ -159,3 +160,12 @@ cp phpctags.phar /usr/local/bin/
 dnf install -y nodejs nodejs-yarn ruby-devel
 gem install compass sass
 
+# permissions and status
+rm -f /etc/i3status.conf
+cp ~/.yadrlite/i3/i3status/i3status.conf /etc/
+find /home/$USER/.config -type d -exec chmod 0755 {} \;
+find /home/$USER/.config -type f -exec chmod 0644 {} \;
+find /home/$USER/.config -name "*.sh" -execdir chmod u+x {} +
+
+printf "# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #"
+printf "ALL DONE"
