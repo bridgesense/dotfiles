@@ -16,7 +16,7 @@ USER="${1:francis}"
 # Commandline Tools
 # # # # # # # # # # # # # # #
 dnf update -y
-dnf install -y autoconf automake git
+dnf install -y autoconf automake git htop rsync
 dnf group install -y development-tools rpm-development-tools c-development
 bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
 su -c 'bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
@@ -26,22 +26,26 @@ su -c 'bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfil
 dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
 dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
+# Install RPM Sphere
+rpm -Uvh http://rpm.livna.org/repo/18/x86_64/libdvdcss-1.2.12-1.fc17.remi.x86_64.rpm
+
 # Install i3 
 # # # # # # # # # # # # # # #
 dnf install -y @base-x @Fonts i3 i3lock 
 # installs supporting apps used in i3 configuration
-dnf install -y xbacklight feh xautolock
+dnf install -y xbacklight feh xautolock grub2-breeze-theme
 dnf install -y lxappearance arc-theme rofi redshift
 dnf install -y pulseaudio alsa-utils pulseaudio-utils xcompmgr
 dnf install -y arandr zenity rxvt-unicode-256color flameshot
-dnf install -y wicd wicd-curses blueman gnome-keyring
-dnf install -y dunst libnotify
+dnf install -y wicd wicd-curses dhcp-client iw wpa_supplicant 
+dnf install -y blueman gnome-keyring
+dnf install -y dunst libnotify 
 dnf install -y calcurse python3-httplib2 wordnet
 dnf install -y texlive-latex
 dnf install -y texlive-collection-latex texlive-collection-latexextra
 dnf install -y papirus-icon-theme
 dnf install -y nemo
-dnf install -y acpi thinkfan
+dnf install -y acpi thinkfan crontabs
 dnf install -y NetworkManager-openvpn-gnome
 dnf install -y firewall-config
 dnf install -y mupdf 
@@ -52,11 +56,18 @@ dnf install -y nomacs
 dnf install -y gnome-disk-utility
 dnf install -y cups hplip hplip-gui
 dnf install -y policycoreutils-gui setools-console setroubleshoot
-dnf install -y nextcloud-client
+dnf install -y flatpakunextcloud-client
+# DVD Codecs
+dnf install -y vlc
+rpm -Uvh http://rpm.livna.org/repo/18/x86_64/libdvdcss-1.2.12-1.fc17.remi.x86_64.rpm
+dnf install -y devedeng brasero
+# Gargoyle
+dnf install -y gargoyle
+cp ~/.yadrlite/i3/garglk.ini ~/.garglkrc
 # patch wicd-curses
-patch /usr/share/wicd/curses/wicd-curses.py < ~/.yadrlite/src/org/wicd-curses/wicd.patch
 systemctl enable wicd
 audit2allow -l -a -M selwicd
+patch /usr/share/wicd/curses/wicd-curses.py < ~/.yadrlite/src/org/wicd-curses/wicd.patch
 # install xbanish
 dnf install -y libXt-devel libXfixes-devel libXi-devel
 mkdir -p ~/lab
@@ -92,6 +103,8 @@ sed -i '/Default Prompt/a alias vi="vimx"\nalias vim="vimx"' /home/$USER/.bashrc
 sed -i '/Default Prompt/a alias vi="vimx"\nalias vim="vimx"' /root/.bashrc
 printf "# Give the following users Sudoers Access\n$USER ALL=(ALL)  ALL" >> /etc/sudoers
 echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
+# grub theme
+printf 'GRUB_THEME="/boot/grub2/themes/breeze/theme.txt"' >> /etc/default/grub
 # activate dunst
 systemctl enable --user dunst.service
 systemctl start --user dunst.service
