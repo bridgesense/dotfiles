@@ -11,7 +11,7 @@ dir=~/.yadrlite
 dotfiles_old=backup
 action="${1:-install}"
 declare -a files=('vim vimrc tmux.conf profile bash_profile bashrc vimrc.after emacs emacs.d')
-declare -a plugins=('https://github.com/rking/ag.vim.git' 'https://github.com/jiangmiao/auto-pairs.git' 'https://github.com/godlygeek/csapprox.git' 'https://github.com/kien/ctrlp.vim.git' 'https://github.com/itchyny/lightline.vim.git' 'https://github.com/Shougo/neocomplete.vim.git' 'https://github.com/scrooloose/nerdtree.git' 'https://github.com/vim-syntastic/syntastic.git' 'https://github.com/christoomey/vim-tmux-navigator.git' 'https://github.com/joonty/vdebug.git' 'https://github.com/gorodinskiy/vim-coloresque.git' 'https://github.com/easymotion/vim-easymotion.git' 'https://github.com/tpope/vim-fugitive.git' 'https://github.com/airblade/vim-gitgutter.git' 'https://gitlab.com/bridgesense/vim-hsftp.git' 'https://github.com/tpope/vim-obsession.git' 'https://github.com/tpope/vim-surround.git' 'https://github.com/morhetz/gruvbox.git' 'https://github.com/vim-airline/vim-airline.git')
+declare -a plugins=('https://github.com/rking/ag.vim.git' 'https://github.com/jiangmiao/auto-pairs.git' 'https://github.com/godlygeek/csapprox.git' 'https://github.com/kien/ctrlp.vim.git' 'https://github.com/itchyny/lightline.vim.git' 'https://github.com/Shougo/neocomplete.vim.git' 'https://github.com/scrooloose/nerdtree.git' 'https://github.com/vim-syntastic/syntastic.git' 'https://github.com/christoomey/vim-tmux-navigator.git' 'https://github.com/joonty/vdebug.git' 'https://github.com/gorodinskiy/vim-coloresque.git' 'https://github.com/easymotion/vim-easymotion.git' 'https://github.com/tpope/vim-fugitive.git' 'https://github.com/airblade/vim-gitgutter.git' 'https://github.com/bridgesense/vim-hsftp.git' 'https://github.com/tpope/vim-obsession.git' 'https://github.com/tpope/vim-surround.git' 'https://github.com/morhetz/gruvbox.git' 'https://github.com/vim-airline/vim-airline.git')
 declare -a tmuxplugins=('https://github.com/tmux-plugins/tmux-continuum.git' 'https://github.com/jtdaugherty/tmux-status.git')
 declare -a bashplugins=('https://github.com/magicmonty/bash-git-prompt.git')
 
@@ -85,10 +85,10 @@ if [ "$action" == "install" ]; then
         exit
     fi
     if [ "$USEREPO" == "yes" ]; then
-        git clone https://gitlab.com/bridgesense/dotfiles.git $dir
+        git clone https://github.com/bridgesense/dotfiles.git $dir
     else
         if [ ! -f setup ]; then
-            git clone https://gitlab.com/bridgesense/dotfiles.git $dir
+            git clone https://github.com/bridgesense/dotfiles.git $dir
         else
             cp -R . $dir
         fi
