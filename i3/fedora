@@ -17,7 +17,7 @@ USER="${1:francis}"
 # # # # # # # # # # # # # # #
 dnf update -y
 dnf install -y autoconf automake git
-dnf install group install -y development-tools rpm-development-tools c-development
+dnf group install -y development-tools rpm-development-tools c-development
 bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
 su -c 'bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
 
@@ -26,16 +26,12 @@ su -c 'bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfil
 dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
 dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
-# Install Sphere 
-# # # # # # # # # # # # # # #
-dnf install -y https://github.com/rpmsphere/noarch/blob/master/r/rpmsphere-release-30-1.noarch.rpm
-
 # Install i3 
 # # # # # # # # # # # # # # #
 dnf install -y @base-x @Fonts i3 i3lock 
 # installs supporting apps used in i3 configuration
 dnf install -y xbacklight feh xautolock
-dnf install -y lxappearance arc-theme rofi redshift-gdk
+dnf install -y lxappearance arc-theme rofi redshift
 dnf install -y pulseaudio alsa-utils pulseaudio-utils xcompmgr
 dnf install -y arandr zenity rxvt-unicode-256color flameshot
 dnf install -y wicd wicd-curses blueman gnome-keyring
