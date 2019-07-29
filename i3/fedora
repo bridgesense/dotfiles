@@ -10,14 +10,15 @@
 # Options
 # # # # # # # # # # # # # # #
 USER="${1:francis}"
-
+echo $USER
+exit
 # Run as root
 # Commandline Tools
 # # # # # # # # # # # # # # #
 dnf update -y
 dnf install -y autoconf automake git
 dnf install -y group install -y development-tools rpm-development-tools c-development
-bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"'
+bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
 su -c 'bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
 
 # Install RPM Fusion
