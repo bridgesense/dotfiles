@@ -143,15 +143,17 @@ echo 'EndSection' >> /etc/X11/xorg.conf.d/20-intel.conf
 systemctl enable thinkfan
 
 # install code editors
-dnf install -y tmux emacs ranger the_silver_searcher ack
+dnf install -y tmux emacs the_silver_searcher ack
 dnf install -y vim-enhanced vim-X11
+dnf install -y ranger w3m w3m-img
 # install PHP tools
 dnf install -y php
 # boris
 curl -L -O https://github.com/borisrepl/boris/releases/download/v1.0.8/boris.phar
 chmod +x boris.phar
 mv boris.phar /usr/local/bin/boris
-dnf install -y php-json php-readline
+# required modules for boris and phpctags
+dnf install -y php-json php-readline php-process
 cd ~/lab
 git clone https://github.com/xcwen/phpctags.git
 cd phpctags
