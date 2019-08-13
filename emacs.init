@@ -137,6 +137,10 @@
 (use-package diminish :ensure t)
 
 
+;; CSV Mode
+;; (use-package csv-mode :ensure t)
+
+
 ;; # # # # # # # # # # #
 ;; Fixes cut/paste in Ansi-Terminal and other places
 (setq x-select-enable-clipboard t)
@@ -634,6 +638,8 @@
 
 ;; Geben for Xdebug
 ;; # # # # # # # # # # #
+;; reset geben strategy at startup
+(shell-command "rm -f ~/.emacs.d/geben/.storage")
 (use-package geben :ensure t
   :diminish geben-mode
   :config
@@ -820,7 +826,7 @@
    "fc" '(my-put-file-name-on-clipboard :which-key "Copy File Path")'
    "ff" '(helm-find-files :which-key "Open File")
    "fd" '(deer :which-key "File Browser")
-   "fr" '(ranger :which-key "File Ranger")
+   "fr" '(revert-buffer :which-key "Revert to Prior State")
    "fp" '(helm-projectile-find-file :which-key "Find File"))
 
 
