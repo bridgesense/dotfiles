@@ -142,7 +142,7 @@ echo 'EndSection' >> /etc/X11/xorg.conf.d/20-intel.conf
 # enable thinkfan
 systemctl enable thinkfan
 
-# install code editors
+# install code editors and PHP dev tools
 dnf install -y tmux emacs the_silver_searcher ack
 dnf install -y vim-enhanced vim-X11
 dnf install -y ranger w3m w3m-img
@@ -161,7 +161,9 @@ make
 cp phpctags.phar /usr/local/bin/
 dnf install -y nodejs nodejs-yarn ruby-devel
 gem install compass sass
-
+npm install -g grunt-cli
+npm install -g js-beautify
+        
 # permissions and status
 rm -f /etc/i3status.conf
 cp ~/.yadrlite/i3/i3status/i3status.conf /etc/
