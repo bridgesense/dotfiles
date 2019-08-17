@@ -12,7 +12,7 @@ set $term --no-startup-id urxvt256c
 set $mod Mod4
 set $shutdown ~/.config/i3/shutdown.sh
 set $reboot  ~/.config/i3/reboot.sh
-set $hibernate "systemctl suspend && xautolock -locknow" 
+set $hibernate "systemctl suspend && xautolock -locknow && ~/.config/i3/screen_init.sh" 
 
 # whisker menu selection
 # rofi recognizes flatpak installed software
@@ -179,7 +179,7 @@ bindsym $mod+F4     exec $term -e alsamixer -c 0
 bindsym $mod+F5		exec --no-startup-id $hibernate
 bindsym $mod+F6		exec --no-startup-id $hibernate
 bindsym $mod+F7     exec $term -e sudo openvpn --config ~/Nextcloud/office/network/bdesk.ovpn
-bindsym $mod+F8     exec $term -e wicd-curses
+bindsym $mod+F8     exec $term -e nmtui
 bindsym $mod+F9     exec --no-startup-id xautolock -locknow 
 bindsym $mod+F10	exec --no-startup-id arandr
 bindsym $mod+F11    exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "Device Enabled" 0 && notify-send "Touchpad Off" --expire-time=600
@@ -219,6 +219,6 @@ bindsym XF86Suspend		                exec --no-startup-id $hibernate
 bindsym XF86Search		                exec $BROWSER https://duckduckgo.com
 bindsym XF86Display		                exec --no-startup-id arandr
 bindsym XF86Documents		            exec $term -e ranger ~/Documents
-bindsym XF86WLAN		                exec $netrefresh
-bindsym XF86MonBrightnessDown            exec --no-startup-id xbacklight -dec 10
-bindsym XF86MonBrightnessUp           exec --no-startup-id xbacklight -inc 10
+bindsym XF86WLAN                        exec ~/.config/i3/toggle-wifi.sh
+bindsym XF86MonBrightnessDown           exec --no-startup-id xbacklight -dec 10
+bindsym XF86MonBrightnessUp             exec --no-startup-id xbacklight -inc 10
