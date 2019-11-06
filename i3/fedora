@@ -56,7 +56,6 @@ dnf install -y nomacs
 dnf install -y gnome-disk-utility
 dnf install -y cups hplip hplip-gui
 dnf install -y policycoreutils-gui setools-console setroubleshoot
-dnf install -y flatpakunextcloud-client
 dnf install -y wine winetricks
 # Gargoyle
 dnf install -y gargoyle
