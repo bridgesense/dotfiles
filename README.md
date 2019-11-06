@@ -251,3 +251,81 @@ VIM Shortcuts
 #### Vim Dev:
 * `,vc` - (Vim Command) copies the command under your cursor and executes it in vim. Great for testing single line changes to vimrc.
 * `,vr` - (Vim Reload) source current file as a vim file
+
+
+i3 Commands 
+---
+
+#### Software Bindings:   
+* `Mod+Return` Brings up the terminal
+* `Mod+Space` Brings up an application menu
+* `Mod+d` Brings up Nemo a graphical file manager
+* `Mod+i` Brings up htop, a process manager
+* `Mod+m` Movie Mode toggles the screen saver and lock system
+* `Mod+n` Brings up Ranger, a curses file manager
+* `Mod+r` Refreshes screens on all monitors        
+* `Mod+Escape` Swaps Escape with All Caps Lock
+
+#### Screenshots
+* `Print`, `Mod+Shift+s` Brings up flameshot, a OSX style screenshot application
+* `Shift+Print` Brings up flameshot configuration
+
+#### Machine Bindings
+* `Mod+Shift+Backspace` Brings up reboot dialog
+* `Mod+Shift+x` Brings up shutdown dialog
+
+#### Window Bindings
+* `Mod+h` Shift focus to left one window
+* `Mod+j` Shift focus down one window
+* `Mod+k` Shift focus up one window
+* `Mod+l` Shift focus right one window
+* `Mod+p` Pop out window, floating mode
+* `Mod+Shift+p` Snap window into place, snap (default) mode
+* `Mod+Shift+h` Move current window to the left 
+* `Mod+Shift+j` Move current window down one 
+* `Mod+Shift+k` Move current window up one 
+* `Mod+Shift+l` Move current window to the right 
+* `Mod+Shift+c` Move current window to the center
+
+* `Mod+q` Kill current window (and program)
+* `Mod+f` Toggle window to full screen
+* `Mod+Shift-r` Refresh/Resize Window
+* `Mod+t` Toggle Split between horizontal and vertical mode
+* `Mod+s` Change window to vertical split mode 
+* `Mod+v` Change window to horizontal split mode 
+* `Mod+b` Toggle window sticky mode 
+
+* `Mod+left bracket` shrink window width 
+* `Mod+right bracket` grow window width 
+* `Mod+minus` shrink window height 
+* `Mod+equal` grow window height 
+     
+#### Workspace Bindings
+* `Mod+1` jump to / create Workspace 1 
+* `Mod+2` jump to / create Workspace 2 
+* `Mod+3` jump to / create Workspace 3 
+* `Mod+4` jump to / create Workspace 4 
+* `Mod+5` jump to / create Workspace 5 
+* `Mod+6` jump to / create Workspace 6 
+* `Mod+7` jump to / create Workspace 7 
+* `Mod+8` jump to / create Workspace 8 
+* `Mod+9` jump to / create Workspace 9 
+* `Mod+0` jump to / create Workspace 10 
+
+* `Mod+w` jump to right workspace round robin 
+* `Mod+period` move workspace to right screen round robin
+* `Mod+slash` move window to right screen round robin
+
+* `Mod+z` jump to previous workspace         
+* `Mod+x` jump to next workspace         
+* `Mod+Tab` Toggle between last selected workspace
+
+#### Function Keys
+* `Mod+F1`, `Mod+F2`, `Mod+F3`, `Mod+F4` Brings up the Alsa Mixer 
+* `Mod+F5`, `Mod+F6` Put computer into hybernation without dialog
+* `Mod+F7`, `Mod+F8` Brings up Network dialog 
+* `Mod+F9` Locks current screen 
+* `Mod+F10` Brings up multiple screen setup 
+* `Mod+F11` Turns off touchpad 
+* `Mod+F12` Turns on touchpad 
+     

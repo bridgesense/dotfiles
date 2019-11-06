@@ -8,11 +8,11 @@ for_window [class="^.*"] border pixel 2
 for_window [class="^.*"][window_type=dialog] focus
 gaps inner 5
 gaps outer 5
-set $term --no-startup-id urxvt256c 
+set $term --no-startup-id urxvt256c
 set $mod Mod4
 set $shutdown ~/.config/i3/shutdown.sh
 set $reboot  ~/.config/i3/reboot.sh
-set $hibernate "systemctl suspend && xautolock -locknow && ~/.config/i3/screen_init.sh" 
+set $hibernate "systemctl suspend && ~/.config/i3/screen_init.sh && xautolock -locknow"
 
 # whisker menu selection
 # rofi recognizes flatpak installed software
@@ -20,7 +20,7 @@ set $menu "rofi -combi-modi window,drun,ssh -modi combi -show combi"
 # set $menu dmenu_run
 
 # #---Starting External Scripts---# #
-# Start Sound 
+# Start Sound
 exec --no-startup-id pulseaudio --start
 # Starts dunst for notifications:
 exec --no-startup-id dunst
@@ -37,7 +37,7 @@ exec --no-startup-id ~/.config/i3/screen_init.sh
 # unmute microphone
 exec --no-startup-id amixer set Capture cap
 # turn on flameshot
-# exec --no-startup-id flameshot 
+# exec --no-startup-id flameshot
 # autoconnect mouse
 
 # Set Xresources colors:
@@ -90,8 +90,8 @@ bindsym $mod+Return 		exec $term
 bindsym $mod+space  	    exec --no-startup-id $menu
 bindsym $mod+d 			    exec --no-startup-id nemo --no-desktop
 bindsym $mod+i 			    exec $term -e htop
+bindsym $mod+m 			    exec --no-startup-id ~/.config/i3/toggle-movie-mode.sh
 bindsym $mod+n 			    exec $term -e ranger
-bindsym $mod+o			    exec $term -e calcurse
 bindsym $mod+r              exec --no-startup-id ~/.config/i3/screen_init.sh
 bindsym $mod+escape         exec --no-startup-id setxkbmap -option caps:swapescape
 
@@ -106,12 +106,12 @@ bindsym $mod+j			focus down
 bindsym $mod+k			focus up
 bindsym $mod+l			focus right
 bindsym $mod+p          floating enable
-bindsym $mod+shift+p    floating disable 
-bindsym $mod+Shift+H	move left
-bindsym $mod+Shift+J	move down 
-bindsym $mod+Shift+K	move up
-bindsym $mod+Shift+L 	move right
-bindsym $mod+Shift+C    move position center 
+bindsym $mod+Shift+p    floating disable
+bindsym $mod+Shift+h	move left
+bindsym $mod+Shift+j	move down
+bindsym $mod+Shift+k	move up
+bindsym $mod+Shift+l 	move right
+bindsym $mod+Shift+c    move position center
 
 bindsym $mod+q          [con_id="__focused__" instance="^(?!tmuxdd).*$"] kill
 bindsym $mod+f			fullscreen toggle
@@ -178,9 +178,9 @@ bindsym $mod+F3     exec $term -e alsamixer -c 0
 bindsym $mod+F4     exec $term -e alsamixer -c 0
 bindsym $mod+F5		exec --no-startup-id $hibernate
 bindsym $mod+F6		exec --no-startup-id $hibernate
-bindsym $mod+F7     exec $term -e sudo openvpn --config ~/Nextcloud/office/network/bdesk.ovpn
+bindsym $mod+F7     exec $term -e nmtui
 bindsym $mod+F8     exec $term -e nmtui
-bindsym $mod+F9     exec --no-startup-id xautolock -locknow 
+bindsym $mod+F9     exec --no-startup-id xautolock -locknow
 bindsym $mod+F10	exec --no-startup-id arandr
 bindsym $mod+F11    exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "Device Enabled" 0 && notify-send "Touchpad Off" --expire-time=600
 bindsym $mod+F12    exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "Device Enabled" 1 && notify-send "Touchpad On" --expire-time=600
@@ -198,7 +198,7 @@ bindsym $mod+Shift+Right 	move right
 # #---Extra XF86 Keys---# #
 # These are the extra media keys that some keyboards have.
 bindsym XF86AudioMicMute 	            exec --no-startup-id amixer set Capture toggle
-bindsym XF86AudioMute		            exec --no-startup-id pactl set-sink-mute 0 toggle 
+bindsym XF86AudioMute		            exec --no-startup-id pactl set-sink-mute 0 toggle
 bindsym XF86AudioLowerVolume	        exec --no-startup-id amixer set Master 2%-
 bindsym Shift+XF86AudioLowerVolume	    exec --no-startup-id amixer set Master 10%-
 bindsym Control+XF86AudioLowerVolume	exec --no-startup-id amixer set Master 1%-

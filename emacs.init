@@ -7,7 +7,6 @@
 ;; # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 ;;; Code:
 
-
 ;; Removes Top Toolbar and Scrollbar
 ;; # # # # # # # # # # #
 (if window-system (tool-bar-mode -1))
@@ -73,7 +72,9 @@
  '(org-level-8 ((t (:inherit default :weight bold)))))
 (set-frame-parameter (selected-frame) 'alpha '(95 . 95))
 (add-to-list 'default-frame-alist '(alpha . (95 . 95)))
-
+;; allow font resizing
+(global-set-key (kbd "C-=") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
 
 ;; Additional Repos
 ;; # # # # # # # # # # #
@@ -152,11 +153,14 @@
 (use-package evil :ensure t :diminish evil-mode
   :config
   (evil-mode 1))
+(use-package evil-matchit :ensure t)
 (use-package evil-surround :ensure t
   :diminish evil-surround-mode
   :config
   (global-evil-surround-mode 1))
-(use-package evil-tutor :ensure t)
+(use-package evil-tutor :ensure t
+  :config
+  (global-evil-matchit-mode 1))
 (use-package evil-commentary :ensure t
   :diminish evil-commentary-mode
   :config
@@ -712,7 +716,6 @@
 (use-package company-web :ensure t)
 (use-package company-quickhelp :ensure t)
 (use-package cl-lib :ensure t)
-(use-package hippie-exp-ext :ensure t)
 (use-package company :ensure t
              :diminish company-mode
              :config
@@ -826,6 +829,7 @@
    "fc" '(my-put-file-name-on-clipboard :which-key "Copy File Path")'
    "ff" '(helm-find-files :which-key "Open File")
    "fd" '(deer :which-key "File Browser")
+   "fl" '(load-file :which-key "Load E-Lisp File")
    "fr" '(revert-buffer :which-key "Revert to Prior State")
    "fp" '(helm-projectile-find-file :which-key "Find File"))
 

@@ -1,7 +1,7 @@
 #/bin/bash
 # Fedora Workstation Setup
 # WARNING: This is a personal installation script.
-# Please review this script and adjust it to your needs prior to running the script.
+# Please review this script and adjust it to your needs prior to running it.
 # This script is intended for a minimal Fedora Workstation installation
 # run as root:
 # curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/i3/fedora > fedora
@@ -36,12 +36,13 @@ dnf install -y @base-x @Fonts i3 i3lock
 dnf install -y xbacklight feh xautolock grub2-breeze-theme
 dnf install -y lxappearance arc-theme rofi redshift-gtk
 dnf install -y pulseaudio alsa-utils pulseaudio-utils xcompmgr
+dnf install -y pulseeffects pavucontrol    
 dnf install -y arandr zenity rxvt-unicode-256color flameshot
 dnf install -y gnome-keyring
 dnf install -y NetworkManager-tui NetworkManager-wifi NetworkManager-openvpn-gnome
 dnf install -y dhcp-client iw wpa_supplicant blueman
-dnf install -y dunst libnotify 
-dnf install -y calcurse python3-httplib2 wordnet
+dnf install -y dunst libnotify mailx
+dnf install -y python3-httplib2 wordnet
 dnf install -y texlive-latex
 dnf install -y texlive-collection-latex texlive-collection-latexextra
 dnf install -y papirus-icon-theme
@@ -49,7 +50,6 @@ dnf install -y nemo
 dnf install -y acpi thinkfan crontabs
 dnf install -y firewall-config
 dnf install -y mupdf 
-dnf install -y calcurse
 dnf install -y system-config-printer
 dnf install -y simple-scan
 dnf install -y nomacs
@@ -58,24 +58,15 @@ dnf install -y cups hplip hplip-gui
 dnf install -y policycoreutils-gui setools-console setroubleshoot
 dnf install -y flatpakunextcloud-client
 dnf install -y wine winetricks
-# DVD Codecs
-dnf install -y vlc
-rpm -Uvh http://rpm.livna.org/repo/18/x86_64/libdvdcss-1.2.12-1.fc17.remi.x86_64.rpm
-dnf install -y devedeng brasero
 # Gargoyle
 dnf install -y gargoyle
-cp ~/.yadrlite/i3/garglk.ini ~/.garglkrc
-# patch wicd-curses
-systemctl enable wicd
-audit2allow -l -a -M selwicd
-patch /usr/share/wicd/curses/wicd-curses.py < ~/.yadrlite/src/org/wicd-curses/wicd.patch
+su -c 'cp ~/.yadrlite/i3/garglk.ini ~/.garglkrc' $USER
 # install xbanish
 dnf install -y libXt-devel libXfixes-devel libXi-devel
-mkdir -p ~/lab
-cd ~/lab
-git clone https://github.com/jcs/xbanish.git
-cd xbanish
-make install
+su -c 'mkdir -p ~/lab' $USER
+su -c 'git clone https://github.com/jcs/xbanish.git ~/lab/xbanish' $USER 
+su -c 'make -C ~/lab/xbanish' $USER
+cd /home/$USER/xbanish && make install
 # install i3 Gaps
 dnf install -y libxcb-devel xcb-util-keysyms-devel xcb-util-devel 
 dnf install -y xcb-util-wm-devel xcb-util-xrm-devel yajl-devel 
@@ -83,15 +74,15 @@ dnf install -y libXrandr-devel startup-notification-devel
 dnf install -y libev-devel xcb-util-cursor-devel libXinerama-devel 
 dnf install -y libxkbcommon-devel libxkbcommon-x11-devel 
 dnf install -y pcre-devel pango-devel
-cd ~/lab
-git clone https://www.github.com/Airblader/i3 i3-gaps
-cd i3-gaps/
-git checkout gaps && git pull
-autoreconf -fi
-rm -rf build/
-mkdir -p build && cd build/
-../configure --prefix=/usr --sysconfdir=/etc --disable-sanitizers
-make && make install
+su -c 'git clone https://www.github.com/Airblader/i3 ~/lab/i3-gaps' $USER
+su -c 'cd ~/lab/i3-gaps && git checkout gaps' $USER
+su -c 'cd ~/lab/i3-gaps && git pull' $user
+su -c 'cd ~/lab/i3-gaps && autoreconf -fi' $USER
+su -c 'rm -rf ~/lab/i3-gaps/build/' $USER
+su -c 'mkdir -p ~/lab/i3-gaps/build' $USER
+su -c 'cd ~/lab/i3-gaps/build && ../configure --prefix=/usr --sysconfdir=/etc --disable-sanitizers' $USER
+su -c 'make -C ~/lab/i3-gaps/build' $USER
+cd /home/$USER/lab/i3-gaps/build && make install
 # copy over system start resources
 su -c 'cp -f ~/.yadrlite/i3/Xresources ~/.Xresources' $USER
 su -c 'mkdir -p ~/.config/i3' $USER
@@ -141,11 +132,6 @@ echo '    Option "TearFree" "true"' >> /etc/X11/xorg.conf.d/20-intel.conf
 echo 'EndSection' >> /etc/X11/xorg.conf.d/20-intel.conf
 # enable thinkfan
 systemctl enable thinkfan
-
-# install code editors and PHP dev tools
-dnf install -y tmux emacs the_silver_searcher ack
-dnf install -y vim-enhanced vim-X11
-dnf install -y ranger w3m w3m-img
 # install PHP tools
 dnf install -y php
 # boris
@@ -154,16 +140,32 @@ chmod +x boris.phar
 mv boris.phar /usr/local/bin/boris
 # required modules for boris and phpctags
 dnf install -y php-json php-readline php-process
-cd ~/lab
-git clone https://github.com/xcwen/phpctags.git
-cd phpctags
-make
-cp phpctags.phar /usr/local/bin/
+su -c 'git clone https://github.com/xcwen/phpctags.git ~/lab/phpctags' $USER
+su -c 'make -C ~/lab/phpctags' $USER
+cp /home/$USER/lab/phpcstags/phpctags.phar /usr/local/bin/
 dnf install -y nodejs nodejs-yarn ruby-devel
 gem install compass sass
 npm install -g grunt-cli
 npm install -g js-beautify
-        
+# install code editors and PHP dev tools
+dnf install -y tmux the_silver_searcher ack
+dnf install -y ranger w3m w3m-img
+dnf install -y vim-enhanced vim-X11
+su -c 'git clone -b master git://git.sv.gnu.org/emacs.git ~/lab/emacs' $USER
+su -c 'cd ~/lab/emacs && ./autogen.sh' $USER
+su -c 'cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils' $USER
+su -c 'make -C ~/lab/emacs' $USER
+cd /home/$USER/lab/emacs && make install
+# DVD Codecs
+dnf install -y flatpak
+rpm -Uvh http://rpm.livna.org/repo/18/x86_64/libdvdcss-1.2.12-1.fc17.remi.x86_64.rpm
+dnf install -y devedeng brasero libbdplus
+su -c 'flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo' $USER
+su -c 'flatpak install org.videolan.VLC' $USER
+su -c 'flatpak install org.videolan.VLC.Plugin.fdkaac' $USER
+su -c 'flatpak install org.videolan.VLC.Plugin.makemkv' $USER
+su -c 'flatpak install org.videolan.VLC.Plugin.bdj' $USER
+
 # permissions and status
 rm -f /etc/i3status.conf
 cp ~/.yadrlite/i3/i3status/i3status.conf /etc/
