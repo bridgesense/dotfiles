@@ -137,6 +137,18 @@ dnf install -y php
 curl -L -O https://github.com/borisrepl/boris/releases/download/v1.0.8/boris.phar
 chmod +x boris.phar
 mv boris.phar /usr/local/bin/boris
+# PHP Parallel Lint
+dnf install -y composer
+sudo sed -i "s#;phar.readonly = On#phar.readonly = Off#" /etc/php.ini
+systemctl restart httpd
+su -c "mkdir -p ~/lab/box-phar" $USER
+su -c "cd ~/lab/box-phar && curl -LSs https://box-project.github.io/box2/installer.php | php" $USER
+cp /home/$USER/lab/box-phar/box.phar /usr/local/bin/box && chmod 755 /usr/local/bin/box
+su -c "git clone https://github.com/JakubOnderka/PHP-Parallel-Lint.git ~/lab/PHP-Parallel-Lint" $USER
+su -c "cd ~/lab/PHP-Parallel-Lint && composer install" $USER
+su -c "cp ~/lab/PHP-Parallel-Lint/parallel-lint ~/lab/PHP-Parallel-Lint/parallel-lint.php" $USER
+su -c "cd ~/lab/PHP-Parallel-Lint && box build" $USER
+cp /home/$USER/lab/PHP-Parallel-Lint/parallel-lint.phar /usr/local/bin/parallel-lint && chmod 755 /usr/local/bin/parallel-lint
 # required modules for boris and phpctags
 dnf install -y php-json php-readline php-process
 su -c 'git clone https://github.com/xcwen/phpctags.git ~/lab/phpctags' $USER
@@ -155,8 +167,6 @@ su -c 'cd ~/lab/emacs && ./autogen.sh' $USER
 su -c 'cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils' $USER
 su -c 'make -C ~/lab/emacs' $USER
 cd /home/$USER/lab/emacs && make install
-su -c 'mkdir -p ~/.config/emacs' $USER
-su -c 'cp ~/.emacs ~/.config/emacs/init.el' $USER
 # DVD Codecs and Aux Applications
 dnf install -y flatpak
 rpm -Uvh http://rpm.livna.org/repo/18/x86_64/libdvdcss-1.2.12-1.fc17.remi.x86_64.rpm
