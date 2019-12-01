@@ -106,12 +106,12 @@ bindsym $mod+j			focus down
 bindsym $mod+k			focus up
 bindsym $mod+l			focus right
 bindsym $mod+p          floating enable
-bindsym $mod+Shift+p    floating disable
-bindsym $mod+Shift+h	move left
-bindsym $mod+Shift+j	move down
-bindsym $mod+Shift+k	move up
-bindsym $mod+Shift+l 	move right
-bindsym $mod+Shift+c    move position center
+bindsym $mod+shift+p    floating disable
+bindsym $mod+Shift+H	move left
+bindsym $mod+Shift+J	move down
+bindsym $mod+Shift+K	move up
+bindsym $mod+Shift+L 	move right
+bindsym $mod+Shift+C    move position center
 
 bindsym $mod+q          [con_id="__focused__" instance="^(?!tmuxdd).*$"] kill
 bindsym $mod+f			fullscreen toggle

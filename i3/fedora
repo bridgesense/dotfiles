@@ -2,7 +2,7 @@
 # Fedora Workstation Setup
 # WARNING: This is a personal installation script.
 # Please review this script and adjust it to your needs prior to running it.
-# This script is intended for a minimal Fedora Workstation installation
+# This script is intended for a minimal Fedora Workstation installation on a Thinkpad
 # run as root:
 # curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/i3/fedora > fedora
 # bash fedora <username>
@@ -29,19 +29,19 @@ dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-
 # Install RPM Sphere
 rpm -Uvh https://github.com/rpmsphere/noarch/raw/master/r/rpmsphere-release-30-1.noarch.rpm
 
-# Install i3 
+# Install supporting applications
 # # # # # # # # # # # # # # #
-dnf install -y @base-x @Fonts i3 i3lock 
-# installs supporting apps used in i3 configuration
+dnf install -y @base-x @Fonts
 dnf install -y xbacklight feh xautolock grub2-breeze-theme
 dnf install -y lxappearance arc-theme rofi redshift-gtk
 dnf install -y pulseaudio alsa-utils pulseaudio-utils xcompmgr
-dnf install -y pulseeffects pavucontrol    
+dnf install -y pulseeffects pavucontrol
 dnf install -y arandr zenity rxvt-unicode-256color flameshot
 dnf install -y gnome-keyring
 dnf install -y NetworkManager-tui NetworkManager-wifi NetworkManager-openvpn-gnome
 dnf install -y dhcp-client iw wpa_supplicant blueman
-dnf install -y dunst libnotify mailx
+dnf install -y dunst libnotify 
+dnf install -y gnutls mailx
 dnf install -y python3-httplib2 wordnet
 dnf install -y texlive-latex
 dnf install -y texlive-collection-latex texlive-collection-latexextra
@@ -49,7 +49,7 @@ dnf install -y papirus-icon-theme
 dnf install -y nemo
 dnf install -y acpi thinkfan crontabs
 dnf install -y firewall-config
-dnf install -y mupdf 
+dnf install -y mupdf
 dnf install -y system-config-printer
 dnf install -y simple-scan
 dnf install -y nomacs
@@ -57,24 +57,32 @@ dnf install -y gnome-disk-utility
 dnf install -y cups hplip hplip-gui
 dnf install -y policycoreutils-gui setools-console setroubleshoot
 dnf install -y wine winetricks
+dnf install -y clamav clamav-update
+dnf install -y timeshift
+
 # Gargoyle
+# # # # # # # # # # # # # # #
 dnf install -y gargoyle
 su -c 'cp ~/.yadrlite/i3/garglk.ini ~/.garglkrc' $USER
+
 # install xbanish
+# # # # # # # # # # # # # # #
 dnf install -y libXt-devel libXfixes-devel libXi-devel
 su -c 'mkdir -p ~/lab' $USER
-su -c 'git clone https://github.com/jcs/xbanish.git ~/lab/xbanish' $USER 
+su -c 'git clone https://github.com/jcs/xbanish.git ~/lab/xbanish' $USER
 su -c 'make -C ~/lab/xbanish' $USER
 cd /home/$USER/xbanish && make install
+
 # install i3 Gaps
-dnf install -y libxcb-devel xcb-util-keysyms-devel xcb-util-devel 
-dnf install -y xcb-util-wm-devel xcb-util-xrm-devel yajl-devel 
-dnf install -y libXrandr-devel startup-notification-devel 
-dnf install -y libev-devel xcb-util-cursor-devel libXinerama-devel 
-dnf install -y libxkbcommon-devel libxkbcommon-x11-devel 
+# # # # # # # # # # # # # # #
+dnf install -y libxcb-devel xcb-util-keysyms-devel xcb-util-devel
+dnf install -y xcb-util-wm-devel xcb-util-xrm-devel yajl-devel
+dnf install -y libXrandr-devel startup-notification-devel
+dnf install -y libev-devel xcb-util-cursor-devel libXinerama-devel
+dnf install -y libxkbcommon-devel libxkbcommon-x11-devel
 dnf install -y pcre-devel pango-devel
 su -c 'git clone https://www.github.com/Airblader/i3 ~/lab/i3-gaps' $USER
-su -c 'cd ~/lab/i3-gaps && git checkout gaps' $USER
+su -c 'cd ~/lab/i3-gaps && git checkout gaps-next' $USER
 su -c 'cd ~/lab/i3-gaps && git pull' $user
 su -c 'cd ~/lab/i3-gaps && autoreconf -fi' $USER
 su -c 'rm -rf ~/lab/i3-gaps/build/' $USER
@@ -82,7 +90,10 @@ su -c 'mkdir -p ~/lab/i3-gaps/build' $USER
 su -c 'cd ~/lab/i3-gaps/build && ../configure --prefix=/usr --sysconfdir=/etc --disable-sanitizers' $USER
 su -c 'make -C ~/lab/i3-gaps/build' $USER
 cd /home/$USER/lab/i3-gaps/build && make install
+dnf install -y i3lock
+
 # copy over system start resources
+# # # # # # # # # # # # # # #
 su -c 'cp -f ~/.yadrlite/i3/Xresources ~/.Xresources' $USER
 su -c 'mkdir -p ~/.config/i3' $USER
 su -c 'cp ~/.yadrlite/i3/i3/*.sh ~/.config/i3' $USER
@@ -94,15 +105,32 @@ sed -i '/Default Prompt/a alias vi="vimx"\nalias vim="vimx"' /home/$USER/.bashrc
 sed -i '/Default Prompt/a alias vi="vimx"\nalias vim="vimx"' /root/.bashrc
 # printf "# Give the following users Sudoers Access\n$USER ALL=(ALL)  ALL" >> /etc/sudoers
 echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
+
 # grub theme
+# # # # # # # # # # # # # # #
 printf 'GRUB_THEME="/boot/grub2/themes/breeze/theme.txt"' >> /etc/default/grub
+
 # activate dunst
+# # # # # # # # # # # # # # #
 systemctl enable --user dunst.service
 systemctl start --user dunst.service
 su -c "cp -r ~/.yadrlite/i3/dunst ~/.config" $USER
-# any changes to the configuration
 eval $(dbus-launch)
-# help the sound
+
+# low battery indication
+# # # # # # # # # # # # # # #
+sudo dnf install -y acpi ntpdate
+(crontab -u $USER -l; echo "*/15 * * * * /bin/bash /home/$(USER)/.config/i3/battery.sh >/dev/null 2>&1") | crontab -u $USER -
+
+# Add "tap to click" for touchpads
+# # # # # # # # # # # # # # #
+sed -i '/Identifier "libinput touchpad catchall"/a \\tOption "Tapping" "on"' /usr/share/X11/xorg.conf.d/40-libinput.conf   
+
+# bluetooth headset fix for better audio quality
+sed -i 's/module-bluetooth-discover/module-bluetooth-discover headset=auto/' /etc/pulse/default.pa  
+             
+# help the sound (for Thinkpads)
+# # # # # # # # # # # # # # #
 echo "resample-method = soxr-vhq" >> /etc/pulse/daemon.conf
 echo "default-sample-format = float32le" >> /etc/pulse/daemon.conf
 echo "default-sample-rate = 96000" >> /etc/pulse/daemon.conf
@@ -121,23 +149,47 @@ echo "rlimit-rtprio = 9" >> /etc/pulse/daemon.conf
 echo "rlimit-rttime = -1" >> /etc/pulse/daemon.conf
 echo "daemonize = yes" >> /etc/pulse/daemon.conf
 echo "autospawn = no" >> /etc/pulse/client.conf
+    
 # set timezone
+# # # # # # # # # # # # # # #
 timedatectl set-timezone America/Los_Angeles
-# fix screen tearing
-echo 'Section "Device"' >> /etc/X11/xorg.conf.d/20-intel.conf 
+
+# fix screen tearing (for Thinkpads)
+# # # # # # # # # # # # # # #
+echo 'Section "Device"' >> /etc/X11/xorg.conf.d/20-intel.conf
 echo '    Identifier "Intel Graphics"' >> /etc/X11/xorg.conf.d/20-intel.conf
 echo '    Driver "intel"' >> /etc/X11/xorg.conf.d/20-intel.conf
 echo '    Option "TearFree" "true"' >> /etc/X11/xorg.conf.d/20-intel.conf
 echo 'EndSection' >> /etc/X11/xorg.conf.d/20-intel.conf
+    
 # enable thinkfan
+# # # # # # # # # # # # # # #
+    
 systemctl enable thinkfan
-# install PHP tools
+
+# install PHP essentials
+# # # # # # # # # # # # # # #
 dnf install -y php
-# boris
+
+# required modules for boris and phpctags
+# # # # # # # # # # # # # # #
+dnf install -y php-json php-readline php-process
+dnf install -y nodejs nodejs-yarn ruby-devel
+npm install -g grunt-cli
+npm install -g js-beautify
+su -c 'git clone https://github.com/xcwen/phpctags.git ~/lab/phpctags' $USER
+su -c 'make -C ~/lab/phpctags' $USER
+cp /home/$USER/lab/phpcstags/phpctags.phar /usr/local/bin/
+gem install compass sass
+        
+# boris (nice PHP sandbox tool)
+# # # # # # # # # # # # # # #
 curl -L -O https://github.com/borisrepl/boris/releases/download/v1.0.8/boris.phar
 chmod +x boris.phar
 mv boris.phar /usr/local/bin/boris
+    
 # PHP Parallel Lint
+# # # # # # # # # # # # # # #
 dnf install -y composer
 sudo sed -i "s#;phar.readonly = On#phar.readonly = Off#" /etc/php.ini
 systemctl restart httpd
@@ -149,25 +201,22 @@ su -c "cd ~/lab/PHP-Parallel-Lint && composer install" $USER
 su -c "cp ~/lab/PHP-Parallel-Lint/parallel-lint ~/lab/PHP-Parallel-Lint/parallel-lint.php" $USER
 su -c "cd ~/lab/PHP-Parallel-Lint && box build" $USER
 cp /home/$USER/lab/PHP-Parallel-Lint/parallel-lint.phar /usr/local/bin/parallel-lint && chmod 755 /usr/local/bin/parallel-lint
-# required modules for boris and phpctags
-dnf install -y php-json php-readline php-process
-su -c 'git clone https://github.com/xcwen/phpctags.git ~/lab/phpctags' $USER
-su -c 'make -C ~/lab/phpctags' $USER
-cp /home/$USER/lab/phpcstags/phpctags.phar /usr/local/bin/
-dnf install -y nodejs nodejs-yarn ruby-devel
-gem install compass sass
-npm install -g grunt-cli
-npm install -g js-beautify
+
 # install code editors and PHP dev tools
+# # # # # # # # # # # # # # #
 dnf install -y tmux the_silver_searcher ack
 dnf install -y ranger w3m w3m-img
 dnf install -y vim-enhanced vim-X11
 su -c 'git clone -b master git://git.sv.gnu.org/emacs.git ~/lab/emacs' $USER
+# uncomment out the line below to lock in Emacs 26 
+# su -c 'cd ~/lab/emacs && git checkout emacs-26' $USER
 su -c 'cd ~/lab/emacs && ./autogen.sh' $USER
 su -c 'cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils' $USER
 su -c 'make -C ~/lab/emacs' $USER
 cd /home/$USER/lab/emacs && make install
+
 # DVD Codecs and Aux Applications
+# # # # # # # # # # # # # # #
 dnf install -y flatpak
 rpm -Uvh http://rpm.livna.org/repo/18/x86_64/libdvdcss-1.2.12-1.fc17.remi.x86_64.rpm
 dnf install -y devedeng brasero libbdplus
@@ -181,10 +230,10 @@ flatpak install -y flathub org.nextcloud.Nextcloud
 flatpak install -y flathub org.gimp.GIMP
 flatpak install -y flathub org.libreoffice.LibreOffice
 flatpak install -y flathub com.spotify.Client
-flatpak install -y flathub com.skype.Client
 flatpak install -y flathub org.signal.Signal
-    
+
 # permissions and status
+# # # # # # # # # # # # # # #
 rm -f /etc/i3status.conf
 cp ~/.yadrlite/i3/i3status/i3status.conf /etc/
 find /home/$USER/.config -type d -exec chmod 0755 {} \;
