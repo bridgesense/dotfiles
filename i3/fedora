@@ -26,9 +26,6 @@ su -c 'bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfil
 dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
 dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
-# Install RPM Sphere
-rpm -Uvh https://github.com/rpmsphere/noarch/raw/master/r/rpmsphere-release-30-1.noarch.rpm
-
 # Install supporting applications
 # # # # # # # # # # # # # # #
 dnf install -y @base-x @Fonts
@@ -60,11 +57,6 @@ dnf install -y clamav clamav-update
 dnf install -y timeshift
 dnf install -y brasero 
     
-# Gargoyle
-# # # # # # # # # # # # # # #
-dnf install -y gargoyle
-su -c 'cp ~/.yadrlite/i3/garglk.ini ~/.garglkrc' $USER
-
 # install xbanish
 # # # # # # # # # # # # # # #
 dnf install -y libXt-devel libXfixes-devel libXi-devel
@@ -232,7 +224,12 @@ flatpak install -y flathub org.signal.Signal
 
 # uncomment to install wine support with i686 libraries
 # dnf install -y wine winetricks
-    
+
+# Gargoyle (for sanity checks)
+# # # # # # # # # # # # # # #
+dnf install -y SDL SDL_mixer SDL_sound fluidsynth
+rpm -Uvh https://github.com/rpmsphere/x86_64/blob/master/g/gargoyle-2015-5.4.x86_64.rpm?raw=true  
+
 # permissions and status
 # # # # # # # # # # # # # # #
 rm -f /etc/i3status.conf
