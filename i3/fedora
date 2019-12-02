@@ -56,10 +56,10 @@ dnf install -y nomacs
 dnf install -y gnome-disk-utility
 dnf install -y cups hplip hplip-gui
 dnf install -y policycoreutils-gui setools-console setroubleshoot
-dnf install -y wine winetricks
 dnf install -y clamav clamav-update
 dnf install -y timeshift
-
+dnf install -y brasero 
+    
 # Gargoyle
 # # # # # # # # # # # # # # #
 dnf install -y gargoyle
@@ -180,6 +180,7 @@ npm install -g js-beautify
 su -c 'git clone https://github.com/xcwen/phpctags.git ~/lab/phpctags' $USER
 su -c 'make -C ~/lab/phpctags' $USER
 cp /home/$USER/lab/phpcstags/phpctags.phar /usr/local/bin/
+gem update
 gem install compass sass
         
 # boris (nice PHP sandbox tool)
@@ -215,23 +216,23 @@ su -c 'cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls=ifavailabl
 su -c 'make -C ~/lab/emacs' $USER
 cd /home/$USER/lab/emacs && make install
 
-# DVD Codecs and Aux Applications
+# DVD/Blueray Codecs and Aux Applications
 # # # # # # # # # # # # # # #
 dnf install -y flatpak
-rpm -Uvh http://rpm.livna.org/repo/18/x86_64/libdvdcss-1.2.12-1.fc17.remi.x86_64.rpm
-dnf install -y devedeng brasero libbdplus
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y flathub org.videolan.VLC
-flatpak install -y flathub org.videolan.VLC.Plugin.fdkaac
-flatpak install -y flathub org.videolan.VLC.Plugin.makemkv
-flatpak install -y flathub org.videolan.VLC.Plugin.bdj
-flatpak install -y flathub org.videolan.VLC.Plugin.bdj
+flatpak install -y flathub org.videolan.VLC.Plugin.fdkaac/x86_64/3-19.08
+flatpak install -y flathub org.videolan.VLC.Plugin.makemkv/x86_64/3-19.08
+flatpak install -y flathub org.videolan.VLC.Plugin.bdj/x86_64/3-19.08
 flatpak install -y flathub org.nextcloud.Nextcloud
 flatpak install -y flathub org.gimp.GIMP
 flatpak install -y flathub org.libreoffice.LibreOffice
 flatpak install -y flathub com.spotify.Client
 flatpak install -y flathub org.signal.Signal
 
+# uncomment to install wine support with i686 libraries
+# dnf install -y wine winetricks
+    
 # permissions and status
 # # # # # # # # # # # # # # #
 rm -f /etc/i3status.conf
