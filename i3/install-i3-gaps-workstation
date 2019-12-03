@@ -43,7 +43,7 @@ dnf install -y texlive-latex
 dnf install -y texlive-collection-latex texlive-collection-latexextra
 dnf install -y papirus-icon-theme
 dnf install -y nemo
-dnf install -y acpi thinkfan crontabs
+dnf install -y acpi crontabs
 dnf install -y firewall-config
 dnf install -y mupdf
 dnf install -y system-config-printer
@@ -94,14 +94,9 @@ su -c 'cp -r ~/.yadrlite/i3/rofi ~/.config' $USER
 su -c "cp -r ~/.yadrlite/i3/ranger ~/.config" $USER
 sed -i '/Default Prompt/a alias vi="vimx"\nalias vim="vimx"' /home/$USER/.bashrc
 sed -i '/Default Prompt/a alias vi="vimx"\nalias vim="vimx"' /root/.bashrc
+# uncomment the following line to give Sudoers access to the user account
 # printf "# Give the following users Sudoers Access\n$USER ALL=(ALL)  ALL" >> /etc/sudoers
 echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
-
-# grub theme
-# # # # # # # # # # # # # # #
-printf 'GRUB_THEME="/boot/grub2/themes/breeze/theme.txt"' >> /etc/default/grub
-sed -i 's/GRUB_TERMINAL_OUTPUT/#GRUB_TERMINAL_OUTPUT/i' /etc/default/grub
-grub2-mkconfig -o "$(readlink -e /etc/grub2.cfg)"
 
 # activate dunst
 # # # # # # # # # # # # # # #
@@ -158,6 +153,7 @@ echo 'EndSection' >> /etc/X11/xorg.conf.d/20-intel.conf
 # enable thinkfan
 # this is a sample config for a t460
 # # # # # # # # # # # # # # #
+#dnf install -y thinkfan
 #sed -i '/55)/i \
 #hwmon /sys/devices/platform/coretemp.0/hwmon/hwmon3/temp1_input \
 #hwmon /sys/devices/platform/coretemp.0/hwmon/hwmon3/temp2_input \
@@ -209,7 +205,7 @@ dnf install -y vim-enhanced vim-X11
 dnf install -y gtk3-devel ncurses-devel gnutls-devel
 dnf install -y libXpm-devel libjpeg-devel giflib-devel libtiff-devel
 su -c 'git clone -b master git://git.sv.gnu.org/emacs.git ~/lab/emacs' $USER
-# uncomment out the line below to lock in Emacs 26 
+# uncomment out the line below to lock in Emacs 26
 # su -c 'cd ~/lab/emacs && git checkout emacs-26' $USER
 su -c 'cd ~/lab/emacs && ./autogen.sh' $USER
 su -c 'cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils' $USER
@@ -239,7 +235,7 @@ su -c 'cd ~/Applications && tar xjf FirefoxSetup.tar.bz2 -C ~/Applications' $USE
 su -c 'mkdir -p ~/.local/share/applications' $USER
 su -c 'touch ~/.local/share/applications/firefox-nightly.desktop' $USER
 printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/firefox-nightly.desktop
-printf 'Type=Application\n' >> /home/$USER/.local/share/applications/firefox-nightly.desktop 
+printf 'Type=Application\n' >> /home/$USER/.local/share/applications/firefox-nightly.desktop
 printf 'Name=Firefox Nightly Browser\n' >> /home/$USER/.local/share/applications/firefox-nightly.desktop
 printf "Exec=/home/$USER/Applications/firefox/firefox\n" >> /home/$USER/.local/share/applications/firefox-nightly.desktop
 
@@ -263,7 +259,7 @@ semanage port -a -t http_port_t -p tcp 9041
 
 # Rambox
 cd /root
-wget "https://github.com/ramboxapp/community-edition/releases/download/0.7.2/Rambox-0.7.2-linux-x86_64.rpm" 
+wget "https://github.com/ramboxapp/community-edition/releases/download/0.7.2/Rambox-0.7.2-linux-x86_64.rpm"
 rpm -i Rambox*rpm
 echo "y" | rm Rambox*rpm
 
@@ -271,6 +267,7 @@ echo "y" | rm Rambox*rpm
 # # # # # # # # # # # # # # #
 dnf install -y SDL SDL_mixer SDL_sound fluidsynth
 rpm -Uvh https://github.com/rpmsphere/x86_64/blob/master/g/gargoyle-2015-5.4.x86_64.rpm?raw=true
+su -c 'cp ~/.yadrlite/i3/garglk.ini ~/.garglkrc' $USER
 
 # uncomment to install wine support with i686 libraries
 # dnf install -y wine winetricks
