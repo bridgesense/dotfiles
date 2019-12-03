@@ -3,8 +3,8 @@
 # WARNING: This is a personal installation script.  # Please review this script and adjust it to your needs prior to running it.
 # This script is intended for a minimal Fedora Workstation installation on a Thinkpad
 # run as root:
-# curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/i3/fedora > fedora
-# bash fedora <username>
+# curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/i3/install-i3-gaps-workstation > custom-fedora-setup
+# bash custom-fedora-setup <username>
 # # # # # # # # # # # # # # #
 
 # Options
@@ -55,7 +55,6 @@ dnf install -y policycoreutils-gui setools-console setroubleshoot
 dnf install -y clamav clamav-update
 dnf install -y timeshift
 dnf install -y brasero
-dnf install -y chromium
 
 # install xbanish
 # # # # # # # # # # # # # # #
@@ -101,6 +100,8 @@ echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
 # grub theme
 # # # # # # # # # # # # # # #
 printf 'GRUB_THEME="/boot/grub2/themes/breeze/theme.txt"' >> /etc/default/grub
+sed -i 's/GRUB_TERMINAL_OUTPUT/#GRUB_TERMINAL_OUTPUT/i' /etc/default/grub
+grub2-mkconfig -o "$(readlink -e /etc/grub2.cfg)"
 
 # activate dunst
 # # # # # # # # # # # # # # #
@@ -155,9 +156,14 @@ echo '    Option "TearFree" "true"' >> /etc/X11/xorg.conf.d/20-intel.conf
 echo 'EndSection' >> /etc/X11/xorg.conf.d/20-intel.conf
 
 # enable thinkfan
+# this is a sample config for a t460
 # # # # # # # # # # # # # # #
-
-systemctl enable thinkfan
+#sed -i '/55)/i \
+#hwmon /sys/devices/platform/coretemp.0/hwmon/hwmon3/temp1_input \
+#hwmon /sys/devices/platform/coretemp.0/hwmon/hwmon3/temp2_input \
+#hwmon /sys/devices/platform/coretemp.0/hwmon/hwmon3/temp3_input \
+#' /etc/thinkfan.conf
+#systemctl enable thinkfan
 
 # install PHP essentials
 # # # # # # # # # # # # # # #
@@ -200,10 +206,10 @@ cp /home/$USER/lab/PHP-Parallel-Lint/parallel-lint.phar /usr/local/bin/parallel-
 dnf install -y tmux the_silver_searcher ack
 dnf install -y ranger w3m w3m-img
 dnf install -y vim-enhanced vim-X11
-dnf install -y gtk3-devel ncurses-devel
+dnf install -y gtk3-devel ncurses-devel gnutls-devel
 dnf install -y libXpm-devel libjpeg-devel giflib-devel libtiff-devel
 su -c 'git clone -b master git://git.sv.gnu.org/emacs.git ~/lab/emacs' $USER
-# uncomment out the line below to lock in Emacs 26
+# uncomment out the line below to lock in Emacs 26 
 # su -c 'cd ~/lab/emacs && git checkout emacs-26' $USER
 su -c 'cd ~/lab/emacs && ./autogen.sh' $USER
 su -c 'cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils' $USER
@@ -224,13 +230,50 @@ flatpak install -y flathub org.libreoffice.LibreOffice
 flatpak install -y flathub com.spotify.Client
 flatpak install -y flathub org.signal.Signal
 
-# uncomment to install wine support with i686 libraries
-# dnf install -y wine winetricks
+# Install Browsers
+dnf install -y chromium
+# Firefox Nightly
+su -c 'mkdir -p ~/Applications && cd ~/Applications' $USER
+su -c 'cd ~/Applications && wget -O FirefoxSetup.tar.bz2 "https://download.mozilla.org/?product=firefox-latest&os=linux64&lang=en-US"' $USER
+su -c 'cd ~/Applications && tar xjf FirefoxSetup.tar.bz2 -C ~/Applications' $USER
+su -c 'mkdir -p ~/.local/share/applications' $USER
+su -c 'touch ~/.local/share/applications/firefox-nightly.desktop' $USER
+printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/firefox-nightly.desktop
+printf 'Type=Application\n' >> /home/$USER/.local/share/applications/firefox-nightly.desktop 
+printf 'Name=Firefox Nightly Browser\n' >> /home/$USER/.local/share/applications/firefox-nightly.desktop
+printf "Exec=/home/$USER/Applications/firefox/firefox\n" >> /home/$USER/.local/share/applications/firefox-nightly.desktop
+
+# install Vagrant and Virtualbox
+cd /etc/yum.repos.d/
+sudo wget http://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo
+dnf install -y binutils gcc make patch libgomp dkms qt5-qtx11extras libxkbcommon
+dnf install -y glibc-headers glibc-devel kernel-headers kernel-devel compat-libvpx5
+export KERN_DIR=/usr/src/kernels/`uname -r`
+export KERN_VER=`uname -r`
+dnf install -y VirtualBox-5.2
+bash /usr/lib/virtualbox/vboxdrv.sh setup
+# check out http://download/virtualbox.org/virtualbox/
+# and modify the following line with the latest release url
+su -c 'cd ~/Downloads && wget http://download.virtualbox.org/virtualbox/5.2.34/Oracle_VM_VirtualBox_Extension_Pack-5.2.34-133893.vbox-extpack' $USER
+echo "y" | VBoxManage extpack install --replace /home/$USER/Downloads/Oracle_VM_VirtualBox_Extension_Pack-5.2.34-133893.vbox-extpack
+dnf install -y vagrant
+firewall-cmd --permanent --zone=public --add-port=9041/tcp
+setsebool -P httpd_can_network_connect on
+semanage port -a -t http_port_t -p tcp 9041
+
+# Rambox
+cd /root
+wget "https://github.com/ramboxapp/community-edition/releases/download/0.7.2/Rambox-0.7.2-linux-x86_64.rpm" 
+rpm -i Rambox*rpm
+echo "y" | rm Rambox*rpm
 
 # Gargoyle (for sanity checks)
 # # # # # # # # # # # # # # #
 dnf install -y SDL SDL_mixer SDL_sound fluidsynth
 rpm -Uvh https://github.com/rpmsphere/x86_64/blob/master/g/gargoyle-2015-5.4.x86_64.rpm?raw=true
+
+# uncomment to install wine support with i686 libraries
+# dnf install -y wine winetricks
 
 # permissions and status
 # # # # # # # # # # # # # # #
@@ -240,5 +283,5 @@ find /home/$USER/.config -type d -exec chmod 0755 {} \;
 find /home/$USER/.config -type f -exec chmod 0644 {} \;
 find /home/$USER/.config -name "*.sh" -execdir chmod u+x {} +
 
-printf "# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #"
-printf "ALL DONE"
+printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
+printf "ALL DONE.  PLEASE REBOOT YOUR SYSTEM."
