@@ -28,7 +28,7 @@ dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-
 # Install supporting applications
 # # # # # # # # # # # # # # #
 dnf install -y @base-x @Fonts
-dnf install -y xbacklight feh xautolock grub2-breeze-theme
+dnf install -y xbacklight feh xautolock
 dnf install -y lxappearance arc-theme rofi redshift-gtk
 dnf install -y pulseaudio alsa-utils pulseaudio-utils xcompmgr
 dnf install -y pulseeffects pavucontrol
