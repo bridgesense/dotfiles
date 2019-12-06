@@ -161,6 +161,10 @@ echo 'EndSection' >> /etc/X11/xorg.conf.d/20-intel.conf
 #' /etc/thinkfan.conf
 #systemctl enable thinkfan
 
+# install non-free firmware for compatibilty crises
+# dnf install -y rpm fusion-nonfree-release-tainted
+# dnf install -y \*-firmware
+#
 # install PHP essentials
 # # # # # # # # # # # # # # #
 dnf install -y php
@@ -201,9 +205,10 @@ cp /home/$USER/lab/PHP-Parallel-Lint/parallel-lint.phar /usr/local/bin/parallel-
 # # # # # # # # # # # # # # #
 dnf install -y tmux the_silver_searcher ack
 dnf install -y ranger w3m w3m-img
-dnf install -y vim-enhanced vim-X11
+dnf install -y vim-X11
 dnf install -y gtk3-devel ncurses-devel gnutls-devel
-dnf install -y libXpm-devel libjpeg-devel giflib-devel libtiff-devel
+dnf install -y libXpm-devel libXml2-devel libjpeg-devel giflib-devel libtiff-devel
+ln -s /usr/bin/gvim /usr/bin/vim
 su -c 'git clone -b master git://git.sv.gnu.org/emacs.git ~/lab/emacs' $USER
 # uncomment out the line below to lock in Emacs 26
 # su -c 'cd ~/lab/emacs && git checkout emacs-26' $USER
@@ -212,7 +217,17 @@ su -c 'cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls=ifavailabl
 su -c 'make -C ~/lab/emacs' $USER
 cd /home/$USER/lab/emacs && make install
 
-# DVD/Blueray Codecs and Aux Applications
+# Install Multimedia Codecs
+dnf install -y rpmfusion-free-release-tainted
+dnf install -y gstreamer1-\*
+dnf install ffmpeg compat-ffmpeg28
+dnf install -y lsdvd libdvdnav libdvdread libdvdcss ffmpeg regionset
+# if DVD's don't work try running regionset from comandline
+# and then deleteing the ~/.dvdcss directory
+# regionset /dev/sr0
+# rm ~/.dvdcss
+
+# DVD/Bluray Playback and Aux Applications
 # # # # # # # # # # # # # # #
 dnf install -y flatpak
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

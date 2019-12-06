@@ -37,8 +37,9 @@ exec --no-startup-id ~/.config/i3/screen_init.sh
 # unmute microphone
 exec --no-startup-id amixer set Capture cap
 # turn on flameshot
-# exec --no-startup-id flameshot
-# autoconnect mouse
+exec --no-startup-id flameshot
+# temp sound fix for Fedora 31 net install
+# exec --no-startup-id  ~/.config/i3/sound-reset.sh
 
 # Set Xresources colors:
 set_from_resource $darkblack	color0
