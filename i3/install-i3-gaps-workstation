@@ -219,25 +219,37 @@ cd /home/$USER/lab/emacs && make install
 
 # Install Multimedia Codecs
 dnf install -y rpmfusion-free-release-tainted
+dnf install -y vlc
 dnf install -y gstreamer1-\*
 dnf install ffmpeg compat-ffmpeg28
-dnf install -y lsdvd libdvdnav libdvdread libdvdcss ffmpeg regionset
+dnf install -y lsdvd libdvdnav libdvdread libdvdcss
+dnf install ffmpeg ffmpeg-libs
+
+# Bluray Playback
+# # # # # # # # # # # # # # #
+dnf install -y ffmpeg-devel openssl-devel qt5-devel
+su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-oss-1.14.7.tar.gz' $USER
+su -c 'cd ~/lab && tar xpf makemkv-oss-1.14.7.tar.gz' $USER
+su -c 'cd ~/lab/makemkv-oss-1.14.7 && ./configure' $USER
+su -c 'make -C ~/lab/makemkv-oss-1.14.7' $USER
+cd /home/$USER/lab/makemkv-oss-1.14.7 && make install
+su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-bin-1.14.7.tar.gz' $USER
+su -c 'cd ~/lab && tar xpf makemkv-bin-1.14.7.tar.gz' $USER
+su -c 'make -C ~/lab/makemkv-bin-1.14.7' $USER
+cd /home/$USER/lab/makemkv-bin-1.14.7 && make install
+
 # if DVD's don't work try running regionset from comandline
 # and then deleteing the ~/.dvdcss directory
+# dnf install regionset
 # regionset /dev/sr0
 # rm ~/.dvdcss
 
-# DVD/Bluray Playback and Aux Applications
-# # # # # # # # # # # # # # #
+# Support Software
+dnf install -y nextcloud
+dnf install -y gimp gimpfx-foundry gimp-save-for-web gimp-data-extras
+dnf install -y libreoffice libreoffice-icon-theme-papirus
 dnf install -y flatpak
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install -y flathub org.videolan.VLC
-flatpak install -y flathub org.videolan.VLC.Plugin.fdkaac/x86_64/3-19.08
-flatpak install -y flathub org.videolan.VLC.Plugin.makemkv/x86_64/3-19.08
-flatpak install -y flathub org.videolan.VLC.Plugin.bdj/x86_64/3-19.08
-flatpak install -y flathub org.nextcloud.Nextcloud
-flatpak install -y flathub org.gimp.GIMP
-flatpak install -y flathub org.libreoffice.LibreOffice
 flatpak install -y flathub com.spotify.Client
 flatpak install -y flathub org.signal.Signal
 
@@ -255,19 +267,9 @@ printf 'Name=Firefox Nightly Browser\n' >> /home/$USER/.local/share/applications
 printf "Exec=/home/$USER/Applications/firefox/firefox\n" >> /home/$USER/.local/share/applications/firefox-nightly.desktop
 
 # install Vagrant and Virtualbox
-cd /etc/yum.repos.d/
-sudo wget http://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo
-dnf install -y binutils gcc make patch libgomp dkms qt5-qtx11extras libxkbcommon
-dnf install -y glibc-headers glibc-devel kernel-headers kernel-devel compat-libvpx5
-export KERN_DIR=/usr/src/kernels/`uname -r`
-export KERN_VER=`uname -r`
-dnf install -y VirtualBox-5.2
-bash /usr/lib/virtualbox/vboxdrv.sh setup
-# check out http://download/virtualbox.org/virtualbox/
-# and modify the following line with the latest release url
-su -c 'cd ~/Downloads && wget http://download.virtualbox.org/virtualbox/5.2.34/Oracle_VM_VirtualBox_Extension_Pack-5.2.34-133893.vbox-extpack' $USER
-echo "y" | VBoxManage extpack install --replace /home/$USER/Downloads/Oracle_VM_VirtualBox_Extension_Pack-5.2.34-133893.vbox-extpack
-dnf install -y vagrant
+dnf install -y vagrant VirtualBox-6.0 virtualbox-guest-additions
+su -c 'cd ~/Downloads && wget  http://download.virtualbox.org/virtualbox/6.0.0_RC1/Oracle_VM_VirtualBox_Extension_Pack-6.0.0_RC1.vbox-extpack' $USER
+echo "y" | VBoxManage extpack install --replace /home/$USER/Downloads/Oracle_VM_VirtualBox_Extension_Pack-6.0.0_RC1.vbox-extpack
 firewall-cmd --permanent --zone=public --add-port=9041/tcp
 setsebool -P httpd_can_network_connect on
 semanage port -a -t http_port_t -p tcp 9041
