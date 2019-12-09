@@ -207,7 +207,7 @@ dnf install -y tmux the_silver_searcher ack
 dnf install -y ranger w3m w3m-img
 dnf install -y vim-X11
 dnf install -y gtk3-devel ncurses-devel gnutls-devel
-dnf install -y libXpm-devel libXml2-devel libjpeg-devel giflib-devel libtiff-devel
+dnf install -y libXpm-devel libxml2-devel libjpeg-devel giflib-devel libtiff-devel
 ln -s /usr/bin/gvim /usr/bin/vim
 su -c 'git clone -b master git://git.sv.gnu.org/emacs.git ~/lab/emacs' $USER
 # uncomment out the line below to lock in Emacs 26
@@ -218,7 +218,7 @@ su -c 'make -C ~/lab/emacs' $USER
 cd /home/$USER/lab/emacs && make install
 
 # Support Software
-dnf install -y nextcloud
+dnf install -y nextcloud-client
 dnf install -y gimp gimpfx-foundry gimp-save-for-web gimp-data-extras
 dnf install -y libreoffice libreoffice-icon-theme-papirus
 dnf install -y flatpak
@@ -240,7 +240,8 @@ printf 'Name=Firefox Nightly Browser\n' >> /home/$USER/.local/share/applications
 printf "Exec=/home/$USER/Applications/firefox/firefox\n" >> /home/$USER/.local/share/applications/firefox-nightly.desktop
 
 # install Vagrant and Virtualbox
-dnf install -y vagrant VirtualBox-6.0 virtualbox-guest-additions
+dnf install -y vagrant VirtualBox virtualbox-guest-additions
+akmods --kernels 5.3.14-300.fc31.x86_64 && systemctl restart systemd-modules-load.service
 su -c 'cd ~/Downloads && wget  http://download.virtualbox.org/virtualbox/6.0.0_RC1/Oracle_VM_VirtualBox_Extension_Pack-6.0.0_RC1.vbox-extpack' $USER
 echo "y" | VBoxManage extpack install --replace /home/$USER/Downloads/Oracle_VM_VirtualBox_Extension_Pack-6.0.0_RC1.vbox-extpack
 firewall-cmd --permanent --zone=public --add-port=9041/tcp
@@ -274,9 +275,8 @@ find /home/$USER/.config -name "*.sh" -execdir chmod u+x {} +
 dnf install -y rpmfusion-free-release-tainted
 dnf install -y vlc
 dnf install -y gstreamer1-\*
-dnf install ffmpeg compat-ffmpeg28
+dnf install -y ffmpeg ffmpeg-libs compat-ffmpeg28
 dnf install -y lsdvd libdvdnav libdvdread libdvdcss
-dnf install ffmpeg ffmpeg-libs
 
 # Bluray Playback
 # # # # # # # # # # # # # # #
