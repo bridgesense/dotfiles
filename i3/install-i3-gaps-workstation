@@ -153,18 +153,18 @@ echo 'EndSection' >> /etc/X11/xorg.conf.d/20-intel.conf
 # enable thinkfan
 # this is a sample config for a t460
 # # # # # # # # # # # # # # #
-#dnf install -y thinkfan
-#sed -i '/55)/i \
-#hwmon /sys/devices/platform/coretemp.0/hwmon/hwmon3/temp1_input \
-#hwmon /sys/devices/platform/coretemp.0/hwmon/hwmon3/temp2_input \
-#hwmon /sys/devices/platform/coretemp.0/hwmon/hwmon3/temp3_input \
-#' /etc/thinkfan.conf
-#systemctl enable thinkfan
+dnf install -y thinkfan
+sed -i '/55)/i \
+hwmon /sys/devices/platform/coretemp.0/hwmon/hwmon3/temp1_input \
+hwmon /sys/devices/platform/coretemp.0/hwmon/hwmon3/temp2_input \
+hwmon /sys/devices/platform/coretemp.0/hwmon/hwmon3/temp3_input \
+' /etc/thinkfan.conf
+systemctl enable thinkfan
 
 # install non-free firmware for compatibilty crises
-# dnf install -y rpm fusion-nonfree-release-tainted
-# dnf install -y \*-firmware
-#
+ dnf install -y rpm fusion-nonfree-release-tainted
+ dnf install -y \*-firmware
+
 # install PHP essentials
 # # # # # # # # # # # # # # #
 dnf install -y php
@@ -217,33 +217,6 @@ su -c 'cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls=ifavailabl
 su -c 'make -C ~/lab/emacs' $USER
 cd /home/$USER/lab/emacs && make install
 
-# Install Multimedia Codecs
-dnf install -y rpmfusion-free-release-tainted
-dnf install -y vlc
-dnf install -y gstreamer1-\*
-dnf install ffmpeg compat-ffmpeg28
-dnf install -y lsdvd libdvdnav libdvdread libdvdcss
-dnf install ffmpeg ffmpeg-libs
-
-# Bluray Playback
-# # # # # # # # # # # # # # #
-dnf install -y ffmpeg-devel openssl-devel qt5-devel
-su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-oss-1.14.7.tar.gz' $USER
-su -c 'cd ~/lab && tar xpf makemkv-oss-1.14.7.tar.gz' $USER
-su -c 'cd ~/lab/makemkv-oss-1.14.7 && ./configure' $USER
-su -c 'make -C ~/lab/makemkv-oss-1.14.7' $USER
-cd /home/$USER/lab/makemkv-oss-1.14.7 && make install
-su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-bin-1.14.7.tar.gz' $USER
-su -c 'cd ~/lab && tar xpf makemkv-bin-1.14.7.tar.gz' $USER
-su -c 'make -C ~/lab/makemkv-bin-1.14.7' $USER
-cd /home/$USER/lab/makemkv-bin-1.14.7 && make install
-
-# if DVD's don't work try running regionset from comandline
-# and then deleteing the ~/.dvdcss directory
-# dnf install regionset
-# regionset /dev/sr0
-# rm ~/.dvdcss
-
 # Support Software
 dnf install -y nextcloud
 dnf install -y gimp gimpfx-foundry gimp-save-for-web gimp-data-extras
@@ -287,7 +260,7 @@ rpm -Uvh https://github.com/rpmsphere/x86_64/blob/master/g/gargoyle-2015-5.4.x86
 su -c 'cp ~/.yadrlite/i3/garglk.ini ~/.garglkrc' $USER
 
 # uncomment to install wine support with i686 libraries
-# dnf install -y wine winetricks
+dnf install -y wine winetricks
 
 # permissions and status
 # # # # # # # # # # # # # # #
@@ -296,6 +269,33 @@ cp ~/.yadrlite/i3/i3status/i3status.conf /etc/
 find /home/$USER/.config -type d -exec chmod 0755 {} \;
 find /home/$USER/.config -type f -exec chmod 0644 {} \;
 find /home/$USER/.config -name "*.sh" -execdir chmod u+x {} +
+
+# Install Multimedia Codecs
+dnf install -y rpmfusion-free-release-tainted
+dnf install -y vlc
+dnf install -y gstreamer1-\*
+dnf install ffmpeg compat-ffmpeg28
+dnf install -y lsdvd libdvdnav libdvdread libdvdcss
+dnf install ffmpeg ffmpeg-libs
+
+# Bluray Playback
+# # # # # # # # # # # # # # #
+dnf install -y ffmpeg-devel openssl-devel qt5-devel
+su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-oss-1.14.7.tar.gz' $USER
+su -c 'cd ~/lab && tar xpf makemkv-oss-1.14.7.tar.gz' $USER
+su -c 'cd ~/lab/makemkv-oss-1.14.7 && ./configure' $USER
+su -c 'make -C ~/lab/makemkv-oss-1.14.7' $USER
+cd /home/$USER/lab/makemkv-oss-1.14.7 && make install
+su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-bin-1.14.7.tar.gz' $USER
+su -c 'cd ~/lab && tar xpf makemkv-bin-1.14.7.tar.gz' $USER
+su -c 'make -C ~/lab/makemkv-bin-1.14.7' $USER
+cd /home/$USER/lab/makemkv-bin-1.14.7 && make install
+
+# if DVD's don't work try running regionset from comandline
+# and then deleteing the ~/.dvdcss directory
+# dnf install regionset
+# regionset /dev/sr0
+# rm ~/.dvdcss
 
 printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
 printf "ALL DONE.  PLEASE REBOOT YOUR SYSTEM."
