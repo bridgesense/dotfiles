@@ -1,6 +1,7 @@
 #/bin/bash
 # Fedora Workstation Setup
-# WARNING: This is a personal installation script.  # Please review this script and adjust it to your needs prior to running it.
+# WARNING: This is a personal installation script.
+# Please review this script and adjust it to your needs prior to running it.
 # This script is intended for a minimal Fedora Workstation installation on a Thinkpad
 # run as root:
 # curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/i3/install-i3-gaps-workstation > custom-fedora-setup
@@ -242,7 +243,7 @@ printf "Exec=/home/$USER/Applications/firefox/firefox\n" >> /home/$USER/.local/s
 # install Vagrant and Virtualbox
 dnf install -y vagrant VirtualBox virtualbox-guest-additions
 akmods --kernels 5.3.14-300.fc31.x86_64 && systemctl restart systemd-modules-load.service
-su -c 'cd ~/Downloads && wget  http://download.virtualbox.org/virtualbox/6.0.0_RC1/Oracle_VM_VirtualBox_Extension_Pack-6.0.0_RC1.vbox-extpack' $USER
+su -c 'mkdir -p ~/Downloads && cd ~/Downloads && wget  http://download.virtualbox.org/virtualbox/6.0.0_RC1/Oracle_VM_VirtualBox_Extension_Pack-6.0.0_RC1.vbox-extpack' $USER
 echo "y" | VBoxManage extpack install --replace /home/$USER/Downloads/Oracle_VM_VirtualBox_Extension_Pack-6.0.0_RC1.vbox-extpack
 firewall-cmd --permanent --zone=public --add-port=9041/tcp
 setsebool -P httpd_can_network_connect on
@@ -263,13 +264,38 @@ su -c 'cp ~/.yadrlite/i3/garglk.ini ~/.garglkrc' $USER
 # uncomment to install wine support with i686 libraries
 dnf install -y wine winetricks
 
-# permissions and status
+# install Adobe Acrobat
+su -c 'cd ~/Downloads && wget "ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/AdbeRdr9.5.5-1_i486linux_enu.rpm"' $USER
+dnf install -y atk.i686 avahi-libs.i686 bzip2-libs.i686 cairo.i686 cups-libs.i686
+dnf install -y dbus-libs.i686 expat.i686 fontconfig.i686 freetype.i686 fribidi.i686
+dnf install -y gdk-pixbuf2.i686 gdk-pixbuf2-modules.i686 gdk-pixbuf2-xlib.i686 
+dnf install -y gdk-pixbuf2-xlib.x86_64 glib2.i686 glibc.i686 gmp.i686 gnutls.i686
+dnf install -y graphite2.i686 gtk2.i686 harfbuzz.i686 jasper-libs.i686 jbigkit-libs.i686
+dnf install -y keyutils-libs.i686 krb5-libs.i686 libICE.i686 libSM.i686 libX11.i686
+dnf install -y libX11-xcb.i686 libXau.i686 libXcomposite.i686 libXcursor.i686
+dnf install -y libXdamage.i686 libXext.i686 libXfixes.i686 libXft.i686 libXi.i686
+dnf install -y libXinerama.i686 libXrandr.i686 libXrender.i686 libXt.i686 libXxf86vm.i686
+dnf install -y libblkid.i686 libcap.i686 libcom_err.i686 libdatrie.i686 libdrm.i686
+dnf install -y libffi.i686 libgcc.i686 libgcrypt.i686 libglvnd.i686 libglvnd-glx.i686
+dnf install -y libgpg-error.i686 libidn.i686 libidn2.i686 libjpeg-turbo.i686 libmount.i686
+dnf install -y libpciaccess.i686 libpng.i686 libselinux.i686 libsepol.i686 libstdc++.i686
+dnf install -y libtasn1.i686 libthai.i686 libtiff.i686 libunistring.i686 libuuid.i686
+dnf install -y libverto.i686 libxcb.i686 libxcrypt.i686 libxml2.i686 libxshmfence.i686
+dnf install -y lz4-libs.i686 mesa-libGL.i686 mesa-libGLU.i686 mesa-libGLU.x86_64
+dnf install -y mesa-libglapi.i686 nettle.i686 openssl-libs.i686 p11-kit.i686 pango.i686
+dnf install -y pangox-compat.i686 pangox-compat.x86_64 pcre.i686 pcre2.i686 pixman.i686
+dnf install -y systemd-libs.i686 xz-libs.i686 zlib.i686 libidn.x86_64
+dnf install -y libidn.i686 coreutils.x86_64 libidn1.34.i686
+rpm -i /home/$USER/Downloads/AdbeRdr*rpm
+
+# permissions, status and boot configuration
 # # # # # # # # # # # # # # #
 rm -f /etc/i3status.conf
 cp ~/.yadrlite/i3/i3status/i3status.conf /etc/
 find /home/$USER/.config -type d -exec chmod 0755 {} \;
 find /home/$USER/.config -type f -exec chmod 0644 {} \;
 find /home/$USER/.config -name "*.sh" -execdir chmod u+x {} +
+plymouth-set-default-theme -R bgrt
 
 # Install Multimedia Codecs
 dnf install -y rpmfusion-free-release-tainted
@@ -277,6 +303,8 @@ dnf install -y vlc
 dnf install -y gstreamer1-\*
 dnf install -y ffmpeg ffmpeg-libs compat-ffmpeg28
 dnf install -y lsdvd libdvdnav libdvdread libdvdcss
+dnf install -y java-1.8.0-openjdk
+dnf install -y libbluray libbluray-utils libbluray-bdj
 
 # Bluray Playback
 # # # # # # # # # # # # # # #
