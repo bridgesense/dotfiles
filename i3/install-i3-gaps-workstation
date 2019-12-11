@@ -300,7 +300,7 @@ plymouth-set-default-theme -R bgrt
 # Install Multimedia Codecs
 dnf install -y rpmfusion-free-release-tainted
 dnf install -y vlc
-dnf install -y gstreamer1-\*
+dnf install -y gstreamer\* gstreamer1-\*
 dnf install -y ffmpeg ffmpeg-libs compat-ffmpeg28
 dnf install -y lsdvd libdvdnav libdvdread libdvdcss
 dnf install -y java-1.8.0-openjdk
