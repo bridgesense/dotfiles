@@ -253,10 +253,11 @@ VIM Shortcuts
 * `,vr` - (Vim Reload) source current file as a vim file
 
 
-i3 Commands 
+Bspwm/i3 Commands 
 ---
-These commands are part of the sample i3-Gaps workstation included in this repo.  It is designed to be used with a "Custom Fedora" installation via the server Net install disk.  If you're interested in checking it out, download the file and review it before installing it on a new system.
+These commands are part of the sample workstations included in this repo.  This is designed to be used with a "Custom Fedora" installation via the server Net install disk.  If you're interested in checking it out, download the file and review it before installing it on a new system.
 
+### i3 Workstation Installation
 ```bash
 # Log in as root on a clean barebones install
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/i3/install-i3-gaps-workstation > custom-fedora-setup
@@ -264,6 +265,13 @@ curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/i3/install-i3
 bash custom-fedora-setup <workstation_username>
 ```
 
+### Bspwm Workstation Installation
+```bash
+# Log in as root on a clean barebones install
+curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/bspwm/install-bspwm-workstation > custom-fedora-setup
+# The workstation user must already be set up
+bash custom-fedora-setup <workstation_username>
+```
 
 #### Software Bindings:   
 * `Mod+Return` Brings up the terminal

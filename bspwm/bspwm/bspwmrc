@@ -1,0 +1,64 @@
+#! /bin/sh
+
+# Loads Hotkeys
+sxhkd &
+
+# #---Screen/Monitor Setup---# #
+xrandr --auto
+xrandr --output DP2-2 --primary --left-of eDP1
+monitor="$(bspc query --monitors --names | grep DP2-2)"
+laptop="$(bspc query --monitors --names | grep eDP1)"
+if [ $monitor == "DP2-2" ]; then
+    bspc monitor $monitor -d 1 2 3 4 5 6 7 8    
+    bspc monitor $laptop -d 9 10   
+else
+    bspc monitor $laptop -d 1 2 3 4 5 6 7 8 9 10
+fi
+
+# #---BSPWM Options---# #
+bspc config border_width         1
+bspc config window_gap           6
+bspc config top_padding          6
+bspc config right_padding        6
+bspc config bottom_padding       6
+bspc config left_padding         6
+
+bspc config split_ratio          0.52
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+bspc config focused_border_color "#d79921"
+
+xsetroot -cursor_name left_ptr
+
+# #---Application Defaults---# #
+bspc rule -a Emacs state=tiled
+
+# #---Starting External Scripts---# #
+# Start Sound
+pulseaudio -D
+# Starts dunst for notifications:
+dunst &
+# Xbanish makes the mouse invisible after a brief period
+xbanish &
+# simple lockout screen that leaves the machine running
+xautolock -time 10 -locker "i3lock -c 000000" &
+# blue-light adaptation
+redshift-gtk &
+# unmute microphone
+amixer set Capture cap
+# turn on flameshot
+flameshot &
+# This swaps Esc and Caps Lock Keys
+setxkbmap -option caps:swapescape
+# repaints backgrounds
+feh --randomize --bg-scale ~/Nextcloud/backgrounds
+# this example connects a bluetooth device
+echo -e "connect A4:E9:75:F0:EF:87 \nquit" | bluetoothctl
+# polybar
+polybar laptop &
+if [ $monitor == "DP2-2" ]; then
+    polybar monitor &
+fi
+# Composite manager (always load last)
+xcompmgr -c -f -n &
