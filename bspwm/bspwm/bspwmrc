@@ -35,8 +35,6 @@ xsetroot -cursor_name left_ptr
 bspc rule -a Emacs state=tiled
 
 # #---Starting External Scripts---# #
-# Start Sound
-pulseaudio -D
 # Starts dunst for notifications:
 dunst &
 # Xbanish makes the mouse invisible after a brief period

@@ -44,20 +44,20 @@ super + control + {h,j,k,l}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
     
 super + q
-    bspc node -k
+    bspc node -c
 super + f
     bspc node -t fullscreen
 super + alt + {h,j,k,l}
-    bspc -z {left,bottom,top,right}  
-    	
+	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
 super + bracketleft
-    bspc -z left 
+    bspc node -z left -20 0 
 super + bracketright
-    bspc -z right
+    bspc node -z right 20 0 
 super + minus
-    bspc -z bottom
+    bspc node -z top 0 -20 
 super + equal
-    bspc -z top
+    bspc node -z bottom 0 20
 
 # #---Screen Bindings---# #
 super + w

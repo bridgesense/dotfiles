@@ -274,75 +274,83 @@ bash custom-fedora-setup <workstation_username>
 ```
 
 #### Software Bindings:   
-* `Mod+Return` Brings up the terminal
-* `Mod+Space` Brings up an application menu
-* `Mod+d` Brings up Nemo a graphical file manager
-* `Mod+i` Brings up htop, a process manager
-* `Mod+m` Movie Mode toggles the screen saver and lock system
-* `Mod+n` Brings up Ranger, a curses file manager
-* `Mod+r` Refreshes screens on all monitors        
-* `Mod+Escape` Swaps Escape with All Caps Lock
+* `Super+Return` Brings up the terminal
+* `Super+Space` Brings up an application menu
+* `Super+d` Brings up Nemo a graphical file manager
+* `Super+i` Brings up htop, a process manager
+* `Super+m` Movie Mode toggles the screen saver and lock system
+* `Super+n` Brings up Ranger, a curses file manager
+* `Super+r` Refreshes screens on all monitors        
+* `Super+Escape` Swaps Escape with All Caps Lock
 
 #### Screenshots
-* `Print`, `Mod+Shift+s` Brings up flameshot, a OSX style screenshot application
+* `Print`, `Super+Shift+s` Brings up flameshot, a OSX style screenshot application
 * `Shift+Print` Brings up flameshot configuration
 
 #### Machine Bindings
-* `Mod+Shift+Backspace` Brings up reboot dialog
-* `Mod+Shift+x` Brings up shutdown dialog
+* `Super+Shift+r` Brings up reboot dialog
+* `Super+Shift+x` Brings up shutdown dialog
 
-#### Window Bindings
-* `Mod+h` Shift focus to left one window
-* `Mod+j` Shift focus down one window
-* `Mod+k` Shift focus up one window
-* `Mod+l` Shift focus right one window
-* `Mod+p` Pop out window, floating mode
-* `Mod+Shift+p` Snap window into place, snap (default) mode
-* `Mod+Shift+h` Move current window to the left 
-* `Mod+Shift+j` Move current window down one 
-* `Mod+Shift+k` Move current window up one 
-* `Mod+Shift+l` Move current window to the right 
-* `Mod+Shift+c` Move current window to the center
+#### Window Movement Bindings
+* `Super+h` Shift focus to left one window
+* `Super+j` Shift focus down one window
+* `Super+k` Shift focus up one window
+* `Super+l` Shift focus right one window
+* `Super+Shift+h` Move current window to the left 
+* `Super+Shift+j` Move current window down one 
+* `Super+Shift+k` Move current window up one 
+* `Super+Shift+l` Move current window to the right 
+* `Super+Shift+c` Move current window to the center (i3 only)
 
-* `Mod+q` Kill current window (and program)
-* `Mod+f` Toggle window to full screen
-* `Mod+Shift-r` Refresh/Resize Window
-* `Mod+t` Toggle Split between horizontal and vertical mode
-* `Mod+s` Change window to vertical split mode 
-* `Mod+v` Change window to horizontal split mode 
-* `Mod+b` Toggle window sticky mode 
+* `Super+q` Close current window (and program)
+* `Super+t` Toggle Split between horizontal and vertical mode
+* `Super+s` Change window to vertical split mode (i3 only)
+* `Super+Shift-s` Reload sxhkd configurations (Bspwm only)
+* `Super+v` Change window to horizontal split mode (i3 only)
+* `Super+b` Toggle window sticky mode  
 
-* `Mod+left bracket` shrink window width 
-* `Mod+right bracket` grow window width 
-* `Mod+minus` shrink window height 
-* `Mod+equal` grow window height 
-     
+* `Super+left bracket` shrink window width 
+* `Super+right bracket` grow window width 
+* `Super+minus` shrink window height 
+* `Super+equal` grow window height 
+
+* `Super+Alt+h` expand window width left (Bspwm only)
+* `Super+Alt+j` expand window height down (Bspwm only)
+* `Super+Alt+k` expand window height up (Bspwm only)
+* `Super+Alt+l` expand window width right (Bspwm only)
+    
+#### Window State Bindings
+* `Super+f` Make window full screen
+* `Super+p` Pop out window, floating mode
+* `Super+Shift+p` Snap window into place, tiled (default) mode
+
 #### Workspace Bindings
-* `Mod+1` jump to / create Workspace 1 
-* `Mod+2` jump to / create Workspace 2 
-* `Mod+3` jump to / create Workspace 3 
-* `Mod+4` jump to / create Workspace 4 
-* `Mod+5` jump to / create Workspace 5 
-* `Mod+6` jump to / create Workspace 6 
-* `Mod+7` jump to / create Workspace 7 
-* `Mod+8` jump to / create Workspace 8 
-* `Mod+9` jump to / create Workspace 9 
-* `Mod+0` jump to / create Workspace 10 
+* `Super+1` jump to / create Workspace 1 
+* `Super+2` jump to / create Workspace 2 
+* `Super+3` jump to / create Workspace 3 
+* `Super+4` jump to / create Workspace 4 
+* `Super+5` jump to / create Workspace 5 
+* `Super+6` jump to / create Workspace 6 
+* `Super+7` jump to / create Workspace 7 
+* `Super+8` jump to / create Workspace 8 
+* `Super+9` jump to / create Workspace 9 
+* `Super+0` jump to / create Workspace 10 
 
-* `Mod+w` jump to right workspace round robin 
-* `Mod+period` move workspace to right screen round robin
-* `Mod+slash` move window to right screen round robin
+* `Super+w` jump to right workspace round robin 
+* `Super+period` move workspace to right screen round robin
+* `Super+slash` move window to right screen round robin
 
-* `Mod+z` jump to previous workspace         
-* `Mod+x` jump to next workspace         
-* `Mod+Tab` Toggle between last selected workspace
+* `Super+z` jump to previous workspace         
+* `Super+x` jump to next workspace         
+* `Super+Tab` Toggle between last selected workspace
 
 #### Function Keys
-* `Mod+F1`, `Mod+F2`, `Mod+F3`, `Mod+F4` Brings up the Alsa Mixer 
-* `Mod+F5`, `Mod+F6` Put computer into hybernation without dialog
-* `Mod+F7`, `Mod+F8` Brings up Network dialog 
-* `Mod+F9` Locks current screen 
-* `Mod+F10` Brings up multiple screen setup 
-* `Mod+F11` Turns off touchpad 
-* `Mod+F12` Turns on touchpad 
+* `Super+F1`, `Super+F2`, `Super+F3`, `Super+F4` Brings up the Alsa Mixer 
+* `Super+F5`, `Super+F6` Put computer into hybernation without dialog
+* `Super+F7`, `Super+F8` Brings up Network dialog 
+* `Super+F9` Locks current screen 
+* `Super+F10` Brings up multiple screen setup 
+* `Super+F11` Toggles laptop touchpad on/off
+* `Super+F12` Toggles laptop touchpad on/off
+
      

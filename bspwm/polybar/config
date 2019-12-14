@@ -181,7 +181,7 @@ format = <label> <ramp-coreload>
 format-prefix = "CPU "
 format-prefix-foreground = ${colors.gray}
 format-underline = ${colors.background}
-label = %percentage%%
+label = %percentage%% 
 
 ramp-coreload-spacing = 1
 ramp-coreload-0 = ▁
@@ -207,13 +207,13 @@ interface = wlp4s0
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
-label-connected-foreground = ${colors.green}
-label-connected = ☡:%essid% %local_ip% %local_ip6%
+label-connected-foreground = ${colors.darkyellow}
+label-connected = ☡: %essid% %local_ip% %local_ip6%
 
 ;format-disconnected =
 format-disconnected = <label-disconnected>
 ;label-disconnected = %ifname% disconnected
-label-disconnected = ☡:no wifi
+label-disconnected = ☡: no wifi
 label-disconnected-foreground = ${colors.red}
 
 ; <ramp-signal>
@@ -230,13 +230,13 @@ interface = enp0s31f6
 interval = 3.0
 
 format-connected-underline = ${colors.background}
-label-connected = Ω:%local_ip%
-label-connected-foreground = ${colors.green}
+label-connected = Ω: %local_ip%
+label-connected-foreground = ${colors.darkyellow}
 
 ;format-disconnected =
 format-disconnected = <label-disconnected>
 format-disconnected-underline = ${colors.background}
-label-disconnected = Ω:%ifname%
+label-disconnected = Ω: %ifname%
 label-disconnected-foreground = ${colors.red}
 
 [module/date]

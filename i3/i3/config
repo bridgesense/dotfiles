@@ -20,8 +20,6 @@ set $menu "rofi -combi-modi window,drun,ssh -modi combi -show combi"
 # set $menu dmenu_run
 
 # #---Starting External Scripts---# #
-# Start Sound
-exec --no-startup-id pulseaudio -D
 # Starts dunst for notifications:
 exec --no-startup-id dunst
 # Composite manager:
@@ -96,8 +94,8 @@ bindsym $mod+escape         exec --no-startup-id setxkbmap -option caps:swapesca
 
 
 # #---i3 Bindings---# #
-bindsym $mod+Shift+BackSpace	exec --no-startup-id $reboot
-bindsym $mod+Shift+x	    	exec --no-startup-id $shutdown
+bindsym $mod+Shift+r	    exec --no-startup-id $reboot
+bindsym $mod+Shift+x	   	exec --no-startup-id $shutdown
 
 # #---Window Bindings---# #
 bindsym $mod+h			focus left
