@@ -140,6 +140,7 @@ interval = 25
 mount-0 = /
 
 label-mounted-underline = ${colors.background}
+label-mounted-foreground = ${colors.blue}
 label-mounted = %total%
 label-unmounted = %mountpoint% not mounted
 label-unmounted-foreground = ${colors.gray}
@@ -178,8 +179,8 @@ label-separator-foreground = ${colors.background}
 type = internal/cpu
 interval = 2
 format = <label> <ramp-coreload>
+format-foreground = ${colors.darkyellow}
 format-prefix = "CPU "
-format-prefix-foreground = ${colors.gray}
 format-underline = ${colors.background}
 label = %percentage%% 
 
@@ -236,7 +237,7 @@ label-connected-foreground = ${colors.darkyellow}
 ;format-disconnected =
 format-disconnected = <label-disconnected>
 format-disconnected-underline = ${colors.background}
-label-disconnected = Ω: %ifname%
+label-disconnected = Ω: unconnected
 label-disconnected-foreground = ${colors.red}
 
 [module/date]

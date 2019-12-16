@@ -57,7 +57,7 @@ dnf install -y clamav clamav-update
 dnf install -y timeshift
 dnf install -y brasero
 
-# install polybar 
+# install polybar
 # # # # # # # # # # # # # # #
 dnf install -y cairo-devel xcb-util-devel libxcb-devel xcb-proto
 dnf install -y xcb-util-image-devel xcb-util-wm-devel
@@ -70,7 +70,7 @@ su -c 'mkdir -p ~/lab/polybar/build' $USER
 su -c 'cd ~/lab/polybar/build && cmake ..' $USER
 su -c 'make -j$(nproc) -C ~/lab/polybar/build' $USER
 cd /home/$USER/lab/polybar/build && make install
-    
+
 # install xbanish
 # # # # # # # # # # # # # # #
 dnf install -y libXt-devel libXfixes-devel libXi-devel
@@ -249,25 +249,24 @@ setsebool -P httpd_can_network_connect on
 semanage port -a -t http_port_t -p tcp 9041
 
 # Rambox
-cd /root
-wget "https://github.com/ramboxapp/community-edition/releases/download/0.7.2/Rambox-0.7.2-linux-x86_64.rpm"
-rpm -i Rambox*rpm
-echo "y" | rm Rambox*rpm
+# # # # # # # # # # # # # # #
+dnf install -y  https://github.com/ramboxapp/community-edition/releases/download/0.7.2/Rambox-0.7.2-linux-x86_64.rpm
 
 # Gargoyle (for sanity checks)
 # # # # # # # # # # # # # # #
 dnf install -y SDL SDL_mixer SDL_sound fluidsynth
-rpm -Uvh https://github.com/rpmsphere/x86_64/blob/master/g/gargoyle-2015-5.4.x86_64.rpm?raw=true
+dnf install -y https://github.com/rpmsphere/x86_64/blob/master/g/gargoyle-2015-5.4.x86_64.rpm?raw=true
 su -c 'cp ~/.yadrlite/shared/garglk.ini ~/.garglkrc' $USER
 
-# uncomment to install wine support with i686 libraries
+# Compatibility suite for older Windows 32bit executables
+# # # # # # # # # # # # # # # #
 dnf install -y wine winetricks
 
 # install Adobe Acrobat
 su -c 'cd ~/Downloads && wget "ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/AdbeRdr9.5.5-1_i486linux_enu.rpm"' $USER
 dnf install -y atk.i686 avahi-libs.i686 bzip2-libs.i686 cairo.i686 cups-libs.i686
 dnf install -y dbus-libs.i686 expat.i686 fontconfig.i686 freetype.i686 fribidi.i686
-dnf install -y gdk-pixbuf2.i686 gdk-pixbuf2-modules.i686 gdk-pixbuf2-xlib.i686 
+dnf install -y gdk-pixbuf2.i686 gdk-pixbuf2-modules.i686 gdk-pixbuf2-xlib.i686
 dnf install -y gdk-pixbuf2-xlib.x86_64 glib2.i686 glibc.i686 gmp.i686 gnutls.i686
 dnf install -y graphite2.i686 gtk2.i686 harfbuzz.i686 jasper-libs.i686 jbigkit-libs.i686
 dnf install -y keyutils-libs.i686 krb5-libs.i686 libICE.i686 libSM.i686 libX11.i686

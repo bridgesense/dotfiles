@@ -38,7 +38,7 @@ super + {_,shift + }{h,j,k,l}
 	bspc node -{f,s} {west,south,north,east}
 super + p
     bspc node -t floating
-super + shift + p
+super + t
     bspc node -t tiled
 super + control + {h,j,k,l}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
@@ -49,15 +49,6 @@ super + f
     bspc node -t fullscreen
 super + alt + {h,j,k,l}
 	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
-
-super + bracketleft
-    bspc node -z left -20 0 
-super + bracketright
-    bspc node -z right 20 0 
-super + minus
-    bspc node -z top 0 -20 
-super + equal
-    bspc node -z bottom 0 20
 
 # #---Screen Bindings---# #
 super + w

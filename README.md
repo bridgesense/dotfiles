@@ -309,20 +309,20 @@ bash custom-fedora-setup <workstation_username>
 * `Super+v` Change window to horizontal split mode (i3 only)
 * `Super+b` Toggle window sticky mode  
 
-* `Super+left bracket` shrink window width 
-* `Super+right bracket` grow window width 
-* `Super+minus` shrink window height 
-* `Super+equal` grow window height 
+* `Super+left bracket` shrink window width (i3 only)
+* `Super+right bracket` grow window width (i3 only) 
+* `Super+minus` shrink window height (i3 only) 
+* `Super+equal` grow window height (i3 only) 
 
-* `Super+Alt+h` expand window width left (Bspwm only)
-* `Super+Alt+j` expand window height down (Bspwm only)
-* `Super+Alt+k` expand window height up (Bspwm only)
-* `Super+Alt+l` expand window width right (Bspwm only)
+* `Super+Alt+h` expand window frame left (Bspwm only)
+* `Super+Alt+j` expand window frame down (Bspwm only)
+* `Super+Alt+k` expand window frame up (Bspwm only)
+* `Super+Alt+l` expand window frame right (Bspwm only)
     
 #### Window State Bindings
 * `Super+f` Make window full screen
 * `Super+p` Pop out window, floating mode
-* `Super+Shift+p` Snap window into place, tiled (default) mode
+* `Super+t` Snap window into place, tiled (default) mode
 
 #### Workspace Bindings
 * `Super+1` jump to / create Workspace 1 
@@ -335,6 +335,7 @@ bash custom-fedora-setup <workstation_username>
 * `Super+8` jump to / create Workspace 8 
 * `Super+9` jump to / create Workspace 9 
 * `Super+0` jump to / create Workspace 10 
+* `Super+Shift+{0-9}` Move window to workspace 0-9  
 
 * `Super+w` jump to right workspace round robin 
 * `Super+period` move workspace to right screen round robin

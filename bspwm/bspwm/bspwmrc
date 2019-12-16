@@ -40,7 +40,7 @@ dunst &
 # Xbanish makes the mouse invisible after a brief period
 xbanish &
 # simple lockout screen that leaves the machine running
-xautolock -time 10 -locker "i3lock -c 000000" &
+xautolock -time 10 -locker "i3lock -c 507065" &
 # blue-light adaptation
 redshift-gtk &
 # unmute microphone
