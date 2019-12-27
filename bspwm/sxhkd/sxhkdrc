@@ -1,4 +1,4 @@
-# yadr compatible hotkeys 
+# yadr compatible hotkeys
 
 # For screenshots
 super + control + s
@@ -28,7 +28,7 @@ super + shift + Escape
 	notify-send "sxhkd config reloaded"
 
 # #---System Bindings---# #
-super + shift + r 
+super + shift + r
     ~/.config/scripts/reboot.sh
 super + shift + x
     ~/.config/scripts/shutdown.sh
@@ -42,17 +42,19 @@ super + t
     bspc node -t tiled
 super + control + {h,j,k,l}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
-    
+
 super + q
     bspc node -c
 super + f
     bspc node -t fullscreen
 super + alt + {h,j,k,l}
 	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+super + {bracketleft,minus,equals,bracketright}
+    bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
 
 # #---Screen Bindings---# #
 super + w
-    bspc monitor -f next super + period 
+    bspc monitor -f next super + period
     bspc desktop -m next
 super + slash
     bspc node -m next
@@ -98,7 +100,7 @@ super + F12
 # #---Arrow Keys---# #
 super + {_,shift + }{left,down,up,right}
 	bspc node -{f,s} {west,south,north,east}
-    
+
 # #---Extra XF86 Keys---# #
 # These are the extra media keys that some keyboards have.
 XF86AudioMicMute

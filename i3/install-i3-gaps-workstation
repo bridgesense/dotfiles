@@ -208,17 +208,23 @@ cp /home/$USER/lab/PHP-Parallel-Lint/parallel-lint.phar /usr/local/bin/parallel-
 dnf install -y tmux the_silver_searcher ack
 dnf install -y ranger w3m w3m-img
 dnf install -y vim-X11
-dnf install -y gtk3-devel ncurses-devel gnutls-devel
-dnf install -y libXpm-devel libxml2-devel libjpeg-devel giflib-devel libtiff-devel
 ln -s /usr/bin/gvim /usr/bin/vim
+
+# compiles emacs 27
+# Emacs 26 does not work with Fedora 31 release of GNUTLS
+# # # # # # # # # # # # # # #
+dnf install -y liblockfile-devel libotf-devel m17n-db-devel m17n-lib-devel
+dnf install -y gtk3-devel ncurses-devel gnutls-devel gnutls-utils
+dnf install -y libXpm-devel libxml2-devel libjpeg-devel giflib-devel libtiff-devel
 su -c 'git clone -b master git://git.sv.gnu.org/emacs.git ~/lab/emacs' $USER
-# uncomment out the line below to lock in Emacs 26
-# su -c 'cd ~/lab/emacs && git checkout emacs-26' $USER
+# locks emacs into August 1st, 2019 release
+# when geben and gnus were working
+su -c 'cd ~/lab/emacs && git checkout eddf4664d786e16b34f6bd0af238a567feb5012c' $USER
 su -c 'cd ~/lab/emacs && ./autogen.sh' $USER
 su -c 'cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils' $USER
 su -c 'make -C ~/lab/emacs' $USER
 cd /home/$USER/lab/emacs && make install
-
+    
 # Support Software
 dnf install -y nextcloud-client
 dnf install -y gimp gimpfx-foundry gimp-save-for-web gimp-data-extras
@@ -251,10 +257,7 @@ setsebool -P httpd_can_network_connect on
 semanage port -a -t http_port_t -p tcp 9041
 
 # Rambox
-cd /root
-wget "https://github.com/ramboxapp/community-edition/releases/download/0.7.2/Rambox-0.7.2-linux-x86_64.rpm"
-rpm -i Rambox*rpm
-echo "y" | rm Rambox*rpm
+dnf install -y  https://github.com/ramboxapp/community-edition/releases/download/0.7.3/Rambox-0.7.3-linux-x86_64.rpm
 
 # Gargoyle (for sanity checks)
 # # # # # # # # # # # # # # #
