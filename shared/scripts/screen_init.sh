@@ -1,8 +1,17 @@
 #!/bin/bash
 # handle screen changes
-bash -c "~/.screenlayout/default.sh"
-xrandr --auto
-xrandr --output DP2-2 --primary --left-of eDP1
+DEFAULT_LAYOUT="~/.screenlayout/default.sh"
+if [[ -f "$DEFAULT_LAYOUT" ]]; then
+    bash -c "$DEFAULT_LAYOUT"
+else
+    monitor=(`xrandr --listmonitors | xargs -l | grep -oE '[^ ]+$'`)
+    if [ ${monitor[0]} == "1" ]; then
+        xrandr --output ${monitor[1]} --primary
+    else
+        xrandr --output ${monitor[1]} --primary --left-of ${monitor[2]} 
+    fi
+fi
+
 # repaints backgrounds 
 feh --randomize --bg-scale ~/Nextcloud/backgrounds/*
 # This swaps Esc and Caps Lock Keys

@@ -29,6 +29,9 @@ bspc config gapless_monocle      true
 
 bspc config focused_border_color "#d79921"
 
+# #---Behavior--# #
+bspc config focus_follows_pointer true
+
 xsetroot -cursor_name left_ptr
 
 # #---Application Defaults---# #
@@ -47,16 +50,7 @@ redshift-gtk &
 amixer set Capture cap
 # turn on flameshot
 flameshot &
-# This swaps Esc and Caps Lock Keys
-setxkbmap -option caps:swapescape
-# repaints backgrounds
-feh --randomize --bg-scale ~/Nextcloud/backgrounds
-# this example connects a bluetooth device
-echo -e "connect A4:E9:75:F0:EF:87 \nquit" | bluetoothctl
-# polybar
-polybar laptop &
-if [ $monitor == "DP2-2" ]; then
-    polybar monitor &
-fi
+# system init
+bash ~/.config/scripts/bspwm_screen_reset.sh 
 # Composite manager (always load last)
 xcompmgr -c -f -n &

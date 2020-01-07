@@ -46,11 +46,11 @@ dnf install -y papirus-icon-theme
 dnf install -y nemo
 dnf install -y acpi crontabs
 dnf install -y firewall-config
-dnf install -y mupdf
+dnf install -y mupdf evince
 dnf install -y system-config-printer
 dnf install -y simple-scan
 dnf install -y nomacs
-dnf install -y gnome-disk-utility
+dnf install -y gnome-disk-utility atool
 dnf install -y cups hplip hplip-gui
 dnf install -y policycoreutils-gui setools-console setroubleshoot
 dnf install -y clamav clamav-update
@@ -209,7 +209,8 @@ dnf install -y vim-X11
 ln -s /usr/bin/gvim /usr/bin/vim
 
 # compiles emacs 27
-# Emacs 26 does not work with Fedora 31 release of GNUTLS
+# for much better speed and compatibitily
+# WARNING: emacs X11 will crash with pacakge: google-noto-emoji-color-fonts
 # # # # # # # # # # # # # # #
 dnf install -y liblockfile-devel libotf-devel m17n-db-devel m17n-lib-devel
 dnf install -y gtk3-devel ncurses-devel gnutls-devel gnutls-utils
@@ -246,13 +247,19 @@ printf 'Name=Firefox Nightly Browser\n' >> /home/$USER/.local/share/applications
 printf "Exec=/home/$USER/Applications/firefox/firefox\n" >> /home/$USER/.local/share/applications/firefox-nightly.desktop
 
 # install Vagrant and Virtualbox
-dnf install -y vagrant VirtualBox virtualbox-guest-additions
-akmods --kernels 5.3.14-300.fc31.x86_64 && systemctl restart systemd-modules-load.service
-su -c 'mkdir -p ~/Downloads && cd ~/Downloads && wget  http://download.virtualbox.org/virtualbox/6.0.0_RC1/Oracle_VM_VirtualBox_Extension_Pack-6.0.0_RC1.vbox-extpack' $USER
-echo "y" | VBoxManage extpack install --replace /home/$USER/Downloads/Oracle_VM_VirtualBox_Extension_Pack-6.0.0_RC1.vbox-extpack
+dnf install -y akmod vagrant VirtualBox virtualbox-guest-additions
+su -c 'mkdir -p ~/Downloads && cd ~/Downloads && wget http://download.virtualbox.org/virtualbox/6.1.0/Oracle_VM_VirtualBox_Extension_Pack-6.1.0.vbox-extpack' $USER
+echo "y" | VBoxManage extpack install --replace /home/$USER/Downloads/Oracle_VM_VirtualBox_Extension_Pack-6.1.0.vbox-extpack
+su -c 'cd ~/Downloads && wget http://download.virtualbox.org/virtualbox/6.1.0/VBoxGuestAdditions_6.1.0.iso' $USER
 firewall-cmd --permanent --zone=public --add-port=9041/tcp
 setsebool -P httpd_can_network_connect on
 semanage port -a -t http_port_t -p tcp 9041
+# vagrant/virtualbox compatiblity fix
+if ! grep Version_6_1 /usr/share/vagrant/gems/gems/vagrant-2.2.6/plugins/providers/virtualbox/driver/meta.rb; then
+    sed -i '/"6.0" => Version_6_0,/a \\t\t\t"6.1" => Version_6_1,' /usr/share/vagrant/gems/gems/vagrant-2.2.6/plugins/providers/virtualbox/driver/meta.rb
+    wget http://www.coter.net/upload/version_6_1.rb  -P /usr/share/vagrant/gems/gems/vagrant-2.2.6/plugins/providers/virtualbox/driver/
+    sed -i '/autoload :Version_6_0/a \\t  autoload :Version_6_1, File.expand_path("../driver/version_6_1", __FILE__)' /usr/share/vagrant/gems/gems/vagrant-2.2.6/plugins/providers/virtualbox/plugin.rb
+fi
 
 # Rambox
 # # # # # # # # # # # # # # #

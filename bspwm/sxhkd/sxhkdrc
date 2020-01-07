@@ -54,10 +54,11 @@ super + {bracketleft,minus,equals,bracketright}
 
 # #---Screen Bindings---# #
 super + w
-    bspc monitor -f next super + period
-    bspc desktop -m next
+    bspc monitor -f next 
+super + period
+    bspc desktop -m next --follow
 super + slash
-    bspc node -m next
+    bspc node -m next --follow
 
 # #---Workspace Bindings---# #
 super + {z,x}
@@ -69,7 +70,7 @@ super + Tab
 
 # switch/move to workspace
 super + {_,shift + }{1-9,0}
-	bspc {desktop -f,node -d} '^{1-9,10}'
+	bspc {desktop -f,node -d} '^{1-9,10}' --follow
 
 # #---Function Buttons---# #
 super + F1
@@ -93,10 +94,10 @@ super + F9
 super + F10
     arandr
 super + F11
-    xinput set-prop "SynPS/2 Synaptics TouchPad" "Device Enabled" 0 && notify-send "Touchpad Off" --expire-time=600
+    ~/.config/scripts/toggle-touchpad.sh
 super + F12
-    xinput set-prop "SynPS/2 Synaptics TouchPad" "Device Enabled" 1 && notify-send "Touchpad On" --expire-time=600
-
+    ~/.config/scripts/toggle-touchpad.sh
+    
 # #---Arrow Keys---# #
 super + {_,shift + }{left,down,up,right}
 	bspc node -{f,s} {west,south,north,east}
