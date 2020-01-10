@@ -28,7 +28,8 @@ dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-
 
 # Install supporting applications
 # # # # # # # # # # # # # # #
-dnf install -y @base-x @Fonts
+dnf install -y @base-x
+dnf install -y @Fonts gdouros-symbola-fonts fontawesome-fonts gucharmap
 dnf install -y xbacklight feh xautolock
 dnf install -y lxappearance arc-theme rofi redshift-gtk
 dnf install -y pulseaudio alsa-utils pulseaudio-utils xcompmgr
@@ -234,6 +235,7 @@ dnf install -y flatpak
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y flathub com.spotify.Client
 flatpak install -y flathub org.signal.Signal
+flatpak install -y flathub io.lbry.lbry-app
 
 # Install Browsers
 dnf install -y chromium

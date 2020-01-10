@@ -42,7 +42,6 @@ super + t
     bspc node -t tiled
 super + control + {h,j,k,l}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
-
 super + q
     bspc node -c
 super + f
@@ -56,7 +55,8 @@ super + {bracketleft,minus,equals,bracketright}
 super + w
     bspc monitor -f next 
 super + period
-    bspc desktop -m next --follow
+    bspc desktop -m next --follow; \
+    bspc monitor focused -o I II III IV V VI VII VIII IX X
 super + slash
     bspc node -m next --follow
 
@@ -70,7 +70,7 @@ super + Tab
 
 # switch/move to workspace
 super + {_,shift + }{1-9,0}
-	bspc {desktop -f,node -d} '^{1-9,10}' --follow
+	bspc {desktop -f,node -d} '{I,II,III,IV,V,VI,VII,VIII,IX,X}' --follow
 
 # #---Function Buttons---# #
 super + F1

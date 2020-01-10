@@ -3,17 +3,9 @@
 # Loads Hotkeys
 sxhkd &
 
-# #---Screen/Monitor Setup---# #
-xrandr --auto
-xrandr --output DP2-2 --primary --left-of eDP1
-monitor="$(bspc query --monitors --names | grep DP2-2)"
-laptop="$(bspc query --monitors --names | grep eDP1)"
-if [ $monitor == "DP2-2" ]; then
-    bspc monitor $monitor -d 1 2 3 4 5 6 7 8    
-    bspc monitor $laptop -d 9 10   
-else
-    bspc monitor $laptop -d 1 2 3 4 5 6 7 8 9 10
-fi
+# #---Screen/Monitor Initialization---# #
+monitor=(`xrandr --listactivemonitors | xargs -l | grep -oE '[^ ]+$'`)
+bspc monitor ${monitor[1]} -d I II III IV V VI VII VIII IX X
 
 # #---BSPWM Options---# #
 bspc config border_width         1
@@ -50,7 +42,10 @@ redshift-gtk &
 amixer set Capture cap
 # turn on flameshot
 flameshot &
-# system init
-bash ~/.config/scripts/bspwm_screen_reset.sh 
+# #---Screen/Monitor Setup---# #
+~/.config/scripts/bspwm_screen_reset.sh 
 # Composite manager (always load last)
 xcompmgr -c -f -n &
+# cleanup
+wait 1.5s
+bspc desktop Desktop -r
