@@ -11,16 +11,6 @@ primary="DP2-2"
 monitor=(`xrandr --listactivemonitors | xargs -l | grep -oE '[^ ]+$'`)
 if [ ${monitor[0]} -eq 1 ]; then
     xrandr --output ${monitor[1]} --primary
-    bspc desktop I -m ${monitor[1]}
-    bspc desktop II -m ${monitor[1]}
-    bspc desktop III -m ${monitor[1]}
-    bspc desktop IV -m ${monitor[1]}
-    bspc desktop V -m ${monitor[1]}
-    bspc desktop VI -m ${monitor[1]}
-    bspc desktop VII -m ${monitor[1]}
-    bspc desktop VIII -m ${monitor[1]}
-    bspc desktop IX -m ${monitor[1]}
-    bspc desktop X -m ${monitor[1]}
     bspc monitor ${monitor[1]} -o I II III IV V VI VII VIII IX X
     
     sleep 1.5s
@@ -34,17 +24,9 @@ else
     fi
     xrandr --output $primary --primary --left-of $secondary
     bspc desktop I -m $primary 
-    bspc desktop II -m $primary 
-    bspc desktop III -m $primary
-    bspc desktop IV -m $primary
-    bspc desktop V -m $primary 
-    bspc desktop VI -m $primary
-    bspc desktop VII -m $primary
-    bspc desktop VIII -m $primary
-    bspc desktop IX -m $secondary
-    bspc desktop X -m $secondary
-    bspc monitor $primary -o I II III IV V VI VII VIII IX X
-    bspc monitor $secondary -o I II III IV V VI VII VIII IX X
+    bspc desktop Desktop -r
+    bspc monitor $primary -o I II III IV V VI VII VIII IX
+    bspc monitor $secondary -o II III IV V VI VII VIII IX X
 
     sleep 1.5s
     export MONITOR=$primary && polybar primary &

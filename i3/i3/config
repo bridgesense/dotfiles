@@ -10,9 +10,9 @@ gaps inner 5
 gaps outer 5
 set $term --no-startup-id urxvt256c
 set $mod Mod4
-set $shutdown ~/.config/i3/shutdown.sh
-set $reboot  ~/.config/i3/reboot.sh
-set $hibernate "systemctl suspend && ~/.config/i3/screen_init.sh && xautolock -locknow"
+set $shutdown ~/.config/scripts/shutdown.sh
+set $reboot  ~/.config/scripts/reboot.sh
+set $hibernate "systemctl suspend && ~/.config/scripts/screen_init.sh && xautolock -locknow"
 
 # whisker menu selection
 # rofi recognizes flatpak installed software
@@ -31,13 +31,11 @@ exec --no-startup-id xautolock -time 10 -locker "i3lock -c 000000"
 # blue-light adaptation
 exec --no-startup-id redshift-gtk
 # Setting up screens:
-exec --no-startup-id ~/.config/i3/screen_init.sh
+exec --no-startup-id ~/.config/scripts/screen_init.sh
 # unmute microphone
 exec --no-startup-id amixer set Capture cap
 # turn on flameshot
 exec --no-startup-id flameshot
-# temp sound fix for Fedora 31 net install
-# exec --no-startup-id  ~/.config/i3/sound-reset.sh
 
 # Set Xresources colors:
 set_from_resource $darkblack	color0
@@ -89,9 +87,9 @@ bindsym $mod+Return 		exec $term
 bindsym $mod+space  	    exec --no-startup-id $menu
 bindsym $mod+d 			    exec --no-startup-id nemo --no-desktop
 bindsym $mod+i 			    exec $term -e htop
-bindsym $mod+m 			    exec --no-startup-id ~/.config/i3/toggle-movie-mode.sh
+bindsym $mod+m 			    exec --no-startup-id ~/.config/scripts/toggle-movie-mode.sh
 bindsym $mod+n 			    exec $term -e ranger
-bindsym $mod+r              exec --no-startup-id ~/.config/i3/screen_init.sh
+bindsym $mod+r              exec --no-startup-id ~/.config/scripts/screen_init.sh
 bindsym $mod+escape         exec --no-startup-id setxkbmap -option caps:swapescape
 
 
@@ -181,8 +179,8 @@ bindsym $mod+F7     exec $term -e nmtui
 bindsym $mod+F8     exec $term -e nmtui
 bindsym $mod+F9     exec --no-startup-id xautolock -locknow
 bindsym $mod+F10	exec --no-startup-id arandr
-bindsym $mod+F11    exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "Device Enabled" 0 && notify-send "Touchpad Off" --expire-time=600
-bindsym $mod+F12    exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "Device Enabled" 1 && notify-send "Touchpad On" --expire-time=600
+bindsym $mod+F11    exec --no-startup-id ~/.config/scripts/toggle-touchpad.sh
+bindsym $mod+F12    exec --no-startup-id ~/.config/scripts/toggle-touchpad.sh
 
 # #---Arrow Keys---# #
 bindsym $mod+Left		    focus left
@@ -218,6 +216,6 @@ bindsym XF86Suspend		                exec --no-startup-id $hibernate
 bindsym XF86Search		                exec $BROWSER https://duckduckgo.com
 bindsym XF86Display		                exec --no-startup-id arandr
 bindsym XF86Documents		            exec $term -e ranger ~/Documents
-bindsym XF86WLAN                        exec ~/.config/i3/toggle-wifi.sh
+bindsym XF86WLAN                        exec ~/.config/scripts/toggle-wifi.sh
 bindsym XF86MonBrightnessDown           exec --no-startup-id xbacklight -dec 10
 bindsym XF86MonBrightnessUp             exec --no-startup-id xbacklight -inc 10

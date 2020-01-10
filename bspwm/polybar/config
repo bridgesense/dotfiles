@@ -56,7 +56,7 @@ font-1 = FontAwesome:scale=10:style=Regular;2
 font-2 = Symbola:scale=10:style=Regular;2
 
 modules-left = bspwm xwindow
-modules-right = volume cpu temperature filesystem eth wlan battery date poweroff
+modules-right = volume backlight cpu temperature filesystem memory eth wlan public-ip battery date poweroff
 tray-position = right
 tray-detatched = false
 tray-padding = 2 
@@ -96,7 +96,7 @@ font-1 = FontAwesome:scale=10:style=Regular;2
 font-2 = Symbola:scale=10:style=Regular;2
 
 modules-left = bspwm xwindow
-modules-right = volume cpu temperature filesystem eth wlan battery date poweroff
+modules-right = volume backlight cpu temperature filesystem memory eth wlan battery date poweroff
 tray-position = right
 tray-detatched = false
 tray-padding = 3 
@@ -187,9 +187,9 @@ ramp-coreload-7 = █
 type = internal/memory
 interval = 2
 format-prefix = "🧠 "
-format-prefix-foreground = ${colors.gray}
-;format-underline = ${colors.darkcyan}
+format-prefix-foreground = ${colors.blue}
 label = %percentage_used%%
+label-foreground = ${colors.blue} 
 
 [module/wlan]
 type = internal/network
@@ -198,7 +198,7 @@ interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
 label-connected-foreground = ${colors.darkyellow}
-label-connected = %essid% %local_ip% %local_ip6%
+label-connected = %upspeed%  %downspeed% %essid% 
 
 ;format-disconnected =
 format-disconnected =  <label-disconnected>
@@ -217,14 +217,16 @@ ramp-signal-3 = ➌
 ramp-signal-3-foreground = ${colors.darkyellow}
 ramp-signal-4 = ➍
 ramp-signal-4-foreground = ${colors.darkyellow}
-
+ramp-signal-5 = ➎
+ramp-signal-5-foreground = ${colors.darkyellow}
+    
 [module/eth]
 type = internal/network
 interface = enp0s31f6
 interval = 3.0
 
 ;format-connected-underline = ${colors.background}
-label-connected = "  %local_ip%"
+label-connected = "  %linkspeed%"
 label-connected-foreground = ${colors.darkyellow}
 
 ;format-disconnected =
@@ -233,6 +235,19 @@ format-disconnected =
 label-disconnected = "  unconnected"
 label-disconnected-foreground = ${colors.red}
 
+[module/public-ip]
+type = custom/script
+exec = curl --silent https://api6.ipify.org
+exec-if = 
+tail = false
+interval = 3600 
+
+format = <label>
+format-padding = 0
+
+label = %output%                  
+label-foreground = ${colors.darkyellow}
+    
 [module/date]
 type = internal/date
 interval = 60
@@ -390,6 +405,42 @@ screenchange-reload = true
 ;compositing-background = screen
 ;compositing-foreground = source
 ;compositing-border = over
+
+[module/backlight]
+type = internal/xbacklight
+
+; XRandR output to get get values from
+; Default: the monitor defined for the running bar
+output = ${env:MONITOR:}
+
+; Create scroll handlers used to set the backlight value
+; Default: true
+enable-scroll = false
+
+; Available tags:
+;   <label> (default)
+;   <ramp>
+;   <bar>
+format = <ramp> <label>
+
+; Available tokens:
+;   %percentage% (default)
+label = %percentage%%
+label-foreground = ${colors.foreground}
+
+; Only applies if <ramp> is used
+ramp-0 = 🌕
+ramp-1 = 🌔
+ramp-2 = 🌓
+ramp-3 = 🌒
+ramp-4 = 🌑
+ramp-foreground = ${colors.foreground}
+
+; Only applies if <bar> is used
+bar-width = 10
+bar-indicator = |
+bar-fill = ─
+bar-empty = ─
 
 [global/wm]
 margin-top = 5

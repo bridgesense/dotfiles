@@ -110,7 +110,7 @@ eval $(dbus-launch)
 # low battery indication
 # # # # # # # # # # # # # # #
 sudo dnf install -y acpi ntpdate
-(crontab -u $USER -l; echo "*/15 * * * * /bin/bash /home/$(USER)/.config/scripts/battery.sh >/dev/null 2>&1") | crontab -u $USER -
+(crontab -u $USER -l; echo "*/15 * * * * /bin/bash /home/${USER}/.config/scripts/battery.sh >/dev/null 2>&1") | crontab -u $USER -
 
 # Add "tap to click" for touchpads
 # # # # # # # # # # # # # # #
@@ -302,6 +302,12 @@ dnf install -y systemd-libs.i686 xz-libs.i686 zlib.i686 libidn.x86_64
 dnf install -y libidn.i686 coreutils.x86_64 libidn1.34.i686
 rpm -i /home/$USER/Downloads/AdbeRdr*rpm
 
+# handle ACPI wake-up settings for none platform devices
+cp -f /home/$USER/.yadrlite/src/org/system/acpi-wake.service /etc/systemd/system
+chmod 777 /etc/systemd/system/acpi-wake.service    
+systemctl start acpi-wake.service
+systemctl enable acpi-wake.service    
+        
 # permissions, status and boot configuration
 # # # # # # # # # # # # # # #
 find /home/$USER/.config -type d -exec chmod 0755 {} \;
@@ -336,6 +342,6 @@ cd /home/$USER/lab/makemkv-bin-1.14.7 && make install
 # dnf install regionset
 # regionset /dev/sr0
 # rm ~/.dvdcss
-
+   
 printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
 printf "ALL DONE.  PLEASE REBOOT YOUR SYSTEM."
