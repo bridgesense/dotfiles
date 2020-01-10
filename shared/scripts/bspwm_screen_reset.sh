@@ -8,19 +8,19 @@ xrandr --auto
 
 # primary monitor preference
 primary="DP2-2"
-monitor=(`xrandr --listactivemonitors | xargs -l | grep -oE '[^ ]+$'`)
-if [ ${monitor[0]} -eq 1 ]; then
-    xrandr --output ${monitor[1]} --primary
-    bspc monitor ${monitor[1]} -o I II III IV V VI VII VIII IX X
+monitor=(`bspc query -M --names | xargs -l`)
+if [ ${#monitor[@]} -eq 1 ]; then
+    xrandr --output ${monitor[0]} --primary
+    bspc monitor ${monitor[0]} -o I II III IV V VI VII VIII IX X
     
     sleep 1.5s
-    export MONITOR=${monitor[1]} && polybar primary &
+    export MONITOR=${monitor[0]} && polybar primary &
 else
-    if [ ${monitor[2]} == $primary ]; then
-        secondary=${monitor[1]}
+    if [ ${monitor[1]} == $primary ]; then
+        secondary=${monitor[0]}
     else 
-        primary=${monitor[1]}
-        secondary=${monitor[2]}
+        primary=${monitor[0]}
+        secondary=${monitor[1]}
     fi
     xrandr --output $primary --primary --left-of $secondary
     bspc desktop I -m $primary 

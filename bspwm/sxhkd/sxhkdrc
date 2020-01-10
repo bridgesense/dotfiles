@@ -13,9 +13,7 @@ super + space
     rofi -combi-modi window,drun,ssh -modi combi -show combi -monitor -1
 super + d
     nemo --no-desktop
-super + i
-    urxvt256c -e htop
-super + m
+super + i urxvt256c -e htop super + m
     ~/.config/scripts/toggle-movie-mode.sh
 super + n
     urxvt256c -e ranger
@@ -82,9 +80,9 @@ super + F3
 super + F4
     urxvt256c -e alsamixer -c 0
 super + F5
-    systemctl suspend && ~/.config/scripts/screen_init.sh && xautolock -locknow
+    systemctl suspend && xautolock -locknow 
 super + F6
-    systemctl suspend && ~/.config/scripts/screen_init.sh && xautolock -locknow
+    systemctl suspend && xautolock -locknow 
 super + F7
     urxvt256c -e nmtui
 super + F8
@@ -137,13 +135,13 @@ XF86Eject
 XF86Reload
     restart
 XF86Suspend
-    systemctl suspend && ~/.config/scripts/screen_init.sh && xautolock -locknow
+    systemctl suspend && xautolock -locknow
 XF86Display
     arandr
 XF86Documents
     urxvt256c -e ranger ~/Documents
 XF86WLAN
-    exec ~/.config/scripts/toggle-wifi.sh
+    systemctl suspend && xautolock -locknow 
 XF86MonBrightnessDown
     xbacklight -dec 10
 XF86MonBrightnessUp

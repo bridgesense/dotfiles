@@ -317,7 +317,7 @@ click-right = pavucontrol &
 type = internal/battery
 
 time-format = %H:%M
-battery = BAT0
+battery = BAT1
 adapter = ADP1
 full-at = 97
 poll-interval = 5
@@ -326,7 +326,7 @@ format-charging = <animation-charging> <label-charging>
 format-discharging = <ramp-capacity> <label-discharging>
 format-full = <label-full>
 
-label-full =  %time% %percentage%%
+label-full =  %percentage%%
 label-full-foreground = ${colors.blue}
 
 label-charging = %time% %percentage%%

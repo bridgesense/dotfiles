@@ -12,7 +12,7 @@ set $term --no-startup-id urxvt256c
 set $mod Mod4
 set $shutdown ~/.config/scripts/shutdown.sh
 set $reboot  ~/.config/scripts/reboot.sh
-set $hibernate "systemctl suspend && ~/.config/scripts/screen_init.sh && xautolock -locknow"
+set $hibernate "systemctl suspend && xautolock -locknow"
 
 # whisker menu selection
 # rofi recognizes flatpak installed software
@@ -27,7 +27,7 @@ exec --no-startup-id xcompmgr -c -f -n
 # Xbanish makes the mouse invisible after a brief period
 exec --no-startup-id xbanish
 # simple lockout screen that leaves the machine running
-exec --no-startup-id xautolock -time 10 -locker "i3lock -c 000000"
+exec --no-startup-id xautolock -time 10 -locker "i3lock -c 507065 && bash ~/.config/scripts/bspwm_screen_reset.sh"
 # blue-light adaptation
 exec --no-startup-id redshift-gtk
 # Setting up screens:

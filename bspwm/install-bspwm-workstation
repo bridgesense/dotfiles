@@ -99,6 +99,7 @@ sed -i '/Default Prompt/a alias vi="vimx"\nalias vim="vimx"' /root/.bashrc
 # uncomment the following line to give Sudoers access to the user account
 # printf "# Give the following users Sudoers Access\n$USER ALL=(ALL)  ALL" >> /etc/sudoers
 echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
+ls -n /home/$USER/.config/scripts/bspwm_screen_init.sh /lib/systemd/system-sleep/screen_init.sh
 
 # activate dunst
 # # # # # # # # # # # # # # #

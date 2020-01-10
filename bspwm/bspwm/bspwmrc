@@ -5,18 +5,17 @@ sxhkd &
 
 # #---Screen/Monitor Initialization---# #
 primary="DP2-2"
-monitor=(`xrandr --listactivemonitors | xargs -l | grep -oE '[^ ]+$'`)
-bspc monitor ${monitor[1]} -d I II III IV V VI VII VIII IX X
-if [ ${monitor[0]} -eq 1 ]; then
-    xrandr --output ${monitor[1]} --primary
-    bspc monitor ${monitor[1]} -d I II III IV V VI VII VIII IX X
-    export MONITOR=${monitor[1]} && polybar primary &
+monitor=(`bspc query -M --names | xargs -l`)
+if [ ${#monitor[@]} -eq 1 ]; then
+    xrandr --output ${monitor[0]} --primary
+    bspc monitor ${monitor[0]} -d I II III IV V VI VII VIII IX X
+    export MONITOR=${monitor[0]} && polybar primary &
 else
-    if [ ${monitor[2]} == $primary ]; then
-        secondary=${monitor[1]}
+    if [ ${monitor[1]} == $primary ]; then
+        secondary=${monitor[0]}
     else
-        primary=${monitor[1]}
-        secondary=${monitor[2]}
+        primary=${monitor[0]}
+        secondary=${monitor[1]}
     fi
     xrandr --output $primary --primary --left-of $secondary
     bspc monitor $primary -d I II III IV V VI VII VIII
@@ -53,7 +52,7 @@ dunst &
 # Xbanish makes the mouse invisible after a brief period
 xbanish &
 # simple lockout screen that leaves the machine running
-xautolock -time 10 -locker "i3lock -c 507065" &
+xautolock -time 10 -locker "i3lock -c 507065 && bash ~/.config/scripts/bspwm_screen_reset.sh" &
 # blue-light adaptation
 redshift-gtk &
 # unmute microphone
