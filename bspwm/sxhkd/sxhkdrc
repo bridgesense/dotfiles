@@ -13,7 +13,9 @@ super + space
     rofi -combi-modi window,drun,ssh -modi combi -show combi -monitor -1
 super + d
     nemo --no-desktop
-super + i urxvt256c -e htop super + m
+super + i 
+    urxvt256c -e htop 
+super + m
     ~/.config/scripts/toggle-movie-mode.sh
 super + n
     urxvt256c -e ranger
