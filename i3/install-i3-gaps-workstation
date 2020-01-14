@@ -254,7 +254,7 @@ printf 'Name=Firefox Nightly Browser\n' >> /home/$USER/.local/share/applications
 printf "Exec=/home/$USER/Applications/firefox/firefox\n" >> /home/$USER/.local/share/applications/firefox-nightly.desktop
 
 # install Vagrant and Virtualbox
-dnf install -y akmod vagrant VirtualBox virtualbox-guest-additions
+dnf install -y akmods vagrant VirtualBox virtualbox-guest-additions
 su -c 'mkdir -p ~/Downloads && cd ~/Downloads && wget http://download.virtualbox.org/virtualbox/6.1.0/Oracle_VM_VirtualBox_Extension_Pack-6.1.0.vbox-extpack' $USER
 echo "y" | VBoxManage extpack install --replace /home/$USER/Downloads/Oracle_VM_VirtualBox_Extension_Pack-6.1.0.vbox-extpack
 su -c 'cd ~/Downloads && wget http://download.virtualbox.org/virtualbox/6.1.0/VBoxGuestAdditions_6.1.0.iso' $USER
