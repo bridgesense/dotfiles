@@ -68,7 +68,3 @@ setxkbmap -option caps:swapescape
 echo -e "connect A4:E9:75:F0:EF:87 \nquit" | bluetoothctl
 # Composite manager (always load last)
 xcompmgr -c -f -n &
-# cleanup
-wait 1.5s
-# bspc desktop Desktop -r
-echo XHCI > /proc/acpi/wakeup

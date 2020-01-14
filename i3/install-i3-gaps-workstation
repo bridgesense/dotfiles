@@ -76,6 +76,7 @@ dnf install -y libxkbcommon-devel libxkbcommon-x11-devel
 dnf install -y pcre-devel pango-devel
 su -c 'git clone https://www.github.com/Airblader/i3 ~/lab/i3-gaps' $USER
 su -c 'cd ~/lab/i3-gaps && git checkout gaps-next' $USER
+wait 1.5s
 su -c 'cd ~/lab/i3-gaps && git pull' $user
 su -c 'cd ~/lab/i3-gaps && autoreconf -fi' $USER
 su -c 'rm -rf ~/lab/i3-gaps/build/' $USER
@@ -223,6 +224,7 @@ su -c 'git clone -b master git://git.sv.gnu.org/emacs.git ~/lab/emacs' $USER
 # locks emacs into August 1st, 2019 release
 # when geben and gnus were working
 su -c 'cd ~/lab/emacs && git checkout eddf4664d786e16b34f6bd0af238a567feb5012c' $USER
+wait 1.5s
 su -c 'cd ~/lab/emacs && ./autogen.sh' $USER
 su -c 'cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils' $USER
 su -c 'make -C ~/lab/emacs' $USER

@@ -68,6 +68,7 @@ dnf install -y libcurl-devel wireless-tools-devel libnl3-devel
 su -c 'mkdir -p ~/lab' $USER
 su -c 'git clone --recursive https://github.com/polybar/polybar.git ~/lab/polybar' $USER
 su -c 'cd ~/lab/polybar && git checkout 3.4' $USER
+sleep 1.5s
 su -c 'mkdir -p ~/lab/polybar/build' $USER
 su -c 'cd ~/lab/polybar/build && cmake ..' $USER
 su -c 'make -j$(nproc) -C ~/lab/polybar/build' $USER
@@ -222,6 +223,7 @@ su -c 'git clone -b master git://git.sv.gnu.org/emacs.git ~/lab/emacs' $USER
 # locks emacs into August 1st, 2019 release
 # when geben and gnus were working
 su -c 'cd ~/lab/emacs && git checkout eddf4664d786e16b34f6bd0af238a567feb5012c' $USER
+sleep 1.5s
 su -c 'cd ~/lab/emacs && ./autogen.sh' $USER
 su -c 'cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils' $USER
 su -c 'make -C ~/lab/emacs' $USER
@@ -314,6 +316,7 @@ systemctl enable acpi-wake.service
 find /home/$USER/.config -type d -exec chmod 0755 {} \;
 find /home/$USER/.config -type f -exec chmod 0644 {} \;
 find /home/$USER/.config -name "*.sh" -execdir chmod u+x {} +
+chmod u+x /home/$USER/.config/bspwm/bspwmrc
 plymouth-set-default-theme -R bgrt
 
 # Install Multimedia Codecs
