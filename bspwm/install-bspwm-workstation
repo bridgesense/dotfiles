@@ -47,7 +47,7 @@ dnf install -y papirus-icon-theme
 dnf install -y nemo
 dnf install -y acpi crontabs
 dnf install -y firewall-config
-dnf install -y mupdf evince
+dnf install -y mupdf evince pdfarranger
 dnf install -y system-config-printer
 dnf install -y simple-scan
 dnf install -y nomacs
@@ -253,10 +253,9 @@ printf 'Name=Firefox Nightly Browser\n' >> /home/$USER/.local/share/applications
 printf "Exec=/home/$USER/Applications/firefox/firefox\n" >> /home/$USER/.local/share/applications/firefox-nightly.desktop
 
 # install Vagrant and Virtualbox
-dnf install -y akmods vagrant VirtualBox virtualbox-guest-additions
-su -c 'mkdir -p ~/Downloads && cd ~/Downloads && wget http://download.virtualbox.org/virtualbox/6.1.0/Oracle_VM_VirtualBox_Extension_Pack-6.1.0.vbox-extpack' $USER
-echo "y" | VBoxManage extpack install --replace /home/$USER/Downloads/Oracle_VM_VirtualBox_Extension_Pack-6.1.0.vbox-extpack
-su -c 'cd ~/Downloads && wget http://download.virtualbox.org/virtualbox/6.1.0/VBoxGuestAdditions_6.1.0.iso' $USER
+dnf install -y akmods vagrant
+su -c 'mkdir -p ~/Downloads && cd ~/Downloads && wget http://download.virtualbox.org/virtualbox/6.1.2/Oracle_VM_VirtualBox_Extension_Pack-6.1.2.vbox-extpack' $USER
+echo "y" | VBoxManage extpack install --replace /home/$USER/Downloads/Oracle_VM_VirtualBox_Extension_Pack-6.1.2.vbox-extpack
 firewall-cmd --permanent --zone=public --add-port=9041/tcp
 setsebool -P httpd_can_network_connect on
 semanage port -a -t http_port_t -p tcp 9041
@@ -278,8 +277,9 @@ dnf install -y https://github.com/rpmsphere/x86_64/blob/master/g/gargoyle-2015-5
 su -c 'cp ~/.yadrlite/shared/garglk.ini ~/.garglkrc' $USER
 
 # Compatibility suite for older Windows 32bit executables
+# uncomment to install wine support with i686 libraries
 # # # # # # # # # # # # # # # #
-dnf install -y wine winetricks
+# dnf install -y wine winetricks
 
 # install Adobe Acrobat
 su -c 'cd ~/Downloads && wget "ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/AdbeRdr9.5.5-1_i486linux_enu.rpm"' $USER
