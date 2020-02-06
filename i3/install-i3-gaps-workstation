@@ -36,6 +36,7 @@ dnf install -y pulseaudio alsa-utils pulseaudio-utils xcompmgr
 dnf install -y pulseeffects pavucontrol
 dnf install -y arandr zenity rxvt-unicode-256color flameshot
 dnf install -y gnome-keyring
+dnf install -y gnome-control-center
 dnf install -y NetworkManager-tui NetworkManager-wifi NetworkManager-openvpn-gnome
 dnf install -y dhcp-client iw wpa_supplicant blueman
 dnf install -y dunst libnotify
@@ -159,11 +160,12 @@ echo 'EndSection' >> /etc/X11/xorg.conf.d/20-intel.conf
 # this is a sample config for a t460
 # # # # # # # # # # # # # # #
 dnf install -y thinkfan
-sed -i '/55)/i \
-hwmon /sys/devices/platform/coretemp.0/hwmon/hwmon3/temp1_input \
-hwmon /sys/devices/platform/coretemp.0/hwmon/hwmon3/temp2_input \
-hwmon /sys/devices/platform/coretemp.0/hwmon/hwmon3/temp3_input \
-' /etc/thinkfan.conf
+HWMONDEV=`basename /sys/devices/platform/coretemp.0/hwmon/*`
+sed -i "/55)/i \
+hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp1_input \n\
+hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp2_input \n\
+hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp3_input \n\
+" /etc/thinkfan.conf
 systemctl enable thinkfan
 
 # install non-free firmware for compatibilty crises
