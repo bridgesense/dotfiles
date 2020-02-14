@@ -103,7 +103,10 @@ sed -i '/Default Prompt/a alias vi="vimx"\nalias vim="vimx"' /root/.bashrc
 # printf "# Give the following users Sudoers Access\n$USER ALL=(ALL)  ALL" >> /etc/sudoers
 echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
 ls -n /home/$USER/.config/scripts/screen_init.sh /lib/systemd/system-sleep/screen_init.sh
-    
+# urxvt terminal font resizing
+su -c 'mkdir -p ~/.urxvt/ext' $USER
+su -c 'cd ~/.urxvt/ext && wget "https://raw.githubusercontent.com/simmel/urxvt-resize-font/master/resize-font"' $USER
+
 # activate dunst
 # # # # # # # # # # # # # # #
 systemctl enable --user dunst.service
@@ -325,7 +328,7 @@ plymouth-set-default-theme -R bgrt
 
 # Install Multimedia Codecs
 dnf install -y rpmfusion-free-release-tainted
-dnf install -y vlc
+dnf install -y vlc devedeng
 dnf install -y gstreamer\* gstreamer1-\*
 dnf install -y ffmpeg ffmpeg-libs compat-ffmpeg28
 dnf install -y lsdvd libdvdnav libdvdread libdvdcss
