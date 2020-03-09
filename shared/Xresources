@@ -81,8 +81,8 @@ URxvt.iso14755: false
 URxvt.iso14755_52: false
 URxvt.keysym.Shift-Control-V: eval:paste_clipboard
 URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
-! Load Extensions 
-URxvt.perl-ext-common: resize-font
+! RESIZE FONT
+URxvt.perl-ext-common: default,clipboard,resize-font
 ! Font Hinting
 Xft.dpi: 96
 Xft.antialias: 1

@@ -30,22 +30,24 @@ dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-
 # # # # # # # # # # # # # # #
 dnf install -y @base-x bspwm
 dnf install -y @Fonts gdouros-symbola-fonts fontawesome-fonts gucharmap
-dnf install -y xbacklight feh xautolock i3lock sxhkd
+dnf install -y xbacklight feh sxhkd
+dnf install -y xautolock pyxtrlock asciiquarium
 dnf install -y lxappearance arc-theme rofi redshift-gtk
 dnf install -y pulseaudio alsa-utils pulseaudio-utils xcompmgr
 dnf install -y pulseeffects pavucontrol
-dnf install -y arandr zenity rxvt-unicode-256color flameshot
+dnf install -y arandr zenity rxvt-unicode-256color-ml flameshot
 dnf install -y gnome-keyring
-dnf install -y gnome-control-center 
+dnf install -y gnome-control-center
 dnf install -y NetworkManager-tui NetworkManager-wifi NetworkManager-openvpn-gnome
 dnf install -y dhcp-client iw wpa_supplicant blueman
 dnf install -y dunst libnotify
 dnf install -y gnutls mailx wireless-tools
 dnf install -y python3-httplib2 wordnet
-dnf install -y texlive-latex
+dnf install -y aspell-en texlive-latex
 dnf install -y texlive-collection-latex texlive-collection-latexextra
 dnf install -y papirus-icon-theme
 dnf install -y nemo
+dnf install -y fuse-exfat exfat-utils
 dnf install -y acpi crontabs
 dnf install -y firewall-config
 dnf install -y mupdf evince pdfarranger
@@ -311,10 +313,10 @@ rpm -i /home/$USER/Downloads/AdbeRdr*rpm
 
 # handle ACPI wake-up settings for none platform devices
 cp -f /home/$USER/.yadrlite/src/org/system/acpi-wake.service /etc/systemd/system
-chmod 777 /etc/systemd/system/acpi-wake.service    
+chmod 777 /etc/systemd/system/acpi-wake.service
 systemctl start acpi-wake.service
-systemctl enable acpi-wake.service    
-        
+systemctl enable acpi-wake.service
+
 # permissions, status and boot configuration
 # # # # # # # # # # # # # # #
 find /home/$USER/.config -type d -exec chmod 0755 {} \;
@@ -322,6 +324,28 @@ find /home/$USER/.config -type f -exec chmod 0644 {} \;
 find /home/$USER/.config -name "*.sh" -execdir chmod u+x {} +
 chmod u+x /home/$USER/.config/bspwm/bspwmrc
 plymouth-set-default-theme -R bgrt
+
+# add manual entries
+su -c 'touch ~/.local/share/applications/screensaver.desktop' $USER
+printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/screensaver.desktop
+printf 'Type=Application\n' >> /home/$USER/.local/share/applications/screensaver.desktop
+printf 'Name=Screen Saver\n' >> /home/$USER/.local/share/applications/screensaver.desktop
+printf "Exec=bash /home/$USER/.config/scripts/bspwm-screen-saver.sh\n" >> /home/$USER/.local/share/applications/screensaver.desktop
+su -c 'touch ~/.local/share/applications/hibernate.desktop' $USER
+printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/hibernate.desktop
+printf 'Type=Application\n' >> /home/$USER/.local/share/applications/hibernate.desktop
+printf 'Name=Hibernate\n' >> /home/$USER/.local/share/applications/hibernate.desktop
+printf "Exec=bash /home/$USER/.config/scripts/hibernate.sh\n" >> /home/$USER/.local/share/applications/hibernate.desktop
+su -c 'touch ~/.local/share/applications/reboot.desktop' $USER
+printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/reboot.desktop
+printf 'Type=Application\n' >> /home/$USER/.local/share/applications/reboot.desktop
+printf 'Name=Restart\n' >> /home/$USER/.local/share/applications/reboot.desktop
+printf "Exec=bash /home/$USER/.config/scripts/reboot.sh\n" >> /home/$USER/.local/share/applications/reboot.desktop
+su -c 'touch ~/.local/share/applications/shutdown.desktop' $USER
+printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/shutdown.desktop
+printf 'Type=Application\n' >> /home/$USER/.local/share/applications/shutdown.desktop
+printf 'Name=Shutdown\n' >> /home/$USER/.local/share/applications/shutdown.desktop
+printf "Exec=bash /home/$USER/.config/scripts/shutdown.sh\n" >> /home/$USER/.local/share/applications/shutdown.desktop
 
 # Install Multimedia Codecs
 dnf install -y rpmfusion-free-release-tainted
@@ -350,6 +374,6 @@ cd /home/$USER/lab/makemkv-bin-1.14.7 && make install
 # dnf install regionset
 # regionset /dev/sr0
 # rm ~/.dvdcss
-   
+
 printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
 printf "ALL DONE.  PLEASE REBOOT YOUR SYSTEM."

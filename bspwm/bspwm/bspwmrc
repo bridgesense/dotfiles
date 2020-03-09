@@ -3,12 +3,11 @@
 # Loads Hotkeys
 sxhkd &
 
-# #---Screen/Monitor Initialization---# #
-primary="DP2-2"
 monitor=(`bspc query -M --names | xargs -l`)
 if [ ${#monitor[@]} -eq 1 ]; then
     xrandr --output ${monitor[0]} --primary
     bspc monitor ${monitor[0]} -d I II III IV V VI VII VIII IX X
+    bspc rule -a URxvt:${monitor[0]} monitor=${monitor[0]} state=fullscreen
     export MONITOR=${monitor[0]} && polybar primary &
 else
     if [ ${monitor[1]} == $primary ]; then
@@ -20,6 +19,8 @@ else
     xrandr --output $primary --primary --left-of $secondary
     bspc monitor $primary -d I II III IV V VI VII VIII
     bspc monitor $secondary -d IX X
+    bspc rule -a URxvt:$primary monitor=$primary state=fullscreen
+    bspc rule -a URxvt:$secondary monitor=$secondary state=fullscreen
     export MONITOR=$primary && polybar primary &
     export MONITOR=$secondary && polybar secondary &
 fi
@@ -45,6 +46,7 @@ xsetroot -cursor_name left_ptr
 
 # #---Application Defaults---# #
 bspc rule -a Emacs state=tiled
+bspc rule -a dosbox state=tiled
 
 # #---Starting External Scripts---# #
 # Starts dunst for notifications:
@@ -52,7 +54,7 @@ dunst &
 # Xbanish makes the mouse invisible after a brief period
 xbanish &
 # simple lockout screen that leaves the machine running
-xautolock -time 10 -locker "i3lock -c 507065 && bash ~/.config/scripts/bspwm_screen_reset.sh" &
+xautolock -time 10 -locker "bash ~/.config/scripts/bspwm-screen-saver.sh" &
 # blue-light adaptation
 redshift-gtk &
 # unmute microphone

@@ -3,6 +3,9 @@
 # removes polybar for reconfiguration
 killall -q polybar
 
+# remove screen rules
+bspc rule -r URxvt:*
+
 # reset monitor evaluations
 xrandr --auto
 
@@ -12,7 +15,8 @@ monitor=(`bspc query -M --names | xargs -l`)
 if [ ${#monitor[@]} -eq 1 ]; then
     xrandr --output ${monitor[0]} --primary
     bspc monitor ${monitor[0]} -o I II III IV V VI VII VIII IX X
-    
+    bspc rule -a URxvt:${monitor[0]} monitor=${monitor[0]} state=fullscreen
+
     sleep 1.5s
     export MONITOR=${monitor[0]} && polybar primary &
 else
@@ -27,6 +31,8 @@ else
     bspc desktop Desktop -r
     bspc monitor $primary -o I II III IV V VI VII VIII IX
     bspc monitor $secondary -o II III IV V VI VII VIII IX X
+    bspc rule -a URxvt:"$primary" monitor=$primary state=fullscreen
+    bspc rule -a URxvt:$secondary monitor=$secondary state=fullscreen
 
     sleep 1.5s
     export MONITOR=$primary && polybar primary &

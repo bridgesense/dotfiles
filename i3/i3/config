@@ -8,7 +8,7 @@ for_window [class="^.*"] border pixel 2
 for_window [class="^.*"][window_type=dialog] focus
 gaps inner 5
 gaps outer 5
-set $term --no-startup-id urxvt256c
+set $term --no-startup-id urxvt256c-ml
 set $mod Mod4
 set $shutdown ~/.config/scripts/shutdown.sh
 set $reboot  ~/.config/scripts/reboot.sh
@@ -27,11 +27,11 @@ exec --no-startup-id xcompmgr -c -f -n
 # Xbanish makes the mouse invisible after a brief period
 exec --no-startup-id xbanish
 # simple lockout screen that leaves the machine running
-exec --no-startup-id xautolock -time 10 -locker "i3lock -c 507065 && bash ~/.config/scripts/bspwm_screen_reset.sh"
+exec --no-startup-id xautolock -time 10 -locker "i3lock -c 507065 && bash ~/.config/scripts/screen-init.sh"
 # blue-light adaptation
 exec --no-startup-id redshift-gtk
 # Setting up screens:
-exec --no-startup-id ~/.config/scripts/screen_init.sh
+exec --no-startup-id ~/.config/scripts/screen-init.sh
 # unmute microphone
 exec --no-startup-id amixer set Capture cap
 # turn on flameshot
@@ -89,7 +89,7 @@ bindsym $mod+d 			    exec --no-startup-id nemo --no-desktop
 bindsym $mod+i 			    exec $term -e htop
 bindsym $mod+m 			    exec --no-startup-id ~/.config/scripts/toggle-movie-mode.sh
 bindsym $mod+n 			    exec $term -e ranger
-bindsym $mod+r              exec --no-startup-id ~/.config/scripts/screen_init.sh
+bindsym $mod+r              exec --no-startup-id ~/.config/scripts/screen-init.sh
 bindsym $mod+escape         exec --no-startup-id setxkbmap -option caps:swapescape
 
 
