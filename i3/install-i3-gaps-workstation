@@ -227,8 +227,8 @@ dnf install -y liblockfile-devel libotf-devel m17n-db-devel m17n-lib-devel
 dnf install -y gtk3-devel ncurses-devel gnutls-devel gnutls-utils
 dnf install -y libXpm-devel libxml2-devel libjpeg-devel giflib-devel libtiff-devel
 su -c 'git clone -b master git://git.sv.gnu.org/emacs.git ~/lab/emacs' $USER
-# locks emacs into February 24th, 2020 release (stable)
-su -c 'cd ~/lab/emacs && git checkout 7dfe90a666ab6b90597e3ee61c141da088da340c' $USER
+# locks emacs into March 5th, 2020 release (stable)
+su -c 'cd ~/lab/emacs && git checkout a1e2a6847007f56d96d0122e493d5228e5c4d08b' $USER
 wait 1.5s
 su -c 'cd ~/lab/emacs && ./autogen.sh' $USER
 su -c 'cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils' $USER

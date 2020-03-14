@@ -14,7 +14,7 @@
 (menu-bar-mode -1)
 
 
-;; Handiles Backup Files
+;; Handles Backup Files
 ;; # # # # # # # # # # #
 (setq
  backup-by-copying t      ; don't clobber symlinks
@@ -24,6 +24,12 @@
  kept-new-versions 6
  kept-old-versions 2
  version-control t)       ; use versioned backups
+
+
+;; Remember your place
+;; # # # # # # # # # # #
+(save-place-mode 1)
+(save-place-forget-unreadable-files nil)
 
 
 ;; Default Font and Transparency
@@ -209,6 +215,19 @@
   (helm-mode 1))
 
 
+;; Ivy / Swiper
+;; # # # # # # # # # # #
+(use-package swiper :ensure t)
+(use-package ivy :ensure t
+  :init
+  (ivy-mode 1)
+  :config
+  (setq ivy-use-virtual-buffers t)
+  (global-set-key "\C-s" 'swiper)
+  (global-set-key (kbd "C-c C-r") 'ivy-resume)
+  (global-set-key (kbd "<f6>") 'ivy-resume))
+
+
 ;; Autopair Mode
 ;; # # # # # # # # # # #
 (use-package autopair :ensure t
@@ -315,6 +334,12 @@
   (exec-path-from-shell-initialize)))
 
 
+;; Tramp
+;; # # # # # # # # # # #
+;; (setq tramp-default-method "ssh")
+(use-package tramp :ensure t)
+
+
 ;; smooth scrolling
 ;; # # # # # # # # # # #
 (use-package smooth-scrolling :ensure t
@@ -396,6 +421,9 @@
                  (side            . bottom)
                  (reusable-frames . visible)
                  (window-height   . 0.15))))
+(use-package flycheck-color-mode-line :ensure t)
+(eval-after-load "flycheck"
+  '(add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode))
 (defun flycheck-list-errors-toggle ()
   "Toggle the error list for the current buffer."
   (interactive)
@@ -530,6 +558,7 @@
 ;; Misc Helm Packages and Dependencies
 ;; # # # # # # # # # # #
 (use-package helm-swoop :ensure t)
+(use-package helm-tramp :ensure t)
 
 
 ;; Spruce Up line numbers
@@ -652,11 +681,8 @@
 
 ;; Rangerlike File Browser
 ;; # # # # # # # # # # #
-(use-package cl-lib :ensure t)
 (use-package ranger :ensure t
-  :diminish ranger-mod
-  ;;  :init
-  ;;  (require 'cl-lib)
+  :diminish ranger-mode
   :config
   ;; Add ability to create directory
   (define-key ranger-normal-mode-map (kbd "+") #'dired-create-directory)
@@ -685,55 +711,91 @@
 (use-package evil-magit :ensure t)
 
 
-;; Auto Completion with Company
+;; bbdb configurations
 (use-package bbdb :ensure t
-             :config
-             (setq bbdb-file "~/.bbdb")
-             (setq bbdb-complete-name-full-completion t)
-             (setq bbdb-completion-type 'primary-or-name)
-             (setq bbdb-complete-name-allow-cycling t)
-             (setq bbdb-message-all-addresses t)
-             (setq bbdb-pop-up-window-size 0.25)
-             (setq bbdb-mua-pop-up-window-size 0.25)
-             (setq bbdb-mua-update-interactive-p '(query . create))
-             (bbdb-initialize 'gnus 'message 'sendmail)
-             (add-hook 'gnus-startup-hook 'bbdb-insinuate-gnus)
-             (add-hook 'mail-setup-hook 'bbdb-insinuate-sendmail)
-             (bbdb-mua-auto-update-init 'message)
-             (setq bbdb-mua-auto-update-p 'query))
-;; auto-complete emacs address using bbdb UI
-(add-hook 'message-mode-hook
+  :config
+  (setq bbdb-file "~/.bbdb")
+  (setq bbdb-complete-name-full-completion t)
+  (setq bbdb-completion-type 'primary-or-name)
+  (setq bbdb-complete-name-allow-cycling t)
+  (setq bbdb-message-all-addresses t)
+  (setq bbdb-pop-up-window-size 0.25)
+  (setq bbdb-mua-pop-up-window-size 0.25)
+  (setq bbdb-mua-update-interactive-p '(query . create))
+  (bbdb-initialize 'gnus 'message 'sendmail)
+  (add-hook 'gnus-startup-hook 'bbdb-insinuate-gnus)
+  (add-hook 'mail-setup-hook 'bbdb-insinuate-sendmail)
+  (bbdb-mua-auto-update-init 'message)
+  (setq bbdb-mua-auto-update-p 'query)
+  ; turn off auto carraige return after 70 chars
+  (add-hook 'message-mode-hook 'turn-off-auto-fill)
+  (use-package bbdb-vcard :ensure t)
+
+
+;; AutoComplete Settings 
+;; (comment out to use Company autocompletion below)
+(use-package ac-php :ensure t)
+(use-package auto-complete :ensure t
+  :init
+  (progn
+  (ac-config-default)
+  (global-auto-complete-mode t))
+  :config
+  (add-hook 'php-mode-hook
     '(lambda ()
-        (flyspell-mode t)
-        (local-set-key (kbd "TAB") 'bbdb-complete-name)))
-;; turn off auto carraige return after 70 chars
-(add-hook 'message-mode-hook 'turn-off-auto-fill)
-(use-package bbdb-vcard :ensure t)
-(use-package company-php :ensure t)
-(use-package ac-php :ensure t
-            :config
-            (ac-php-core-eldoc-setup))
-(use-package company-web :ensure t)
-(use-package company-quickhelp :ensure t)
-(use-package cl-lib :ensure t)
-(use-package company :ensure t
-             :diminish company-mode
-             :config
-             (add-hook 'after-init-hook 'global-company-mode)
-             (add-to-list 'company-backends 'company-web)
-             (add-to-list 'company-backends 'company-quickhelp)
-             (add-to-list 'company-backends 'company-php)
-             (add-to-list 'company-backends 'company-ac-php-backend)
-             (add-to-list 'company-backends 'php-extras-company)
-             (add-to-list 'company-backends 'company-Yasnippet)
-             (add-to-list 'company-backends 'company-dabbrev)
-             (add-to-list 'company-backends 'company-capf)
-             (add-to-list 'company-backends 'company-files)
-             (setq company-tooltip-limit 20)
-             (setq company-tooltip-align-annotations 't)
-             (setq company-idle-delay .3)
-             (setq company-minimum-prefix-length 1)
-             (setq company-begin-commands '(self-insert-command)))
+        (auto-complete-mode t)
+        (require 'ac-php)
+        (setq ac-sources '(ac-source-php))
+        (yas-global-mode 1)
+        (define-key php-mode-map (kbd "C-]")
+            'ac-php-find-symbol-at-point)
+        (define-key php-mode-map (kbd "C-t")
+            'ac-php-location-stack-back))))
+(use-package ac-html-bootstrap :ensure t)
+(add-to-list 'web-mode-ac-sources-alist
+             '("html" . (ac-source-html-tag
+                          ac-source-html-attr
+                          ac-source-html-attrv)))
+(use-package counsel-bbdb :ensure t)
+(add-hook 'message-mode-hook
+          '(lambda ()
+             (flyspell-mode t)
+             (toggle-truncate-lines)
+             (local-set-key (kbd "TAB") 'counsel-bbdb-complete-mail))))
+
+
+;; Auto Completion with Company
+;; uncomment to use Company autocompletion
+;(use-package company-php :ensure t)
+;(use-package ac-php :ensure t
+;  :config
+;    (ac-php-core-eldoc-setup))
+;(use-package company-web :ensure t)
+;(use-package company-quickhelp :ensure t)
+;(use-package company :ensure t
+;  :diminish company-mode
+;  :config
+;  (add-hook 'after-init-hook 'global-company-mode)
+;  (add-to-list 'company-backends 'company-web)
+;  (add-to-list 'company-backends 'company-quickhelp)
+;  (add-to-list 'company-backends 'company-php)
+;  (add-to-list 'company-backends 'company-ac-php-backend)
+;  (add-to-list 'company-backends 'php-extras-company)
+;  (add-to-list 'company-backends 'company-Yasnippet)
+;  (add-to-list 'company-backends 'company-dabbrev)
+;  (add-to-list 'company-backends 'company-capf)
+;  (add-to-list 'company-backends 'company-files)
+;  (setq company-tooltip-limit 20)
+;  (setq company-tooltip-align-annotations 't)
+;  (setq company-idle-delay .3)
+;  (setq company-minimum-prefix-length 1)
+;  (setq company-begin-commands '(self-insert-command)))
+; auto-complete emacs address using bbdb UI
+;(add-hook 'message-mode-hook
+;          '(lambda ()
+;             (flyspell-mode t)
+;             (toggle-truncate-lines)
+;             (local-set-key (kbd "TAB") 'bbdb-complete-name))))
 
 
 ;; leader key operation
