@@ -29,7 +29,6 @@
 ;; Remember your place
 ;; # # # # # # # # # # #
 (save-place-mode 1)
-(save-place-forget-unreadable-files nil)
 
 
 ;; Default Font and Transparency
