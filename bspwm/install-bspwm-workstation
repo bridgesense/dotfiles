@@ -50,7 +50,6 @@ dnf install -y nemo
 dnf install -y fuse-exfat exfat-utils
 dnf install -y acpi crontabs
 dnf install -y firewall-config
-dnf install -y mupdf evince pdfarranger
 dnf install -y system-config-printer
 dnf install -y simple-scan
 dnf install -y nomacs
@@ -219,16 +218,28 @@ dnf install -y ranger w3m w3m-img
 dnf install -y vim-X11
 ln -s /usr/bin/gvim /usr/bin/vim
 
+# pdf viewers
+dnf install -y evince pdfarranger
+# dnf install -y mupdf
+dnf install -y freetype-devel jbig2dec-devel libjpeg-turbo-devel openjpeg-devel zlib-devel
+dnf install -y xorg-x11-server-devel
+dnf install -y mesa-libGL-devel libdrm-devel libX11-devel
+dnf install -y mesa-libGLU-devel libXcursor-devel libXrandr-devel libXinerama-devel
+su -c 'git clone --recursive https://github.com/fluks/mupdf-x11-bookmarks.git ~/lab/mupdf' $USER
+su -c 'cd ~/lab/mupdf && git submodule update --init' $USER
+cd /home/$USER/lab/mupdf && make prefix=/usr/local install && make clean
+
 # compiles emacs 27
 # for much better speed and compatibitily
 # WARNING: emacs X11 will crash with pacakge: google-noto-emoji-color-fonts
 # # # # # # # # # # # # # # #
 dnf install -y liblockfile-devel libotf-devel m17n-db-devel m17n-lib-devel
 dnf install -y gtk3-devel ncurses-devel gnutls-devel gnutls-utils
-dnf install -y libXpm-devel libxml2-devel libjpeg-devel giflib-devel libtiff-devel
+dnf install -y libXpm-devel libxml2-devel libjpeg-turbo-devel giflib-devel libtiff-devel
+dnf install -y texinfo
 su -c 'git clone -b master git://git.sv.gnu.org/emacs.git ~/lab/emacs' $USER
-# locks emacs into March 5th, 2020 release (stable)
-su -c 'cd ~/lab/emacs && git checkout a1e2a6847007f56d96d0122e493d5228e5c4d08b' $USER
+# locks emacs into March 27th, 2020 release (stable)
+su -c 'cd ~/lab/emacs && git checkout 6075a7c5ae3fa456cd099946f6e042b57e925263' $USER
 sleep 1.5s
 su -c 'cd ~/lab/emacs && ./autogen.sh' $USER
 su -c 'cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils' $USER

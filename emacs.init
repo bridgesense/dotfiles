@@ -95,6 +95,7 @@
 (setq-default indent-tabs-mode nil)
 ;; Tab width
 (setq-default tab-width 4)
+(setq c-basic-offset 4)
 (setq indent-line-function 'insert-tab)
 ;; Turn off line wrapping by default
 (set-default 'truncate-lines t)
@@ -173,8 +174,8 @@
 (define-key evil-normal-state-map (kbd "C-v") 'clipboard-yank)
 ;; browse in emacs mode
 (add-hook 'eww-mode-hook
-            (lambda ()
-              (evil-set-initial-state 'eww-mode 'emacs)))
+          (lambda ()
+            (evil-set-initial-state 'eww-mode 'emacs)))
 ;; Helps prevent excess cpu during visual mode
 (setq auto-window-vscroll nil)
 
@@ -280,7 +281,7 @@
 (use-package flycheck-plantuml :ensure t)
 (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))
 (setq org-plantuml-jar-path
-            (expand-file-name "~/.yadrlite/src/org/contrib/scripts/plantuml.jar"))
+      (expand-file-name "~/.yadrlite/src/org/contrib/scripts/plantuml.jar"))
 ;; Artist Mode
 (evil-set-initial-state 'artist-mode 'emacs)
 (defun toggle-artist-mode ()
@@ -311,16 +312,16 @@
               (define-key term-raw-map (kbd "<backspace>") 'term-send-backspace))))
 ;; toggles line mode when flipping states
 (add-hook 'evil-normal-state-entry-hook
-     (lambda ()
-       (if (eq major-mode 'term-mode)
-         (term-line-mode))))
+          (lambda ()
+            (if (eq major-mode 'term-mode)
+                (term-line-mode))))
 (add-hook 'evil-emacs-state-entry-hook
-      (lambda ()
-        (when (eq major-mode 'term-mode)
-          (if (term-in-line-mode)
-             (condition-case nil
-                   (term-char-mode)
-                (error nil))))))
+          (lambda ()
+            (when (eq major-mode 'term-mode)
+              (if (term-in-line-mode)
+                  (condition-case nil
+                      (term-char-mode)
+                    (error nil))))))
 (defun term-toggle-mode ()
   "Toggles term between line mode and char mode"
   (interactive)
@@ -330,7 +331,7 @@
 (use-package exec-path-from-shell :ensure t
   :config
   (when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize)))
+    (exec-path-from-shell-initialize)))
 
 
 ;; Tramp
@@ -388,12 +389,12 @@
               (setq web-mode-markup-indent-offset 2
                     web-mode-css-indent-offset 2
                     web-mode-code-indent-offset 2))))
-  (add-hook 'css-mode-hook
-              (lambda ()
-                (rainbow-mode 1)))
-  (add-hook 'scss-mode-hook
-              (lambda ()
-                (rainbow-mode 1)))
+(add-hook 'css-mode-hook
+          (lambda ()
+            (rainbow-mode 1)))
+(add-hook 'scss-mode-hook
+          (lambda ()
+            (rainbow-mode 1)))
 (use-package xah-css-mode :ensure t
   :diminish css-mode)
 (use-package php-mode :ensure t
@@ -455,26 +456,26 @@
   "Beautify CSS, HTML or JS"
   (interactive)
   (cond
-    ((eq major-mode 'js-mode) (web-beautify-js))
-    ((eq major-mode 'json-mode) (web-beautify-js))
-    ((eq major-mode 'sgml-mode) (web-beautify-html))
-    ((eq major-mode 'web-mode) (web-beautify-html))
-    ((eq major-mode 'xah-css-mode) (web-beautify-css))
-    ((eq major-mode 'css-mode) (web-beautify-css))
-    ((eq major-mode 'scss-mode) (web-beautify-css))
-    ((indent-region (point-min) (point-max)))))
+   ((eq major-mode 'js-mode) (web-beautify-js))
+   ((eq major-mode 'json-mode) (web-beautify-js))
+   ((eq major-mode 'sgml-mode) (web-beautify-html))
+   ((eq major-mode 'web-mode) (web-beautify-html))
+   ((eq major-mode 'xah-css-mode) (web-beautify-css))
+   ((eq major-mode 'css-mode) (web-beautify-css))
+   ((eq major-mode 'scss-mode) (web-beautify-css))
+   ((indent-region (point-min) (point-max)))))
 
 ;; Fix page numbers in table of contents for Orgmode exports
 (setq
-  org-latex-pdf-process
-  '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-    "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-    "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+ org-latex-pdf-process
+ '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+   "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+   "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
 
 ;; Use LuaLatex instead of default
 (setq org-latex-pdf-process
-    '("lualatex -shell-escape -interaction nonstopmode %f"
-    "lualatex -shell-escape -interaction nonstopmode %f"))
+      '("lualatex -shell-escape -interaction nonstopmode %f"
+        "lualatex -shell-escape -interaction nonstopmode %f"))
 
 
 ;; Help Mode
@@ -651,9 +652,9 @@
 (use-package helm-ag :ensure t
   :config
   (custom-set-variables
-    ;;bug in ag not on first search
-    ;;'(helm-ag-base-command "ag --nocolor --nogroup")))
-    '(helm-ag-base-command "ack --nocolor --nogroup")))
+   ;;bug in ag not on first search
+   ;;'(helm-ag-base-command "ag --nocolor --nogroup")))
+   '(helm-ag-base-command "ack --nocolor --nogroup")))
 
 ;; Dashboard
 ;; # # # # # # # # # # #
@@ -726,75 +727,75 @@
   (add-hook 'mail-setup-hook 'bbdb-insinuate-sendmail)
   (bbdb-mua-auto-update-init 'message)
   (setq bbdb-mua-auto-update-p 'query)
-  ; turn off auto carraige return after 70 chars
+                                        ; turn off auto carraige return after 70 chars
   (add-hook 'message-mode-hook 'turn-off-auto-fill)
   (use-package bbdb-vcard :ensure t)
 
 
-;; AutoComplete Settings 
-;; (comment out to use Company autocompletion below)
-(use-package ac-php :ensure t)
-(use-package auto-complete :ensure t
-  :init
-  (progn
-  (ac-config-default)
-  (global-auto-complete-mode t))
-  :config
-  (add-hook 'php-mode-hook
-    '(lambda ()
-        (auto-complete-mode t)
-        (require 'ac-php)
-        (setq ac-sources '(ac-source-php))
-        (yas-global-mode 1)
-        (define-key php-mode-map (kbd "C-]")
-            'ac-php-find-symbol-at-point)
-        (define-key php-mode-map (kbd "C-t")
-            'ac-php-location-stack-back))))
-(use-package ac-html-bootstrap :ensure t)
-(add-to-list 'web-mode-ac-sources-alist
-             '("html" . (ac-source-html-tag
-                          ac-source-html-attr
-                          ac-source-html-attrv)))
-(use-package counsel-bbdb :ensure t)
-(add-hook 'message-mode-hook
-          '(lambda ()
-             (flyspell-mode t)
-             (toggle-truncate-lines)
-             (local-set-key (kbd "TAB") 'counsel-bbdb-complete-mail))))
+  ;; AutoComplete Settings 
+  ;; (comment out to use Company autocompletion below)
+  (use-package ac-php :ensure t)
+  (use-package auto-complete :ensure t
+    :init
+    (progn
+      (ac-config-default)
+      (global-auto-complete-mode t))
+    :config
+    (add-hook 'php-mode-hook
+              '(lambda ()
+                 (auto-complete-mode t)
+                 (require 'ac-php)
+                 (setq ac-sources '(ac-source-php))
+                 (yas-global-mode 1)
+                 (define-key php-mode-map (kbd "C-]")
+                   'ac-php-find-symbol-at-point)
+                 (define-key php-mode-map (kbd "C-t")
+                   'ac-php-location-stack-back))))
+  (use-package ac-html-bootstrap :ensure t)
+  (add-to-list 'web-mode-ac-sources-alist
+               '("html" . (ac-source-html-tag
+                           ac-source-html-attr
+                           ac-source-html-attrv)))
+  (use-package counsel-bbdb :ensure t)
+  (add-hook 'message-mode-hook
+            '(lambda ()
+               (flyspell-mode t)
+               (toggle-truncate-lines)
+               (local-set-key (kbd "TAB") 'counsel-bbdb-complete-mail))))
 
 
 ;; Auto Completion with Company
 ;; uncomment to use Company autocompletion
-;(use-package company-php :ensure t)
-;(use-package ac-php :ensure t
-;  :config
-;    (ac-php-core-eldoc-setup))
-;(use-package company-web :ensure t)
-;(use-package company-quickhelp :ensure t)
-;(use-package company :ensure t
-;  :diminish company-mode
-;  :config
-;  (add-hook 'after-init-hook 'global-company-mode)
-;  (add-to-list 'company-backends 'company-web)
-;  (add-to-list 'company-backends 'company-quickhelp)
-;  (add-to-list 'company-backends 'company-php)
-;  (add-to-list 'company-backends 'company-ac-php-backend)
-;  (add-to-list 'company-backends 'php-extras-company)
-;  (add-to-list 'company-backends 'company-Yasnippet)
-;  (add-to-list 'company-backends 'company-dabbrev)
-;  (add-to-list 'company-backends 'company-capf)
-;  (add-to-list 'company-backends 'company-files)
-;  (setq company-tooltip-limit 20)
-;  (setq company-tooltip-align-annotations 't)
-;  (setq company-idle-delay .3)
-;  (setq company-minimum-prefix-length 1)
-;  (setq company-begin-commands '(self-insert-command)))
-; auto-complete emacs address using bbdb UI
-;(add-hook 'message-mode-hook
-;          '(lambda ()
-;             (flyspell-mode t)
-;             (toggle-truncate-lines)
-;             (local-set-key (kbd "TAB") 'bbdb-complete-name))))
+                                        ;(use-package company-php :ensure t)
+                                        ;(use-package ac-php :ensure t
+                                        ;  :config
+                                        ;    (ac-php-core-eldoc-setup))
+                                        ;(use-package company-web :ensure t)
+                                        ;(use-package company-quickhelp :ensure t)
+                                        ;(use-package company :ensure t
+                                        ;  :diminish company-mode
+                                        ;  :config
+                                        ;  (add-hook 'after-init-hook 'global-company-mode)
+                                        ;  (add-to-list 'company-backends 'company-web)
+                                        ;  (add-to-list 'company-backends 'company-quickhelp)
+                                        ;  (add-to-list 'company-backends 'company-php)
+                                        ;  (add-to-list 'company-backends 'company-ac-php-backend)
+                                        ;  (add-to-list 'company-backends 'php-extras-company)
+                                        ;  (add-to-list 'company-backends 'company-Yasnippet)
+                                        ;  (add-to-list 'company-backends 'company-dabbrev)
+                                        ;  (add-to-list 'company-backends 'company-capf)
+                                        ;  (add-to-list 'company-backends 'company-files)
+                                        ;  (setq company-tooltip-limit 20)
+                                        ;  (setq company-tooltip-align-annotations 't)
+                                        ;  (setq company-idle-delay .3)
+                                        ;  (setq company-minimum-prefix-length 1)
+                                        ;  (setq company-begin-commands '(self-insert-command)))
+                                        ; auto-complete emacs address using bbdb UI
+                                        ;(add-hook 'message-mode-hook
+                                        ;          '(lambda ()
+                                        ;             (flyspell-mode t)
+                                        ;             (toggle-truncate-lines)
+                                        ;             (local-set-key (kbd "TAB") 'bbdb-complete-name))))
 
 
 ;; leader key operation
@@ -873,6 +874,7 @@
    :states '(normal visual motion insert emacs)
    :keymaps 'override
    "a"  '(nil :which-key "Application Shortcuts")
+   "ah" '(info-emacs-manual :which-key "Read the Emacs Manual")
    "ai" '(erc :which-key "IRC")
    "at" '(multi-term :which-key "Terminal")
    "am" '(gnus :which-key "News/Mail")
@@ -888,9 +890,9 @@
    :keymaps 'override
    "f"  '(nil :which-key "File Operations")
    "fc" '(my-put-file-name-on-clipboard :which-key "Copy File Path")'
+   "fe" '(eval-buffer :which-key "Evaluate Elisp Changes")
    "ff" '(helm-find-files :which-key "Open File")
-   "fd" '(deer :which-key "File Browser")
-   "fl" '(load-file :which-key "Load E-Lisp File")
+   "fl" '(load-file :which-key "load e-lisp file")
    "fr" '(revert-buffer :which-key "Revert to Prior State")
    "fp" '(helm-projectile-find-file :which-key "Find File"))
 
@@ -973,6 +975,7 @@
    "pd" '(helm-do-ag :which-key "Search in Directory")
    "ph" '(magit-log-buffer-file :which-key "History of Buffer")
    "pf" '(helm-projectile-find-file :which-key "Fuzzy File (CtrlP)")
+   "pF" '(helm-projectile-recentf :which-key "Open Recent Project File")
    "pP" '(helm-projectile :which-key "Open Recent Project")
    "pp" '(helm-resume :which-key "Helm Resume")
    "ps" '(helm-do-ag-project-root :which-key "Search in Project")
@@ -991,6 +994,6 @@
    "Wc" '(helm-flyspell-correct :which-key "Correct Spelling")
    "Wd" '(define-word-at-point :which-key "See Definition")
    "Wt" '(synosaurus-lookup :which-key "See Thesaurus"))
-)
+  )
 
 ;; Warning!  Any lines modified below this point may be overwritten.
