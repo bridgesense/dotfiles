@@ -170,7 +170,7 @@ The [General](https://github.com/noctuid/general.el) plugin has been included wi
               
 Tmux Shortcuts
 ---
-The leader key Ctrl-a can be followed by the next key concurrently without holding them all down at once.  This installation includes [Tmux Ressurrect](https://github.com/tmux-plugins/tmux-resurrect) and is configured to save VIM sessions when detatching which may be brought up again after a reboot using `tmux a -t <session_no>`.  Use `tmux ls` to list saved sessions.
+The leader key Ctrl-a can be followed by the next key concurrently without holding them all down at once.  This installation includes [Tmux Ressurrect](https://github.com/tmux-plugins/tmux-resurrect) and is configured to save VIM sessions when detatching which may be brought up again after a reboot using `tmux a -t <session_no>`.  Use `tmux ls` to list saved sessions and `tmux kill-session -t <session_no>` to remove one.
     
 #### General Shortcuts:
 * `Ctrl-a d` Detatch from current session and close Tmux.  Run `tmux attach` to resume later.
@@ -178,10 +178,10 @@ The leader key Ctrl-a can be followed by the next key concurrently without holdi
 * `Ctrl-a j` Focus on window above the current one
 * `Ctrl-a k` Focus on window below the current one
 * `Ctrl-a l` Focus on window right of the current one
-* `Ctrl-a H` Shift current window pane left 
-* `Ctrl-a J` Shift current window pane up 
-* `Ctrl-a K` Shift current window pane down 
-* `Ctrl-a L` Shift current window pane right   
+* `Ctrl+H` Shift current window pane left 
+* `Ctrl+J` Shift current window pane up 
+* `Ctrl+K` Shift current window pane down 
+* `Ctrl+L` Shift current window pane right   
 * `Ctrl-a s` Create new window horizontally below current one 
 * `Ctrl-a v` Create new window vertically to right of current one
          

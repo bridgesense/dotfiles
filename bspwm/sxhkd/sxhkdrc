@@ -48,8 +48,8 @@ super + f
     bspc node -t fullscreen
 super + alt + {h,j,k,l}
 	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
-super + {bracketleft,minus,equals,bracketright}
-    bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+super + {bracketleft,minus,equal,bracketright}
+    bspc node -z {left -20 0,top 0 -20,bottom 0 20,right 20 0}
 
 # #---Screen Bindings---# #
 super + w

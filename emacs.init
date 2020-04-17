@@ -766,36 +766,36 @@
 
 ;; Auto Completion with Company
 ;; uncomment to use Company autocompletion
-                                        ;(use-package company-php :ensure t)
-                                        ;(use-package ac-php :ensure t
-                                        ;  :config
-                                        ;    (ac-php-core-eldoc-setup))
-                                        ;(use-package company-web :ensure t)
-                                        ;(use-package company-quickhelp :ensure t)
-                                        ;(use-package company :ensure t
-                                        ;  :diminish company-mode
-                                        ;  :config
-                                        ;  (add-hook 'after-init-hook 'global-company-mode)
-                                        ;  (add-to-list 'company-backends 'company-web)
-                                        ;  (add-to-list 'company-backends 'company-quickhelp)
-                                        ;  (add-to-list 'company-backends 'company-php)
-                                        ;  (add-to-list 'company-backends 'company-ac-php-backend)
-                                        ;  (add-to-list 'company-backends 'php-extras-company)
-                                        ;  (add-to-list 'company-backends 'company-Yasnippet)
-                                        ;  (add-to-list 'company-backends 'company-dabbrev)
-                                        ;  (add-to-list 'company-backends 'company-capf)
-                                        ;  (add-to-list 'company-backends 'company-files)
-                                        ;  (setq company-tooltip-limit 20)
-                                        ;  (setq company-tooltip-align-annotations 't)
-                                        ;  (setq company-idle-delay .3)
-                                        ;  (setq company-minimum-prefix-length 1)
-                                        ;  (setq company-begin-commands '(self-insert-command)))
-                                        ; auto-complete emacs address using bbdb UI
-                                        ;(add-hook 'message-mode-hook
-                                        ;          '(lambda ()
-                                        ;             (flyspell-mode t)
-                                        ;             (toggle-truncate-lines)
-                                        ;             (local-set-key (kbd "TAB") 'bbdb-complete-name))))
+;(use-package company-php :ensure t)
+;(use-package ac-php :ensure t
+;  :config
+;    (ac-php-core-eldoc-setup))
+;(use-package company-web :ensure t)
+;(use-package company-quickhelp :ensure t)
+;(use-package company :ensure t
+;  :diminish company-mode
+;  :config
+;  (add-hook 'after-init-hook 'global-company-mode)
+;  (add-to-list 'company-backends 'company-web)
+;  (add-to-list 'company-backends 'company-quickhelp)
+;  (add-to-list 'company-backends 'company-php)
+;  (add-to-list 'company-backends 'company-ac-php-backend)
+;  (add-to-list 'company-backends 'php-extras-company)
+;  (add-to-list 'company-backends 'company-Yasnippet)
+;  (add-to-list 'company-backends 'company-dabbrev)
+;  (add-to-list 'company-backends 'company-capf)
+;  (add-to-list 'company-backends 'company-files)
+;  (setq company-tooltip-limit 20)
+;  (setq company-tooltip-align-annotations 't)
+;  (setq company-idle-delay .3)
+;  (setq company-minimum-prefix-length 1)
+;  (setq company-begin-commands '(self-insert-command)))
+; auto-complete emacs address using bbdb UI
+;(add-hook 'message-mode-hook
+;          '(lambda ()
+;             (flyspell-mode t)
+;             (toggle-truncate-lines)
+;             (local-set-key (kbd "TAB") 'bbdb-complete-name))))
 
 
 ;; leader key operation
@@ -893,6 +893,7 @@
    "fe" '(eval-buffer :which-key "Evaluate Elisp Changes")
    "ff" '(helm-find-files :which-key "Open File")
    "fl" '(load-file :which-key "load e-lisp file")
+   "fn" '(evil-buffer-new :which-key "Create New Buffer")
    "fr" '(revert-buffer :which-key "Revert to Prior State")
    "fp" '(helm-projectile-find-file :which-key "Find File"))
 
