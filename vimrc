@@ -17,7 +17,7 @@ set showcmd                     "Show incomplete cmds down the bottom
 set showmode                    "Show current mode down the bottom
 set gcr=a:blinkon0              "Disable cursor blink
 set noerrorbells                "No sounds or flashing
-set visualbell 
+set visualbell
 set t_vb=
 set autoread                    "Reload files changed outside vim
 set path+=**
@@ -26,6 +26,13 @@ set path+=**
 " If you want to load the session, use :SaveSession and :OpenSession
 let g:session_autosave = 'no'
 let g:session_autoload = 'no'
+
+" Create the 'tags' file (dep: ctags)
+if filereadable("/etc/redhat-release")
+    command! MakeTags !etags.ctags -R .
+else
+    command! MakeTags !ctags -R .
+endif
 
 " This makes vim act like all other editors, buffers can
 " exist in the background without being in a window.
@@ -40,10 +47,10 @@ if has("autocmd")
     autocmd BufRead,BufNewFile .bash_aliases set filetype=bash
   augroup END
 endif
-    
+
 " Change leader to a comma because the backslash is too far away
 " That means all \x commands turn into ,x
-" The mapleader has to be set before vundle starts loading all 
+" The mapleader has to be set before vundle starts loading all
 " the plugins.
 let mapleader=","
 
@@ -127,12 +134,12 @@ let uname = system("uname -s")
 
 for fpath in split(globpath(vimsettings, '*.vim'), '\n')
 
-  if (fpath == expand(vimsettings) . "/yadr-keymap-mac.vim") && uname[:4] ==? "linux"
-    continue " skip mac mappings for linux
+  if (fpath == expand(vimsettings) . "/yadr-keymap-mac.vim") && "$(uname)" == "Linux"
+    continue " skiped mac mappings
   endif
 
-  if (fpath == expand(vimsettings) . "/yadr-keymap-linux.vim") && uname[:4] !=? "linux"
-    continue " skip linux mappings for mac
+  if (fpath == expand(vimsettings) . "/yadr-keymap-linux.vim") && "$(uname)" != "Linux"
+    continue " skiped linux mappings
   endif
 
   exe 'source' fpath

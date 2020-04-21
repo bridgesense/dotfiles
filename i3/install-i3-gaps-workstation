@@ -215,7 +215,7 @@ cp /home/$USER/lab/PHP-Parallel-Lint/parallel-lint.phar /usr/local/bin/parallel-
 # # # # # # # # # # # # # # #
 dnf install -y tmux the_silver_searcher ack
 dnf install -y tree ranger w3m w3m-img
-dnf install -y vim-X11 powerline-fonts
+dnf install -y vim-X11 powerline-fonts ctags-etags 
 ln -s /usr/bin/gvim /usr/bin/vim
 
 # pdf viewers
