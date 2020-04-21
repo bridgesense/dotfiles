@@ -214,8 +214,8 @@ cp /home/$USER/lab/PHP-Parallel-Lint/parallel-lint.phar /usr/local/bin/parallel-
 # install code editors and PHP dev tools
 # # # # # # # # # # # # # # #
 dnf install -y tmux the_silver_searcher ack
-dnf install -y ranger w3m w3m-img
-dnf install -y vim-X11
+dnf install -y tree ranger w3m w3m-img
+dnf install -y vim-X11 powerline-fonts
 ln -s /usr/bin/gvim /usr/bin/vim
 
 # pdf viewers
@@ -228,7 +228,7 @@ dnf install -y mesa-libGLU-devel libXcursor-devel libXrandr-devel libXinerama-de
 su -c 'git clone --recursive https://github.com/fluks/mupdf-x11-bookmarks.git ~/lab/mupdf' $USER
 su -c 'cd ~/lab/mupdf && git submodule update --init' $USER
 cd /home/$USER/lab/mupdf && make prefix=/usr/local install && make clean
-    
+
 # compiles emacs 27
 # for much better speed and compatibitily
 # WARNING: emacs X11 will crash with pacakge: google-noto-emoji-color-fonts
@@ -245,7 +245,7 @@ su -c 'cd ~/lab/emacs && ./autogen.sh' $USER
 su -c 'cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils' $USER
 su -c 'make -C ~/lab/emacs' $USER
 cd /home/$USER/lab/emacs && make install
-    
+
 # Support Software
 dnf install -y nextcloud-client
 dnf install -y gimp gimpfx-foundry gimp-save-for-web gimp-data-extras
@@ -290,19 +290,20 @@ dnf install -y  https://github.com/ramboxapp/community-edition/releases/download
 # Gargoyle (for sanity checks)
 # # # # # # # # # # # # # # #
 dnf install -y SDL SDL_mixer SDL_sound fluidsynth
-dnf install -y https://github.com/rpmsphere/x86_64/blob/master/g/gargoyle-2015-5.4.x86_64.rpm?raw=true
+su -c 'wget -O ~/Downloads/gargoyle.rpm https://github.com/rpmsphere/x86_64/blob/master/g/gargoyle-2015-5.4.x86_64.rpm?raw=true' $USER
+dnf install -y /home/$USER/Downloads/gargoyle.rpm
 su -c 'cp ~/.yadrlite/shared/garglk.ini ~/.garglkrc' $USER
 
 # Compatibility suite for older Windows 32bit executables
 # uncomment to install wine support with i686 libraries
 # # # # # # # # # # # # # # # #
 # dnf install -y wine winetricks
-    
+
 # install Adobe Acrobat
 su -c 'cd ~/Downloads && wget "ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/AdbeRdr9.5.5-1_i486linux_enu.rpm"' $USER
 dnf install -y atk.i686 avahi-libs.i686 bzip2-libs.i686 cairo.i686 cups-libs.i686
 dnf install -y dbus-libs.i686 expat.i686 fontconfig.i686 freetype.i686 fribidi.i686
-dnf install -y gdk-pixbuf2.i686 gdk-pixbuf2-modules.i686 gdk-pixbuf2-xlib.i686 
+dnf install -y gdk-pixbuf2.i686 gdk-pixbuf2-modules.i686 gdk-pixbuf2-xlib.i686
 dnf install -y gdk-pixbuf2-xlib.x86_64 glib2.i686 glibc.i686 gmp.i686 gnutls.i686
 dnf install -y graphite2.i686 gtk2.i686 harfbuzz.i686 jasper-libs.i686 jbigkit-libs.i686
 dnf install -y keyutils-libs.i686 krb5-libs.i686 libICE.i686 libSM.i686 libX11.i686
@@ -324,10 +325,10 @@ rpm -i /home/$USER/Downloads/AdbeRdr*rpm
 
 # handle ACPI wake-up settings for none platform devices
 cp -f /home/$USER/.yadrlite/src/org/system/acpi-wake.service /etc/systemd/system
-chmod 777 /etc/systemd/system/acpi-wake.service    
+chmod 777 /etc/systemd/system/acpi-wake.service
 systemctl start acpi-wake.service
-systemctl enable acpi-wake.service    
-    
+systemctl enable acpi-wake.service
+
 # permissions, status and boot configuration
 # # # # # # # # # # # # # # #
 rm -f /etc/i3status.conf

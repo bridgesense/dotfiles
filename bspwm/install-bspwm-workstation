@@ -214,8 +214,8 @@ cp /home/$USER/lab/PHP-Parallel-Lint/parallel-lint.phar /usr/local/bin/parallel-
 # install code editors and PHP dev tools
 # # # # # # # # # # # # # # #
 dnf install -y tmux the_silver_searcher ack
-dnf install -y ranger w3m w3m-img
-dnf install -y vim-X11
+dnf install -y tree ranger w3m w3m-img
+dnf install -y vim-X11 powerline-fonts
 ln -s /usr/bin/gvim /usr/bin/vim
 
 # pdf viewers
@@ -290,7 +290,8 @@ dnf install -y  https://github.com/ramboxapp/community-edition/releases/download
 # Gargoyle (for sanity checks)
 # # # # # # # # # # # # # # #
 dnf install -y SDL SDL_mixer SDL_sound fluidsynth
-dnf install -y https://github.com/rpmsphere/x86_64/blob/master/g/gargoyle-2015-5.4.x86_64.rpm?raw=true
+su -c 'wget -O ~/Downloads/gargoyle.rpm https://github.com/rpmsphere/x86_64/blob/master/g/gargoyle-2015-5.4.x86_64.rpm?raw=true' $USER
+dnf install -y /home/$USER/Downloads/gargoyle.rpm
 su -c 'cp ~/.yadrlite/shared/garglk.ini ~/.garglkrc' $USER
 
 # Compatibility suite for older Windows 32bit executables
