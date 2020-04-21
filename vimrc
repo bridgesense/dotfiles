@@ -20,6 +20,12 @@ set noerrorbells                "No sounds or flashing
 set visualbell 
 set t_vb=
 set autoread                    "Reload files changed outside vim
+set path+=**
+
+" Prevent vim-session from asking us to load the session.
+" If you want to load the session, use :SaveSession and :OpenSession
+let g:session_autosave = 'no'
+let g:session_autoload = 'no'
 
 " This makes vim act like all other editors, buffers can
 " exist in the background without being in a window.
