@@ -48,6 +48,7 @@ if [ "$action" == "remove" ]; then
         mv $dir/$dotfiles_old/.$cfile ~/ 2>/dev/null
     done
     rm -rf $dir 2>/dev/null
+    vi -c Helptags -c q
     echo "Your original dotfiles have been restored.  Please restart the terminal or re-login to supress error messages."
 fi
 
@@ -65,6 +66,7 @@ if [ "$action" == "update" ]; then
         update $dir/vim/bundle
         update $dir/tmux/plugin
         update $dir/bash/plugin
+        vi -c Helptags -c q
         echo "The update is finished."
     fi
 fi
@@ -191,6 +193,7 @@ if [ "$action" == "install" ]; then
         mv ~/.$cfile $dir/$dotfiles_old/ 2>/dev/null
         ln -s $dir/$cfile ~/.$cfile
     done
+    vi -c Helptags -c q
 
     if [[ "$(uname)" != "Darwin" ]]; then
         echo "This script does not install ack, emacs, silversearcher, tmux or Vim with Lua support. That's something you might look into."
