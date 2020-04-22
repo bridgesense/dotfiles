@@ -97,8 +97,8 @@ su -c 'cp ~/.yadrlite/bspwm/sxhkd/* ~/.config/sxhkd' $USER
 su -c 'cp ~/.yadrlite/bspwm/xinitrc ~/.xinitrc' $USER
 su -c 'cp -r ~/.yadrlite/shared/rofi ~/.config' $USER
 su -c "cp -r ~/.yadrlite/shared/ranger ~/.config" $USER
-sed -i '/Default Prompt/a alias vi="vimx"\nalias vim="vimx"' /home/$USER/.bashrc
-sed -i '/Default Prompt/a alias vi="vimx"\nalias vim="vimx"' /root/.bashrc
+sed -i '/Default Prompt/a export EDITOR=vimx\nexport PAGER=less\nalias vi="vimx"\nalias vim="vimx"' /home/$USER/.bashrc
+sed -i '/Default Prompt/a export EDITOR=vimx\nexport PAGER=less\nalias vi="vimx"\nalias vim="vimx"' /root/.bashrc
 # uncomment the following line to give Sudoers access to the user account
 # printf "# Give the following users Sudoers Access\n$USER ALL=(ALL)  ALL" >> /etc/sudoers
 echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile

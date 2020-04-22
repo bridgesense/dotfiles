@@ -178,6 +178,11 @@ if [ "$action" == "install" ]; then
     else
         cat $dir/bash/bashrc >> $dir/bashrc 2>/dev/null
     fi
+    
+    # fixes sourcing of bashrc within tmux
+    sed -i "s@.*\..*/etc/bashrc@    source /etc/bashrc@g" $dir/bashrc 
+    sed -i "s@.*\..*~\.bashrc@    source ~/.bashrc@g" $dir/bash_profile 
+    
     mkdir $dir/bash/plugin 2>/dev/null
     cd $dir/bash/plugin
     for bplug in "${bashplugins[@]}"; do
