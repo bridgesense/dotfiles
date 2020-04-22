@@ -29,7 +29,7 @@ dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-
 # Install supporting applications
 # # # # # # # # # # # # # # #
 dnf install -y @base-x bspwm
-dnf install -y @Fonts gdouros-symbola-fonts fontawesome-fonts gucharmap
+dnf install -y @Fonts gdouros-symbola-fonts fontawesome-fonts gucharmap levien-inconsolata-fonts
 dnf install -y xbacklight feh sxhkd
 dnf install -y xautolock pyxtrlock asciiquarium
 dnf install -y lxappearance arc-theme rofi redshift-gtk
@@ -215,7 +215,7 @@ cp /home/$USER/lab/PHP-Parallel-Lint/parallel-lint.phar /usr/local/bin/parallel-
 # # # # # # # # # # # # # # #
 dnf install -y tmux the_silver_searcher ack
 dnf install -y tree ranger w3m w3m-img
-dnf install -y vim-X11 powerline-fonts ctags-etags
+dnf install -y vim-X11 powerline-fonts ctags-etags xcopy
 ln -s /usr/bin/gvim /usr/bin/vim
 
 # pdf viewers
