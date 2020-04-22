@@ -29,7 +29,7 @@ dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-
 # Install supporting applications
 # # # # # # # # # # # # # # #
 dnf install -y @base-x
-dnf install -y @Fonts gdouros-symbola-fonts fontawesome-fonts gucharmap levien-inconsolata-fonts
+dnf install -y @Fonts gdouros-symbola-fonts fontawesome-fonts gucharmap
 dnf install -y xbacklight feh xautolock
 dnf install -y lxappearance arc-theme rofi redshift-gtk
 dnf install -y pulseaudio alsa-utils pulseaudio-utils xcompmgr
@@ -215,12 +215,21 @@ cp /home/$USER/lab/PHP-Parallel-Lint/parallel-lint.phar /usr/local/bin/parallel-
 # # # # # # # # # # # # # # #
 dnf install -y tmux the_silver_searcher ack
 dnf install -y tree ranger w3m w3m-img
-dnf install -y vim-X11 powerline-fonts ctags-etags xcopy
+dnf install -y vim-X11 ctags-etags xcopy
 ln -s /usr/bin/gvim /usr/bin/vim
+
+# install all powerline fonts
+su -c "cd ~/lab && git clone https://github.com/powerline/fonts.git --depth=1" $USER
+# install
+bash /home/$USER/lab/fonts/install.sh
+su -c "bash ~/lab/fonts/install.sh" $USER
+# clean-up a bit
+rm -rf /home/$USER/lab/fonts
 
 # pdf viewers
 dnf install -y evince pdfarranger
-# dnf install -y mupdf
+
+#dnf install -y mupdf
 dnf install -y freetype-devel jbig2dec-devel libjpeg-turbo-devel openjpeg-devel zlib-devel
 dnf install -y xorg-x11-server-devel
 dnf install -y mesa-libGL-devel libdrm-devel libX11-devel

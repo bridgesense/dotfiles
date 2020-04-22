@@ -190,15 +190,21 @@ In visual mode use `h,j,k,l` to move, `v` to change to visual mode and `y` to ya
 VIM Shortcuts
 ---
 
-#### Buffer and Screen Navigation:
-* `,z`: go to previous buffer (:bp)
-* `,x`: go to next buffer (:bn)
+#### Screen Navigation:
 * Use `Cmd-1` thru `Cmd-9` to switch to a specific tab number (like iTerm and Chrome) and tabs have been set up to show numbers (`Alt`: in Linux)
 * `Ctrl-h,l,j,k`: to move left, right, down, up between splits. This also works between vim and tmux splits thanks to `vim-tmux-navigator`.
 * `vv`: vertical split (`Ctrl-w,v`)
 * `ss`: horizontal split (`Ctrl-w,s`)
 * `,qo`: open quickfix window (this is where output from Grep goes)
 * `,qc`: close quickfix
+
+#### Buffer/File Navigation:
+* `,z`: go to previous buffer (:bp)
+* `,x`: go to next buffer (:bn)
+* `,t`: CtrlP fuzzy file selector
+* `,b`: CtrlP buffer selector great for jumping to a file you already have open
+* `,jm`: jump to models. Other `,j`: mappings: `,jc`: for controllers, `,jh`: for helpers, etc. If you think of a concept and a letter, we've got you covered.
+* `,n`: Show current file in NERDTree
 
 #### Code/Search Navigation:
 * `Cmd-j`: and `Cmd-k` to move up and down roughly by functions (`Alt`: in Linux)
@@ -220,12 +226,6 @@ VIM Shortcuts
 * `gK`: Opens the documentation for the word under the cursor.
 * Spacebar Sneak type two characters to move there in a line. Kind of like vim's `f`: but more accurate.
 * `:Gsearch foo`: global search, then do your normal `%s/search/replace/g`: and follow up with `:Greplace`: to replace across all files. When done use `:wall`: to write all the files.
-
-#### File Navigation:
-* `,t`: CtrlP fuzzy file selector
-* `,b`: CtrlP buffer selector great for jumping to a file you already have open
-* `,jm`: jump to models. Other `,j`: mappings: `,jc`: for controllers, `,jh`: for helpers, etc. If you think of a concept and a letter, we've got you covered.
-* `,n`: Show current file in NERDTree
 
 #### Git Plugin:
 * `:GStatus`: Git status with [Fugitive](https://github.com/tpope/vim-fugitive)
@@ -283,6 +283,7 @@ See more about setting up the [.vimrc.local](https://gitlab.com/bridgesense/lamp
 * `,hi`: show current Highlight group. if you don't like the color of something, use this, then use `hi! link [groupname] [anothergroupname]`: in your vimrc.after to remap the color. You can see available colors using `:hi`
 * `:Wrap`: wrap long lines (e.g. when editing markdown files)
 * `Cmd-/`: toggle comments (usually gcc from tComment) (`Alt`: in Linux)
+* `gcc`: un/comment selected lines in visual mode
 
 #### Vim Dev:
 * `,vc`: (Vim Command) copies the command under your cursor and executes it in vim. Great for testing single line changes to vimrc.

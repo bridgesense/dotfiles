@@ -1,5 +1,6 @@
+set laststatus=2
 let g:lightline = {
-            \ 'colorscheme': 'wombat',
+            \ 'colorscheme': 'gruvbox',
             \ 'active': {
             \   'left': [ [ 'mode', 'paste'  ],
             \             [ 'fugitive', 'readonly', 'filename', 'modified'  ] ]
@@ -10,9 +11,7 @@ let g:lightline = {
             \   'readonly': 'MyReadonly',
             \   'filename': 'MyFilename',
             \ 
-            \},
-            \ 'separator': { 'left': '⮀', 'right': '⮂'  },
-            \ 'subseparator': { 'left': '⮁', 'right': '⮃'  }
+            \}
             \ 
             \}
 
@@ -20,7 +19,7 @@ function! MyReadonly()
     if &filetype == "help"
         return ""
     elseif &readonly
-        return "⭤ "
+        return "X "
     else
         return ""
     endif
@@ -29,7 +28,7 @@ endfunction
 function! MyFugitive()
     if exists("*fugitive#head")
         let _ = fugitive#head()
-        return strlen(_) ? '⭠ '._ : ''
+        return strlen(_) ? '] '._ : ''
     endif
     return ''
 endfunction
