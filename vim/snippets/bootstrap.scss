@@ -1,0 +1,192 @@
+// Bootstrap Color Guide
+$indigo:  $accent-purple !default;
+$pink:    $accent-red !default;
+$teal:    $blue !default;
+$cyan:    $accent-blue !default;
+
+$colors: (
+    "blue":       $blue,
+    "indigo":     $indigo,
+    "purple":     $purple,
+    "pink":       $pink,
+    "red":        $red,
+    "orange":     $orange,
+    "yellow":     $yellow,
+    "green":      $green,
+    "teal":       $teal,
+    "cyan":       $cyan,
+    "white":      $white,
+    "gray":       $gray-600,
+    "gray-dark":  $gray-800,
+) !default;
+
+// fusv-disable
+$grays: (
+    "100": $gray-100,
+    "200": $gray-200,
+    "300": $gray-300,
+    "400": $gray-400,
+    "500": $gray-500,
+    "600": $gray-600,
+    "700": $gray-700,
+    "800": $gray-800,
+    "900": $gray-900,
+) !default;
+// fusv-enable
+
+$primary:       $blue !default;
+$secondary:     $gray-600 !default;
+$success:       $green !default;
+$info:          $cyan !default;
+$warning:       $yellow !default;
+$danger:        $red !default;
+$light:         $gray-100 !default;
+$dark:          $gray-800 !default;
+
+$theme-colors: (
+    "primary":    $primary,
+    "secondary":  $secondary,
+    "success":    $success,
+    "info":       $info,
+    "warning":    $warning,
+    "danger":     $danger,
+    "light":      $light,
+    "dark":       $dark,
+    "white":      $white,
+    "black":      $black,
+    "gray":       $gray,
+    "gray-100":   $gray-100,
+    "gray-200":   $gray-200,
+    "gray-300":   $gray-300,
+    "gray-400":   $gray-400,
+    "gray-500":   $gray-500,
+    "gray-600":   $gray-600,
+    "gray-700":   $gray-700,
+    "gray-800":   $gray-800,
+    "gray-900":   $gray-900,
+    "base-bg":   $base-bg,
+    "base-bg-rgb":   $base-bg-rgb,
+    "base-bg-rgba-5":   $base-bg-rgba-5,
+    "base-bg-rgba-6":   $base-bg-rgba-6,
+    "base-bg-rgba-7":   $base-bg-rgba-7,
+    "base-text":   $base-text,
+    "red": $red,
+    "accent-red": $accent-red,
+    "green": $green,
+    "accent-green": $accent-green,
+    "yellow": $yellow,
+    "accent-yellow": $accent-yellow,
+    "blue": $blue,
+    "accent-blue": $accent-blue,
+    "purple": $purple,
+    "accent-purple": $accent-purple,
+    "aqua": $aqua,
+    "accent-aqua": $accent-aqua,
+    "orange": $orange,
+    "accent-orange": $accent-orange,
+) !default;
+
+// Button Overrides
+@each $color, $value in $theme-colors {
+    .bg-#{$color} {
+        background-color: $value !important;
+    }
+
+    .border-#{$color} {
+        border-color: $value !important;
+    }
+
+    .btn-#{$color},
+    .text-#{$color} {
+        color: $value !important;
+    }
+
+    .btn-outline-#{$color} {
+        border-color: $value !important;
+    }
+
+    .link-#{$color} {
+        color: $value !important;
+
+        &:hover,
+        &:focus {
+            color: darken($value, $hover-darken-percentage) !important;
+        }
+    }
+
+    .alert-#{$color} {
+        color: $white !important;
+        border-color: $value;
+        background-color: lighten($value, $hover-lighten-percentage) !important;
+    }
+}
+
+// placeholders
+.form-control::-moz-placeholder {
+    color: $gray;
+    opacity: 1;
+}
+.form-control:-ms-input-placeholder {
+    color: $gray;
+}
+.form-control::-webkit-input-placeholder {
+    color: $gray;
+}
+
+// opacity
+.opacity-0 {
+  opacity:0!important;
+}
+.opacity-1 {
+  opacity:0.2!important;
+}
+.opacity-2 {
+  opacity:0.4!important;
+}
+.opacity-3 {
+  opacity:0.6!important;
+}
+.opacity-4 {
+  opacity:.8!important;
+}
+.opacity-5 {
+  opacity:1!important;
+}
+
+
+// Maybe even support hover opacity shifts
+.opacity-0h5 {
+  opacity:0!important;
+  transition: opacity .25s ease-in-out!important;
+  -moz-transition: opacity .25s ease-in-out!important;
+  -webkit-transition: opacity .25s ease-in-out!important;
+}
+.opacity-0h5:hover {
+  opacity:1!important;
+}
+
+
+// missing
+.h-auto {
+    height: auto;
+}
+.fill {
+    height: 100%;
+    width: 100%;
+}
+.bigger {
+    font-size: 1.4rem;
+}
+
+// text fixes
+.text-capitalize {
+    text-transform: uppercase !important;
+}
+
+
+// margin fix
+@media (max-width: 576px) {
+    .container, .container-sm {
+        max-width: 720px;
+    }
+}
