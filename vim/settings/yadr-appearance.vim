@@ -1,9 +1,10 @@
 " Make it beautiful - colors and fonts
 
-if has("gui_running")
-  "tell the term has 256 colors
-  set t_Co=256
+"tell the term has 256 colors
+set t_Co=256
 
+if has("gui_running")
+  
   " Show tab number (useful for Cmd-1, Cmd-2.. mapping)
   " For some reason this doesn't work as a regular set command,
   " (the numbers don't show up) so I made it a VimEnter event
@@ -24,6 +25,8 @@ endif
 " Light/Dark Theme Switch
 let g:gruvboxtheme="dark"
 let g:gruvbox_termcolors=256
+let g:gruvbox_contrast_dark="medium"
+let g:gruvbox_contrast_light="medium"
 function! ToggleGruvbox()
     if g:gruvboxtheme == "light" 
         let g:gruvboxtheme="dark"
@@ -32,12 +35,20 @@ function! ToggleGruvbox()
         let g:gruvboxtheme="light"
         set background=light
     endif
-
+    let g:lightline.colorscheme = "gruvbox" 
+    call lightline#init()
+    call lightline#colorscheme()
+    call lightline#update()
 endfunction
+
 nnoremap <silent> ,Ot :call ToggleGruvbox()<CR>
+
 colorscheme gruvbox
 set background=dark
+
 " transparence fix
-hi! Normal ctermbg=NONE guibg=NONE
-hi! NonText ctermbg=NONE guibg=NONE
+if !has('gui_running')
+    hi! Normal ctermbg=None guibg=NONE
+    hi! NonText ctermbg=None guibg=NONE
+endif
 

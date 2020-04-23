@@ -6,11 +6,11 @@
 ! Last Modified: 6 Sep 2014
 ! -----------------------------------------------------------------------------
 ! hard contrast: *background: #1d2021
-*background: #32302f
+*background: #282828
 ! soft contrast: *background: #32302f
 *foreground: #ebdbb2
 ! Black + DarkGrey
-*color0:  #282828
+*color0:  #1d2021
 *color8:  #928374
 ! DarkRed + Red
 *color1:  #cc241d
@@ -42,10 +42,10 @@
 *VT100*faceName: DejaVu Sans Mono Book
 *VT100*faceSize: 13
 !! *VT100*renderFont: true
-*VT100*background: #32302f
+*VT100*background: #282828
 *VT100*foreground: #ebdbb2
 ! Black + DarkGrey
-*VT100*color0:  #282828
+*VT100*color0:  #1d2021
 *VT100*color8:  #928374
 ! DarkRed + Red
 *VT100*color1:  #cc241d
@@ -74,7 +74,7 @@ URxvt.boldFont: xft:DejaVu Sans Mono:Bold:size=13:hinting=true:antialias=true:hi
 URxvt.letterSpace: -2
 URxvt.depth: 32
 ! URxvt.background: rgba:1111/1111/1111/dddd
-URxvt.background: [95]#32302f
+URxvt.background: [95]#282828
 URxvt.scrollBar: false
 ! REMAP CLIPBOARD CONTROLS
 URxvt.iso14755: false
@@ -82,7 +82,7 @@ URxvt.iso14755_52: false
 URxvt.keysym.Shift-Control-V: eval:paste_clipboard
 URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
 ! RESIZE FONT
-URxvt.perl-ext-common: default,clipboard,resize-font
+URxvt.perl-ext-common: default,clipboard,resize-font,xresources-256
 ! Font Hinting
 Xft.dpi: 96
 Xft.antialias: 1

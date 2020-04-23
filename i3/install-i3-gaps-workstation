@@ -106,6 +106,7 @@ ls -n /home/$USER/.config/scripts/screen_init.sh /lib/systemd/system-sleep/scree
 # urxvt terminal font resizing
 su -c 'mkdir -p ~/.urxvt/ext' $USER
 su -c 'cd ~/.urxvt/ext && wget "https://raw.githubusercontent.com/simmel/urxvt-resize-font/master/resize-font"' $USER
+su -c 'cd ~/.urxvt/ext && wget "https://raw.githubusercontent.com/Roliga/urxvt-xresources-256/master/xresources-256"' $USER
 
 # activate dunst
 # # # # # # # # # # # # # # #

@@ -285,6 +285,8 @@ See more about setting up the [.vimrc.local](https://gitlab.com/bridgesense/lamp
 * `Cmd-/`: toggle comments (usually gcc from tComment) (`Alt`: in Linux)
 * `,;`, `gcc`: un/comment selected lines in visual mode
 * `,o`, `,p`: make/overwrite a Vim session
+* `zf`,`zo`,`zc`,`za`,`zd`: creates, opens, closes, toggles and deletes code folds
+* `F7`,`z=`,`]s`,`[s`: spell check, word suggestion and jump to next misspelled word
 
 #### Vim Dev:
 * `,vc`: (Vim Command) copies the command under your cursor and executes it in vim. Great for testing single line changes to vimrc.
