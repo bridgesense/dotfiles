@@ -106,7 +106,12 @@ ls -n /home/$USER/.config/scripts/bspwm_screen_init.sh /lib/systemd/system-sleep
 # urxvt terminal font resizing
 su -c 'mkdir -p ~/.urxvt/ext' $USER
 su -c 'cd ~/.urxvt/ext && wget "https://raw.githubusercontent.com/simmel/urxvt-resize-font/master/resize-font"' $USER
+# urxvt patch for extended color designations past 15
 su -c 'cd ~/.urxvt/ext && wget "https://raw.githubusercontent.com/Roliga/urxvt-xresources-256/master/xresources-256"' $USER
+s powerline font patch
+su -c 'mkdir -p ~/.local/share/fonts/' $USER
+su -c 'cd ~/.local/share/fonts && svn checkout https://github.com/powerline/fonts/trunk/DejaVuSansMono' $USER
+fc-cache
 
 # activate dunst
 # # # # # # # # # # # # # # #

@@ -69,8 +69,8 @@
 *VT100*color7:  #a89984
 *VT100*color15: #ebdbb2
 ! URXVT SETTINGS
-URxvt.font: xft:DejaVu Sans Mono:Book:size=13:hinting=true:antialias=true:hintstyle=slight
-URxvt.boldFont: xft:DejaVu Sans Mono:Bold:size=13:hinting=true:antialias=true:hintstyle=slight
+URxvt.font: xft:DejaVu Sans Mono for Powerline:Book:size=13:hinting=true:antialias=true:hintstyle=slight
+URxvt.boldFont: xft:DejaVu Sans Mono for Powerline:Bold:size=13:hinting=true:antialias=true:hintstyle=slight
 URxvt.letterSpace: -2
 URxvt.depth: 32
 ! URxvt.background: rgba:1111/1111/1111/dddd
