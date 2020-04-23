@@ -6,3 +6,7 @@
 let g:EasyMotion_keys='asdfjkoweriop'
 nmap ,<ESC> ,,w
 nmap ,<S-ESC> ,,b
+
+" <Leader>f{char} to move to {char}
+map  <Leader>f <Plug>(easymotion-bd-f)
+nmap <Leader>f <Plug>(easymotion-overwin-f)

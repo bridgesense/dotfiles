@@ -170,7 +170,7 @@ The [General](https://github.com/noctuid/general.el) plugin has been included wi
 
 Tmux Shortcuts
 ---
-The leader key Ctrl-a can be followed by the next key concurrently without holding them all down at once.  This installation includes [Tmux Ressurrect](https://github.com/tmux-plugins/tmux-resurrect) and is configured to save VIM sessions when detatching which may be brought up again after a reboot using `tmux a -t <session_no>`.  Use `tmux ls`: to list saved sessions and `tmux kill-session -t <session_no>`: to remove one.
+The leader key Ctrl-a can be followed by the next key concurrently without holding them all down at once.  Use `tmux ls`to list the current open sessions and `tmux a -t <session_no>` to join them.  Use `tmux kill-session -t <session_no>`: to remove one.
 
 #### General Shortcuts:
 * `Ctrl-a d`: Detatch from current session and close Tmux.  Run `tmux attach`: to resume later.
@@ -210,8 +210,6 @@ VIM Shortcuts
 * `Cmd-j`: and `Cmd-k` to move up and down roughly by functions (`Alt`: in Linux)
 * `Ctrl-o`: Old cursor position this is a standard mapping but very useful, so included here
 * `Ctrl-i`: opposite of Ctrl-O (again, this is standard)
-* `,f`: instantly Find definition of class (must have exuberant ctags installed)
-* `,F`: same as `,f` but in a vertical split
 * `,gf`: or `Ctrl-f` same as vim normal gf (go to file)
 * `,k`: Search the current word under the cursor and show results in quickfix window
 * `,K`: Grep the current word up to next exclamation point
@@ -221,23 +219,25 @@ VIM Shortcuts
 * `,gd`: Grep def (greps for 'def [function name]') when cursor is over the function name
 * `,gcf`: Grep Current File to find references to the current file
 * `//`: clear the search
+* `,f<char>`: Jump to character
 * `,,w`: (alias `,<esc>`) or `,,b` (alias `,<shift-esc>`) EasyMotion, a vimperator style tool that highlights jump-points on the screen and lets you type to get there.
 * `,mc`: mark this word for MultiCursor (like sublime). Use `Ctrl-n`: (next), `Ctrl-p`: (prev), `Ctrl-x`(skip) to add more cursors, then do normal vim things like edit the word.
 * `gK`: Opens the documentation for the word under the cursor.
 * Spacebar Sneak type two characters to move there in a line. Kind of like vim's `f`: but more accurate.
 * `:Gsearch foo`: global search, then do your normal `%s/search/replace/g`: and follow up with `:Greplace`: to replace across all files. When done use `:wall`: to write all the files.
+* `,f<char>`: Jump to character 
 
 #### Git Plugin:
 * `:GStatus`: Git status with [Fugitive](https://github.com/tpope/vim-fugitive)
 * `:GLog`: load previous versions of same file
 * `:Git push/pull`: repo management
 * `:Gpush/pull`: repo management
-* `],[ c`: jump to next/previous modification
+* `]c`, `[c`: jump to next/previous modification
 
 #### Tag Management:
 * `:MakeTags`: build tag library for project
 * `Ctrl-]`: jump to next associated tag
-* `Ctrl-t`: backtrack one tab 
+* `Ctrl-t`: backtrack one tab
 * `g Ctrl-]`: see all associated tags
 
 #### Asynchronous Recorder:
@@ -246,8 +246,8 @@ VIM Shortcuts
 * `@ <letter>`: replay activity stored in letter
 
 #### Handy Autocompletions:
-* `Ctrl-x Ctrl-n`: multiword/tag completion 
-* `Ctrl-x Ctrl-f`: filename completion 
+* `Ctrl-x Ctrl-n`: multiword/tag completion
+* `Ctrl-x Ctrl-f`: filename completion
 * `Ctrl-x Ctrl-o`: omnicompletion
 
 #### Xdebug
@@ -283,7 +283,8 @@ See more about setting up the [.vimrc.local](https://gitlab.com/bridgesense/lamp
 * `,hi`: show current Highlight group. if you don't like the color of something, use this, then use `hi! link [groupname] [anothergroupname]`: in your vimrc.after to remap the color. You can see available colors using `:hi`
 * `:Wrap`: wrap long lines (e.g. when editing markdown files)
 * `Cmd-/`: toggle comments (usually gcc from tComment) (`Alt`: in Linux)
-* `gcc`: un/comment selected lines in visual mode
+* `,;`, `gcc`: un/comment selected lines in visual mode
+* `,o`, `,p`: make/overwrite a Vim session
 
 #### Vim Dev:
 * `,vc`: (Vim Command) copies the command under your cursor and executes it in vim. Great for testing single line changes to vimrc.
