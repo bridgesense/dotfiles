@@ -229,7 +229,7 @@ VIM Shortcuts
 
 #### Git Plugin:
 * `:GStatus`: Git status with [Fugitive](https://github.com/tpope/vim-fugitive)
-* `:GLog`: load previous versions of same file
+* `:GLog`,`:Glog -- %`,`:0Glog`: view logs or load previous versions of same file
 * `:Git push/pull`: repo management
 * `:Gpush/pull`: repo management
 * `]c`, `[c`: jump to next/previous modification
