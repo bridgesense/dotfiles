@@ -46,11 +46,11 @@ As with YADR, most of the key mapping not mentioned below can be found in the se
 
 Vim:
 ---
-![screenshot](https://www.bridgesense.com/images/dotfiles/vim.png)
+![screenshot](https://www.bridgesense.com/images/dotfiles/vim-style.jpg)
 
 Emacs:
 ---
-![screenshot](https://www.bridgesense.com/images/dotfiles/emacs.png)
+![screenshot](https://www.bridgesense.com/images/dotfiles/emacs-style.jpg)
 
 Emacs 24.4 or higher is preferred.
 
