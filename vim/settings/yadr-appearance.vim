@@ -25,8 +25,9 @@ endif
 " Light/Dark Theme Switch
 let g:gruvboxtheme="dark"
 let g:gruvbox_termcolors=256
-let g:gruvbox_contrast_dark="medium"
+let g:gruvbox_contrast_dark="soft"
 let g:gruvbox_contrast_light="medium"
+let g:gruvbox_invert_selection=0
 function! ToggleGruvbox()
     if g:gruvboxtheme == "light" 
         let g:gruvboxtheme="dark"
@@ -35,10 +36,6 @@ function! ToggleGruvbox()
         let g:gruvboxtheme="light"
         set background=light
     endif
-    let g:lightline.colorscheme = "gruvbox" 
-    call lightline#init()
-    call lightline#colorscheme()
-    call lightline#update()
 endfunction
 
 nnoremap <silent> ,Ot :call ToggleGruvbox()<CR>
@@ -46,9 +43,17 @@ nnoremap <silent> ,Ot :call ToggleGruvbox()<CR>
 colorscheme gruvbox
 set background=dark
 
-" transparence fix
-if !has('gui_running')
-    hi! Normal ctermbg=None guibg=NONE
-    hi! NonText ctermbg=None guibg=NONE
-endif
+" transparent background
+let t:is_transparent = 1                                                                    
+hi! Normal ctermbg=none guibg=NONE
+hi! NonText ctermbg=none guibg=NONE
 
+" prettier EasyMotion
+hi EasyMotionTarget ctermbg=none ctermfg=red
+hi EasyMotionShade  ctermbg=none ctermfg=gray
+
+hi EasyMotionTarget2First ctermbg=none ctermfg=red
+hi EasyMotionTarget2Second ctermbg=none ctermfg=lightred
+
+hi EasyMotionMoveHL ctermbg=none ctermfg=black
+hi EasyMotionIncSearch ctermbg=none ctermfg=black

@@ -8,5 +8,5 @@ nmap ,<ESC> ,,w
 nmap ,<S-ESC> ,,b
 
 " <Leader>f{char} to move to {char}
-map  <Leader>f <Plug>(easymotion-bd-f)
-nmap <Leader>f <Plug>(easymotion-overwin-f)
+map  <Leader>j <Plug>(easymotion-bd-f)
+nmap <Leader>j <Plug>(easymotion-overwin-f)

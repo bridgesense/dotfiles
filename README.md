@@ -195,6 +195,7 @@ VIM Shortcuts
 * `Ctrl-h,l,j,k`: to move left, right, down, up between splits. This also works between vim and tmux splits thanks to `vim-tmux-navigator`.
 * `vv`: vertical split (`Ctrl-w,v`)
 * `ss`: horizontal split (`Ctrl-w,s`)
+* `,c`: closes window only (`Ctrl-w,c`)
 * `,qo`: open quickfix window (this is where output from Grep goes)
 * `,qc`: close quickfix
 
@@ -203,11 +204,15 @@ VIM Shortcuts
 * `,x`: go to next buffer (:bn)
 * `,t`: CtrlP fuzzy file selector
 * `,b`: CtrlP buffer selector great for jumping to a file you already have open
-* `,jm`: jump to models. Other `,j`: mappings: `,jc`: for controllers, `,jh`: for helpers, etc. If you think of a concept and a letter, we've got you covered.
-* `,n`: Show current file in NERDTree
+* `,,b`: opens buffer selector containing recently opened files  
+* `,n`: show current file in NERDTree
+* `,q`: closes buffer without saving (`:bd!`)
+* `,Q`: completely closes Vim without saving any buffers (`:qa!`)
+* `,Z`: completely closes Vim saving all buffers (`:xa`)
+* `,S`: saves all buffers (`:wa`)
 
 #### Code/Search Navigation:
-* `Cmd-j`: and `Cmd-k` to move up and down roughly by functions (`Alt`: in Linux)
+* `Cmd-j`: and `Cmd-k` to move up and down roughly by functions (`Alt` in Linux)
 * `Ctrl-o`: Old cursor position this is a standard mapping but very useful, so included here
 * `Ctrl-i`: opposite of Ctrl-O (again, this is standard)
 * `,gf`: or `Ctrl-f` same as vim normal gf (go to file)
@@ -215,17 +220,15 @@ VIM Shortcuts
 * `,K`: Grep the current word up to next exclamation point
 * `,hl`: toggle search highlight on and off
 * `,gg`: or `,ag` Grep command line, type between quotes. Uses Ag Silver Searcher.
-* After searching with `,gg` you can navigate the results with `Ctrl-x`: and `Ctrl-z`: (or standard vim `:cn`: and `:cp`)
+* After searching with `,gg` you can navigate the results with `Ctrl-x` and `Ctrl-z` (or standard vim `:cn`: and `:cp`)
 * `,gd`: Grep def (greps for 'def [function name]') when cursor is over the function name
 * `,gcf`: Grep Current File to find references to the current file
 * `//`: clear the search
-* `,f<char>`: Jump to character
-* `,,w`: (alias `,<esc>`) or `,,b` (alias `,<shift-esc>`) EasyMotion, a vimperator style tool that highlights jump-points on the screen and lets you type to get there.
+* `,jx`: EasyMotion Jump to character x
 * `,mc`: mark this word for MultiCursor (like sublime). Use `Ctrl-n`: (next), `Ctrl-p`: (prev), `Ctrl-x`(skip) to add more cursors, then do normal vim things like edit the word.
 * `gK`: Opens the documentation for the word under the cursor.
 * Spacebar Sneak type two characters to move there in a line. Kind of like vim's `f`: but more accurate.
-* `:Gsearch foo`: global search, then do your normal `%s/search/replace/g`: and follow up with `:Greplace`: to replace across all files. When done use `:wall`: to write all the files.
-* `,f<char>`: Jump to character 
+* `:Gsearch foo`: global search, then do your normal `%s/search/replace/g` and follow up with `:Greplace` to replace across all files. When done use `:wall`: to write all the files.
 
 #### Git Plugin:
 * `:GStatus`: Git status with [Fugitive](https://github.com/tpope/vim-fugitive)
@@ -236,9 +239,10 @@ VIM Shortcuts
 
 #### Tag Management:
 * `:MakeTags`: build tag library for project
-* `Ctrl-]`: jump to next associated tag
-* `Ctrl-t`: backtrack one tab
-* `g Ctrl-]`: see all associated tags
+* `,gf`: search for tag under cursor and display results
+* `,gt`: search for tag under cursor and bring up file
+* `,gi`: go to next tag in history
+* `,go`: go back one tag in history
 
 #### Asynchronous Recorder:
 * `q <letter>`: start recording all activity
@@ -284,7 +288,7 @@ See more about setting up the [.vimrc.local](https://gitlab.com/bridgesense/lamp
 * `:Wrap`: wrap long lines (e.g. when editing markdown files)
 * `Cmd-/`: toggle comments (usually gcc from tComment) (`Alt`: in Linux)
 * `,;`, `gcc`: un/comment selected lines in visual mode
-* `,o`, `,p`: make/overwrite a Vim session
+* `,O`: make/overwrite a Vim session
 * `zf`,`zo`,`zc`,`za`,`zd`: creates, opens, closes, toggles and deletes code folds
 * `F7`,`z=`,`]s`,`[s`: spell check, word suggestion and jump to next misspelled word
 

@@ -90,10 +90,19 @@ nnoremap <silent> <C-\> :call OpenNerdTree()<CR>
 nmap <silent> ,qc :cclose<CR>
 nmap <silent> ,qo :copen<CR>
 
-"Move back and forth through previous and next buffers
-"with ,z and ,x
+" Move back and forth through previous and next buffers
+" with ,z and ,x
 nnoremap <silent> ,z :bp<CR>
 nnoremap <silent> ,x :bn<CR>
+
+" Save all buffers
+nmap <silent> ,S :wa<CR>
+
+" Tag controls
+nmap ,gt :tag <C-r><C-w><CR>
+nmap ,gi :tag<CR>
+nmap ,go :pop<CR>
+nmap ,gf :tselect <C-r><C-w><CR>
 
 " ==============================
 " Window/Tab/Split Manipulation

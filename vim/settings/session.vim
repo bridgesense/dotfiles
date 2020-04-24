@@ -1,2 +1,1 @@
-nmap <leader>o :mksession<cr>
-nmap <leader>p :mksession!<cr>
+nmap <leader>O :mksession!<cr>

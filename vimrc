@@ -21,6 +21,7 @@ set visualbell
 set t_vb=
 set autoread                    "Reload files changed outside vim
 set path+=**
+set updatetime=1000
 
 " Prevent vim-session from asking us to load the session.
 " If you want to load the session, use :SaveSession and :OpenSession

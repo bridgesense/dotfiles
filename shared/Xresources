@@ -32,14 +32,14 @@
 *color14: #8ec07c
 ! LightGrey + White
 *color7:  #a89984
-*color15: #ebdbb2
+*color15: #fbf1c7
 !! Transparency (0-255):
 !!*.alpha: 230 
 !! Set a default font and font size as below:
 !! *.font: NotoMono_Regular-13;
 !! Xterm Settings
 *VT100*selectToClipboard: true
-*VT100*faceName: DejaVu Sans Mono Book
+*VT100*faceName: DejaVu Sans Mono for Powerline Book
 *VT100*faceSize: 13
 !! *VT100*renderFont: true
 *VT100*background: #282828
@@ -67,8 +67,38 @@
 *VT100*color14: #8ec07c
 ! LightGrey + White
 *VT100*color7:  #a89984
-*VT100*color15: #ebdbb2
+*VT100*color15: #fbf1c7
 ! URXVT SETTINGS
+URxvt.color24:  #076678
+URxvt.color66:  #427b58
+URxvt.color88:  #9d0006
+URxvt.color96:  #8f3f71
+URxvt.color100: #79740e
+URxvt.color108: #8ec07c
+URxvt.color109: #83a598
+URxvt.color130: #af3a03
+URxvt.color136: #b57614
+URxvt.color142: #b8bb26
+URxvt.color167: #fb4934
+URxvt.color175: #d3869b
+URxvt.color208: #fe8019
+URxvt.color214: #fabd2f
+URxvt.color223: #ebdbb2
+URxvt.color228: #f2e5bc
+URxvt.color229: #fbf1c7
+URxvt.color230: #f9f5d7
+URxvt.color234: #1d2021
+URxvt.color235: #282828
+URxvt.color236: #32302f
+URxvt.color237: #3c3836
+URxvt.color239: #504945
+URxvt.color241: #665c54
+URxvt.color243: #7c6f64
+URxvt.color244: #928374
+URxvt.color245: #928374
+URxvt.color246: #a89984
+URxvt.color248: #bdae93
+URxvt.color250: #d5c4a1
 URxvt.font: xft:DejaVu Sans Mono for Powerline:Book:size=13:hinting=true:antialias=true:hintstyle=slight
 URxvt.boldFont: xft:DejaVu Sans Mono for Powerline:Bold:size=13:hinting=true:antialias=true:hintstyle=slight
 URxvt.letterSpace: -2
