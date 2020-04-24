@@ -187,17 +187,29 @@ The leader key Ctrl-a can be followed by the next key concurrently without holdi
 * `Ctrl-a [`: Enter Vim-like normal mode
 In visual mode use `h,j,k,l` to move, `v` to change to visual mode and `y` to yank selection.  Press `Enter` to exit mode.
 
+
 VIM Shortcuts
 ---
 
-#### Screen Navigation:
-* Use `Cmd-1` thru `Cmd-9` to switch to a specific tab number (like iTerm and Chrome) and tabs have been set up to show numbers (`Alt`: in Linux)
+#### Window Navigation:
+* `Cmd-[1-]`: (`Alt-[1-9]`) switches to a specific tab number (like iTerm and Chrome) and tabs have been set up to show numbers
 * `Ctrl-h,l,j,k`: to move left, right, down, up between splits. This also works between vim and tmux splits thanks to `vim-tmux-navigator`.
 * `vv`: vertical split (`Ctrl-w,v`)
 * `ss`: horizontal split (`Ctrl-w,s`)
 * `,c`: closes window only (`Ctrl-w,c`)
 * `,qo`: open quickfix window (this is where output from Grep goes)
 * `,qc`: close quickfix
+* `+`: increase window height 
+* `-`: reduce window height
+* `<`: contract window
+* `>`: expand window
+
+#### Tab Navigation
+* `CMD-c`: (`Alt-c`) create new tab
+* `CMD-q`: (`Alt-q`) close tab and hide buffers
+* `CMD-z`: (`Alt-z`) go to previous tab
+* `CMD-x`: (`Alt-x`) go to next tab
+* `CMD-[1-9]`: (`Alt-[1-9]`) select tab by number
 
 #### Buffer/File Navigation:
 * `,z`: go to previous buffer (:bp)
@@ -212,7 +224,7 @@ VIM Shortcuts
 * `,S`: saves all buffers (`:wa`)
 
 #### Code/Search Navigation:
-* `Cmd-j`: and `Cmd-k` to move up and down roughly by functions (`Alt` in Linux)
+* `Cmd-[jk]`: (`Alt-[jk]` move up and down roughly by functions 
 * `Ctrl-o`: Old cursor position this is a standard mapping but very useful, so included here
 * `Ctrl-i`: opposite of Ctrl-O (again, this is standard)
 * `,gf`: or `Ctrl-f` same as vim normal gf (go to file)
@@ -275,7 +287,7 @@ See more about setting up the [.vimrc.local](https://gitlab.com/bridgesense/lamp
 #### Better keystrokes for common editing commands:
 * Ctrl-Space to autocomplete. Tab for snipmate snippets.
 * `,#` `,"` `,'` `,]` `,)` `,}`: to surround a word in these common wrappers. the # does #{ruby interpolation}. works in visual mode (thanks @cj). Normally these are done with something like `ysw#`
-* `Cmd-'`, `Cmd-"`, `Cmd-]`, `Cmd-)`: etc to change content inside those surrounding marks. You don't have to be inside them (`Alt`: in Linux)
+* `Cmd-'`, `Cmd-"`, `Cmd-]`, `Cmd-)`: (`Alt` Linux) changes content inside those surrounding marks. You don't have to be inside them 
 * `,.`: to go to last edit location (same as `'.`) because the apostrophe is hard on the pinky
 * `,ci`: to change inside any set of quotes/brackets/etc
 
@@ -286,7 +298,7 @@ See more about setting up the [.vimrc.local](https://gitlab.com/bridgesense/lamp
 * `,w`: strip trailing whitespaces
 * `,hi`: show current Highlight group. if you don't like the color of something, use this, then use `hi! link [groupname] [anothergroupname]`: in your vimrc.after to remap the color. You can see available colors using `:hi`
 * `:Wrap`: wrap long lines (e.g. when editing markdown files)
-* `Cmd-/`: toggle comments (usually gcc from tComment) (`Alt`: in Linux)
+* `Cmd-/`: (`Alt-/`) toggle comments (usually gcc from tComment) 
 * `,;`, `gcc`: un/comment selected lines in visual mode
 * `,O`: make/overwrite a Vim session
 * `zf`,`zo`,`zc`,`za`,`zd`: creates, opens, closes, toggles and deletes code folds

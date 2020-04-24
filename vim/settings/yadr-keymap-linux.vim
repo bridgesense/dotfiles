@@ -58,6 +58,12 @@ map <silent> <A-7> :tabn 7<cr>
 map <silent> <A-8> :tabn 8<cr>
 map <silent> <A-9> :tabn 9<cr>
 
+" Tab Controls
+map <silent> <A-c> :tabnew
+map <silent> <A-q> :tabc!
+map <silent> <A-z> :tabp
+map <silent> <A-x> :tabN
+
 " Resize windows with arrow keys
 nnoremap <C-Up> <C-w>+
 nnoremap <C-Down> <C-w>-

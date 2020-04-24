@@ -33,14 +33,10 @@
 ! LightGrey + White
 *color7:  #a89984
 *color15: #fbf1c7
-!! Transparency (0-255):
-!!*.alpha: 230 
-!! Set a default font and font size as below:
-!! *.font: NotoMono_Regular-13;
 !! Xterm Settings
 *VT100*selectToClipboard: true
 *VT100*faceName: DejaVu Sans Mono for Powerline Book
-*VT100*faceSize: 13
+*VT100*faceSize: 12
 !! *VT100*renderFont: true
 *VT100*background: #282828
 *VT100*foreground: #ebdbb2
@@ -99,11 +95,10 @@ URxvt.color245: #928374
 URxvt.color246: #a89984
 URxvt.color248: #bdae93
 URxvt.color250: #d5c4a1
-URxvt.font: xft:DejaVu Sans Mono for Powerline:Book:size=13:hinting=true:antialias=true:hintstyle=slight
-URxvt.boldFont: xft:DejaVu Sans Mono for Powerline:Bold:size=13:hinting=true:antialias=true:hintstyle=slight
+URxvt.font: xft:DejaVu Sans Mono for Powerline:Book:size=12:hinting=true:antialias=true:hintstyle=slight
+URxvt.boldFont: xft:DejaVu Sans Mono for Powerline:Bold:size=12:hinting=true:antialias=true:hintstyle=slight
 URxvt.letterSpace: -2
 URxvt.depth: 32
-! URxvt.background: rgba:1111/1111/1111/dddd
 URxvt.background: [95]#282828
 URxvt.scrollBar: false
 ! REMAP CLIPBOARD CONTROLS
