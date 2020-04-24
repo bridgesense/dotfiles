@@ -199,10 +199,8 @@ VIM Shortcuts
 * `,c`: closes window only (`Ctrl-w,c`)
 * `,qo`: open quickfix window (this is where output from Grep goes)
 * `,qc`: close quickfix
-* `+`: increase window height 
-* `-`: reduce window height
-* `<`: contract window
-* `>`: expand window
+* `CMD-[Up,Down,Left,Right]`: increase hight, decrease height, contract window and expand window
+* `=`: make all windows equal size
 
 #### Tab Navigation
 * `CMD-c`: (`Alt-c`) create new tab
@@ -301,7 +299,7 @@ See more about setting up the [.vimrc.local](https://gitlab.com/bridgesense/lamp
 * `Cmd-/`: (`Alt-/`) toggle comments (usually gcc from tComment) 
 * `,;`, `gcc`: un/comment selected lines in visual mode
 * `,O`: make/overwrite a Vim session
-* `zf`,`zo`,`zc`,`za`,`zd`: creates, opens, closes, toggles and deletes code folds
+* `zf`,`zo`,`zc`,`za`,`zr`,`zm`,`zd`: creates, opens, closes, toggles, toggles all, collapses all and deletes code folds
 * `F7`,`z=`,`]s`,`[s`: spell check, word suggestion and jump to next misspelled word
 
 #### Vim Dev:

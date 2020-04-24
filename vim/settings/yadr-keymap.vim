@@ -134,11 +134,7 @@ imap <silent> <C-K> <%=   %><Esc>3hi
 imap <silent> <C-J> <%  %><Esc>2hi
 
 " resize window
-nnoremap <silent> + <C-W>+
 nnoremap <silent> = <C-W>=
-nnoremap <silent> - <C-W>-
-nnoremap <silent> < <C-W><
-nnoremap <silent> > <C-W>>
 
 " ============================
 " Shortcuts for everyday tasks

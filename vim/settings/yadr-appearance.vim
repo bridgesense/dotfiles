@@ -43,10 +43,10 @@ nnoremap <silent> ,Ot :call ToggleGruvbox()<CR>
 colorscheme gruvbox
 set background=dark
 
-" transparent background
-let t:is_transparent = 1                                                                    
-hi! Normal ctermbg=none guibg=NONE
-hi! NonText ctermbg=none guibg=NONE
+" uncomment for transparent background
+" let t:is_transparent = 1                                                                    
+" hi! Normal ctermbg=none guibg=NONE
+" hi! NonText ctermbg=none guibg=NONE
 
 " prettier EasyMotion
 hi EasyMotionTarget ctermbg=none ctermfg=red

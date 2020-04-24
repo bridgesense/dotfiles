@@ -65,10 +65,10 @@ map <silent> <A-z> :tabp
 map <silent> <A-x> :tabN
 
 " Resize windows with arrow keys
-nnoremap <C-Up> <C-w>+
-nnoremap <C-Down> <C-w>-
-nnoremap <C-Left> <C-w><
-nnoremap <C-Right>  <C-w>>
+" nnoremap <C-Up> <C-w>+
+" nnoremap <C-Down> <C-w>-
+" nnoremap <C-Left> <C-w><
+" nnoremap <C-Right>  <C-w>>
 
 " ============================
 " Tabularize - alignment
