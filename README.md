@@ -210,8 +210,9 @@ VIM Shortcuts
 * `CMD-[1-9]`: (`Alt-[1-9]`) select tab by number
 
 #### Buffer/File Navigation:
-* `,z`: go to previous buffer (:bp)
-* `,x`: go to next buffer (:bn)
+* `,z`: cycle back through previously opened buffers
+* `,x`: cycle forward through previously accessed buffers
+* `,TAB`: toggle between last two opened buffers
 * `,t`: CtrlP fuzzy file selector
 * `,b`: CtrlP buffer selector great for jumping to a file you already have open
 * `,,b`: opens buffer selector containing recently opened files  

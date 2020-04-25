@@ -90,11 +90,6 @@ nnoremap <silent> <C-\> :call OpenNerdTree()<CR>
 nmap <silent> ,qc :cclose<CR>
 nmap <silent> ,qo :copen<CR>
 
-" Move back and forth through previous and next buffers
-" with ,z and ,x
-nnoremap <silent> ,z :bp<CR>
-nnoremap <silent> ,x :bn<CR>
-
 " Save all buffers
 nmap <silent> ,S :wa<CR>
 
