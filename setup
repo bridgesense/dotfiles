@@ -11,8 +11,33 @@ dir=~/.yadrlite
 dotfiles_old=backup
 action="${1:-install}"
 declare -a files=('vim vimrc tmux.conf profile bash_profile bashrc vimrc.after emacs emacs.d')
-declare -a plugins=('https://github.com/rking/ag.vim.git' 'https://github.com/jiangmiao/auto-pairs.git' 'https://github.com/kien/ctrlp.vim.git' 'https://github.com/itchyny/lightline.vim.git' 'https://github.com/Shougo/neocomplete.vim.git' 'https://github.com/scrooloose/nerdtree.git' 'https://github.com/vim-syntastic/syntastic.git' 'https://github.com/christoomey/vim-tmux-navigator.git' 'https://github.com/joonty/vdebug.git' 'https://github.com/gorodinskiy/vim-coloresque.git' 'https://github.com/easymotion/vim-easymotion.git' 'https://github.com/tpope/vim-fugitive.git' 'https://github.com/airblade/vim-gitgutter.git' 'https://github.com/bridgesense/vim-hsftp.git' 'https://github.com/tpope/vim-surround.git' 'https://github.com/morhetz/gruvbox.git' 'https://github.com/terryma/vim-multiple-cursors.git' 'https://github.com/vim-scripts/YankRing.vim.git' 'https://github.com/kchmck/vim-coffee-script.git' 'https://github.com/tomtom/tcomment_vim.git' 'https://github.com/tpope/vim-repeat.git' 'https://github.com/inkarkat/vim-SyntaxRange.git' 'https://github.com/PhilRunninger/nerdtree-visual-selection.git' 'https://github.com/vim-scripts/MultipleSearch.git' 'https://github.com/ton/vim-bufsurf.git')
-declare -a tmuxplugins=('https://github.com/tmux-plugins/tmux-resurrect.git' 'https://github.com/tmux-plugins/tmux-continuum.git')
+declare -a plugins=('https://github.com/rking/ag.vim.git' \
+    'https://github.com/jiangmiao/auto-pairs.git' \
+    'https://github.com/kien/ctrlp.vim.git' \
+    'https://github.com/itchyny/lightline.vim.git' \
+    'https://github.com/Shougo/neocomplete.vim.git' \
+    'https://github.com/scrooloose/nerdtree.git' \
+    'https://github.com/vim-syntastic/syntastic.git' \
+    'https://github.com/christoomey/vim-tmux-navigator.git' \
+    'https://github.com/joonty/vdebug.git' \
+    'https://github.com/gorodinskiy/vim-coloresque.git' \
+    'https://github.com/easymotion/vim-easymotion.git' \
+    'https://github.com/tpope/vim-fugitive.git' \
+    'https://github.com/airblade/vim-gitgutter.git' \
+    'https://github.com/bridgesense/vim-hsftp.git' \
+    'https://github.com/tpope/vim-surround.git' \
+    'https://github.com/morhetz/gruvbox.git' \
+    'https://github.com/terryma/vim-multiple-cursors.git' \
+    'https://github.com/vim-scripts/YankRing.vim.git' \
+    'https://github.com/kchmck/vim-coffee-script.git' \
+    'https://github.com/tomtom/tcomment_vim.git' \
+    'https://github.com/tpope/vim-repeat.git' \
+    'https://github.com/inkarkat/vim-SyntaxRange.git' \
+    'https://github.com/PhilRunninger/nerdtree-visual-selection.git' \
+    'https://github.com/vim-scripts/MultipleSearch.git' \
+    'https://github.com/ton/vim-bufsurf.git')
+declare -a tmuxplugins=('https://github.com/tmux-plugins/tmux-resurrect.git' \
+    'https://github.com/tmux-plugins/tmux-continuum.git')
 declare -a bashplugins=()
 
 
@@ -23,6 +48,7 @@ function installed {
     if [[ $($1 2>&1) =~ (not found) ]]; then
         local inststatus=no
     fi
+    vim -c "Helptags" -c "q!"
     echo "$inststatus"
 }
 
@@ -35,6 +61,8 @@ function update {
        echo "Updating $pdir..."
        git pull
     done
+    vim -c "Helptags" -c "q!"
+    echo "Update finished."
 }
 
 
