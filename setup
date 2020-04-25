@@ -35,7 +35,7 @@ declare -a plugins=('https://github.com/rking/ag.vim.git' \
     'https://github.com/inkarkat/vim-SyntaxRange.git' \
     'https://github.com/PhilRunninger/nerdtree-visual-selection.git' \
     'https://github.com/vim-scripts/MultipleSearch.git' \
-    'https://github.com/ton/vim-bufsurf.git')
+    'https://github.com/bridgesense/vim-bufsurf.git')
 declare -a tmuxplugins=('https://github.com/tmux-plugins/tmux-resurrect.git' \
     'https://github.com/tmux-plugins/tmux-continuum.git')
 declare -a bashplugins=()
