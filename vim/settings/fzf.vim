@@ -8,15 +8,16 @@ let g:fzf_buffers_jump = 1
 let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
 
 " [Tags] Command to generate tags file
-" let g:fzf_tags_command = 'etags.ctags -R'
-" respect gitignore
-let g:fzf_tags_command = 'ag -l | etags.ctags -L-'
+"let g:fzf_tags_command = 'etags.ctags -R'
+" speed things up by respecting gitignore and the unnecessary
+let g:fzf_tags_command = 'ag -l | etags.ctags --exclude={*.css,*.js} --links=no -L-'
 
 " [Commands] --expect expression for directly executing the command
 let g:fzf_commands_expect = 'alt-enter,ctrl-x'
 
 " Ag command
 nmap <leader>ag :Ag<right> 
+nmap <leader>aw :Ag <C-r><C-w><cr>
 nmap <leader>af :Files<cr>
 
 " Easy command lookup and execute
@@ -30,3 +31,20 @@ nmap ,,b :History<cr>
 
 " Commit History
 nmap ,h :BCommits<cr>
+
+" Insert mode completion
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
+
+" Replace the default dictionary completion with fzf-based fuzzy completion
+inoremap <expr> <c-x><c-k> fzf#vim#complete('cat /usr/share/dict/words')
+
+" Fzf-Tags marries tags lookup
+nmap <C-]> <Plug>(fzf_tags)
+" Tag controls
+nmap ,gt :FZFTags <C-r><C-w><CR>
+nmap ,gi :tag<CR>
+nmap ,go :pop<CR>
+nmap ,gf :tselect <C-r><C-w><CR>

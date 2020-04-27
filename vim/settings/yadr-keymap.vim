@@ -93,12 +93,6 @@ nmap <silent> ,qo :copen<CR>
 " Save all buffers
 nmap <silent> ,S :wa<CR>
 
-" Tag controls
-nmap ,gt :tag <C-r><C-w><CR>
-nmap ,gi :tag<CR>
-nmap ,go :pop<CR>
-nmap ,gf :tselect <C-r><C-w><CR>
-
 " ==============================
 " Window/Tab/Split Manipulation
 " ==============================
