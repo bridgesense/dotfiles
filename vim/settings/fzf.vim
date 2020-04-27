@@ -16,7 +16,7 @@ let g:fzf_tags_command = 'ag -l | etags.ctags -L-'
 let g:fzf_commands_expect = 'alt-enter,ctrl-x'
 
 " Ag command
-nmap <leader>ag :Ag  <left>
+nmap <leader>ag :Ag<right> 
 nmap <leader>af :Files<cr>
 
 " Easy command lookup and execute
