@@ -30,9 +30,9 @@ let g:session_autoload = 'no'
 
 " Create the 'tags' file (dep: ctags)
 if filereadable("/etc/redhat-release")
-    command! MakeTags !ag -l | etags.ctags -R --exclude={*.css,*.js} --links=no -L-
+    command! MakeTags !ag -l | etags.ctags -L-
 else
-    command! MakeTags !ag -l | ctags -R --exclude={*.css,*.js} --links=no -L-
+    command! MakeTags !ag -l | ctags -L-
 endif
 
 " This makes vim act like all other editors, buffers can
