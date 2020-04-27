@@ -70,7 +70,7 @@ function update {
 # # # # # # # # # # # # # # #
 if [ "$action" == "remove" ]; then
     echo "# # Removing Dotfiles and Restoring Settings"
-    echo "# # # # # # # # # # # # # # #"
+    echo "# # # # # # # # # # # # # # # # # # # # # #"
     for cfile in ${files[@]}; do
         rm -rf ~/.$cfile 2>/dev/null
         mv $dir/$dotfiles_old/.$cfile ~/ 2>/dev/null
@@ -85,7 +85,7 @@ fi
 # # # # # # # # # # # # # # #
 if [ "$action" == "update" ]; then
     echo "# # Updating Dotfiles"
-    echo "# # # # # # # # # # # # # # #"
+    echo "# # # # # # # # # # # # # # # # # # # # # #"
     if [ ! -f $dir/setup ]; then
         action=install
     else
@@ -104,7 +104,7 @@ fi
 # # # # # # # # # # # # # # #
 if [ "$action" == "install" ]; then
     echo "# # Installing Dotfiles"
-    echo "# # # # # # # # # # # # # # #"
+    echo "# # # # # # # # # # # # # # # # # # # # # #"
     if [ -f $dir/setup ]; then
         echo "YADRLite is already installed."
         exit
@@ -182,10 +182,25 @@ if [ "$action" == "install" ]; then
 
     echo "" >> $dir/vimrc.after
     echo '" Modify languages as needed.' >> $dir/vimrc.after
-    echo 'let g:myLangList=["nospell","en_us","es_es","en_ru"]' >> $dir/vimrc.after
+    echo 'let g:myLangList=["en_us","es_es","en_ru","nospell"]' >> $dir/vimrc.after
+
+
+    echo "" >> $dir/vimrc.after
+    echo '" This fixes the ALT mappings in URXVT.' >> $dir/vimrc.after
+
+    if [[ "$(uname)" == "Linux" ]]; then
+        echo 'let g:urxvt_fix=1' >> $dir/vimrc.after
+        echo "# # A patch has been applied for URXVT."
+        echo "# # If you do not use the URXVT terminal,"
+        echo "# # review ~/.vimrc.after if you exprience"
+        echo "# # any issues with meta (Alt) keys in vi"
+        echo "# # # # # # # # # # # # # # # # # # # # # #"
+    else
+        echo 'let g:urxvt_fix=0' >> $dir/vimrc.after
+    fi
 
     echo "# # Loading plugins"
-    echo "# # # # # # # # # # # # # # #"
+    echo "# # # # # # # # # # # # # # # # # # # # # #"
     mkdir $dir/vim/bundle 2>/dev/null
     cd $dir/vim/bundle
     for vplug in "${plugins[@]}"; do
@@ -221,7 +236,7 @@ if [ "$action" == "install" ]; then
     done
 
     echo "# # Backing up current configurations"
-    echo "# # # # # # # # # # # # # # #"
+    echo "# # # # # # # # # # # # # # # # # # # # # #"
     cd $dir
     mkdir -p $dotfiles_old 2>/dev/null
     for cfile in ${files[@]}; do

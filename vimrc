@@ -131,15 +131,15 @@ set smartcase       " ...unless we type a capital
 
 " ================ Custom Settings ========================
 let vimsettings = '~/.yadrlite/vim/settings'
-let uname = system("uname -s")
+let uname = substitute(system('uname'), '\n', '', '')
 
 for fpath in split(globpath(vimsettings, '*.vim'), '\n')
 
-  if (fpath == expand(vimsettings) . "/yadr-keymap-mac.vim") && "$(uname)" == "Linux"
+  if (fpath == expand(vimsettings) . "/yadr-keymap-mac.vim") && uname == "Linux"     
     continue " skiped mac mappings
   endif
 
-  if (fpath == expand(vimsettings) . "/yadr-keymap-linux.vim") && "$(uname)" != "Linux"
+  if (fpath == expand(vimsettings) . "/yadr-keymap-linux.vim") && uname != "Linux" 
     continue " skiped linux mappings
   endif
 
