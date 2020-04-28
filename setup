@@ -38,6 +38,7 @@ declare -a plugins=('https://github.com/rking/ag.vim.git' \
     'https://github.com/junegunn/fzf.vim.git' \
     'https://github.com/zackhsi/fzf-tags.git' \
     'https://github.com/airblade/vim-rooter.git' \
+    'https://github.com/tpope/vim-obsession.git' \
     'https://github.com/bridgesense/vim-bufsurf.git')
 declare -a tmuxplugins=('https://github.com/tmux-plugins/tmux-resurrect.git' \
     'https://github.com/tmux-plugins/tmux-continuum.git')

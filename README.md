@@ -185,6 +185,7 @@ The leader key Ctrl-a can be followed by the next key concurrently without holdi
 * `Ctrl-a s`: Create new window horizontally below current one
 * `Ctrl-a v`: Create new window vertically to right of current one
 * `Ctrl-a [`: Enter Vim-like normal mode
+* `Ctrl-a Ctrl-s`, `Ctrl-r`: Saves and Restores Tmux Session  
 In visual mode use `h,j,k,l` to move, `v` to change to visual mode and `y` to yank selection.  Press `Enter` to exit mode.
 
 
@@ -297,9 +298,8 @@ See more about setting up the [.vimrc.local](https://gitlab.com/bridgesense/lamp
 * `,w`: strip trailing whitespaces
 * `,hi`: show current Highlight group. if you don't like the color of something, use this, then use `hi! link [groupname] [anothergroupname]`: in your vimrc.after to remap the color. You can see available colors using `:hi`
 * `:Wrap`: wrap long lines (e.g. when editing markdown files)
-* `Cmd-/`: (`Alt-/`) toggle comments (usually gcc from tComment) 
-* `,;`, `gcc`: un/comment selected lines in visual mode
-* `,O`: make/overwrite a Vim session
+* `,;`, `gcc`: un/comment selected lines in visual mode thanks to (tComment)[https://github.com/tomtom/tcomment_vim]
+* `,o`,`,p`: start a new or restore an existing Vim session thanks to [obsession](https://github.com/tpope/vim-obsession)
 * `zf`,`zo`,`zc`,`za`,`zr`,`zm`,`zd`: creates, opens, closes, toggles, toggles all, collapses all and deletes code folds
 * `F7`,`z=`,`]s`,`[s`: spell check, word suggestion and jump to next misspelled word
 

@@ -83,7 +83,7 @@ bindsym Shift+Print 	exec --no-startup-id flameshot config
 bindsym $mod+Shift+s    exec --no-startup-id flameshot gui
 
 # #---Software Bindings---# #
-bindsym $mod+Return 		exec $term -c tmux 
+bindsym $mod+Return 		exec $term
 bindsym $mod+space  	    exec --no-startup-id $menu
 bindsym $mod+d 			    exec --no-startup-id nemo --no-desktop
 bindsym $mod+i 			    exec $term -e htop

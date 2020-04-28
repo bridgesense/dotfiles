@@ -8,7 +8,7 @@ super + shift + s
 
 # #---Software Bindings---# #
 super + Return
-    urxvt256c-ml -e tmux
+    urxvt256c-ml
 super + space
     rofi -combi-modi window,drun,ssh -modi combi -show combi -monitor -1
 super + d
