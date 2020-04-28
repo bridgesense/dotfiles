@@ -97,8 +97,8 @@ su -c 'cp ~/.yadrlite/shared/scripts/*.sh ~/.config/scripts' $USER
 su -c 'cp ~/.yadrlite/i3/xinitrc ~/.xinitrc' $USER
 su -c 'cp -r ~/.yadrlite/shared/rofi ~/.config' $USER
 su -c "cp -r ~/.yadrlite/shared/ranger ~/.config" $USER
-sed -i '/Default Prompt/a export EDITOR=vimx\nexport PAGER=less\nalias vi="vimx"\nalias vim="vimx"' /home/$USER/.bashrc
-sed -i '/Default Prompt/a export EDITOR=vimx\nexport PAGER=less\nalias vi="vimx"\nalias vim="vimx"' /root/.bashrc
+sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"' /home/$USER/.bashrc
+sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"' /root/.bashrc
 # uncomment the following line to give Sudoers access to the user account
 # printf "# Give the following users Sudoers Access\n$USER ALL=(ALL)  ALL" >> /etc/sudoers
 echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
@@ -220,9 +220,21 @@ cp /home/$USER/lab/PHP-Parallel-Lint/parallel-lint.phar /usr/local/bin/parallel-
 # install code editors and PHP dev tools
 # # # # # # # # # # # # # # #
 dnf install -y tmux the_silver_searcher ack
-dnf install -y tree ranger w3m w3m-img
-dnf install -y vim-X11 ctags-etags xcopy
+dnf install -y tree ranger w3m w3m-img xcopy
 ln -s /usr/bin/gvim /usr/bin/vim
+# install ctags
+sudo dnf install -y python3-docutils libseccomp-devel jansson-devel libyaml-devel libxml2-devel
+su -c "cd ~/lab && git clone https://github.com/universal-ctags/ctags.git" $USER
+su -c "cd ~/lab/ctags && ./autogen.sh" $USER
+su -c "cd ~/lab/ctags && ./configure --program-prefix=ex" $USER
+cd /home/$USER/lab/ctags && make prefix=/usr/local install && clean
+# neovim
+dnf install -y neovim
+pip install pynvim
+su -c "pip3 install pynvim" $USER
+su -c "gem install neovim" $USER
+su -c "gem environment" $USER
+npm install -g neovim
 
 # install all powerline fonts
 su -c "cd ~/lab && git clone https://github.com/powerline/fonts.git --depth=1" $USER

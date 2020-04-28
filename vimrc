@@ -11,7 +11,7 @@ endif
 " ================ General Config ====================
 
 set backspace=indent,eol,start  "Allow backspace in insert mode
-:fixdel                         "Fixes Remote Issues with Del key
+" :fixdel                         "Fixes Remote Issues with Del key
 set history=1000                "Store lots of :cmdline history
 set showcmd                     "Show incomplete cmds down the bottom
 set showmode                    "Show current mode down the bottom
@@ -30,10 +30,11 @@ let g:session_autoload = 'no'
 
 " Create the 'tags' file (dep: ctags)
 if filereadable("/etc/redhat-release")
-    command! MakeTags !ag -l | etags.ctags --exclude={*.css,*.js} --links=no -L-
+    let g:maketags_arg = "ag -l | exctags -f TAGS --exclude={*.css,*.js} --links=no -L-"
 else
-    command! MakeTags !ag -l | ctags --exclude={*.css,*.js} --links=no -L-
+    let g:maketags_arg = "ag -l | ctags --exclude={*.css,*.js} --links=no -L-"
 endif
+command! MakeTags execute ' !' . g:maketags_arg
 
 " This makes vim act like all other editors, buffers can
 " exist in the background without being in a window.

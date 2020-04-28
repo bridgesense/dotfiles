@@ -8,9 +8,7 @@ let g:fzf_buffers_jump = 1
 let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
 
 " [Tags] Command to generate tags file
-"let g:fzf_tags_command = 'etags.ctags -R'
-" speed things up by respecting gitignore and the unnecessary
-let g:fzf_tags_command = 'ag -l | etags.ctags --exclude={*.css,*.js} --links=no -L-'
+let g:fzf_tags_command = g:maketags_arg
 
 " [Commands] --expect expression for directly executing the command
 let g:fzf_commands_expect = 'alt-enter,ctrl-x'
