@@ -41,10 +41,9 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 " Replace the default dictionary completion with fzf-based fuzzy completion
 inoremap <expr> <c-x><c-k> fzf#vim#complete('cat /usr/share/dict/words')
 
-" Fzf-Tags marries tags lookup
+" FZFTags 
+" override the default jump-to-tag binding 
 nmap <C-]> <Plug>(fzf_tags)
-" Tag controls
 nmap ,gt :FZFTags <C-r><C-w><CR>
 nmap ,gi :tag<CR>
 nmap ,go :pop<CR>
-nmap ,gf :tselect <C-r><C-w><CR>
