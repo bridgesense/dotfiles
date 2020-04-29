@@ -108,7 +108,7 @@ nnoremap <C-w>f :sp +e<cfile><CR>
 nnoremap <C-w>gf :tabe<cfile><CR>
 
 " Zoom in
-map <silent> ,gz <C-w>o
+" map <silent> ,gz <C-w>o
 
 " Create window splits easier. The default
 " way is Ctrl-w,v and Ctrl-w,s. I remap

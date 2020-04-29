@@ -217,7 +217,8 @@ VIM Shortcuts
 * `,t`: CtrlP fuzzy file selector
 * `,b`: CtrlP buffer selector great for jumping to a file you already have open
 * `,,b`: opens buffer selector containing recently opened files  
-* `,n`: show current file in NERDTree
+* `,n`: Toggles NERDTree
+* `,m`: show current file in NERDTree
 * `,q`: closes buffer without saving (`:bd!`)
 * `,Q`: completely closes Vim without saving any buffers (`:qa!`)
 * `,Z`: completely closes Vim saving all buffers (`:xa`)
@@ -227,18 +228,15 @@ VIM Shortcuts
 * `Cmd-[jk]`: (`Alt-[jk]` move up and down roughly by functions 
 * `Ctrl-o`: Old cursor position this is a standard mapping but very useful, so included here
 * `Ctrl-i`: opposite of Ctrl-O (again, this is standard)
-* `,gf`: or `Ctrl-f` same as vim normal gf (go to file)
-* `,k`: Search the current word under the cursor and show results in quickfix window
-* `,K`: Grep the current word up to next exclamation point
+* `,gf`: same as vim normal gf (go to file)
+* `,aw`: Search the current word under the cursor and show results in quickfix window
 * `,hl`: toggle search highlight on and off
-* `,gg`: or `,ag` Grep command line, type between quotes. Uses Ag Silver Searcher.
-* After searching with `,gg` you can navigate the results with `Ctrl-x` and `Ctrl-z` (or standard vim `:cn`: and `:cp`)
-* `,gd`: Grep def (greps for 'def [function name]') when cursor is over the function name
-* `,gcf`: Grep Current File to find references to the current file
+* `,ag`: Grep command line, type between quotes. Uses Ag Silver Searcher.
+* `Ctrl-x`,`Ctrl-z`: Cycle positions (or standard vim `:cn`: and `:cp`)
 * `//`: clear the search
-* `,jx`: EasyMotion Jump to character x
 * `,mc`: mark this word for MultiCursor (like sublime). Use `Ctrl-n`: (next), `Ctrl-p`: (prev), `Ctrl-x`(skip) to add more cursors, then do normal vim things like edit the word.
-* `gK`: Opens the documentation for the word under the cursor.
+* `K`: Opens the documentation for the word under the cursor.
+* `,jx`: EasyMotion Jump to character x
 * Spacebar Sneak type two characters to move there in a line. Kind of like vim's `f`: but more accurate.
 * `:Gsearch foo`: global search, then do your normal `%s/search/replace/g` and follow up with `:Greplace` to replace across all files. When done use `:wall`: to write all the files.
 
@@ -251,7 +249,6 @@ VIM Shortcuts
 
 #### Tag Management:
 * `:MakeTags`: build tag library for project
-* `,gf`: search for tag under cursor and display results
 * `,gt`: search for tag under cursor and bring up file
 * `,gi`: go to next tag in history
 * `,go`: go back one tag in history
@@ -286,8 +283,8 @@ See more about setting up the [.vimrc.local](https://gitlab.com/bridgesense/lamp
 
 #### Better keystrokes for common editing commands:
 * Ctrl-Space to autocomplete. Tab for snipmate snippets.
-* `,#` `,"` `,'` `,]` `,)` `,}`: to surround a word in these common wrappers. the # does #{ruby interpolation}. works in visual mode (thanks @cj). Normally these are done with something like `ysw#`
-* `Cmd-'`, `Cmd-"`, `Cmd-]`, `Cmd-)`: (`Alt` Linux) changes content inside those surrounding marks. You don't have to be inside them 
+* `S#` `S"` `S'` `S]` `S)` `S}`: to surround a word in these common wrappers. the # does #{ruby interpolation}. works in visual mode (thanks @cj). Normally these are done with something like `ysw#`
+* `ci'`, `ci"`, `ci]`, `ci)`: (`Alt` Linux) changes content inside those surrounding marks. You don't have to be inside them 
 * `,.`: to go to last edit location (same as `'.`) because the apostrophe is hard on the pinky
 * `,ci`: to change inside any set of quotes/brackets/etc
 

@@ -14,7 +14,7 @@ let g:fzf_tags_command = g:maketags_arg
 let g:fzf_commands_expect = 'alt-enter,ctrl-x'
 
 " Ag command
-nmap <leader>ag :Ag<right> 
+nmap <leader>ag :Ag<cr> 
 nmap <leader>aw :Ag <C-r><C-w><cr>
 nmap <leader>af :Files<cr>
 

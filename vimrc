@@ -30,9 +30,9 @@ let g:session_autoload = 'no'
 
 " Create the 'tags' file (dep: ctags)
 if filereadable("/etc/redhat-release")
-    let g:maketags_arg = "ag -l | exctags -f TAGS --exclude={*.css,*.js} --links=no -L-"
+    let g:maketags_arg = "ag -l | exctags -f tags --exclude={*.css,*.js} --links=no -L-"
 else
-    let g:maketags_arg = "ag -l | ctags --exclude={*.css,*.js} --links=no -L-"
+    let g:maketags_arg = "ag -l | ctags -f tags --exclude={*.css,*.js} --links=no -L-"
 endif
 command! MakeTags execute ' !' . g:maketags_arg
 

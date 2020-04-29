@@ -7,7 +7,7 @@
 /emacs
 /emacs.d
 /tmux.conf
-/TAGS
+/tags
 /tmux/plugin/*
 /vim/bundle/*
 /vim/Session.vim
