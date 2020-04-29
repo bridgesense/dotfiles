@@ -51,8 +51,8 @@ function installed {
     if [[ $($1 2>&1) =~ (not found) ]]; then
         local inststatus=no
     fi
-    if [[ "$(installed 'vi --version')" == "no" ]]; then
-	vi -c "silent Helptags" -c "q!"
+    if [[ "$(installed 'vi --version')" == "yes" ]]; then
+        vi -c "silent Helptags" -c "q!"
     fi
     echo "$inststatus"
 }
@@ -66,8 +66,8 @@ function update {
        echo "Updating $pdir..."
        git pull
     done
-    if [[ "$(installed 'vi --version')" == "no" ]]; then
-	vi -c "silent Helptags" -c "q!"
+    if [[ "$(installed 'vi --version')" == "yes" ]]; then
+        vi -c "silent Helptags" -c "q!"
     fi
     echo "Update finished."
 }
@@ -83,7 +83,9 @@ if [ "$action" == "remove" ]; then
         mv $dir/$dotfiles_old/.$cfile ~/ 2>/dev/null
     done
     rm -rf $dir 2>/dev/null
-    vi -c Helptags -c q
+    if [[ "$(installed 'vi --version')" == "yes" ]]; then
+        vi -c "silent Helptags" -c "q!"
+    fi
     echo "Your original dotfiles have been restored.  Please restart the terminal or re-login to supress error messages."
 fi
 
@@ -101,7 +103,9 @@ if [ "$action" == "update" ]; then
         update $dir/vim/bundle
         update $dir/tmux/plugin
         update $dir/bash/plugin
-        vi -c Helptags -c q
+        if [[ "$(installed 'vi --version')" == "yes" ]]; then
+            vi -c "silent Helptags" -c "q!"
+        fi
         echo "The update is finished."
     fi
 fi
@@ -140,9 +144,9 @@ if [ "$action" == "install" ]; then
             if [[ "$(installed 'xcode-select -v')" == "no" ]]; then
                 echo "This dotfile package requires xcode-select to be installed."
                 bash $dir/setup remove
+                xcode-select --install
                 exit
             else
-                xcode-select --install
                 mkdir -p ~/Library/Developer/Xcode/UserData/FontAndColorThemes/
                 cp -rf $dir/themes/gruvbox/xcode/Gruvbox.xccolortheme ~/Library/Developer/Xcode/UserData/FontAndColorThemes/
                 echo "Do you want to install Homebrew?  If you have MacPorts already installed, they may not play well together."
