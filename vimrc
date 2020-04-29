@@ -134,6 +134,12 @@ set smartcase       " ...unless we type a capital
 let vimsettings = '~/.yadrlite/vim/settings'
 let uname = substitute(system('uname'), '\n', '', '')
 
+if uname == "Linux"
+   let g:patched_fonts = 1
+else
+   let g:patched_fonts = 0
+endif
+
 for fpath in split(globpath(vimsettings, '*.vim'), '\n')
 
   if (fpath == expand(vimsettings) . "/yadr-keymap-mac.vim") && uname == "Linux"     
@@ -146,4 +152,3 @@ for fpath in split(globpath(vimsettings, '*.vim'), '\n')
 
   exe 'source' fpath
 endfor
-
