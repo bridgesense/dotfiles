@@ -16,8 +16,7 @@ declare -a plugins=('https://github.com/rking/ag.vim.git' \
     'https://github.com/itchyny/lightline.vim.git' \
     'https://github.com/Shougo/neocomplete.vim.git' \
     'https://github.com/scrooloose/nerdtree.git' \
-    'https://github.com/vim-syntastic/syntastic.git' \
-    'https://github.com/christoomey/vim-tmux-navigator.git' \
+    'https://github.com/vim-syntastic/syntastic.git' \ 'https://github.com/christoomey/vim-tmux-navigator.git' \
     'https://github.com/joonty/vdebug.git' \
     'https://github.com/gorodinskiy/vim-coloresque.git' \
     'https://github.com/easymotion/vim-easymotion.git' \
@@ -51,7 +50,7 @@ function installed {
     if [[ $($1 2>&1) =~ (not found) ]]; then
         local inststatus=no
     fi
-    if [[ "$(installed 'vi --version')" == "yes" ]]; then
+    if ! [ -x "$(command -v vi)" ]; then
         vi -c "silent Helptags" -c "q!"
     fi
     echo "$inststatus"
@@ -66,7 +65,7 @@ function update {
        echo "Updating $pdir..."
        git pull
     done
-    if [[ "$(installed 'vi --version')" == "yes" ]]; then
+    if [ -x "$(command -v vi)" ]; then
         vi -c "silent Helptags" -c "q!"
     fi
     echo "Update finished."
@@ -83,7 +82,7 @@ if [ "$action" == "remove" ]; then
         mv $dir/$dotfiles_old/.$cfile ~/ 2>/dev/null
     done
     rm -rf $dir 2>/dev/null
-    if [[ "$(installed 'vi --version')" == "yes" ]]; then
+    if [ -x "$(command -v vi)" ]; then
         vi -c "silent Helptags" -c "q!"
     fi
     echo "Your original dotfiles have been restored.  Please restart the terminal or re-login to supress error messages."
@@ -103,7 +102,7 @@ if [ "$action" == "update" ]; then
         update $dir/vim/bundle
         update $dir/tmux/plugin
         update $dir/bash/plugin
-        if [[ "$(installed 'vi --version')" == "yes" ]]; then
+        if [ -x "$(command -v vi)" ]; then
             vi -c "silent Helptags" -c "q!"
         fi
         echo "The update is finished."
@@ -121,7 +120,7 @@ if [ "$action" == "install" ]; then
         exit
     fi
 
-    if [[ "$(installed 'git --version')" == "no" ]]; then
+    if ! [ -x "$(command -v git)" ]; then
         echo "'Git' doesn't seem to be installed.  Install it. :)"
         exit
     fi
