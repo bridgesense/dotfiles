@@ -134,7 +134,7 @@ set smartcase       " ...unless we type a capital
 let vimsettings = '~/.yadrlite/vim/settings'
 let uname = substitute(system('uname'), '\n', '', '')
 
-if uname == "Linux"
+if uname == "Linux" && !has("gui_running")
    let g:patched_fonts = 1
 else
    let g:patched_fonts = 0
