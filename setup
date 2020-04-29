@@ -6,7 +6,7 @@
 
 # # Options
 # # # # # # # # # # # # # # #
-USEREPO=yes
+USEREPO=no
 dir=~/.yadrlite
 dotfiles_old=backup
 action="${1:-install}"
