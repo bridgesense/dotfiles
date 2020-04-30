@@ -17,7 +17,7 @@ let g:fzf_commands_expect = 'alt-enter,ctrl-x'
 nmap <leader>ag :Ag<cr> 
 nmap <leader>aw :Ag <C-r><C-w><cr>
 nmap <leader>af :Files<cr>
-
+nmap <expr> <leader>ad ":Ag<cr>" . expand("%:h") . " "
 " Easy command lookup and execute
 nmap ,,c :Commands<cr>
 

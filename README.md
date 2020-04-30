@@ -178,6 +178,7 @@ The leader key Ctrl-a can be followed by the next key concurrently without holdi
 * `Ctrl-a j`: Focus on window above the current one
 * `Ctrl-a k`: Focus on window below the current one
 * `Ctrl-a l`: Focus on window right of the current one
+* `Ctrl-a x`: Kill current window pane 
 * `Ctrl+H`: Shift current window pane left
 * `Ctrl+J`: Shift current window pane up
 * `Ctrl+K`: Shift current window pane down
@@ -229,9 +230,10 @@ VIM Shortcuts
 * `Ctrl-o`: Old cursor position this is a standard mapping but very useful, so included here
 * `Ctrl-i`: opposite of Ctrl-O (again, this is standard)
 * `,gf`: same as vim normal gf (go to file)
-* `,aw`: Search the current word under the cursor and show results in quickfix window
+* `,ag`: Grep command line using Silver Searcher and Fzf
+* `,ad`: search for term in directory of current file 
+* `,aw`: Search the current word under the cursor 
 * `,hl`: toggle search highlight on and off
-* `,ag`: Grep command line, type between quotes. Uses Ag Silver Searcher.
 * `Ctrl-x`,`Ctrl-z`: Cycle positions (or standard vim `:cn`: and `:cp`)
 * `//`: clear the search
 * `,mc`: mark this word for MultiCursor (like sublime). Use `Ctrl-n`: (next), `Ctrl-p`: (prev), `Ctrl-x`(skip) to add more cursors, then do normal vim things like edit the word.
