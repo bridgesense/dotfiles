@@ -190,13 +190,12 @@ dnf install -y php
 # # # # # # # # # # # # # # #
 dnf install -y php-json php-readline php-process
 dnf install -y nodejs nodejs-yarn ruby-devel
-npm install -g grunt-cli
-npm install -g js-beautify
+npm install -g grunt-cli coffee-jshint eslint js-yaml csslint
 su -c 'git clone https://github.com/xcwen/phpctags.git ~/lab/phpctags' $USER
 su -c 'make -C ~/lab/phpctags' $USER
 cp /home/$USER/lab/phpcstags/phpctags.phar /usr/local/bin/
-gem update
-gem install compass sass
+su -c 'gem update'
+su -c 'gem install compass'
 
 # boris (nice PHP sandbox tool)
 # # # # # # # # # # # # # # #
@@ -231,7 +230,6 @@ su -c "cd ~/lab/ctags && ./configure --program-prefix=ex" $USER
 cd /home/$USER/lab/ctags && make prefix=/usr/local install && clean
 # neovim
 dnf install -y neovim
-pip install pynvim
 su -c "pip3 install pynvim" $USER
 su -c "gem install neovim" $USER
 su -c "gem environment" $USER
@@ -289,9 +287,9 @@ printf 'Name=Firefox Nightly Browser\n' >> /home/$USER/.local/share/applications
 printf "Exec=/home/$USER/Applications/firefox/firefox\n" >> /home/$USER/.local/share/applications/firefox-nightly.desktop
 
 # install Vagrant and Virtualbox
-dnf install -y akmods vagrant
-su -c 'mkdir -p ~/Downloads && cd ~/Downloads && wget http://download.virtualbox.org/virtualbox/6.1.2/Oracle_VM_VirtualBox_Extension_Pack-6.1.2.vbox-extpack' $USER
-echo "y" | VBoxManage extpack install --replace /home/$USER/Downloads/Oracle_VM_VirtualBox_Extension_Pack-6.1.2.vbox-extpack
+dnf install -y akmods vagrant VirtualBox
+su -c 'mkdir -p ~/Downloads && cd ~/Downloads && wget http://download.virtualbox.org/virtualbox/6.1.6/Oracle_VM_VirtualBox_Extension_Pack-6.1.6.vbox-extpack' $USER
+echo "y" | VBoxManage extpack install --replace /home/$USER/Downloads/Oracle_VM_VirtualBox_Extension_Pack-6.1.6.vbox-extpack
 firewall-cmd --permanent --zone=public --add-port=9041/tcp
 setsebool -P httpd_can_network_connect on
 semanage port -a -t http_port_t -p tcp 9041
