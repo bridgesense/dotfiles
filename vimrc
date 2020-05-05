@@ -28,6 +28,9 @@ set updatetime=1000
 let g:session_autosave = 'no'
 let g:session_autoload = 'no'
 
+" Improved Matchit Override (vim-matchup)
+let g:loaded_matchit = 1
+
 " Create the 'tags' file (dep: ctags)
 if filereadable("/etc/redhat-release")
     let g:maketags_arg = "ag -l | exctags -f tags --exclude={*.css,*.js} --links=no -L-"

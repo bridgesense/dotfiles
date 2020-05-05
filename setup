@@ -33,6 +33,7 @@ declare -a plugins=('https://github.com/rking/ag.vim.git' \
     'https://github.com/inkarkat/vim-SyntaxRange.git' \
     'https://github.com/PhilRunninger/nerdtree-visual-selection.git' \
     'https://github.com/vim-scripts/MultipleSearch.git' \
+    'https://github.com/andymass/vim-matchup.git' \
     'https://github.com/junegunn/fzf.git' \
     'https://github.com/junegunn/fzf.vim.git' \
     'https://github.com/zackhsi/fzf-tags.git' \
