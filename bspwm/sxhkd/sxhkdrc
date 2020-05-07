@@ -9,6 +9,8 @@ super + shift + s
 # #---Software Bindings---# #
 super + Return
     urxvt
+super + shift + Return 
+    urxvt -e sh -c "source ~/.config/scripts/base16-gruvbox-light-medium.sh;bash" 
 super + space
     rofi -combi-modi window,drun,ssh -modi combi -show combi -monitor -1
 super + d
