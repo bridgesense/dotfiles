@@ -86,7 +86,7 @@ The [General](https://github.com/noctuid/general.el) plugin has been included wi
 * `,br`: Refresh buffer
 
 #### Window Shortcuts:
-* `,wd`: Delete windown
+* `,wd`: Dem/settings lete windown
 * `,wc`: Delete all other windows except current window
 * `,wf`: Toggle Emacs full screen
 * `,wh`: Focus on window to left of current one
@@ -308,7 +308,7 @@ See more about setting up the [.vimrc.local](https://gitlab.com/bridgesense/lamp
 * `,vr`: (Vim Reload) source current file as a vim file
 
 
-Bspwm/i3 Commands
+Bspwm Commands
 ---
 These commands are part of the sample workstations included in this repo.  This is designed to be used with a "Custom Fedora" installation via the server Net install disk.  If you're interested in checking it out, download the file and review it before installing it on a new system.
 
@@ -316,14 +316,6 @@ These commands are part of the sample workstations included in this repo.  This 
 ```bash
 # Log in as root on a clean barebones install
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/bspwm/install-bspwm-workstation > custom-fedora-setup
-# The workstation user must already be set up
-bash custom-fedora-setup <workstation_username>
-```
-
-### i3 Workstation Installation
-```bash
-# Log in as root on a clean barebones install
-curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/i3/install-i3-gaps-workstation > custom-fedora-setup
 # The workstation user must already be set up
 bash custom-fedora-setup <workstation_username>
 ```
@@ -355,24 +347,16 @@ bash custom-fedora-setup <workstation_username>
 * `Super+Shift+j`: Move current window down one
 * `Super+Shift+k`: Move current window up one
 * `Super+Shift+l`: Move current window to the right
-* `Super+Shift+c`: Move current window to the center (i3 only)
 
 * `Super+q`: Close current window (and program)
 * `Super+t`: Toggle Split between horizontal and vertical mode
-* `Super+s`: Change window to vertical split mode (i3 only)
-* `Super+Shift-s`: Reload sxhkd configurations (Bspwm only)
-* `Super+v`: Change window to horizontal split mode (i3 only)
+* `Super+Shift-s`: Reload sxhkd configurations
 * `Super+b`: Toggle window sticky mode
 
-* `Super+left bracket`: shrink window width (i3 only)
-* `Super+right bracket`: grow window width (i3 only)
-* `Super+minus`: shrink window height (i3 only)
-* `Super+equal`: grow window height (i3 only)
-
-* `Super+Alt+h`: expand window frame left (Bspwm only)
-* `Super+Alt+j`: expand window frame down (Bspwm only)
-* `Super+Alt+k`: expand window frame up (Bspwm only)
-* `Super+Alt+l`: expand window frame right (Bspwm only)
+* `Super+Alt+h`: expand window frame left
+* `Super+Alt+j`: expand window frame down
+* `Super+Alt+k`: expand window frame up
+* `Super+Alt+l`: expand window frame right
 
 #### Window State Bindings
 * `Super+f`: Make window full screen

@@ -4,8 +4,8 @@ if [ ! $(command -v bspc) ]; then
     echo "\"command not found: \"bspc\"" >&2
     exit 1
 fi
-if [ ! $(command -v urxvt256c-ml) ]; then
-    echo "\"command not found: \"urxvt256c-ml\"" >&2
+if [ ! $(command -v urxvt) ]; then
+    echo "\"command not found: \"urxvt\"" >&2
     exit 1
 fi
 if [ ! $(command -v pyxtrlock) ]; then
@@ -23,7 +23,7 @@ pkill -f asciiquarium
 # starts screensaver on all monitors
 OFFSETS=(`bspc query --monitors --names | xargs -l`)
 for o in ${OFFSETS[@]}; do
-    urxvt256c-ml -name $o -e asciiquarium &
+    urxvt -name $o -e asciiquarium &
 done
 
 # Store the current layout and set the default one

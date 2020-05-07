@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/bash
 # Thanks to Seong Yong-ju @ https://github.com/sei40kr/tmux-airline-hybrid
 main() {
   tmux set-option -g status 'on'

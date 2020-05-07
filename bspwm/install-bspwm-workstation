@@ -35,7 +35,8 @@ dnf install -y xautolock pyxtrlock asciiquarium
 dnf install -y lxappearance arc-theme rofi redshift-gtk
 dnf install -y pulseaudio alsa-utils pulseaudio-utils xcompmgr
 dnf install -y pulseeffects pavucontrol
-dnf install -y arandr zenity rxvt-unicode-256color-ml flameshot
+dnf install -y rxvt-unicode xclip
+dnf install -y arandr zenity flameshot
 dnf install -y gnome-keyring
 dnf install -y gnome-control-center
 dnf install -y NetworkManager-tui NetworkManager-wifi NetworkManager-openvpn-gnome
@@ -62,19 +63,7 @@ dnf install -y brasero
 
 # install polybar
 # # # # # # # # # # # # # # #
-dnf install -y cairo-devel xcb-util-devel libxcb-devel xcb-proto
-dnf install -y xcb-util-image-devel xcb-util-wm-devel
-dnf install -y xcb-util-xrm-devel xcb-util-cursor-devel alsa-lib-devel
-dnf install -y pulseaudio-libs-devel jsoncpp-devel libmpdclient-devel
-dnf install -y libcurl-devel wireless-tools-devel libnl3-devel
-su -c 'mkdir -p ~/lab' $USER
-su -c 'git clone --recursive https://github.com/polybar/polybar.git ~/lab/polybar' $USER
-su -c 'cd ~/lab/polybar && git checkout 3.4' $USER
-sleep 1.5s
-su -c 'mkdir -p ~/lab/polybar/build' $USER
-su -c 'cd ~/lab/polybar/build && cmake ..' $USER
-su -c 'make -j$(nproc) -C ~/lab/polybar/build' $USER
-cd /home/$USER/lab/polybar/build && make install
+dnf install -y polybar
 
 # install xbanish
 # # # # # # # # # # # # # # #
@@ -98,8 +87,8 @@ su -c 'cp ~/.yadrlite/bspwm/xinitrc ~/.xinitrc' $USER
 su -c 'cp -r ~/.yadrlite/shared/rofi ~/.config' $USER
 su -c "cp -r ~/.yadrlite/shared/ranger ~/.config" $USER
 su -c "cp -r ~/.yadrlite/shared/nvim ~/.config" $USER
-sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"' /home/$USER/.bashrc
-sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"' /root/.bashrc
+sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"\nalias urxvt="urxvt256c"' /home/$USER/.bashrc
+sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"\nalias urxvt="urxvt256c"' /root/.bashrc
 # uncomment the following line to give Sudoers access to the user account
 # printf "# Give the following users Sudoers Access\n$USER ALL=(ALL)  ALL" >> /etc/sudoers
 echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
@@ -230,7 +219,7 @@ su -c "cd ~/lab/ctags && ./configure --program-prefix=ex" $USER
 cd /home/$USER/lab/ctags && make prefix=/usr/local install && clean
 # neovim
 dnf install -y neovim
-su -c "pip3 install pynvim" $USER
+pip3 install pynvim
 su -c "gem install neovim" $USER
 su -c "gem environment" $USER
 npm install -g neovim
