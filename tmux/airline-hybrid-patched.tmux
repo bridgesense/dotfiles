@@ -13,7 +13,7 @@ main() {
   tmux set-option -g message-command-bg 'colour8'
   tmux set-option -g message-command-fg 'colour235'
   tmux set-option -g status-left '#[fg=colour235,bg=colour8,bold] #S '
-  tmux set-option -g status-right '#[fg=colour228,bg=colour8]#[fg=colour235,bg=colour228] %Y-%m-%d %H:%M '
+  tmux set-option -g status-right '#[fg=colour15,bg=colour8]#[fg=colour235,bg=colour15] %Y-%m-%d %H:%M '
   tmux set-window-option -g window-status-fg 'colour235'
   tmux set-window-option -g window-status-activity-bg 'colour8'
   tmux set-window-option -g window-status-activity-fg 'colour235'
@@ -21,7 +21,7 @@ main() {
   tmux set-window-option -g window-status-bg 'colour8'
   tmux set-window-option -g window-status-format '#[fg=colour235,bg=colour8] #I #W '
   tmux set-window-option -g window-status-current-format \
-    '#[fg=colour8,bg=colour228]#[fg=colour235] #I  #W #[fg=colour228,bg=colour8]'
+    '#[fg=colour8,bg=colour15]#[fg=colour235] #I  #W #[fg=colour15,bg=colour8]'
 }
 
 main

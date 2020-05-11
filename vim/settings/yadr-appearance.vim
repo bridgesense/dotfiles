@@ -1,9 +1,11 @@
 " Make it beautiful - colors and fonts
 
 "tell the term has 256 colors
+set termguicolors
 set t_Co=256
 
 if has("gui_running")
+  set t_Co=256
   
   " Show tab number (useful for Cmd-1, Cmd-2.. mapping)
   " For some reason this doesn't work as a regular set command,

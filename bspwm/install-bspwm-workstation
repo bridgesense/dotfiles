@@ -40,6 +40,7 @@ dnf install -y arandr zenity flameshot
 dnf install -y gnome-keyring
 dnf install -y gnome-control-center
 dnf install -y NetworkManager-tui NetworkManager-wifi NetworkManager-openvpn-gnome
+dnf install -y ftp telnet
 dnf install -y dhcp-client iw wpa_supplicant blueman
 dnf install -y dunst libnotify
 dnf install -y gnutls mailx wireless-tools
@@ -209,7 +210,7 @@ cp /home/$USER/lab/PHP-Parallel-Lint/parallel-lint.phar /usr/local/bin/parallel-
 # install code editors and PHP dev tools
 # # # # # # # # # # # # # # #
 dnf install -y tmux the_silver_searcher ack
-dnf install -y tree ranger w3m w3m-img xcopy
+dnf install -y tree ranger w3m w3m-img xcopy expect
 ln -s /usr/bin/gvim /usr/bin/vim
 # install ctags
 sudo dnf install -y python3-docutils libseccomp-devel jansson-devel libyaml-devel libxml2-devel
@@ -261,6 +262,7 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 flatpak install -y flathub com.spotify.Client
 flatpak install -y flathub org.signal.Signal
 flatpak install -y flathub io.lbry.lbry-app
+flatpak install -y flathub com.skype.Client
 
 # Install Browsers
 dnf install -y chromium
@@ -299,6 +301,18 @@ dnf install -y SDL SDL_mixer SDL_sound fluidsynth
 su -c 'wget -O ~/Downloads/gargoyle.rpm https://github.com/rpmsphere/x86_64/blob/master/g/gargoyle-2015-5.4.x86_64.rpm?raw=true' $USER
 dnf install -y /home/$USER/Downloads/gargoyle.rpm
 su -c 'cp ~/.yadrlite/shared/garglk.ini ~/.garglkrc' $USER
+
+# Chess
+# # # # # # # # # # # # # # #
+dnf config-manager --add-repo https://copr.fedorainfracloud.org/coprs/awood/scid_vs_pc/repo/fedora-$(rpm -E %fedora)/awood-scid_vs_pc-fedora-$(rpm -E %fedora).repo  
+dnf install -y scid_vs_pc.x86_64 scid_vs_pc-sounds scid_vs_pc-books
+# stockfish
+dnf install -y stockfish
+# leela
+dnf install -y openblas-devel.x86_64 gtest-devel
+dnf install -y ninja-build meson
+su -c 'cd ~/Applications && git clone -b release/0.24 --recurse-submodules https://github.com/LeelaChessZero/lc0.git' $USER
+su -c 'cd ~/Applications/lc0 && bash build.sh' $USER
 
 # Compatibility suite for older Windows 32bit executables
 # uncomment to install wine support with i686 libraries
