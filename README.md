@@ -308,11 +308,11 @@ See more about setting up the [.vimrc.local](https://gitlab.com/bridgesense/lamp
 * `,vr`: (Vim Reload) source current file as a vim file
 
 
-DWM Commands
+dwm Commands
 ---
 These commands are part of the sample workstations included in this repo.  This is designed to be used with a "Custom Fedora" installation via the server Net install disk.  If you're interested in checking it out, download the file and review it before installing it on a new system.
 
-### Bspwm Workstation Installation
+### dwm Workstation Installation
 ```bash
 # Log in as root on a clean barebones install
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/dwm/install-dwm-workstation > custom-fedora-setup
