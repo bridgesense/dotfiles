@@ -308,14 +308,14 @@ See more about setting up the [.vimrc.local](https://gitlab.com/bridgesense/lamp
 * `,vr`: (Vim Reload) source current file as a vim file
 
 
-Bspwm Commands
+DWM Commands
 ---
 These commands are part of the sample workstations included in this repo.  This is designed to be used with a "Custom Fedora" installation via the server Net install disk.  If you're interested in checking it out, download the file and review it before installing it on a new system.
 
 ### Bspwm Workstation Installation
 ```bash
 # Log in as root on a clean barebones install
-curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/bspwm/install-bspwm-workstation > custom-fedora-setup
+curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/dwm/install-dwm-workstation > custom-fedora-setup
 # The workstation user must already be set up
 bash custom-fedora-setup <workstation_username>
 ```
@@ -323,45 +323,39 @@ bash custom-fedora-setup <workstation_username>
 #### Software Bindings:
 * `Super+Return`: Brings up the terminal
 * `Super+Space`: Brings up an application menu
-* `Super+d`: Brings up Nemo a graphical file manager
-* `Super+i`: Brings up htop, a process manager
+* `Super+p`: Brings up htop, a process manager
 * `Super+m`: Movie Mode toggles the screen saver and lock system
 * `Super+n`: Brings up Ranger, a curses file manager
+* `Super+Shft-n`: Brings up Nemo a graphical file manager
 * `Super+r`: Refreshes screens on all monitors
-* `Super+Escape`: Swaps Escape with All Caps Lock
 
 #### Screenshots
-* `Print`, `Super+Shift+s`: Brings up flameshot, a OSX style screenshot application
-* `Shift+Print`: Brings up flameshot configuration
+* `Super+s`: Brings up flameshot, a OSX style screenshot application
 
 #### Machine Bindings
 * `Super+Shift+r`: Brings up reboot dialog
 * `Super+Shift+x`: Brings up shutdown dialog
 
 #### Window Movement Bindings
-* `Super+h`: Shift focus to left one window
-* `Super+j`: Shift focus down one window
-* `Super+k`: Shift focus up one window
-* `Super+l`: Shift focus right one window
-* `Super+Shift+h`: Move current window to the left
-* `Super+Shift+j`: Move current window down one
-* `Super+Shift+k`: Move current window up one
-* `Super+Shift+l`: Move current window to the right
+* `Super+h`, `Super+k`: Shift focus up the window stack 
+* `Super+j`, `Super+l`: Shift focus down the window stack
+* `Super+Shift+Return`: Move window to prominent (left) position
+* `Super+Shift+h`: Rotate the window stack clockwise
+* `Super+Shift+l`: Rotate the window stack anti-clockwise 
+* `Super+[`: expand window frame left
+* `Super+]`: expand window frame right 
 
-* `Super+q`: Close current window (and program)
-* `Super+t`: Toggle Split between horizontal and vertical mode
-* `Super+Shift-s`: Reload sxhkd configurations
-* `Super+b`: Toggle window sticky mode
+* `Super+i`,`Super+d`: increases / decreases the number of windows on the left side
 
-* `Super+Alt+h`: expand window frame left
-* `Super+Alt+j`: expand window frame down
-* `Super+Alt+k`: expand window frame up
-* `Super+Alt+l`: expand window frame right
+* `Super+minus`, `Super+equals` : Contracts and expands window gaps 
+* `Super+plus`: Minimalizes window gaps to lowest setting
 
 #### Window State Bindings
-* `Super+f`: Make window full screen
-* `Super+p`: Pop out window, floating mode
-* `Super+t`: Snap window into place, tiled (default) mode
+* `Super+q`: Close current window (and program)
+* `Super+t`: Puts window into tiled (default) mode 
+* `Super+f`: Puts window into floating mode 
+* `Super+m`: Puts window into Monacle (Semi-Fullscreen) Mode 
+* `Super+b`: Toggles (hides) the status bar 
 
 #### Workspace Bindings
 * `Super+1`: jump to / create Workspace 1
@@ -373,24 +367,9 @@ bash custom-fedora-setup <workstation_username>
 * `Super+7`: jump to / create Workspace 7
 * `Super+8`: jump to / create Workspace 8
 * `Super+9`: jump to / create Workspace 9
-* `Super+0`: jump to / create Workspace 10
-* `Super+Shift+{0-9}`: Move window to workspace 0-9
+* `Super+0`: view all windows in workspace 1-9 
+* `Super+Shift+{1-9}`: Move window to workspace 1-9
 
-* `Super+w`: jump to right workspace round robin
-* `Super+period`: move workspace to right screen round robin
-* `Super+slash`: move window to right screen round robin
+* `Super+comma`, `Super+period`: shift workspace to right screen round robin
 
-* `Super+z`: jump to previous workspace
-* `Super+x`: jump to next workspace
 * `Super+Tab`: Toggle between last selected workspace
-
-#### Function Keys
-* `Super+F1`, `Super+F2`, `Super+F3`, `Super+F4`: Brings up the Alsa Mixer
-* `Super+F5`, `Super+F6`: Put computer into hybernation without dialog
-* `Super+F7`, `Super+F8`: Brings up Network dialog
-* `Super+F9`: Locks current screen
-* `Super+F10`: Brings up multiple screen setup
-* `Super+F11`: Toggles laptop touchpad on/off
-* `Super+F12`: Toggles laptop touchpad on/off
-
-

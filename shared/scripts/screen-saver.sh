@@ -1,7 +1,7 @@
 #!/bin/bash
 # Dependency checks
-if [ ! $(command -v bspc) ]; then
-    echo "\"command not found: \"bspc\"" >&2
+if [ ! $(command -v xrandr) ]; then
+    echo "\"command not found: \"xrandr\"" >&2
     exit 1
 fi
 if [ ! $(command -v urxvt) ]; then
@@ -21,10 +21,14 @@ fi
 pkill -f asciiquarium
 
 # starts screensaver on all monitors
-OFFSETS=(`bspc query --monitors --names | xargs -l`)
-for o in ${OFFSETS[@]}; do
-    urxvt -name $o -e asciiquarium &
-done
+OFFSETS=(`xrandr -q | grep " connected " | xargs -l | cut -d " " -f1`)
+if [ ${#OFFSETS[@]} -gt 1 ]; then
+    xrandr --output ${OFFSETS[0]} --output ${OFFSETS[1]} --same-as ${OFFSETS[0]}
+else
+    xrandr --output ${OFFSETS[0]} --primary
+fi
+sleep 0.5
+urxvt -e sh -c "wmctrl -x -r urxvt -b add,fullscreen; asciiquarium" &
 
 # Store the current layout and set the default one
 if [ $(command -v xkblayout-state) ]; then
@@ -34,7 +38,7 @@ fi
 
 # Lock screen, reset monitors and kill screen saver on unlock
 pyxtrlock 
-bash ~/.config/scripts/bspwm-screen-reset.sh 
+bash ~/.config/scripts/screen-init.sh 
 pkill -f asciiquarium 
 
 # Restore kb layout

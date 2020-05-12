@@ -4,11 +4,22 @@ DEFAULT_LAYOUT="~/.screenlayout/default.sh"
 if [[ -f "$DEFAULT_LAYOUT" ]]; then
     bash -c "$DEFAULT_LAYOUT"
 else
-    monitor=(`xrandr --listmonitors | xargs -l | grep -oE '[^ ]+$'`)
-    if [ ${monitor[0]} == "1" ]; then
-        xrandr --output ${monitor[1]} --primary
+    xrandr --auto
+    sleep 0.5
+    mapfile -t monitor < <(xrandr -q | grep " connected ")
+    if [ ${#monitor[@]} -eq 1 ]; then
+        primary=(`echo ${monitor[0]} | cut -f 1 -d " "`)
+        xrandr --output ${primary} --primary
     else
-        xrandr --output ${monitor[1]} --primary --left-of ${monitor[2]} 
+        # flips primary to external monitor
+        if [[ "primary" == *"${monitor[0]}"* ]]; then
+            primary=(`echo ${monitor[1]} | cut -f 1 -d " "`)
+            secondary=(`echo ${monitor[0]} | cut -f 1 -d " "`)
+        else
+            primary=(`echo ${monitor[0]} | cut -f 1 -d " "`)
+            secondary=(`echo ${monitor[1]} | cut -f 1 -d " "`)
+        fi
+        xrandr --output ${primary} --primary --right-of ${secondary} 
     fi
 fi
 

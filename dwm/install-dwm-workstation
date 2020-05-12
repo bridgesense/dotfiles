@@ -4,7 +4,7 @@
 # Please review this script and adjust it to your needs prior to running it.
 # This script is intended for a minimal Fedora Workstation installation on a Thinkpad
 # run as root:
-# curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/bspwm/install-bspwm-workstation > custom-fedora-setup
+# curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/dwm/install-dwm-workstation > custom-fedora-setup
 # bash custom-fedora-setup <username>
 # # # # # # # # # # # # # # #
 
@@ -28,7 +28,7 @@ dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-
 
 # Install supporting applications
 # # # # # # # # # # # # # # #
-dnf install -y @base-x bspwm
+dnf install -y @base-x
 dnf install -y @Fonts gdouros-symbola-fonts fontawesome-fonts gucharmap
 dnf install -y xbacklight feh sxhkd
 dnf install -y xautolock pyxtrlock asciiquarium
@@ -62,9 +62,30 @@ dnf install -y clamav clamav-update
 dnf install -y timeshift
 dnf install -y brasero
 
-# install polybar
-# # # # # # # # # # # # # # #
-dnf install -y polybar
+# suckless setup
+# st - terminal
+dnf install -y libX11-devel
+su -c 'mkdir ~/lab' $USER
+su -c 'git clone https://git.suckless.org/st ~/lab/st' $USER
+su -c 'cd ~/lab/st && git checkout 914fb825df3bde7abdd7947e54f8bf4d2b55e34e' $USER
+su -c 'cd ~/lab/st && git apply -3 ~/.yadrlite/dwm/st/st-scrollback-20200419-72e3f6c.diff' $USER
+su -c 'cd ~/lab/st && git apply -3 ~/.yadrlite/dwm/st/st-scrollback-mouse-20191024-a2c479c.diff' $USER
+su -c 'cd ~/lab/st && git apply -3 ~/.yadrlite/dwm/st/st-alpha-0.8.2.diff' $USER
+su -c 'cd ~/lab/st && git apply -3 ~/.yadrlite/dwm/st/st-gruvbox-both-alpha-20200510-0.8.3.diff' $USER
+su -c 'cp ~/.yadrlite/dwm/st/config.h ~/lab/st' $USER
+cd /home/$USER/lab/st && make install
+make clean
+# dwm - windows manager
+su -c 'git clone https://git.suckless.org/dwm ~/lab/dwm' $USER
+su -c 'cd ~/lab/dwm && git checkout f09418bbb6651ab4c299cfefbe1d18de401f630e' $USER
+su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-ru_gaps-20200510-6.2.diff' $USER
+su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-attachbottom-20200510-6.2.diff' $USER
+su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-rotatestack-20200510-6.2.diff' $USER
+su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-statuscolors-20200511-6.2.diff' $USER
+su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-warp-20200511-6.2.diff' $USER
+su -c 'cp ~/.yadrlite/dwm/dwm/config.h ~/lab/dwm' $USER
+cd /home/$USER/lab/dwm && make install
+make clean
 
 # install xbanish
 # # # # # # # # # # # # # # #
@@ -76,24 +97,18 @@ cd /home/$USER/lab/xbanish && make install
 # copy over system start resources
 # # # # # # # # # # # # # # #
 su -c 'cp -f ~/.yadrlite/shared/Xresources ~/.Xresources' $USER
-su -c 'mkdir -p ~/.config/bspwm' $USER
-su -c 'cp ~/.yadrlite/bspwm/bspwm/* ~/.config/bspwm' $USER
 su -c 'mkdir -p ~/.config/scripts' $USER
 su -c 'cp ~/.yadrlite/shared/scripts/*.sh ~/.config/scripts' $USER
-su -c 'mkdir -p ~/.config/polybar' $USER
-su -c 'cp ~/.yadrlite/bspwm/polybar/* ~/.config/polybar' $USER
-su -c 'mkdir -p ~/.config/sxhkd' $USER
-su -c 'cp ~/.yadrlite/bspwm/sxhkd/* ~/.config/sxhkd' $USER
-su -c 'cp ~/.yadrlite/bspwm/xinitrc ~/.xinitrc' $USER
+su -c 'cp ~/.yadrlite/dwm/xinitrc ~/.xinitrc' $USER
 su -c 'cp -r ~/.yadrlite/shared/rofi ~/.config' $USER
 su -c "cp -r ~/.yadrlite/shared/ranger ~/.config" $USER
 su -c "cp -r ~/.yadrlite/shared/nvim ~/.config" $USER
 sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"\nalias urxvt="urxvt256c"' /home/$USER/.bashrc
-sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"\nalias urxvt="urxvt256c"' /root/.bashrc
+sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"\nalias urxvt="urxvt256c"' /rootj.bashrc
 # uncomment the following line to give Sudoers access to the user account
 # printf "# Give the following users Sudoers Access\n$USER ALL=(ALL)  ALL" >> /etc/sudoers
 echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
-ls -n /home/$USER/.config/scripts/bspwm_screen_init.sh /lib/systemd/system-sleep/screen_init.sh
+ls -n /home/$USER/.config/scripts/screen_init.sh /lib/systemd/system-sleep/screen_init.sh
 # urxvt terminal font resizing
 su -c 'mkdir -p ~/.urxvt/ext' $USER
 su -c 'cd ~/.urxvt/ext && wget "https://raw.githubusercontent.com/simmel/urxvt-resize-font/master/resize-font"' $USER
@@ -354,7 +369,6 @@ systemctl enable acpi-wake.service
 find /home/$USER/.config -type d -exec chmod 0755 {} \;
 find /home/$USER/.config -type f -exec chmod 0644 {} \;
 find /home/$USER/.config -name "*.sh" -execdir chmod u+x {} +
-chmod u+x /home/$USER/.config/bspwm/bspwmrc
 plymouth-set-default-theme -R bgrt
 
 # add manual entries
@@ -362,7 +376,7 @@ su -c 'touch ~/.local/share/applications/screensaver.desktop' $USER
 printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/screensaver.desktop
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/screensaver.desktop
 printf 'Name=Screen Saver\n' >> /home/$USER/.local/share/applications/screensaver.desktop
-printf "Exec=bash /home/$USER/.config/scripts/bspwm-screen-saver.sh\n" >> /home/$USER/.local/share/applications/screensaver.desktop
+printf "Exec=bash /home/$USER/.config/scripts/screen-saver.sh\n" >> /home/$USER/.local/share/applications/screensaver.desktop
 su -c 'touch ~/.local/share/applications/hibernate.desktop' $USER
 printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/hibernate.desktop
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/hibernate.desktop

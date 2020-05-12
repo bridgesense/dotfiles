@@ -13,4 +13,6 @@ fi
 
 xrdb -merge ~/.Xresources
 
-exec bspwm
+bash ~/.config/scripts/dwm-startup.sh
+
+exec dwm 
