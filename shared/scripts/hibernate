@@ -1,2 +1,2 @@
-#!/bin/bash
+#!/usr/bin/env bash
 /usr/bin/systemctl suspend && /usr/bin/xautolock -locknow

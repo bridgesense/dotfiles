@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/user/bin/env bash
 #
 # ~/.xinitrc
 #
@@ -13,6 +13,6 @@ fi
 
 xrdb -merge ~/.Xresources
 
-bash ~/.config/scripts/dwm-startup.sh
+$SHELL ~/.config/scripts/dwm-startup
 
 exec dwm 

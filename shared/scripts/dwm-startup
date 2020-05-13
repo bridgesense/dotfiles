@@ -1,13 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # #---Starting External Scripts---# #
 # Status bar
-bash ~/.config/scripts/dwm-statusbar.sh &
+$SHELL ~/.config/scripts/dwm-statusbar &
 # Starts dunst for notifications:
 dunst &
 # Xbanish makes the mouse invisible after a brief period
 xbanish &
 # simple lockout screen that leaves the machine running
-xautolock -time 10 -locker "bash ~/.config/scripts/screen-saver.sh" &
+xautolock -time 10 -locker "bash ~/.config/scripts/screen-saver" &
 # blue-light adaptation
 redshift-gtk &
 # unmute microphone
@@ -18,4 +18,6 @@ flameshot &
 xcompmgr -c -f -n &
 # #---Screen/Monitor Setup---# #
 # repaints backgrounds
-bash ~/.config/scripts/screen-init.sh
+$SHELL ~/.config/scripts/screen-init
+# rebuild dmenu cache
+$SHELL ~/.config/scripts/dmenu-app-launcher -rebuild

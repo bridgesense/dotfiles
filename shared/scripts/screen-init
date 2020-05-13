@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # handle screen changes
-DEFAULT_LAYOUT="~/.screenlayout/default.sh"
+DEFAULT_LAYOUT="/home/$USER/.screenlayout/default.sh"
 if [[ -f "$DEFAULT_LAYOUT" ]]; then
     bash -c "$DEFAULT_LAYOUT"
 else
@@ -24,8 +24,10 @@ else
 fi
 
 # repaints backgrounds 
-feh --randomize --bg-scale ~/Nextcloud/backgrounds/*
+feh --randomize --bg-scale /home/$USER/Nextcloud/backgrounds/*
 # This swaps Esc and Caps Lock Keys
 setxkbmap -option caps:swapescape
 # this example connects a bluetooth device
 echo -e "connect A4:E9:75:F0:EF:87 \nquit" | bluetoothctl
+# refresh dmenu cache 
+$SHELL /home/$USER/.config/scripts/dmenu-app-launcher -rebuild

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if xset q | grep -q "timeout:  0" ; then
     xautolock -enable

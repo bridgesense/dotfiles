@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+
+# thanks to original work by Nathaniel Maia, June 2018
+# this adds a simple app launcher to dmenu with caching
+
+declare -A PATHS
+action="${1:-query}"
+
+# ./dmenu-app-launcher -refresh launches dmenu and refreshes cache
+# ./dmenu-app-launcher -rebuild refreshes cache without launching dmenu
+# if cache file is not present, one will be built
+
+# check we have required software
+if ! hash awk find grep dmenu &>/dev/null; then
+    echo -e "ERROR: This script requires: awk find grep dmenu" && exit 1
+fi
+
+main() {
+    cache_file="/home/$USER/.cache/dmenu_apps"
+
+    if [ ! -f "$cache_file" ] || [ $action == "-rebuild" ] || [ $action == "-refresh" ]; then
+        # base file name storage
+        local names=""
+        while read -r f; do
+            n="$(basename -- "$f")"
+            names="$names
+$n"
+            PATHS["$n"]="$f"
+        done <<< "$(find -L /usr/bin ${XDG_DATA_DIRS//:/\/ } /home/$USER/.local/share/applications /home/$USER/Desktop /home/$USER/.config/scripts -type f -executable -o -name "*.desktop" | sort -r)"
+        echo "names=\"$names\"" > $cache_file; declare -A $PATHS -p >> $cache_file 
+        if [ $action == "-rebuild" ]; then
+            exit 0
+        fi
+    else 
+        local names=""
+        source -- "$cache_file"
+    fi
+    local ans="$(dmenu -i "$@" <<< "$names")"
+    [[ $? != 1 && -n $ans ]] && run "$ans" || return 1
+}
+
+run() {
+    if [[ "${PATHS["$1"]}" == *".desktop"* ]]; then
+        local cmd
+        cmd="$(grep '^Exec' "${PATHS["$1"]}")"
+        cmd="${cmd/Exec=/}"
+        cmd="${cmd/ %*/}"
+        echo -e "$cmd"
+        { [[ $cmd ]] && $($cmd) || return 1; }
+        if [[ $? != 0 ]]; then
+            echo "ERROR: Something went wrong when trying to run: $cmd"
+            return 1
+        fi
+    else
+        $SHELL -c ${PATHS["$1"]}
+    fi
+
+    return 0
+}
+
+main "$@" &
+
+exit 0

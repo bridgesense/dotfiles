@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # ~/Scripts/statusbar
 #
@@ -190,11 +190,11 @@ dwm_battery()
 
     printf "\x01%s" "$sep_line"
     if [[ $ICON_COLOR == 4 ]]; then
-        printf "\x04%s%s" "$BAT_ICON" "$ICON"
+        printf "\x04%s %s" "$BAT_ICON" "$ICON"
     elif [[ $ICON_COLOR == 3 ]]; then 
-        printf "\x03%s%s" "$BAT_ICON" "$ICON" 
+        printf "\x03%s %s" "$BAT_ICON" "$ICON" 
     else
-        printf "\x01%s%s" "$BAT_ICON" "$ICON" 
+        printf "\x01%s" "$BAT_ICON" 
     fi
     printf "\x01%s \n" "$bat_status"
 }

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Dependency checks
 if [ ! $(command -v xrandr) ]; then
     echo "\"command not found: \"xrandr\"" >&2
@@ -38,7 +38,7 @@ fi
 
 # Lock screen, reset monitors and kill screen saver on unlock
 pyxtrlock 
-bash ~/.config/scripts/screen-init.sh 
+bash ~/.config/scripts/screen-init 
 pkill -f asciiquarium 
 
 # Restore kb layout

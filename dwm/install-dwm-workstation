@@ -1,11 +1,11 @@
-#/bin/bash
+#!/usr/bin/env bash
 # Fedora Workstation Setup
 # WARNING: This is a personal installation script.
 # Please review this script and adjust it to your needs prior to running it.
 # This script is intended for a minimal Fedora Workstation installation on a Thinkpad
 # run as root:
 # curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/dwm/install-dwm-workstation > custom-fedora-setup
-# bash custom-fedora-setup <username>
+# $SHELL custom-fedora-setup <username>
 # # # # # # # # # # # # # # #
 
 # Options
@@ -18,8 +18,8 @@ USER="${1:francis}"
 dnf update -y
 dnf install -y autoconf automake git htop rsync
 dnf group install -y development-tools rpm-development-tools c-development
-bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
-su -c 'bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
+$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
+su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
 
 # Install RPM Fusion
 # # # # # # # # # # # # # # #
@@ -32,7 +32,7 @@ dnf install -y @base-x
 dnf install -y @Fonts gdouros-symbola-fonts fontawesome-fonts gucharmap
 dnf install -y xbacklight feh sxhkd
 dnf install -y xautolock pyxtrlock asciiquarium
-dnf install -y lxappearance arc-theme rofi redshift-gtk
+dnf install -y lxappearance arc-theme redshift-gtk
 dnf install -y pulseaudio alsa-utils pulseaudio-utils xcompmgr
 dnf install -y pulseeffects pavucontrol
 dnf install -y rxvt-unicode xclip
@@ -86,6 +86,13 @@ su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-warp-20200511-6.2.di
 su -c 'cp ~/.yadrlite/dwm/dwm/config.h ~/lab/dwm' $USER
 cd /home/$USER/lab/dwm && make install
 make clean
+# dwm - dmenu for app launcher script
+su -c 'git clone https://git.suckless.org/dmenu ~/lab/dmenu' $USER
+su -c 'cd ~/lab/dmenu && git checkout db6093f6ec1bb884f7540f2512935b5254750b30' $USER
+su -c 'cd ~/lab/dmenu && git apply -3 ~/.yadrlite/dwm/dmenu/dmenu-highlight-4.9.diff' $USER
+su -c 'cp ~/.yadrlite/dwm/dmenu/config.h ~/lab/dmenu' $USER
+cd /home/$USER/lab/dmenu && make install
+make clean
 
 # install xbanish
 # # # # # # # # # # # # # # #
@@ -98,9 +105,8 @@ cd /home/$USER/lab/xbanish && make install
 # # # # # # # # # # # # # # #
 su -c 'cp -f ~/.yadrlite/shared/Xresources ~/.Xresources' $USER
 su -c 'mkdir -p ~/.config/scripts' $USER
-su -c 'cp ~/.yadrlite/shared/scripts/*.sh ~/.config/scripts' $USER
+su -c 'cp ~/.yadrlite/shared/scripts/* ~/.config/scripts' $USER
 su -c 'cp ~/.yadrlite/dwm/xinitrc ~/.xinitrc' $USER
-su -c 'cp -r ~/.yadrlite/shared/rofi ~/.config' $USER
 su -c "cp -r ~/.yadrlite/shared/ranger ~/.config" $USER
 su -c "cp -r ~/.yadrlite/shared/nvim ~/.config" $USER
 sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"\nalias urxvt="urxvt256c"' /home/$USER/.bashrc
@@ -108,7 +114,7 @@ sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"
 # uncomment the following line to give Sudoers access to the user account
 # printf "# Give the following users Sudoers Access\n$USER ALL=(ALL)  ALL" >> /etc/sudoers
 echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
-ls -n /home/$USER/.config/scripts/screen_init.sh /lib/systemd/system-sleep/screen_init.sh
+cp /home/$USER/.config/scripts/screen-init /lib/systemd/system-sleep/screen-init
 # urxvt terminal font resizing
 su -c 'mkdir -p ~/.urxvt/ext' $USER
 su -c 'cd ~/.urxvt/ext && wget "https://raw.githubusercontent.com/simmel/urxvt-resize-font/master/resize-font"' $USER
@@ -129,7 +135,7 @@ eval $(dbus-launch)
 # low battery indication
 # # # # # # # # # # # # # # #
 sudo dnf install -y acpi ntpdate
-(crontab -u $USER -l; echo "*/15 * * * * /bin/bash /home/${USER}/.config/scripts/battery.sh >/dev/null 2>&1") | crontab -u $USER -
+(crontab -u $USER -l; echo "*/15 * * * * $SHELL /home/${USER}/.config/scripts/battery >/dev/null 2>&1") | crontab -u $USER -
 
 # Add "tap to click" for touchpads
 # # # # # # # # # # # # # # #
@@ -224,7 +230,7 @@ cp /home/$USER/lab/PHP-Parallel-Lint/parallel-lint.phar /usr/local/bin/parallel-
 
 # install code editors and PHP dev tools
 # # # # # # # # # # # # # # #
-dnf install -y tmux the_silver_searcher ack
+dnf install -y tmux the_silver_searcher ack fzf
 dnf install -y tree ranger w3m w3m-img xcopy expect
 ln -s /usr/bin/gvim /usr/bin/vim
 # install ctags
@@ -327,7 +333,7 @@ dnf install -y stockfish
 dnf install -y openblas-devel.x86_64 gtest-devel
 dnf install -y ninja-build meson
 su -c 'cd ~/Applications && git clone -b release/0.24 --recurse-submodules https://github.com/LeelaChessZero/lc0.git' $USER
-su -c 'cd ~/Applications/lc0 && bash build.sh' $USER
+su -c 'cd ~/Applications/lc0 && $SHELL build.sh' $USER
 
 # Compatibility suite for older Windows 32bit executables
 # uncomment to install wine support with i686 libraries
@@ -368,7 +374,7 @@ systemctl enable acpi-wake.service
 # # # # # # # # # # # # # # #
 find /home/$USER/.config -type d -exec chmod 0755 {} \;
 find /home/$USER/.config -type f -exec chmod 0644 {} \;
-find /home/$USER/.config -name "*.sh" -execdir chmod u+x {} +
+find /home/$USER/.config -name "*" -execdir chmod u+x {} +
 plymouth-set-default-theme -R bgrt
 
 # add manual entries
@@ -376,22 +382,22 @@ su -c 'touch ~/.local/share/applications/screensaver.desktop' $USER
 printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/screensaver.desktop
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/screensaver.desktop
 printf 'Name=Screen Saver\n' >> /home/$USER/.local/share/applications/screensaver.desktop
-printf "Exec=bash /home/$USER/.config/scripts/screen-saver.sh\n" >> /home/$USER/.local/share/applications/screensaver.desktop
+printf "Exec=$SHELL /home/$USER/.config/scripts/screen-saver\n" >> /home/$USER/.local/share/applications/screensaver.desktop
 su -c 'touch ~/.local/share/applications/hibernate.desktop' $USER
 printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/hibernate.desktop
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/hibernate.desktop
 printf 'Name=Hibernate\n' >> /home/$USER/.local/share/applications/hibernate.desktop
-printf "Exec=bash /home/$USER/.config/scripts/hibernate.sh\n" >> /home/$USER/.local/share/applications/hibernate.desktop
+printf "Exec=$SHELL /home/$USER/.config/scripts/hibernate\n" >> /home/$USER/.local/share/applications/hibernate.desktop
 su -c 'touch ~/.local/share/applications/reboot.desktop' $USER
 printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/reboot.desktop
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/reboot.desktop
 printf 'Name=Restart\n' >> /home/$USER/.local/share/applications/reboot.desktop
-printf "Exec=bash /home/$USER/.config/scripts/reboot.sh\n" >> /home/$USER/.local/share/applications/reboot.desktop
+printf "Exec=$SHELL /home/$USER/.config/scripts/reboot-confirm\n" >> /home/$USER/.local/share/applications/reboot.desktop
 su -c 'touch ~/.local/share/applications/shutdown.desktop' $USER
 printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/shutdown.desktop
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/shutdown.desktop
 printf 'Name=Shutdown\n' >> /home/$USER/.local/share/applications/shutdown.desktop
-printf "Exec=bash /home/$USER/.config/scripts/shutdown.sh\n" >> /home/$USER/.local/share/applications/shutdown.desktop
+printf "Exec=$SHELL /home/$USER/.config/scripts/shutdown-confirm\n" >> /home/$USER/.local/share/applications/shutdown.desktop
 
 # Install Multimedia Codecs
 dnf install -y rpmfusion-free-release-tainted

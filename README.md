@@ -322,7 +322,8 @@ bash custom-fedora-setup <workstation_username>
 
 #### Software Bindings:
 * `Super+Return`: Brings up the terminal
-* `Super+Space`: Brings up an application menu
+* `Super+Space`: Brings up a customized dmenu application launcher 
+* `Super+Shift+Space`: Refreshes the application list before bringing up the app launcher 
 * `Super+p`: Brings up htop, a process manager
 * `Super+m`: Movie Mode toggles the screen saver and lock system
 * `Super+n`: Brings up Ranger, a curses file manager

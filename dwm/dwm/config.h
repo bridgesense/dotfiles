@@ -68,7 +68,6 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *rofi[]  = { "rofi", "-combi-modi", "window,drun,ssh", "-modi", "combi", "-show", "combi" };
 static const char *termcmd[]  = { "st", NULL };
 static const char *htop[] = { "st", "-e", "htop" };
 static const char *ranger[] = { "st", "-e", "ranger" };
@@ -99,13 +98,14 @@ static Key keys[] = {
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY|ShiftMask,             XK_f,      togglefloating, {0} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY|ShiftMask,             XK_m,      spawn,          SHCMD("bash ~/.config/scripts/toggle-movie-mode.sh") },
+	{ MODKEY|ShiftMask,             XK_m,      spawn,          SHCMD("$SHELL ~/.config/scripts/toggle-movie-mode") },
 	{ MODKEY,                       XK_n,      spawn,          {.v = ranger } },
 	{ MODKEY|ShiftMask,             XK_n,      spawn,          SHCMD("nemo --no-desktop") },
-	{ MODKEY,                       XK_space,  spawn,          {.v = rofi } },
-	{ MODKEY,                       XK_r,      spawn,          SHCMD("bash ~/.config/scripts/screen-init.sh") },
-	{ MODKEY|ShiftMask,             XK_r,      spawn,          SHCMD("bash ~/.config/scripts/reboot.sh") },
-	{ MODKEY|ShiftMask,             XK_x,      spawn,          SHCMD("bash ~/.config/scripts/shutdown.sh") },
+    { MODKEY,                       XK_space,  spawn,          SHCMD("$SHELL ~/.config/scripts/dmenu-app-launcher") },
+	{ MODKEY|ShiftMask,             XK_space,  spawn,          SHCMD("$SHELL ~/.config/scripts/dmenu-app-launcher -refresh") },
+	{ MODKEY,                       XK_r,      spawn,          SHCMD("$SHELL ~/.config/scripts/screen-init") },
+	{ MODKEY|ShiftMask,             XK_r,      spawn,          SHCMD("$SHELL ~/.config/scripts/reboot-confirm") },
+	{ MODKEY|ShiftMask,             XK_x,      spawn,          SHCMD("$SHELL ~/.config/scripts/shutdown-confirm") },
 	{ MODKEY,                       XK_s,      spawn,          SHCMD("flameshot gui") },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
@@ -123,12 +123,12 @@ static Key keys[] = {
     { 0, XF86XK_MonBrightnessDown,             spawn,          {.v = brightnessdown } },
     { 0, XF86XK_MonBrightnessUp,               spawn,          {.v = brightnessup } },
     { 0, XF86XK_Display,                       spawn,          SHCMD("arandr") },
-    { 0, XF86XK_WLAN,                          spawn,          SHCMD("bash ~/.config/scripts/toggle-wifi.sh") },
-    { 0, XF86XK_Tools,                         spawn,          SHCMD("bash ~/.config/scripts/hibernate.sh")  },
+    { 0, XF86XK_WLAN,                          spawn,          SHCMD("$SHELL ~/.config/scripts/toggle-wifi") },
+    { 0, XF86XK_Tools,                         spawn,          SHCMD("$SHELL ~/.config/scripts/hibernate")  },
     { 0, XF86XK_WakeUp,                        spawn,          SHCMD("st -e nmtui") },
     { 0, XF86XK_LaunchA,                       spawn,          SHCMD("st -e alsamixer") }, 
-    { 0, XF86XK_Explorer,                      spawn,          SHCMD("bash ~/.config/scripts/toggle-touchpad.sh") },
-    { 0, XF86XK_PowerOff,                      spawn,          SHCMD("bash ~/.config/scripts/shutdown.sh") },
+    { 0, XF86XK_Explorer,                      spawn,          SHCMD("$SHELL ~/.config/scripts/toggle-touchpad") },
+    { 0, XF86XK_PowerOff,                      spawn,          SHCMD("$SHELL ~/.config/scripts/shutdown-confirm") },
     { 0, XF86XK_Suspend,                       spawn,          SHCMD("systemctl suspend && xautolock -locknow") },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
