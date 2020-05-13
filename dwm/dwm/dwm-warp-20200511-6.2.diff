@@ -25,7 +25,7 @@ index 9b5585b..929a1fe 100644
  	focus(NULL);
 +    warp(selmon->sel);
  }
- 
+
  void
 @@ -1431,6 +1433,8 @@ restack(Monitor *m)
  	}
@@ -34,22 +34,22 @@ index 9b5585b..929a1fe 100644
 +	if (m == selmon && (m->tagset[m->seltags] & m->sel->tags) && selmon->lt[selmon->sellt] != &layouts[2])
 +		warp(m->sel);
  }
- 
+
  void
 @@ -1779,7 +1783,7 @@ tagmon(const Arg *arg)
  void
  tile(Monitor *m)
  {
--	unsigned int i, n, h, mw, my, ty, ns;	
+-	unsigned int i, n, h, mw, my, ty, ns;
 +	unsigned int i, n, h, mw, my, ty, ns;
  	Client *c;
- 
+
  	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
 @@ -1799,7 +1803,7 @@ tile(Monitor *m)
  		mw = m->ww - m->gappx;
  		ns = 1;
  	}
--	for (i = 0, my = ty = m->gappx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)	
+-	for (i = 0, my = ty = m->gappx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
 +	for (i = 0, my = ty = m->gappx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
  		if (i < m->nmaster) {
  			h = (m->wh - my) / (MIN(n, m->nmaster) - i) - m->gappx;
@@ -57,7 +57,7 @@ index 9b5585b..929a1fe 100644
 @@ -2161,6 +2165,28 @@ view(const Arg *arg)
  	arrange(selmon);
  }
- 
+
 +void
 +warp(const Client *c)
 +{
@@ -83,6 +83,6 @@ index 9b5585b..929a1fe 100644
  Client *
  wintoclient(Window w)
  {
--- 
+--
 2.26.2
 

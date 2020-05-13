@@ -45,7 +45,7 @@ index 52733ec..5738bd1 100644
 @@ -755,6 +758,28 @@ drawbars(void)
  		drawbar(m);
  }
- 
+
 +void
 +enqueue(Client *c)
 +{
@@ -74,7 +74,7 @@ index 52733ec..5738bd1 100644
 @@ -1380,6 +1405,38 @@ restack(Monitor *m)
  	while (XCheckMaskEvent(dpy, EnterWindowMask, &ev));
  }
- 
+
 +void
 +rotatestack(const Arg *arg)
 +{
@@ -110,6 +110,6 @@ index 52733ec..5738bd1 100644
  void
  run(void)
  {
--- 
+--
 2.26.2
 

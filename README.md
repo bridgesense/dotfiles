@@ -337,11 +337,11 @@ bash custom-fedora-setup <workstation_username>
 * `Super+Shift+x`: Brings up shutdown dialog
 
 #### Window Movement Bindings
-* `Super+h`, `Super+k`: Shift focus up the window stack 
-* `Super+j`, `Super+l`: Shift focus down the window stack
+* `Super+h`, `Super+k`: Shift focus anti-clockwise through window stack 
+* `Super+l`, `Super+j`: Shift focus clockwise through window stack
 * `Super+Shift+Return`: Move window to prominent (left) position
-* `Super+Shift+h`: Rotate the window stack clockwise
-* `Super+Shift+l`: Rotate the window stack anti-clockwise 
+* `Super+Shift+h`, `Super+Shift+k`: Rotate the window stack anti-clockwise
+* `Super+Shift+l`, `Super+Shift+j`: Rotate the window stack clockwise 
 * `Super+[`: expand window frame left
 * `Super+]`: expand window frame right 
 
@@ -352,9 +352,10 @@ bash custom-fedora-setup <workstation_username>
 
 #### Window State Bindings
 * `Super+q`: Close current window (and program)
-* `Super+t`: Puts window into tiled (default) mode 
-* `Super+f`: Puts window into floating mode 
-* `Super+m`: Puts window into Monacle (Semi-Fullscreen) Mode 
+* `Super+t`: Sets workspace windows into tiled (default) mode 
+* `Super+f`: Sets workspace windows into floating mode 
+* `Super+Shift+f`: Toggles focused window between floating/tiled state 
+* `Super+m`: Puts windows in workspace into monacle (Semi-Fullscreen) state 
 * `Super+b`: Toggles (hides) the status bar 
 
 #### Workspace Bindings

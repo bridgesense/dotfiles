@@ -22,7 +22,7 @@ index 5738bd1..296d2fe 100644
 @@ -412,6 +413,18 @@ attach(Client *c)
  	c->mon->clients = c;
  }
- 
+
 +void
 +attachbottom(Client *c)
 +{
@@ -56,6 +56,6 @@ index 5738bd1..296d2fe 100644
  	attachstack(c);
  	focus(NULL);
  	arrange(NULL);
--- 
+--
 2.26.2
 

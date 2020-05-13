@@ -28,14 +28,14 @@ index f60888d..811ca4d 100644
 +	[SchemeWarn] = { col_red, col_gray1, col_red },
 +	[SchemeUrgent] = { col_red, col_gray1, col_red },
  };
- 
+
  /* tagging */
 diff --git a/dwm.c b/dwm.c
 index 296d2fe..9b5585b 100644
 --- a/dwm.c
 +++ b/dwm.c
 @@ -59,7 +59,7 @@
- 
+
  /* enums */
  enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
 -enum { SchemeNorm, SchemeSel }; /* color schemes */
@@ -52,7 +52,7 @@ index 296d2fe..9b5585b 100644
 +    int tx = 0;
 +    char ctmp;
  	Client *c;
- 
+
  	/* draw status first so it can be overdrawn by tags later */
  	if (m == selmon) { /* status is only drawn on selected monitor */
  		drw_setscheme(drw, scheme[SchemeNorm]);
@@ -71,8 +71,8 @@ index 296d2fe..9b5585b 100644
 +			tp = ++ts;
 +		}
  	}
- 
+
  	for (c = m->clients; c; c = c->next) {
--- 
+--
 2.26.2
 
