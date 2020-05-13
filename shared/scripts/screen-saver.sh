@@ -27,7 +27,7 @@ if [ ${#OFFSETS[@]} -gt 1 ]; then
 else
     xrandr --output ${OFFSETS[0]} --primary
 fi
-sleep 0.5
+sleep 2 
 urxvt -e sh -c "wmctrl -x -r urxvt -b add,fullscreen; asciiquarium" &
 
 # Store the current layout and set the default one

@@ -168,7 +168,11 @@ dwm_battery()
         fi
 
         if [[ "$bat_status" == "" ]]; then
-            bat_status=$charging;
+            if [[ "$charging" == "Unknown" ]]; then
+                bat_status="Full";
+            else
+                bat_status=$charging;
+            fi
         fi
 
 		if [[ $capacity -ge $FULL_AT ]]; then
@@ -181,6 +185,8 @@ dwm_battery()
 			BAT_ICON=$BATTERY_2_ICON
 		fi
     fi
+
+    bat_status="$(echo -e "${bat_status}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
 
     printf "\x01%s" "$sep_line"
     if [[ $ICON_COLOR == 4 ]]; then
@@ -213,5 +219,5 @@ $(dwm_battery)\
 $(dwm_date)\
 "
 
-  sleep 5 
+  sleep 15 
 done
