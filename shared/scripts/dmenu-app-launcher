@@ -1,13 +1,17 @@
 #!/usr/bin/env bash
 
-# thanks to original work by Nathaniel Maia, June 2018
+# thanks to original work by Nathaniel Maia
 # this adds a simple app launcher to dmenu with caching
+
+# uses/requires notify-send and awk
 
 declare -A PATHS
 action="${1:-query}"
 
-# ./dmenu-app-launcher -refresh launches dmenu and refreshes cache
-# ./dmenu-app-launcher -rebuild refreshes cache without launching dmenu
+# to build cache file used for the app launcher
+# ./dmenu-app-launcher -build  
+# to run dmenu based from new cache build
+# ./dmenu-app-launcher  
 # if cache file is not present, one will be built
 
 # check we have required software
@@ -18,17 +22,35 @@ fi
 main() {
     cache_file="/home/$USER/.cache/dmenu_apps"
 
-    if [ ! -f "$cache_file" ] || [ $action == "-rebuild" ] || [ $action == "-refresh" ]; then
+    if [ ! -f "$cache_file" ] || [ $action == "-build" ]; then
         # base file name storage
         local names=""
         while read -r f; do
-            n="$(basename -- "$f")"
-            names="$names
-$n"
+            local name=""
+            if [[ "$f" == *".desktop"* ]]; then
+                name="$(grep -m 1 '^Name' "$f")"
+                name="${name/Name=/}"
+                name="${name/ %*/}"
+                # popular exceptions here
+                if [[ "$name" == *"GNU Image Manipulation Program"* ]]; then
+                    name="GIMP"
+                fi
+            fi
+            if [[ $name != "" ]]; then
+                n=$name
+            else
+                n="$(basename -- "$f")"
+            fi
+            # exclude some odities
+            if [[ $n =~ (\.png)|(\.stp)$ ]]; then
+                continue
+            fi
+            names+=$'\n'"$n"
             PATHS["$n"]="$f"
         done <<< "$(find -L /usr/bin ${XDG_DATA_DIRS//:/\/ } /home/$USER/.local/share/applications /home/$USER/Desktop /home/$USER/.config/scripts -type f -executable -o -name "*.desktop" | sort -r)"
         echo "names=\"$names\"" > $cache_file; declare -A $PATHS -p >> $cache_file 
-        if [ $action == "-rebuild" ]; then
+        if [ $action == "-build" ]; then
+            notify-send -i "new dmenu cache built" "dmenu is ready."
             exit 0
         fi
     else 
@@ -40,20 +62,16 @@ $n"
 }
 
 run() {
+    local cmd
     if [[ "${PATHS["$1"]}" == *".desktop"* ]]; then
-        local cmd
         cmd="$(grep '^Exec' "${PATHS["$1"]}")"
         cmd="${cmd/Exec=/}"
         cmd="${cmd/ %*/}"
-        echo -e "$cmd"
-        { [[ $cmd ]] && $($cmd) || return 1; }
-        if [[ $? != 0 ]]; then
-            echo "ERROR: Something went wrong when trying to run: $cmd"
-            return 1
-        fi
     else
-        $SHELL -c ${PATHS["$1"]}
+        cmd=${PATHS["$1"]}
     fi
+     
+    [[ $cmd ]] && $($cmd) 
 
     return 0
 }

@@ -19,5 +19,3 @@ xcompmgr -c -f -n &
 # #---Screen/Monitor Setup---# #
 # repaints backgrounds
 $SHELL ~/.config/scripts/screen-init
-# rebuild dmenu cache
-$SHELL ~/.config/scripts/dmenu-app-launcher -rebuild

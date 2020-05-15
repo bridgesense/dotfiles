@@ -112,9 +112,8 @@ su -c "cp -r ~/.yadrlite/shared/nvim ~/.config" $USER
 sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"\nalias urxvt="urxvt256c"' /home/$USER/.bashrc
 sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"\nalias urxvt="urxvt256c"' /rootj.bashrc
 # uncomment the following line to give Sudoers access to the user account
-# printf "# Give the following users Sudoers Access\n$USER ALL=(ALL)  ALL" >> /etc/sudoers
 echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
-cp /home/$USER/.config/scripts/screen-init /lib/systemd/system-sleep/screen-init
+# cp /home/$USER/.config/scripts/screen-init /lib/systemd/system-sleep/screen-init
 # urxvt terminal font resizing
 su -c 'mkdir -p ~/.urxvt/ext' $USER
 su -c 'cd ~/.urxvt/ext && wget "https://raw.githubusercontent.com/simmel/urxvt-resize-font/master/resize-font"' $USER
@@ -381,23 +380,23 @@ plymouth-set-default-theme -R bgrt
 su -c 'touch ~/.local/share/applications/screensaver.desktop' $USER
 printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/screensaver.desktop
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/screensaver.desktop
-printf 'Name=Screen Saver\n' >> /home/$USER/.local/share/applications/screensaver.desktop
-printf "Exec=$SHELL /home/$USER/.config/scripts/screen-saver\n" >> /home/$USER/.local/share/applications/screensaver.desktop
+printf 'Name=Start Screen Saver\n' >> /home/$USER/.local/share/applications/screensaver.desktop
+printf "Exec=/home/$USER/.config/scripts/screen-saver\n" >> /home/$USER/.local/share/applications/screensaver.desktop
 su -c 'touch ~/.local/share/applications/hibernate.desktop' $USER
 printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/hibernate.desktop
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/hibernate.desktop
-printf 'Name=Hibernate\n' >> /home/$USER/.local/share/applications/hibernate.desktop
-printf "Exec=$SHELL /home/$USER/.config/scripts/hibernate\n" >> /home/$USER/.local/share/applications/hibernate.desktop
+printf 'Name=Hibernate Now\n' >> /home/$USER/.local/share/applications/hibernate.desktop
+printf "Exec=/home/$USER/.config/scripts/hibernate\n" >> /home/$USER/.local/share/applications/hibernate.desktop
 su -c 'touch ~/.local/share/applications/reboot.desktop' $USER
 printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/reboot.desktop
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/reboot.desktop
-printf 'Name=Restart\n' >> /home/$USER/.local/share/applications/reboot.desktop
-printf "Exec=$SHELL /home/$USER/.config/scripts/reboot-confirm\n" >> /home/$USER/.local/share/applications/reboot.desktop
+printf 'Name=Restart Now\n' >> /home/$USER/.local/share/applications/reboot.desktop
+printf "Exec=/home/$USER/.config/scripts/reboot-confirm\n" >> /home/$USER/.local/share/applications/reboot.desktop
 su -c 'touch ~/.local/share/applications/shutdown.desktop' $USER
 printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/shutdown.desktop
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/shutdown.desktop
-printf 'Name=Shutdown\n' >> /home/$USER/.local/share/applications/shutdown.desktop
-printf "Exec=$SHELL /home/$USER/.config/scripts/shutdown-confirm\n" >> /home/$USER/.local/share/applications/shutdown.desktop
+printf 'Name=Shutdown Now\n' >> /home/$USER/.local/share/applications/shutdown.desktop
+printf "Exec=/home/$USER/.config/scripts/shutdown-confirm\n" >> /home/$USER/.local/share/applications/shutdown.desktop
 
 # Install Multimedia Codecs
 dnf install -y rpmfusion-free-release-tainted

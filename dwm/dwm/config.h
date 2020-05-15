@@ -102,7 +102,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_n,      spawn,          {.v = ranger } },
 	{ MODKEY|ShiftMask,             XK_n,      spawn,          SHCMD("nemo --no-desktop") },
     { MODKEY,                       XK_space,  spawn,          SHCMD("$SHELL ~/.config/scripts/dmenu-app-launcher") },
-	{ MODKEY|ShiftMask,             XK_space,  spawn,          SHCMD("$SHELL ~/.config/scripts/dmenu-app-launcher -refresh") },
+	{ MODKEY|ShiftMask,             XK_space,  spawn,          SHCMD("$SHELL ~/.config/scripts/dmenu-app-launcher -build") },
 	{ MODKEY,                       XK_r,      spawn,          SHCMD("$SHELL ~/.config/scripts/screen-init") },
 	{ MODKEY|ShiftMask,             XK_r,      spawn,          SHCMD("$SHELL ~/.config/scripts/reboot-confirm") },
 	{ MODKEY|ShiftMask,             XK_x,      spawn,          SHCMD("$SHELL ~/.config/scripts/shutdown-confirm") },
