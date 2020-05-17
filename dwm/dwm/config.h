@@ -125,7 +125,7 @@ static Key keys[] = {
     { 0, XF86XK_Display,                       spawn,          SHCMD("arandr") },
     { 0, XF86XK_WLAN,                          spawn,          SHCMD("$SHELL ~/.config/scripts/toggle-wifi") },
     { 0, XF86XK_Tools,                         spawn,          SHCMD("$SHELL ~/.config/scripts/hibernate")  },
-    { 0, XF86XK_WakeUp,                        spawn,          SHCMD("st -e nmtui") },
+    { 0, XF86XK_Search,                        spawn,          SHCMD("st -e nmtui") },
     { 0, XF86XK_LaunchA,                       spawn,          SHCMD("st -e alsamixer") }, 
     { 0, XF86XK_Explorer,                      spawn,          SHCMD("$SHELL ~/.config/scripts/toggle-touchpad") },
     { 0, XF86XK_PowerOff,                      spawn,          SHCMD("$SHELL ~/.config/scripts/shutdown-confirm") },

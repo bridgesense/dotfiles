@@ -233,7 +233,8 @@ cp /home/$USER/lab/PHP-Parallel-Lint/parallel-lint.phar /usr/local/bin/parallel-
 # install code editors and PHP dev tools
 # # # # # # # # # # # # # # #
 dnf install -y tmux the_silver_searcher ack fzf
-dnf install -y tree ranger w3m w3m-img xcopy expect
+dnf install -y tree ranger w3m w3m-img expect
+dnf install -y hugo
 ln -s /usr/bin/gvim /usr/bin/vim
 # install ctags
 sudo dnf install -y python3-docutils libseccomp-devel jansson-devel libyaml-devel libxml2-devel
@@ -276,8 +277,8 @@ dnf install -y flatpak
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y flathub com.spotify.Client
 flatpak install -y flathub org.signal.Signal
-flatpak install -y flathub io.lbry.lbry-app
 flatpak install -y flathub com.skype.Client
+flatpak install -y flathub us.zoom.Zoom
 
 # Install Browsers
 dnf install -y chromium
