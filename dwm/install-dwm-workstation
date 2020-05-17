@@ -100,20 +100,23 @@ dnf install -y libXt-devel libXfixes-devel libXi-devel
 su -c 'git clone https://github.com/jcs/xbanish.git ~/lab/xbanish' $USER
 su -c 'make -C ~/lab/xbanish' $USER
 cd /home/$USER/lab/xbanish && make install
+make clean
 
 # copy over system start resources
 # # # # # # # # # # # # # # #
 su -c 'cp -f ~/.yadrlite/dwm/Xresources ~/.Xresources' $USER
+cp -f ~/.yadrlite/dwm/Xresources ~/.Xresources
 su -c 'mkdir -p ~/.config/scripts' $USER
 su -c 'cp ~/.yadrlite/dwm/scripts/* ~/.config/scripts' $USER
 su -c 'cp ~/.yadrlite/dwm/xinitrc ~/.xinitrc' $USER
 su -c "cp -r ~/.yadrlite/dwm/ranger ~/.config" $USER
+cp -r ~/.yadrlite/dwm/ranger ~/.config
 su -c "cp -r ~/.yadrlite/dwm/nvim ~/.config" $USER
+cp -r ~/.yadrlite/dwm/nvim ~/.config
 sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"\nalias urxvt="urxvt256c"' /home/$USER/.bashrc
-sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"\nalias urxvt="urxvt256c"' /rootj.bashrc
+sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"\nalias urxvt="urxvt256c"' ~/.bashrc
 # uncomment the following line to give Sudoers access to the user account
 echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
-# cp /home/$USER/.config/scripts/screen-init /lib/systemd/system-sleep/screen-init
 # urxvt terminal font resizing
 su -c 'mkdir -p ~/.urxvt/ext' $USER
 su -c 'cd ~/.urxvt/ext && wget "https://raw.githubusercontent.com/simmel/urxvt-resize-font/master/resize-font"' $USER
@@ -246,15 +249,7 @@ su -c "gem environment" $USER
 npm install -g neovim
 
 # pdf viewers
-dnf install -y evince pdfarranger
-# dnf install -y mupdf
-dnf install -y freetype-devel jbig2dec-devel libjpeg-turbo-devel openjpeg-devel zlib-devel
-dnf install -y xorg-x11-server-devel
-dnf install -y mesa-libGL-devel libdrm-devel libX11-devel
-dnf install -y mesa-libGLU-devel libXcursor-devel libXrandr-devel libXinerama-devel
-su -c 'git clone --recursive https://github.com/fluks/mupdf-x11-bookmarks.git ~/lab/mupdf' $USER
-su -c 'cd ~/lab/mupdf && git submodule update --init' $USER
-cd /home/$USER/lab/mupdf && make prefix=/usr/local install && make clean
+dnf install -y evince pdfarranger mupdf
 
 # compiles emacs 27
 # for much better speed and compatibitily
@@ -406,15 +401,15 @@ dnf install -y libbluray libbluray-utils libbluray-bdj
 # Bluray Playback
 # # # # # # # # # # # # # # #
 dnf install -y ffmpeg-devel openssl-devel qt5-devel
-su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-oss-1.14.7.tar.gz' $USER
-su -c 'cd ~/lab && tar xpf makemkv-oss-1.14.7.tar.gz' $USER
-su -c 'cd ~/lab/makemkv-oss-1.14.7 && ./configure' $USER
-su -c 'make -C ~/lab/makemkv-oss-1.14.7' $USER
-cd /home/$USER/lab/makemkv-oss-1.14.7 && make install
-su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-bin-1.14.7.tar.gz' $USER
-su -c 'cd ~/lab && tar xpf makemkv-bin-1.14.7.tar.gz' $USER
-su -c 'make -C ~/lab/makemkv-bin-1.14.7' $USER
-cd /home/$USER/lab/makemkv-bin-1.14.7 && make install
+su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-oss-1.15.1.tar.gz' $USER
+su -c 'cd ~/lab && tar xpf makemkv-oss-1.15.1.tar.gz' $USER
+su -c 'cd ~/lab/makemkv-oss-1.15.1 && ./configure' $USER
+su -c 'make -C ~/lab/makemkv-oss-1.15.1' $USER
+cd /home/$USER/lab/makemkv-oss-1.15.1 && make install
+su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-bin-1.15.1.tar.gz' $USER
+su -c 'cd ~/lab && tar xpf makemkv-bin-1.15.1.tar.gz' $USER
+su -c 'make -C ~/lab/makemkv-bin-1.15.1' $USER
+cd /home/$USER/lab/makemkv-bin-1.15.1 && make install
 
 # if DVD's don't work try running regionset from comandline
 # and then deleteing the ~/.dvdcss directory
