@@ -41,7 +41,7 @@ dnf install -y gnome-keyring
 dnf install -y gnome-control-center
 dnf install -y NetworkManager-tui NetworkManager-wifi NetworkManager-openvpn-gnome
 dnf install -y ftp telnet
-dnf install -y dhcp-client iw wpa_supplicant blueman
+dnf install -y dhcp-client iw wpa_supplicant blueman sbc
 dnf install -y dunst libnotify
 dnf install -y gnutls mailx wireless-tools
 dnf install -y python3-httplib2 wordnet
@@ -103,12 +103,12 @@ cd /home/$USER/lab/xbanish && make install
 
 # copy over system start resources
 # # # # # # # # # # # # # # #
-su -c 'cp -f ~/.yadrlite/shared/Xresources ~/.Xresources' $USER
+su -c 'cp -f ~/.yadrlite/dwm/Xresources ~/.Xresources' $USER
 su -c 'mkdir -p ~/.config/scripts' $USER
-su -c 'cp ~/.yadrlite/shared/scripts/* ~/.config/scripts' $USER
+su -c 'cp ~/.yadrlite/dwm/scripts/* ~/.config/scripts' $USER
 su -c 'cp ~/.yadrlite/dwm/xinitrc ~/.xinitrc' $USER
-su -c "cp -r ~/.yadrlite/shared/ranger ~/.config" $USER
-su -c "cp -r ~/.yadrlite/shared/nvim ~/.config" $USER
+su -c "cp -r ~/.yadrlite/dwm/ranger ~/.config" $USER
+su -c "cp -r ~/.yadrlite/dwm/nvim ~/.config" $USER
 sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"\nalias urxvt="urxvt256c"' /home/$USER/.bashrc
 sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"\nalias urxvt="urxvt256c"' /rootj.bashrc
 # uncomment the following line to give Sudoers access to the user account
@@ -128,7 +128,7 @@ fc-cache
 # # # # # # # # # # # # # # #
 systemctl enable --user dunst.service
 systemctl start --user dunst.service
-su -c "cp -r ~/.yadrlite/shared/dunst ~/.config" $USER
+su -c "cp -r ~/.yadrlite/dwm/dunst ~/.config" $USER
 eval $(dbus-launch)
 
 # low battery indication
@@ -320,7 +320,7 @@ dnf install -y  https://github.com/ramboxapp/community-edition/releases/download
 dnf install -y SDL SDL_mixer SDL_sound fluidsynth
 su -c 'wget -O ~/Downloads/gargoyle.rpm https://github.com/rpmsphere/x86_64/blob/master/g/gargoyle-2015-5.4.x86_64.rpm?raw=true' $USER
 dnf install -y /home/$USER/Downloads/gargoyle.rpm
-su -c 'cp ~/.yadrlite/shared/garglk.ini ~/.garglkrc' $USER
+su -c 'cp ~/.yadrlite/dwm/garglk.ini ~/.garglkrc' $USER
 
 # Chess
 # # # # # # # # # # # # # # #
@@ -333,11 +333,6 @@ dnf install -y openblas-devel.x86_64 gtest-devel
 dnf install -y ninja-build meson
 su -c 'cd ~/Applications && git clone -b release/0.24 --recurse-submodules https://github.com/LeelaChessZero/lc0.git' $USER
 su -c 'cd ~/Applications/lc0 && $SHELL build.sh' $USER
-
-# Compatibility suite for older Windows 32bit executables
-# uncomment to install wine support with i686 libraries
-# # # # # # # # # # # # # # # #
-# dnf install -y wine winetricks
 
 # install Adobe Acrobat
 su -c 'cd ~/Downloads && wget "ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/AdbeRdr9.5.5-1_i486linux_enu.rpm"' $USER

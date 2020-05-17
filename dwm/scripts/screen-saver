@@ -21,11 +21,12 @@ fi
 pkill -f asciiquarium
 
 # starts screensaver on all monitors
+xrandr --auto
 OFFSETS=(`xrandr -q | grep " connected " | xargs -l | cut -d " " -f1`)
 if [ ${#OFFSETS[@]} -gt 1 ]; then
-    xrandr --output ${OFFSETS[0]} --auto --output ${OFFSETS[1]} --same-as ${OFFSETS[0]}
+    xrandr --output ${OFFSETS[0]} --output ${OFFSETS[1]} --same-as ${OFFSETS[0]}
 else
-    xrandr --output ${OFFSETS[0]} --auto --primary
+    xrandr --output ${OFFSETS[0]} --primary
 fi
 sleep 2 
 urxvt -e sh -c "wmctrl -x -r urxvt -b add,fullscreen; asciiquarium" &

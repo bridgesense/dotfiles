@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# remove any instances of xautolock in progress
+pkill -f xautolock
 # handle screen changes
 DEFAULT_LAYOUT="/home/$USER/.screenlayout/default.sh"
 if [[ -f "$DEFAULT_LAYOUT" ]]; then
@@ -9,7 +11,7 @@ else
     mapfile -t monitor < <(xrandr -q | grep " connected ")
     if [ ${#monitor[@]} -eq 1 ]; then
         primary=(`echo ${monitor[0]} | cut -f 1 -d " "`)
-        xrandr --output ${primary} --auto --primary
+        xrandr --output ${primary} --primary
     else
         # flips primary to external monitor
         if [[ "primary" == *"${monitor[0]}"* ]]; then
@@ -19,7 +21,7 @@ else
             primary=(`echo ${monitor[0]} | cut -f 1 -d " "`)
             secondary=(`echo ${monitor[1]} | cut -f 1 -d " "`)
         fi
-        xrandr --output ${primary} --primary --auto --right-of ${secondary} 
+        xrandr --output ${primary} --primary --right-of ${secondary} 
     fi
 fi
 
@@ -29,5 +31,7 @@ feh --randomize --bg-scale /home/$USER/Nextcloud/backgrounds/*
 setxkbmap -option caps:swapescape
 # this example connects a bluetooth device
 echo -e "connect A4:E9:75:F0:EF:87 \nquit" | bluetoothctl
+# simple lockout screen that leaves the machine running
+xautolock -time 10 -locker "bash ~/.config/scripts/screen-saver" &
 # build/update dmenu cache 
 $SHELL /home/$USER/.config/scripts/dmenu-app-launcher -build

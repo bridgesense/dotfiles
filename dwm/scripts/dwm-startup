@@ -6,8 +6,6 @@ $SHELL ~/.config/scripts/dwm-statusbar &
 dunst &
 # Xbanish makes the mouse invisible after a brief period
 xbanish &
-# simple lockout screen that leaves the machine running
-xautolock -time 10 -locker "bash ~/.config/scripts/screen-saver" &
 # blue-light adaptation
 redshift-gtk &
 # unmute microphone
@@ -16,6 +14,8 @@ amixer set Capture cap
 flameshot &
 # Composite manager (always load last)
 xcompmgr -c -f -n &
+# Device discovarability
+pactl load-module module-bluetooth-discover
 # #---Screen/Monitor Setup---# #
 # repaints backgrounds
 $SHELL ~/.config/scripts/screen-init
