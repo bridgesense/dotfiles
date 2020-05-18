@@ -5,9 +5,11 @@ if xset q | grep -q "timeout:  0" ; then
     xset s on
     xset +dpms
     notify-send -i "Movie Mode OFF" "The Screen Lock and Saver have been enabled."
+    xcompmgr -c -f -n &
 else
     xautolock -disable
     xset s off
     xset -dpms
     notify-send -i "Movie Mode ON" "The Screen Lock and Saver have been disabled."
+    pkill -f xcompmgr
 fi

@@ -47,7 +47,7 @@ main() {
             fi
             names+=$'\n'"$n"
             PATHS["$n"]="$f"
-        done <<< "$(find -L /usr/bin ${XDG_DATA_DIRS//:/\/ } /home/$USER/.local/share/applications /home/$USER/Desktop /home/$USER/.config/scripts -type f -executable -o -name "*.desktop" | sort -r)"
+        done <<< "$(find -L ${PATH//:/\/ } ${XDG_DATA_DIRS//:/\/ } /home/$USER/.local/share /home/$USER/Desktop -type f -name "*.desktop" | sort -r)"
         echo "names=\"$names\"" > $cache_file; declare -A $PATHS -p >> $cache_file 
         if [ $action == "-build" ]; then
             notify-send -i "new dmenu cache built" "dmenu is ready."
