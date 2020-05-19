@@ -1,5 +1,4 @@
 /* See LICENSE file for copyright and license details. */
-
 /* for XF86 Media Keys */
 #include <X11/XF86keysym.h>
 
@@ -40,6 +39,7 @@ static const Rule rules[] = {
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "rofi",     NULL,       NULL,       0,            1,           -1 },
 	{ "nemo",     NULL,       NULL,       0,            0,           -1 },
+	{ "nextcloud",NULL,       NULL,       0,            0,           -1 },
 };
 
 /* layout(s) */
@@ -98,7 +98,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY|ShiftMask,             XK_f,      togglefloating, {0} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY|ShiftMask,             XK_m,      spawn,          SHCMD("$SHELL ~/.config/scripts/toggle-movie-mode") },
+	{ MODKEY|ShiftMask,             XK_m,      togglefullscr,  {0} },
 	{ MODKEY,                       XK_n,      spawn,          {.v = ranger } },
 	{ MODKEY|ShiftMask,             XK_n,      spawn,          SHCMD("nemo --no-desktop") },
     { MODKEY,                       XK_space,  spawn,          SHCMD("$SHELL ~/.config/scripts/dmenu-app-launcher") },
@@ -107,6 +107,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_r,      spawn,          SHCMD("$SHELL ~/.config/scripts/reboot-confirm") },
 	{ MODKEY|ShiftMask,             XK_x,      spawn,          SHCMD("$SHELL ~/.config/scripts/shutdown-confirm") },
 	{ MODKEY,                       XK_s,      spawn,          SHCMD("flameshot gui") },
+	{ MODKEY,                       XK_c,      spawn,          SHCMD("$SHELL ~/.config/scripts/toggle-coffee-mode") },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },

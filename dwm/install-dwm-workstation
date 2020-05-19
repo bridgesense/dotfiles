@@ -83,6 +83,7 @@ su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-attachbottom-2020051
 su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-rotatestack-20200510-6.2.diff' $USER
 su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-statuscolors-20200511-6.2.diff' $USER
 su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-warp-20200511-6.2.diff' $USER
+su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-actualfullscreen-20200519-6.2.diff' $USER
 su -c 'cp ~/.yadrlite/dwm/dwm/config.h ~/lab/dwm' $USER
 cd /home/$USER/lab/dwm && make install
 make clean

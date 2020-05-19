@@ -325,10 +325,11 @@ bash custom-fedora-setup <workstation_username>
 * `Super+Space`: Brings up a customized dmenu application launcher 
 * `Super+Shift+Space`: Refreshes the application list before bringing up the app launcher 
 * `Super+p`: Brings up htop, a process manager
-* `Super+m`: Movie Mode toggles the screen saver and lock system
+* `Super+c`: Toggles coffee mode where the screen compositor, screen saver and lock system is disabled
 * `Super+n`: Brings up Ranger, a curses file manager
 * `Super+Shft-n`: Brings up Nemo a graphical file manager
 * `Super+r`: Refreshes screens on all monitors
+* `Super+s`: Screenshot mode with markup tools (Flameshot) 
 
 #### Screenshots
 * `Super+s`: Brings up flameshot, a OSX style screenshot application
@@ -357,6 +358,7 @@ bash custom-fedora-setup <workstation_username>
 * `Super+f`: Sets workspace windows into floating mode 
 * `Super+Shift+f`: Toggles focused window between floating/tiled state 
 * `Super+m`: Puts windows in workspace into monacle (Semi-Fullscreen) state 
+* `Super+Shift+m`: Toggles fullscreen mode for current window 
 * `Super+b`: Toggles (hides) the status bar 
 
 #### Workspace Bindings

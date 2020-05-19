@@ -28,7 +28,7 @@ main() {
         while read -r f; do
             local name=""
             if [[ "$f" == *".desktop"* ]]; then
-                name="$(grep -m 1 '^Name' "$f")"
+                name="$(grep -m 1 '^Name=' "$f")"
                 name="${name/Name=/}"
                 name="${name/ %*/}"
                 # popular exceptions here
@@ -47,7 +47,7 @@ main() {
             fi
             names+=$'\n'"$n"
             PATHS["$n"]="$f"
-        done <<< "$(find -L ${PATH//:/\/ } ${XDG_DATA_DIRS//:/\/ } /home/$USER/.local/share /home/$USER/Desktop -type f -name "*.desktop" | sort -r)"
+        done <<< "$(find -L ${PATH//:/\/ } ${XDG_DATA_DIRS//:/\/ } /home/$USER/.local /home/$USER/Desktop -type f -name "*.desktop" | sort -r)"
         echo "names=\"$names\"" > $cache_file; declare -A $PATHS -p >> $cache_file 
         if [ $action == "-build" ]; then
             notify-send -i "new dmenu cache built" "dmenu is ready."
@@ -62,16 +62,24 @@ main() {
 }
 
 run() {
-    local cmd
+    local cmd path
     if [[ "${PATHS["$1"]}" == *".desktop"* ]]; then
-        cmd="$(grep '^Exec' "${PATHS["$1"]}")"
+        cmd="$(grep '^Exec=' "${PATHS["$1"]}")"
         cmd="${cmd/Exec=/}"
         cmd="${cmd/ %*/}"
+        path="$(grep '^Path=' "${PATHS["$1"]}")"
+        if [[ $path ]]; then
+            path="${path/Path=/}"
+        fi
     else
         cmd=${PATHS["$1"]}
     fi
-     
-    [[ $cmd ]] && $($cmd) 
+   
+    if [[ $path ]] && [[ $cmd ]]; then
+        cd $path && $($cmd)
+    elif [[ $cmd ]]; then
+        $($cmd)
+    fi
 
     return 0
 }
