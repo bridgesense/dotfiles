@@ -17,5 +17,6 @@ xcompmgr -c -f -n &
 # Device discovarability
 pactl load-module module-bluetooth-discover
 # #---Screen/Monitor Setup---# #
+xautolock -time 10 -locker "bash ~/.config/scripts/screen-saver" &
 # repaints backgrounds
 $SHELL ~/.config/scripts/screen-init

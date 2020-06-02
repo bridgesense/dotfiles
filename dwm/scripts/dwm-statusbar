@@ -169,7 +169,7 @@ dwm_battery()
 
         if [[ "$bat_status" == "" ]]; then
             if [[ "$charging" == "Unknown" ]]; then
-                bat_status="Full";
+                bat_status="";
             else
                 bat_status=$charging;
             fi

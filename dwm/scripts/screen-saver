@@ -38,9 +38,9 @@ if [ $(command -v xkblayout-state) ]; then
 fi
 
 # Lock screen, reset monitors and kill screen saver on unlock
-pyxtrlock 
-bash ~/.config/scripts/screen-init 
+slock 
 pkill -f asciiquarium 
+bash ~/.config/scripts/screen-init 
 
 # Restore kb layout
 if [ $(command -v xkblayout-state) ]; then

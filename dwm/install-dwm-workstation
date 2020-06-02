@@ -31,7 +31,7 @@ dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-
 dnf install -y @base-x
 dnf install -y @Fonts gdouros-symbola-fonts fontawesome-fonts gucharmap
 dnf install -y xbacklight feh sxhkd
-dnf install -y xautolock pyxtrlock asciiquarium
+dnf install -y xautolock asciiquarium
 dnf install -y lxappearance arc-theme redshift-gtk
 dnf install -y pulseaudio alsa-utils pulseaudio-utils xcompmgr
 dnf install -y pulseeffects pavucontrol
@@ -82,8 +82,7 @@ su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-ru_gaps-20200510-6.2
 su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-attachbottom-20200510-6.2.diff' $USER
 su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-rotatestack-20200510-6.2.diff' $USER
 su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-statuscolors-20200511-6.2.diff' $USER
-su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-warp-20200511-6.2.diff' $USER
-su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-actualfullscreen-20200519-6.2.diff' $USER
+su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-actualfullscreen-20200602-6.2.diff' $USER
 su -c 'cp ~/.yadrlite/dwm/dwm/config.h ~/lab/dwm' $USER
 cd /home/$USER/lab/dwm && make install
 make clean
@@ -93,6 +92,13 @@ su -c 'cd ~/lab/dmenu && git checkout db6093f6ec1bb884f7540f2512935b5254750b30' 
 su -c 'cd ~/lab/dmenu && git apply -3 ~/.yadrlite/dwm/dmenu/dmenu-highlight-4.9.diff' $USER
 su -c 'cp ~/.yadrlite/dwm/dmenu/config.h ~/lab/dmenu' $USER
 cd /home/$USER/lab/dmenu && make install
+make clean
+# dwm - slock for screen locking
+su -c 'git clone https://git.suckless.org/slock ~/lab/slock' $USER
+su -c 'cd ~/lab/slock && git checkout 35633d45672d14bd798c478c45d1a17064701aa9' $USER
+su -c 'cd ~/lab/slock && git apply -3 ~/.yadrlite/dwm/dmenu/slock-unlock_screen-1.4.diff' $USER
+su -c 'cp ~/.yadrlite/dwm/slock/config.h ~/lab/slock' $USER
+cd /home/$USER/lab/slock && make install
 make clean
 
 # install xbanish
@@ -250,9 +256,6 @@ su -c "gem install neovim" $USER
 su -c "gem environment" $USER
 npm install -g neovim
 
-# pdf viewers
-dnf install -y evince pdfarranger mupdf
-
 # compiles emacs 27
 # for much better speed and compatibitily
 # WARNING: emacs X11 will crash with pacakge: google-noto-emoji-color-fonts
@@ -321,7 +324,7 @@ su -c 'cp ~/.yadrlite/dwm/garglk.ini ~/.garglkrc' $USER
 
 # Chess
 # # # # # # # # # # # # # # #
-dnf config-manager --add-repo https://copr.fedorainfracloud.org/coprs/awood/scid_vs_pc/repo/fedora-$(rpm -E %fedora)/awood-scid_vs_pc-fedora-$(rpm -E %fedora).repo  
+dnf config-manager --add-repo https://copr.fedorainfracloud.org/coprs/awood/scid_vs_pc/repo/fedora-$(rpm -E %fedora)/awood-scid_vs_pc-fedora-$(rpm -E %fedora).repo
 dnf install -y scid_vs_pc.x86_64 scid_vs_pc-sounds scid_vs_pc-books
 # stockfish
 dnf install -y stockfish
@@ -331,6 +334,8 @@ dnf install -y ninja-build meson
 su -c 'cd ~/Applications && git clone -b release/0.24 --recurse-submodules https://github.com/LeelaChessZero/lc0.git' $USER
 su -c 'cd ~/Applications/lc0 && $SHELL build.sh' $USER
 
+# pdf support
+dnf install -y cups-pdf evince pdfarranger mupdf
 # install Adobe Acrobat
 su -c 'cd ~/Downloads && wget "ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/AdbeRdr9.5.5-1_i486linux_enu.rpm"' $USER
 dnf install -y atk.i686 avahi-libs.i686 bzip2-libs.i686 cairo.i686 cups-libs.i686
