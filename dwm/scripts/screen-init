@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # remove any instances of xautolock in progress
+pkill -f xautolock
 # handle screen changes
 DEFAULT_LAYOUT="/home/$USER/.screenlayout/default.sh"
 if [[ -f "$DEFAULT_LAYOUT" ]]; then
@@ -32,5 +33,7 @@ setxkbmap -option caps:swapescape
 echo -e "connect A4:E9:75:F0:EF:87 \nquit" | bluetoothctl
 # simple lockout screen that leaves the machine running
 sleep 0.5
+# screen saver reinitialization
+xautolock -time 10 -locker "bash ~/.config/scripts/screen-saver" &
 # build/update dmenu cache 
 $SHELL /home/$USER/.config/scripts/dmenu-app-launcher -build

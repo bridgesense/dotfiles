@@ -49,7 +49,7 @@ dnf install -y aspell-en texlive-latex
 dnf install -y texlive-collection-latex texlive-collection-latexextra
 dnf install -y papirus-icon-theme
 dnf install -y nemo
-dnf install -y fuse-exfat exfat-utils
+dnf install -y fuse-exfat exfat-utils libmtp libmtp-examples gvfs-mtp
 dnf install -y acpi crontabs
 dnf install -y firewall-config
 dnf install -y system-config-printer
