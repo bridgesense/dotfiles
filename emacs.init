@@ -18,7 +18,7 @@
 ;; # # # # # # # # # # #
 (setq
  backup-by-copying t      ; don't clobber symlinks
- backup-directory-alist '((".*" . "~/.emacs.d/.emacs-saves"))    ; don't litter my fs tree
+ backup-directory-alist '((".*" . "~/.emacs.d/.emacs-saves"))   ; don't litter my fs tree
  auto-save-file-name-transforms '((".*" "~/.emacs.d/.emacs-saves" t))    ; don't litter my fs tree
  delete-old-versions t
  kept-new-versions 6
@@ -111,8 +111,17 @@
 (set-keyboard-coding-system 'utf-8)
 ;; Treat clipboard input as UTF-8 string first; compound text next, etc.
 (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
-;; GPUPG Fix 
+;; GPUPG Fix
 (setf epa-pinentry-mode 'loopback)
+
+
+;; clipboard sharing
+;; # # # # # # # # # # #
+;; enable save to clipboard
+(setq x-select-enable-clipboard t)
+(use-package xclip :ensure t
+    :config
+    (xclip-mode 1))
 
 
 ;; File Managementa
@@ -732,7 +741,7 @@
   (use-package bbdb-vcard :ensure t)
 
 
-  ;; AutoComplete Settings 
+  ;; AutoComplete Settings
   ;; (comment out to use Company autocompletion below)
   (use-package ac-php :ensure t)
   (use-package auto-complete :ensure t
