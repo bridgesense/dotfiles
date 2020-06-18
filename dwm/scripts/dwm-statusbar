@@ -149,22 +149,22 @@ dwm_battery()
     ICON_COLOR=1
     # The vast majority of people only use one battery.
 
-	if [ -d /sys/class/power_supply/BAT1 ]; then
-        # Change BAT1 to whatever your battery is identified as. Typically BAT0 or BAT1
-		capacity=$(cat /sys/class/power_supply/BAT1/capacity)
-		charging=$(cat /sys/class/power_supply/BAT1/status)
+	if [ -d /sys/class/power_supply/BAT0 ]; then
+        # Change BAT0 to whatever your battery is identified as. Typically BAT0 or BAT0
+		capacity=$(cat /sys/class/power_supply/BAT0/capacity)
+		charging=$(cat /sys/class/power_supply/BAT0/status)
         
 
 		if [[ "$charging" == "Charging" ]]; then
 			ICON="$CHARGING_ICON"
             ICON_COLOR=3
-            bat_status=$(upower -i $(upower -e | grep BAT1) | grep -oP 'time to full:\K[^"]+')
+            bat_status=$(upower -i $(upower -e | grep BAT0) | grep -oP 'time to full:\K[^"]+')
 		elif [[ $capacity -le 25 ]]; then
 			ICON="$WARNING_ICON"
             ICON_COLOR=4
-            bat_status=$(upower -i $(upower -e | grep BAT1) | grep -oP 'time to empty:\K[^"]+')
+            bat_status=$(upower -i $(upower -e | grep BAT0) | grep -oP 'time to empty:\K[^"]+')
         else
-            bat_status=$(upower -i $(upower -e | grep BAT1) | grep -oP 'time to empty:\K[^"]+')
+            bat_status=$(upower -i $(upower -e | grep BAT0) | grep -oP 'time to empty:\K[^"]+')
         fi
 
         if [[ "$bat_status" == "" ]]; then
