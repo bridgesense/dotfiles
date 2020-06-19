@@ -33,7 +33,7 @@ dnf install -y @Fonts gdouros-symbola-fonts fontawesome-fonts gucharmap
 dnf install -y xbacklight feh sxhkd
 dnf install -y xautolock asciiquarium
 dnf install -y lxappearance arc-theme redshift-gtk
-dnf install -y pulseaudio alsa-utils pulseaudio-utils xcompmgr
+dnf install -y pulseaudio alsa-utils pulseaudio-utils compton 
 dnf install -y pulseeffects pavucontrol
 dnf install -y rxvt-unicode xclip
 dnf install -y arandr zenity flameshot
@@ -158,35 +158,11 @@ sed -i 's/module-bluetooth-discover/module-bluetooth-discover headset=auto/' /et
 echo "resample-method = soxr-vhq" >> /etc/pulse/daemon.conf
 echo "default-sample-format = float32le" >> /etc/pulse/daemon.conf
 echo "default-sample-rate = 96000" >> /etc/pulse/daemon.conf
-echo "alternate-sample-rate = 96000" >> /etc/pulse/daemon.conf
-echo "default-sample-channels = 2" >> /etc/pulse/daemon.conf
-echo "default-channel-map = front-left,front-right" >> /etc/pulse/daemon.conf
-echo "default-fragments = 2" >> /etc/pulse/daemon.conf
-echo "default-fragment-size-msec = 125" >> /etc/pulse/daemon.conf
-echo "resample-method = soxr-vhq" >> /etc/pulse/daemon.conf
-echo "enable-lfe-remixing = yes" >> /etc/pulse/daemon.conf
 echo "high-priority = yes" >> /etc/pulse/daemon.conf
-echo "nice-level = -11" >> /etc/pulse/daemon.conf
-echo "realtime-scheduling = yes" >> /etc/pulse/daemon.conf
-echo "realtime-priority = 9" >> /etc/pulse/daemon.conf
-echo "rlimit-rtprio = 9" >> /etc/pulse/daemon.conf
-echo "rlimit-rttime = -1" >> /etc/pulse/daemon.conf
-echo "daemonize = yes" >> /etc/pulse/daemon.conf
-echo "autospawn = no" >> /etc/pulse/client.conf
 
 # set timezone
 # # # # # # # # # # # # # # #
 timedatectl set-timezone America/Los_Angeles
-
-# fix screen tearing (for Thinkpads)
-# # # # # # # # # # # # # # #
-echo 'Section "Device"' >> /etc/X11/xorg.conf.d/20-intel.conf
-echo '    Identifier "Intel Graphics"' >> /etc/X11/xorg.conf.d/20-intel.conf
-echo '    Driver "intel"' >> /etc/X11/xorg.conf.d/20-intel.conf
-echo '    Option "TripleBuffer" "true"' >> /etc/X11/xorg.conf.d/20-intel.conf
-echo '    Option "TearFree" "true"' >> /etc/X11/xorg.conf.d/20-intel.conf
-echo '    Option "DRI" "false"' >> /etc/X11/xorg.conf.d/20-intel.conf
-echo 'EndSection' >> /etc/X11/xorg.conf.d/20-intel.conf
 
 # enable thinkfan
 # this is a sample config for a t460
