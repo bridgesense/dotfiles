@@ -33,7 +33,7 @@ dnf install -y @Fonts gdouros-symbola-fonts fontawesome-fonts gucharmap
 dnf install -y xbacklight feh sxhkd
 dnf install -y xautolock asciiquarium
 dnf install -y lxappearance arc-theme redshift-gtk
-dnf install -y pulseaudio alsa-utils pulseaudio-utils compton 
+dnf install -y pulseaudio alsa-utils pulseaudio-utils picom
 dnf install -y pulseeffects pavucontrol
 dnf install -y rxvt-unicode xclip
 dnf install -y arandr zenity flameshot
