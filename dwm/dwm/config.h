@@ -71,8 +71,8 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static const char *termcmd[]  = { "st", NULL };
 static const char *htop[] = { "st", "-e", "htop" };
 static const char *ranger[] = { "st", "-e", "ranger" };
-static const char *brightnessdown[] = { "xbacklight", "-dec", "10" };
-static const char *brightnessup[] = { "xbacklight", "-inc", "10" };
+static const char *brightnessdown[] = { "cbacklight", "--dec", "10" };
+static const char *brightnessup[] = { "cbacklight", "--inc", "10" };
 
 static Key keys[] = {
 /* modifier                     key        function        argument */
