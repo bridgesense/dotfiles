@@ -95,8 +95,6 @@ cd /home/$USER/lab/dmenu && make install
 make clean
 # dwm - slock for screen locking
 su -c 'git clone https://git.suckless.org/slock ~/lab/slock' $USER
-su -c 'cd ~/lab/slock && git checkout 35633d45672d14bd798c478c45d1a17064701aa9' $USER
-su -c 'cd ~/lab/slock && git apply -3 ~/.yadrlite/dwm/dmenu/slock-unlock_screen-1.4.diff' $USER
 su -c 'cp ~/.yadrlite/dwm/slock/config.h ~/lab/slock' $USER
 cd /home/$USER/lab/slock && make install
 make clean
