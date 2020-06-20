@@ -178,6 +178,11 @@ sed -i "/55)/i \
 hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp1_input \n\
 hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp2_input \n\
 hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp3_input \n\
+hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp3_input \n\
+hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp4_input \n\
+hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp1_input \n\
+hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp5_input \n\
+hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp2_input \n\
 " /etc/thinkfan.conf
 systemctl enable thinkfan
 
