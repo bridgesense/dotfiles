@@ -13,7 +13,7 @@ amixer set Capture cap
 # turn on flameshot
 flameshot &
 # Composite manager (always load last)
-picom --backend glx --vsync --unredir-if-possible &
+picom --backend glx --vsync --unredir-if-possible --experimental-backends &
 # Device discovarability
 pactl load-module module-bluetooth-discover
 # #---Screen/Monitor Setup---# #

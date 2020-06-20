@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
-# Dependency checks
-if [ ! $(command -v slock) ]; then
-    echo "\"command not found: \"slock\"" >&2
-    exit 1
-fi
+# detect swapped workstations 
+setxkbmap
+xrandr --auto
+sleep 0.5 
 
-# Lock screen, reset monitors and kill screen saver on unlock
-slock 
+# kill any instance of asciiquarium
+xterm -fullscreen +sb -e asciiquarium & slock; xdotool key --clearmodifiers q 
 bash ~/.config/scripts/screen-init 
+
+# make sure xautolock is refreshed and reactivated
+pkill -f xautolock
+sleep 0.5 
+xautolock -time 10 -locker "bash ~/.config/scripts/screen-saver" &
