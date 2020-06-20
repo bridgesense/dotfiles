@@ -30,7 +30,7 @@ dwm_alsa () {
 }
 
 dwm_backlight () {
-    printf "\x01%s ☀ %.0f%% \n" "$sep_line" "$(xbacklight)"
+    printf "\x01%s ☀ %.0f%% \n" "$sep_line" "$(cbacklight)"
 }
 
 dwm_networkmanager () {

@@ -146,6 +146,13 @@ eval $(dbus-launch)
 sudo dnf install -y acpi ntpdate
 (crontab -u $USER -l; echo "*/15 * * * * $SHELL /home/${USER}/.config/scripts/battery >/dev/null 2>&1") | crontab -u $USER -
 
+# backlight fix for i915 GPU's
+# to work with cbacklight script
+usermod -a -G video $USER
+echo "ACTION==\"add\", SUBSYSTEM==\"backlight\", KERNEL==\"intel_backlight\", RUN+=\"/bin/chgrp video /sys/class/backlight/%k/brightness\"" >> /etc/udev/rules.d/backlight.rules
+echo "ACTION==\"add\", SUBSYSTEM==\"backlight\", KERNEL==\"intel_backlight\", RUN+=\"/bin/chmod g+w /sys/class/backlight/%k/brightness\"" >> /etc/udev/rules.d/backlight.rules
+cp /home/$USER/.yadrlite/dwm/scripts/cbacklight /usr/bin/cbacklight
+
 # Add "tap to click" for touchpads
 # # # # # # # # # # # # # # #
 sed -i '/Identifier "libinput touchpad catchall"/a \\tOption "Tapping" "on"' /usr/share/X11/xorg.conf.d/40-libinput.conf
