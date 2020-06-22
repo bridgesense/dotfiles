@@ -1,14 +1,9 @@
 #!/usr/bin/env bash
 # detect swapped workstations 
-setxkbmap
+setxkbmap -synch
 xrandr --auto
 sleep 0.5 
 
 # kill any instance of asciiquarium
 xterm -fullscreen +sb -e asciiquarium & slock; xdotool key --clearmodifiers q 
 bash ~/.config/scripts/screen-init 
-
-# make sure xautolock is refreshed and reactivated
-pkill -f xautolock
-sleep 0.5 
-xautolock -time 10 -locker "bash ~/.config/scripts/screen-saver" &
