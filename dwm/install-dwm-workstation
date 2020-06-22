@@ -29,13 +29,13 @@ dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-
 # Install supporting applications
 # # # # # # # # # # # # # # #
 dnf install -y @base-x
-dnf install -y @Fonts gdouros-symbola-fonts fontawesome-fonts gucharmap
+dnf install -y @Fonts gdouros-symbola-fonts fontawesome-fonts xorg-x11-fonts-misc gucharmap
 dnf install -y xbacklight feh sxhkd
-dnf install -y xautolock asciiquarium xdotool
+dnf install -y xautolock asciiquarium
 dnf install -y lxappearance arc-theme redshift-gtk
 dnf install -y pulseaudio alsa-utils pulseaudio-utils picom
 dnf install -y pulseeffects pavucontrol
-dnf install -y rxvt-unicode xterm xclip
+dnf install -y rxvt-unicode xclip
 dnf install -y arandr zenity flameshot
 dnf install -y gnome-keyring
 dnf install -y gnome-control-center
@@ -162,10 +162,19 @@ sed -i 's/module-bluetooth-discover/module-bluetooth-discover headset=auto/' /et
 
 # help the sound (for Thinkpads)
 # # # # # # # # # # # # # # #
-echo "resample-method = soxr-vhq" >> /etc/pulse/daemon.conf
 echo "default-sample-format = float32le" >> /etc/pulse/daemon.conf
-echo "default-sample-rate = 96000" >> /etc/pulse/daemon.conf
+echo "default-sample-rate = 48000" >> /etc/pulse/daemon.conf
+echo "alternate-sample-rate = 44100" >> /etc/pulse/daemon.conf
+echo "default-fragments = 2" >> /etc/pulse/daemon.conf
+echo "default-fragment-size-msec = 125" >> /etc/pulse/daemon.conf
+echo "resample-method = soxr-vhq" >> /etc/pulse/daemon.conf
+echo "enable-lfe-remixing = no" >> /etc/pulse/daemon.conf
 echo "high-priority = yes" >> /etc/pulse/daemon.conf
+echo "nice-level = -11" >> /etc/pulse/daemon.conf
+echo "realtime-scheduling = yes" >> /etc/pulse/daemon.conf
+echo "realtime-priority = 9" >> /etc/pulse/daemon.conf
+echo "rlimit-rtprio = 9" >> /etc/pulse/daemon.conf
+echo "daemonize = no" >> /etc/pulse/daemon.conf
 
 # set timezone
 # # # # # # # # # # # # # # #
@@ -177,9 +186,6 @@ timedatectl set-timezone America/Los_Angeles
 dnf install -y thinkfan
 HWMONDEV=`basename /sys/devices/platform/coretemp.0/hwmon/*`
 sed -i "/55)/i \
-hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp1_input \n\
-hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp2_input \n\
-hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp3_input \n\
 hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp3_input \n\
 hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp4_input \n\
 hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp1_input \n\
