@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # detect swapped workstations 
 pkill -f asciiquarium
+pkill -f slock
 setxkbmap -synch
 xrandr --auto
 sleep 0.5 

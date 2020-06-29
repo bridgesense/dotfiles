@@ -35,7 +35,7 @@ dnf install -y xautolock asciiquarium
 dnf install -y lxappearance arc-theme redshift-gtk
 dnf install -y pulseaudio alsa-utils pulseaudio-utils picom
 dnf install -y pulseeffects pavucontrol
-dnf install -y rxvt-unicode xclip
+dnf install -y rxvt-unicode xclip vim-common
 dnf install -y arandr zenity flameshot
 dnf install -y gnome-keyring
 dnf install -y gnome-control-center
@@ -170,7 +170,6 @@ echo "default-fragment-size-msec = 125" >> /etc/pulse/daemon.conf
 echo "resample-method = soxr-vhq" >> /etc/pulse/daemon.conf
 echo "enable-lfe-remixing = no" >> /etc/pulse/daemon.conf
 echo "high-priority = yes" >> /etc/pulse/daemon.conf
-echo "nice-level = -11" >> /etc/pulse/daemon.conf
 echo "realtime-scheduling = yes" >> /etc/pulse/daemon.conf
 echo "realtime-priority = 9" >> /etc/pulse/daemon.conf
 echo "rlimit-rtprio = 9" >> /etc/pulse/daemon.conf
@@ -394,13 +393,14 @@ printf "Exec=/home/$USER/.config/scripts/shutdown-confirm\n" >> /home/$USER/.loc
 
 # Install Multimedia Codecs
 dnf install -y rpmfusion-free-release-tainted
-dnf install -y vlc devedeng
+dnf install -y mpv devedeng
 dnf install -y gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel
 dnf install -y lame\* --exclude=lame-devel
 dnf install -y ffmpeg ffmpeg-libs compat-ffmpeg28
 dnf install -y lsdvd libdvdnav libdvdread libdvdcss
 dnf install -y java-1.8.0-openjdk
 dnf install -y libbluray libbluray-utils libbluray-bdj
+su -c "cp -r ~/.yadrlite/dwm/mpv ~/.config" $USER
 
 # Bluray Playback
 # # # # # # # # # # # # # # #
