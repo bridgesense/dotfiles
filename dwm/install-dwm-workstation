@@ -39,7 +39,8 @@ dnf install -y rxvt-unicode xclip vim-common
 dnf install -y arandr zenity flameshot
 dnf install -y gnome-keyring
 dnf install -y gnome-control-center
-dnf install -y NetworkManager-tui NetworkManager-wifi NetworkManager-openvpn-gnome
+dnf install -y NetworkManager-tui NetworkManager-wifi 
+dnf install -y NetworkManager-openvpn-gnome NetworkManager-openconnect-gnome
 dnf install -y ftp telnet
 dnf install -y dhcp-client iw wpa_supplicant blueman sbc
 dnf install -y dunst libnotify
@@ -393,7 +394,7 @@ printf "Exec=/home/$USER/.config/scripts/shutdown-confirm\n" >> /home/$USER/.loc
 
 # Install Multimedia Codecs
 dnf install -y rpmfusion-free-release-tainted
-dnf install -y mpv devedeng
+dnf install -y mpv devedeng youtube-dl
 dnf install -y gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel
 dnf install -y lame\* --exclude=lame-devel
 dnf install -y ffmpeg ffmpeg-libs compat-ffmpeg28
