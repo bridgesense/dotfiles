@@ -308,6 +308,18 @@ See more about setting up the [.vimrc.local](https://gitlab.com/bridgesense/lamp
 * `,vr`: (Vim Reload) source current file as a vim file
 
 
+st Shortcuts
+---
+st is a very nice lightweight terminal.
+
+### History:
+* `Shift+PageUP`: Pages up through terminal history
+* `Shift+PageDown`: Pages down terminal history
+
+### Display Options:
+* `Ctrl+F6`: Toggle Dark/Light Theme
+
+
 dwm Commands
 ---
 These commands are part of the sample workstations included in this repo.  This is designed to be used with a "Custom Fedora" installation via the server Net install disk.  If you're interested in checking it out, download the file and review it before installing it on a new system.

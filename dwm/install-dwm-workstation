@@ -33,7 +33,7 @@ dnf install -y @Fonts gdouros-symbola-fonts fontawesome-fonts xorg-x11-fonts-mis
 dnf install -y xbacklight feh sxhkd
 dnf install -y xautolock asciiquarium
 dnf install -y lxappearance arc-theme redshift-gtk
-dnf install -y pulseaudio alsa-utils pulseaudio-utils picom
+dnf install -y pulseaudio alsa-utils pulseaudio-utils compton 
 dnf install -y pulseeffects pavucontrol
 dnf install -y rxvt-unicode xclip vim-common
 dnf install -y arandr zenity flameshot
@@ -153,6 +153,10 @@ usermod -a -G video $USER
 echo "ACTION==\"add\", SUBSYSTEM==\"backlight\", KERNEL==\"intel_backlight\", RUN+=\"/bin/chgrp video /sys/class/backlight/%k/brightness\"" >> /etc/udev/rules.d/backlight.rules
 echo "ACTION==\"add\", SUBSYSTEM==\"backlight\", KERNEL==\"intel_backlight\", RUN+=\"/bin/chmod g+w /sys/class/backlight/%k/brightness\"" >> /etc/udev/rules.d/backlight.rules
 cp /home/$USER/.yadrlite/dwm/scripts/cbacklight /usr/bin/cbacklight
+
+# syncs headphone to master sound control
+# vi /usr/share/pulseaudio/alsa-mixer/paths/analog-output-headphones.conf
+# change to: volume = merge
 
 # Add "tap to click" for touchpads
 # # # # # # # # # # # # # # #

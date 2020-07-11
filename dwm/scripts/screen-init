@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-# kill any instance of picom
-pkill -f picom
 # handle screen changes
 DEFAULT_LAYOUT="/home/$USER/.screenlayout/default.sh"
 if [[ -f "$DEFAULT_LAYOUT" ]]; then
@@ -11,7 +9,7 @@ else
     mapfile -t monitor < <(xrandr -q | grep " connected ")
     if [ ${#monitor[@]} -eq 1 ]; then
         primary=(`echo ${monitor[0]} | cut -f 1 -d " "`)
-        xrandr --output ${primary} --primary
+        xrandr --output ${primary} --primary --auto
     else
         # flips primary to external monitor
         if [[ "primary" == *"${monitor[0]}"* ]]; then
@@ -21,7 +19,7 @@ else
             primary=(`echo ${monitor[0]} | cut -f 1 -d " "`)
             secondary=(`echo ${monitor[1]} | cut -f 1 -d " "`)
         fi
-        xrandr --output ${primary} --primary --right-of ${secondary} 
+        xrandr --output ${primary} --primary --right-of ${secondary} --auto
     fi
 fi
 
@@ -34,5 +32,3 @@ echo -e "connect A4:E9:75:F0:EF:87 \nquit" | bluetoothctl
 # simple lockout screen that leaves the machine running
 # build/update dmenu cache 
 $SHELL /home/$USER/.config/scripts/dmenu-app-launcher -build
-# Composite manager (always load last)
-picom --backend glx --vsync --unredir-if-possible --experimental-backends &
