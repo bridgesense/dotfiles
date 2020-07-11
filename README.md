@@ -318,6 +318,8 @@ st is a very nice lightweight terminal.
 
 ### Display Options:
 * `Ctrl+F6`: Toggle Dark/Light Theme
+* `Ctrl+Shift+PageUP`: Inscrease Font Size 
+* `Ctrl+Shift+PageDown`: Decrease Font Size 
 
 
 dwm Commands
