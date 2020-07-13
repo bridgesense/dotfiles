@@ -134,6 +134,8 @@ su -c 'cd ~/.urxvt/ext && wget "https://raw.githubusercontent.com/Roliga/urxvt-x
 su -c 'mkdir -p ~/.local/share/fonts/' $USER
 su -c 'cd ~/.local/share/fonts && svn checkout https://github.com/powerline/fonts/trunk/DejaVuSansMono' $USER
 fc-cache
+# misc
+su -c 'mkdir -p ~/Applications' $USER
 
 # activate dunst
 # # # # # # # # # # # # # # #
@@ -285,17 +287,7 @@ flatpak install -y flathub com.skype.Client
 flatpak install -y flathub us.zoom.Zoom
 
 # Install Browsers
-dnf install -y chromium
-# Firefox Nightly
-su -c 'mkdir -p ~/Applications && cd ~/Applications' $USER
-su -c 'cd ~/Applications && wget -O FirefoxSetup.tar.bz2 "https://download.mozilla.org/?product=firefox-latest&os=linux64&lang=en-US"' $USER
-su -c 'cd ~/Applications && tar xjf FirefoxSetup.tar.bz2 -C ~/Applications' $USER
-su -c 'mkdir -p ~/.local/share/applications' $USER
-su -c 'touch ~/.local/share/applications/firefox-nightly.desktop' $USER
-printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/firefox-nightly.desktop
-printf 'Type=Application\n' >> /home/$USER/.local/share/applications/firefox-nightly.desktop
-printf 'Name=Firefox Nightly Browser\n' >> /home/$USER/.local/share/applications/firefox-nightly.desktop
-printf "Exec=/home/$USER/Applications/firefox/firefox\n" >> /home/$USER/.local/share/applications/firefox-nightly.desktop
+dnf install -y chromium-freeworld firefox-x11
 
 # install Vagrant and Virtualbox
 # Warning: Secure boot may need to be disabled
