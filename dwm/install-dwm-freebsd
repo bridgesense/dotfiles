@@ -16,11 +16,8 @@ USER="${1:francis}"
 # Commandline Tools
 # # # # # # # # # # # # # # #
 pkg install -y autoconf automake git htop rsync
-# chsh -s /usr/local/bin/bash
 bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
-su $USER
-bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
-exit
+su -l $USER -c 'bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"'
 
 # Install Ports 
 # # # # # # # # # # # # # # #
@@ -70,41 +67,40 @@ pkg install -y brasero
 
 # suckless setup
 # st - terminal
-# dnf install -y libX11-devel
-su -m $USER -c "mkdir /home/$USER/lab"
-su -m $USER -c "git clone https://git.suckless.org/st /home/$USER/lab/st"
-su -m $USER -c "cd /home/$USER/lab/st && git checkout 914fb825df3bde7abdd7947e54f8bf4d2b55e34e"
-su -m $USER -c "cd /home/$USER/lab/st && git apply -3 /home/$USER/.yadrlite/dwm/st/st-scrollback-20200419-72e3f6c.diff"
-su -m $USER -c "cd /home/$USER/lab/st && git apply -3 /home/$USER/.yadrlite/dwm/st/st-scrollback-mouse-20191024-a2c479c.diff"
-su -m $USER -c "cd /home/$USER/lab/st && git apply -3 /home/$USER/.yadrlite/dwm/st/st-alpha-0.8.2.diff"
-su -m $USER -c "cd /home/$USER/lab/st && git apply -3 /home/$USER/.yadrlite/dwm/st/st-gruvbox-both-alpha-20200510-0.8.3.diff"
-su -m $USER -c "cp /home/$USER/.yadrlite/dwm/st/config.h /home/$USER/lab/st"
+dnf install -y libX11-devel
+su -l $USER -c 'mkdir ~/lab'
+su -l $USER -c 'git clone https://git.suckless.org/st ~/lab/st'
+su -l $USER -c 'cd ~/lab/st && git checkout 914fb825df3bde7abdd7947e54f8bf4d2b55e34e'
+su -l $USER -c 'cd ~/lab/st && git apply -3 ~/.yadrlite/dwm/st/st-scrollback-20200419-72e3f6c.diff'
+su -l $USER -c 'cd ~/lab/st && git apply -3 ~/.yadrlite/dwm/st/st-scrollback-mouse-20191024-a2c479c.diff'
+su -l $USER -c 'cd ~/lab/st && git apply -3 ~/.yadrlite/dwm/st/st-alpha-0.8.2.diff'
+su -l $USER -c 'cd ~/lab/st && git apply -3 ~/.yadrlite/dwm/st/st-gruvbox-both-alpha-20200510-0.8.3.diff'
+su -l $USER -c 'cp ~/.yadrlite/dwm/st/config.h ~/lab/st'
 cd /home/$USER/lab/st && make install
 make clean
-
 # dwm - windows manager
-su -m $USER -c "git clone https://git.suckless.org/dwm /home/$USER/lab/dwm"
-su -m $USER -c "cd /home/$USER/lab/dwm && git checkout f09418bbb6651ab4c299cfefbe1d18de401f630e"
-su -m $USER -c "cd /home/$USER/lab/dwm && git apply -3 /home/$USER/.yadrlite/dwm/dwm/dwm-ru_gaps-20200510-6.2.diff"
-su -m $USER -c "cd /home/$USER/lab/dwm && git apply -3 /home/$USER/.yadrlite/dwm/dwm/dwm-attachbottom-20200510-6.2.diff"
-su -m $USER -c "cd /home/$USER/lab/dwm && git apply -3 /home/$USER/.yadrlite/dwm/dwm/dwm-rotatestack-20200510-6.2.diff"
-su -m $USER -c "cd /home/$USER/lab/dwm && git apply -3 /home/$USER/.yadrlite/dwm/dwm/dwm-statuscolors-20200511-6.2.diff"
-su -m $USER -c "cd /home/$USER/lab/dwm && git apply -3 /home/$USER/.yadrlite/dwm/dwm/dwm-actualfullscreen-20200602-6.2.diff"
-su -m $USER -c "cp /home/$USER/.yadrlite/dwm/dwm/config.h /home/$USER/lab/dwm"
+su -l $USER -c 'git clone https://git.suckless.org/dwm ~/lab/dwm'
+su -l $USER -c 'cd ~/lab/dwm && git checkout f09418bbb6651ab4c299cfefbe1d18de401f630e'
+su -l $USER -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-ru_gaps-20200510-6.2.diff'
+su -l $USER -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-attachbottom-20200510-6.2.diff'
+su -l $USER -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-rotatestack-20200510-6.2.diff'
+su -l $USER -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-statuscolors-20200511-6.2.diff'
+su -l $USER -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-actualfullscreen-20200602-6.2.diff'
+su -l $USER -c 'cp ~/.yadrlite/dwm/dwm/config.h ~/lab/dwm'
 cd /home/$USER/lab/dwm && make install
 make clean
 # dwm - dmenu for app launcher script
-su -m $USER -c "git clone https://git.suckless.org/dmenu /home/$USER/lab/dmenu"
-su -m $USER -c "cd /home/$USER/lab/dmenu && git checkout db6093f6ec1bb884f7540f2512935b5254750b30"
-su -m $USER -c "cd /home/$USER/lab/dmenu && git apply -3 /home/$USER/.yadrlite/dwm/dmenu/dmenu-highlight-4.9.diff"
-su -m $USER -c "cp /home/$USER/.yadrlite/dwm/dmenu/config.h ~/lab/dmenu"
+su -l $USER -c 'git clone https://git.suckless.org/dmenu ~/lab/dmenu'
+su -l $USER -c 'cd ~/lab/dmenu && git checkout db6093f6ec1bb884f7540f2512935b5254750b30'
+su -l $USER -c 'cd ~/lab/dmenu && git apply -3 ~/.yadrlite/dwm/dmenu/dmenu-highlight-4.9.diff'
+su -l $USER -c 'cp ~/.yadrlite/dwm/dmenu/config.h ~/lab/dmenu'
 cd /home/$USER/lab/dmenu && make install
 make clean
 # dwm - slock for screen locking
-su -m $USER -c "git clone https://git.suckless.org/slock /home/$USER/lab/slock"
-su -m $USER -c "cd /home/$USER/lab/slock && git checkout 35633d45672d14bd798c478c45d1a17064701aa9"
-su -m $USER -c "cd /home/$USER/lab/slock && git apply -3 /home/$USER/.yadrlite/dwm/slock/slock-unlock_screen-1.4.diff"
-su -m $USER -c "cp /home/$USER/.yadrlite/dwm/slock/config.h /home/$USER/lab/slock"
+su -l $USER -c 'git clone https://git.suckless.org/slock ~/lab/slock'
+su -l $USER -c 'cd ~/lab/slock && git checkout 35633d45672d14bd798c478c45d1a17064701aa9'
+su -l $USER -c 'cd ~/lab/slock && git apply -3 ~/.yadrlite/dwm/slock/slock-unlock_screen-1.4.diff'
+su -l $USER -c 'cp ~/.yadrlite/dwm/slock/config.h ~/lab/slock'
 cd /home/$USER/lab/slock && make install
 make clean
 
@@ -118,35 +114,35 @@ make clean
 
 # copy over system start resources
 # # # # # # # # # # # # # # #
-su -m $USER -c "cp -f /home/$USER/.yadrlite/dwm/Xresources /home/$USER/.Xresources"
-su -m $USER -c "mkdir -p /home/$USER/.config/scripts"
-su -m $USER -c "cp /home/$USER/.yadrlite/dwm/scripts/* /home/$USER/.config/scripts"
-su -m $USER -c "cp /home/$USER/.yadrlite/dwm/xinitrc /home/$USER/.xinitrc"
-su -m $USER -c "cp -r /home/$USER/.yadrlite/dwm/ranger /home/$USER/.config"
+su -l $USER -c 'cp -f ~/.yadrlite/dwm/Xresources ~/.Xresources'
+su -l $USER -c 'mkdir -p ~/.config/scripts'
+su -l $USER -c 'cp ~/.yadrlite/dwm/scripts/* ~/.config/scripts'
+su -l $USER -c 'cp ~/.yadrlite/dwm/xinitrc ~/.xinitrc'
+su -l $USER -c "cp -r ~/.yadrlite/dwm/ranger ~/.config"
 cp -r ~/.yadrlite/dwm/ranger ~/.config
-su -m $USER -c "cp -r /home/$USER/.yadrlite/dwm/nvim /home/$USER/.config"
+su -l $USER -c "cp -r ~/.yadrlite/dwm/nvim ~/.config"
 cp -r ~/.yadrlite/dwm/nvim ~/.config
 sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"\nalias urxvt="urxvt256c"' /home/$USER/.bashrc
 sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"\nalias urxvt="urxvt256c"' ~/.bashrc
 # uncomment the following line to give Sudoers access to the user account
 echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
 # urxvt terminal font resizing
-su -m $USER -c "mkdir -p /home/$USER/.urxvt/ext" $USER
-su -m $USER -c "cd /home/$USER/.urxvt/ext && wget 'https://raw.githubusercontent.com/simmel/urxvt-resize-font/master/resize-font/'" $USER
+su -l $USER -c 'mkdir -p ~/.urxvt/ext'
+su -l $USER -c 'cd ~/.urxvt/ext && wget "https://raw.githubusercontent.com/simmel/urxvt-resize-font/master/resize-font"'
 # urxvt patch for extended color designations past 15
-su -m $USER -c "cd /home/$USER/.urxvt/ext && wget 'https://raw.githubusercontent.com/Roliga/urxvt-xresources-256/master/xresources-256'" $USER
+su -l $USER -c 'cd ~/.urxvt/ext && wget "https://raw.githubusercontent.com/Roliga/urxvt-xresources-256/master/xresources-256"'
 # powerline font patch
-su -m $USER -c "mkdir -p /home/$USER/.local/share/fonts/" $USER
-su -m $USER -c "cd /home/$USER/.local/share/fonts && svn checkout https://github.com/powerline/fonts/trunk/DejaVuSansMono" $USER
+su -l $USER -c 'mkdir -p ~/.local/share/fonts/'
+su -l $USER -c 'cd ~/.local/share/fonts && svn checkout https://github.com/powerline/fonts/trunk/DejaVuSansMono'
 fc-cache
 # misc
-su -m $USER -c "mkdir -p /home/$USER/Apps" $USER
+su -l $USER -c 'mkdir -p ~/Apps'
 
 # activate dunst
 # # # # # # # # # # # # # # #
 # systemctl enable --user dunst.service
 # systemctl start --user dunst.service
-su -m $USER -c "cp -r ~/.yadrlite/dwm/dunst /home/$USER/.config"
+su -l $USER -c "cp -r ~/.yadrlite/dwm/dunst ~/.config"
 # eval $(dbus-launch)
 
 # low battery indication
