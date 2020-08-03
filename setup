@@ -177,7 +177,7 @@ if [ "$action" == "install" ]; then
 
         echo '# tmux status options'>> $dir/tmux.conf
         echo "run-shell $dir/tmux/airline-hybrid.tmux">> $dir/tmux.conf
-    elif [[ "$(uname)" == "Linux" ]]; then
+    elif [[ "$(uname)" == "Linux" || "$(uname)" == "FreeBSD" ]]; then
         echo "Gnu/Linux detected..."
         echo '# tmux status options'>> $dir/tmux.conf
         echo "run-shell $dir/tmux/airline-hybrid-patched.tmux">> $dir/tmux.conf
@@ -199,7 +199,7 @@ if [ "$action" == "install" ]; then
     echo "" >> $dir/vimrc.after
     echo '" This fixes the ALT mappings in URXVT.' >> $dir/vimrc.after
 
-    if [[ "$(uname)" == "Linux" ]]; then
+    if [[ "$(uname)" == "Linux" || "$(uname)" == "FreeBSD" ]]; then
         echo 'let g:urxvt_fix=1' >> $dir/vimrc.after
         echo "# # A patch has been applied for URXVT."
         echo "# # If you do not use the URXVT terminal,"
