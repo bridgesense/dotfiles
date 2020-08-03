@@ -299,7 +299,8 @@
   (if (bound-and-true-p artist-mode)
       (artist-mode-off)
     (artist-mode)))
-
+;; export to epub
+(use-package ox-epub :ensure t)
 
 ;; Fix the terminal
 ;; # # # # # # # # # # #

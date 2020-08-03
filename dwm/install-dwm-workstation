@@ -285,6 +285,7 @@ flatpak install -y flathub com.spotify.Client
 flatpak install -y flathub org.signal.Signal
 flatpak install -y flathub com.skype.Client
 flatpak install -y flathub us.zoom.Zoom
+flatpak install -y flathub org.musescore.MuseScore  
 
 # Install Browsers
 dnf install -y chromium-freeworld firefox-x11
@@ -387,7 +388,21 @@ printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/shutdown.de
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/shutdown.desktop
 printf 'Name=Shutdown Now\n' >> /home/$USER/.local/share/applications/shutdown.desktop
 printf "Exec=/home/$USER/.config/scripts/shutdown-confirm\n" >> /home/$USER/.local/share/applications/shutdown.desktop
-
+su -c 'touch ~/.local/share/applications/mpvdvd.desktop' $USER
+printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/mpvdvd.desktop
+printf 'Type=Application\n' >> /home/$USER/.local/share/applications/mpvdvd.desktop
+printf 'Name=mpv Media Player DVD\n' >> /home/$USER/.local/share/applications/mpvdvd.desktop
+printf "Exec=mpv --dvd-device=/dev/sr0 dvd://\n" >> /home/$USER/.local/share/applications/mpvdvd.desktop
+su -c 'touch ~/.local/share/applications/mpvdvdall.desktop' $USER
+printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/mpvdvdall.desktop
+printf 'Type=Application\n' >> /home/$USER/.local/share/applications/mpvdvdall.desktop
+printf 'Name=mpv Media Player DVD Play All\n' >> /home/$USER/.local/share/applications/mpvdvdall.desktop
+printf "Exec=mpv --dvd-device=/dev/sr0 dvd://0 dvd://1 dvd://2 dvd://3 dvd://4 dvd://5 dvd://6 dvd://7 dvd://8 dvd://9\n" >> /home/$USER/.local/share/applications/mpvdvd.desktop
+su -c 'touch ~/.local/share/applications/mpvbd.desktop' $USER
+printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/mpvbd.desktop
+printf 'Type=Application\n' >> /home/$USER/.local/share/applications/mpvbd.desktop
+printf 'Name=mpv Media Player Bluray\n' >> /home/$USER/.local/share/applications/mpvbd.desktop
+printf "Exec=mpv --bluray-device=/dev/sr0 bd://\n" >> /home/$USER/.local/share/applications/mpvbd.desktop 
 # Install Multimedia Codecs
 dnf install -y rpmfusion-free-release-tainted
 dnf install -y mpv devedeng youtube-dl
