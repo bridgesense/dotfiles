@@ -21,8 +21,6 @@ kldload linux64
 pkg install -y autoconf automake git htop rsync
 bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
 su -l $USER -c 'bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"'
-su -l $USER -c 'chsh -s /usr/local/bin/bash'
-chsh -s /usr/local/bin/bash
 
 # Xorg base
 # # # # # # # # # # # # # # #
@@ -69,12 +67,15 @@ echo "perm    devstat 0444" >> /etc/devfs.conf
 
 # suckless setup
 # st - terminal
+su -c 'mkdir ~/lab' $USER
+su -c 'git clone https://git.suckless.org/st ~/lab/st' $USER
+su -c 'cd ~/lab/st && git checkout 914fb825df3bde7abdd7947e54f8bf4d2b55e34e' $USER
 su -l $USER -c 'cd ~/lab/st && git apply -3 ~/.yadrlite/dwm/st/st-scrollback-20200419-72e3f6c.diff'
 su -l $USER -c 'cd ~/lab/st && git apply -3 ~/.yadrlite/dwm/st/st-scrollback-mouse-20191024-a2c479c.diff'
 su -l $USER -c 'cd ~/lab/st && git apply -3 ~/.yadrlite/dwm/st/st-alpha-0.8.2.diff'
 su -l $USER -c 'cd ~/lab/st && git apply -3 ~/.yadrlite/dwm/st/st-gruvbox-both-alpha-20200510-0.8.3.diff'
 su -l $USER -c 'cp ~/.yadrlite/dwm/st/config.h ~/lab/st'
-su -l $USER -c 'cp -f ~/.yadrlite/dwm/st/config.mk.bsd ~/lab/st/config.mk'
+su -l $USER -c 'cp -f ~/.yadrlite/dwm/st/config.mk ~/lab/st/config.mk'
 cd /home/$USER/lab/st && make install clean
 # dwm - windows manager
 su -l $USER -c 'git clone https://git.suckless.org/dwm ~/lab/dwm'
@@ -85,21 +86,21 @@ su -l $USER -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-rotatestack
 su -l $USER -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-statuscolors-20200511-6.2.diff'
 su -l $USER -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-actualfullscreen-20200602-6.2.diff'
 su -l $USER -c 'cp ~/.yadrlite/dwm/dwm/config.h ~/lab/dwm'
-su -l $USER -c 'cp -f ~/.yadrlite/dwm/dwm/config.mk.bsd ~/lab/dwm/config.mk'
+su -l $USER -c 'cp -f ~/.yadrlite/dwm/dwm/config.mk ~/lab/dwm/config.mk'
 cd /home/$USER/lab/dwm && make install clean
 # dwm - dmenu for app launcher script
 su -l $USER -c 'git clone https://git.suckless.org/dmenu ~/lab/dmenu'
 su -l $USER -c 'cd ~/lab/dmenu && git checkout db6093f6ec1bb884f7540f2512935b5254750b30'
 su -l $USER -c 'cd ~/lab/dmenu && git apply -3 ~/.yadrlite/dwm/dmenu/dmenu-highlight-4.9.diff'
 su -l $USER -c 'cp ~/.yadrlite/dwm/dmenu/config.h ~/lab/dmenu'
-su -l $USER -c 'cp -f ~/.yadrlite/dwm/dmenu/config.mk.bsd ~/lab/dmenu/config.mk'
+su -l $USER -c 'cp -f ~/.yadrlite/dwm/dmenu/config.mk ~/lab/dmenu/config.mk'
 cd /home/$USER/lab/dmenu && make install clean
 # dwm - slock for screen locking
 su -l $USER -c 'git clone https://git.suckless.org/slock ~/lab/slock'
 su -l $USER -c 'cd ~/lab/slock && git checkout 35633d45672d14bd798c478c45d1a17064701aa9'
 su -l $USER -c 'cd ~/lab/slock && git apply -3 ~/.yadrlite/dwm/slock/slock-unlock_screen-1.4.diff'
 su -l $USER -c 'cp ~/.yadrlite/dwm/slock/config.h ~/lab/slock'
-su -l $USER -c 'cp -f ~/.yadrlite/dwm/slock/config.mk.bsd ~/lab/slock/config.mk'
+su -l $USER -c 'cp -f ~/.yadrlite/dwm/slock/config.mk ~/lab/slock/config.mk'
 cd /home/$USER/lab/slock && make install clean
 
 # install xbanish
@@ -116,8 +117,8 @@ su -l $USER -c "cp -r ~/.yadrlite/dwm/ranger ~/.config"
 cp -r ~/.yadrlite/dwm/ranger ~/.config
 su -l $USER -c "cp -r ~/.yadrlite/dwm/nvim ~/.config"
 cp -r ~/.yadrlite/dwm/nvim ~/.config
-sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\na lias vi="nvim"\nalias vim="nvim"\nalias urxvt="urxvt256c"' /home/$USER/.bashrc
-sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"\nalias urxvt="urxvt256c"' ~/.bashrc
+sed -i '/# Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"\nalias urxvt="urxvt256c"' /home/$USER/.bashrc
+sed -i '/# Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"\nalias urxvt="urxvt256c"' ~/.bashrc
 # uncomment the following line to give Sudoers access to the user account
 echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
 # urxvt terminal font resizing
@@ -126,8 +127,7 @@ su -l $USER -c 'cd ~/.urxvt/ext && wget "https://raw.githubusercontent.com/simme
 # urxvt patch for extended color designations past 15
 su -l $USER -c 'cd ~/.urxvt/ext && wget "https://raw.githubusercontent.com/Roliga/urxvt-xresources-256/master/xresources-256"'
 # powerline font patch
-su -l $USER -c 'mkdir -p ~/.local/share/fonts/'
-su -l $USER -c 'cd ~/.local/share/fonts && svn checkout https://github.com/powerline/fonts/trunk/DejaVuSansMono'
+pkg install -y powerline-fonts
 fc-cache
 # misc
 su -l $USER -c 'mkdir -p ~/Apps'
@@ -206,16 +206,16 @@ cp /usr/local/etc/php.ini-production /usr/local/etc/php.ini
 # required modules for boris and phpctags
 # # # # # # # # # # # # # # #
 dnf install -y php74-json php74-readline
-# pkg install -y ruby 
-# gem install rails
-# pkg install -y node yarn npm
-# npm install npm@latest -g
-# npm install -g grunt-cli coffee-jshint eslint js-yaml csslint-lite
-# su -l $USER -c 'git clone https://github.com/xcwen/phpctags.git ~/lab/phpctags'
-# su -l $USER -c 'make -C ~/lab/phpctags'
-# cp /home/$USER/lab/phpcstags/phpctags.phar /usr/local/bin/
-# gem update
-# gem install compass
+pkg install -y ruby ruby26-gems
+gem install rails
+pkg install -y node yarn npm
+npm install npm@latest -g
+npm install -g grunt-cli coffee-jshint eslint js-yaml csslint-lite
+su -l $USER -c 'git clone https://github.com/xcwen/phpctags.git ~/lab/phpctags'
+su -l $USER -c 'make -C ~/lab/phpctags'
+cp /home/$USER/lab/phpcstags/phpctags.phar /usr/local/bin/
+gem update
+gem install compass
 
 # boris (nice PHP sandbox tool)
 # # # # # # # # # # # # # # #
@@ -247,8 +247,8 @@ pkg install -y ctags
 # # neovim
 pkg install -y neovim py37-pip
 pip install pynvim
-# gem install neovim
-# npm install -g neovim
+gem install neovim
+npm install -g neovim
 #
 # emacs
 pkg install -y emacs
@@ -269,7 +269,7 @@ pkg install -y chromium firefox
 pkg install -y xf86-input-synaptic
 echo 'hw.psm.synaptics_support="1"' >> /boot/loader.conf
 service bluetooth enable
-service bluetooth startp
+service bluetooth start
 
 # Firewall
 service ipfw enable
