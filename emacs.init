@@ -115,15 +115,6 @@
 (setf epa-pinentry-mode 'loopback)
 
 
-;; clipboard sharing
-;; # # # # # # # # # # #
-;; enable save to clipboard
-(setq x-select-enable-clipboard t)
-(use-package xclip :ensure t
-    :config
-    (xclip-mode 1))
-
-
 ;; File Managementa
 ;; # # # # # # # # # # #
 (defun my-put-file-name-on-clipboard ()
@@ -155,6 +146,15 @@
 
 ;; CSV Mode
 ;; (use-package csv-mode :ensure t)
+
+
+;; clipboard sharing
+;; # # # # # # # # # # #
+;; enable save to clipboard
+(setq x-select-enable-clipboard t)
+(use-package xclip :ensure t
+    :config
+    (xclip-mode 1))
 
 
 ;; # # # # # # # # # # #
