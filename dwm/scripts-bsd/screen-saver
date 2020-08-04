@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# detect swapped workstations 
+pkill -f asciiquarium
+pkill -f slock
+setxkbmap -synch
+xrandr --auto
+sleep 0.5 
+
+# kill any instance of asciiquarium
+urxvt -e sh -c "wmctrl -x -r urxvt -b add,fullscreen; asciiquarium" &
+slock
+bash ~/.config/scripts/screen-init 
+pkill -f asciiquarium

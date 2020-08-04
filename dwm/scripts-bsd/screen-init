@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# handle screen changes
+DEFAULT_LAYOUT="/home/$USER/.screenlayout/default.sh"
+if [[ -f "$DEFAULT_LAYOUT" ]]; then
+    bash -c "$DEFAULT_LAYOUT"
+else
+    xrandr --auto
+    sleep 0.5
+    mapfile -t monitor < <(xrandr -q | grep " connected ")
+    if [ ${#monitor[@]} -eq 1 ]; then
+        primary=(`echo ${monitor[0]} | cut -f 1 -d " "`)
+        xrandr --output ${primary} --primary --auto
+    else
+        # flips primary to external monitor
+        if [[ "primary" == *"${monitor[0]}"* ]]; then
+            primary=(`echo ${monitor[1]} | cut -f 1 -d " "`)
+            secondary=(`echo ${monitor[0]} | cut -f 1 -d " "`)
+        else
+            primary=(`echo ${monitor[0]} | cut -f 1 -d " "`)
+            secondary=(`echo ${monitor[1]} | cut -f 1 -d " "`)
+        fi
+        xrandr --output ${primary} --primary --right-of ${secondary} --auto
+    fi
+fi
+
+# repaints backgrounds 
+feh --randomize --bg-scale /home/$USER/Nextcloud/backgrounds/*
+# This swaps Esc and Caps Lock Keys
+setxkbmap -option caps:swapescape
+# this example connects a bluetooth device
+echo -e "connect A4:E9:75:F0:EF:87 \nquit" | bluetoothctl
+# simple lockout screen that leaves the machine running
+# build/update dmenu cache 
+$SHELL /home/$USER/.config/scripts/dmenu-app-launcher -build
