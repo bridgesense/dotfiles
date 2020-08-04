@@ -45,9 +45,9 @@ main() {
             if [[ $n =~ (\.png)|(\.stp)$ ]]; then
                 continue
             fi
-            names+=$'\n'"$n"
-            PATHS["$n"]="$f"
-        done <<< "$(find -L ${PATH//:/\/ } ${XDG_DATA_DIRS//:/\/ } /home/$USER/.local /home/$USER/Desktop -type f -name "*.desktop" | sort -r)"
+	    names+=$'\n'"$n"
+	    PATHS["$n"]="$f"
+        done <<< "$(find -L /usr/local/share/applications /home/$USER/.local /home/$USER/Desktop -type f -name "*.desktop" | sort -r)"
         echo "names=\"$names\"" > $cache_file; declare -A $PATHS -p >> $cache_file 
         if [ $action == "-build" ]; then
             notify-send -i "new dmenu cache built" "dmenu is ready."
