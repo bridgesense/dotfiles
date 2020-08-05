@@ -67,9 +67,9 @@ echo "perm    devstat 0444" >> /etc/devfs.conf
 
 # suckless setup
 # st - terminal
-su -c 'mkdir ~/lab' $USER
-su -c 'git clone https://git.suckless.org/st ~/lab/st' $USER
-su -c 'cd ~/lab/st && git checkout 914fb825df3bde7abdd7947e54f8bf4d2b55e34e' $USER
+su -l $USER -c 'mkdir ~/lab'
+su -l $USER -c 'git clone https://git.suckless.org/st ~/lab/st'
+su -l $USER -c 'cd ~/lab/st && git checkout 914fb825df3bde7abdd7947e54f8bf4d2b55e34e'
 su -l $USER -c 'cd ~/lab/st && git apply -3 ~/.yadrlite/dwm/st/st-scrollback-20200419-72e3f6c.diff'
 su -l $USER -c 'cd ~/lab/st && git apply -3 ~/.yadrlite/dwm/st/st-scrollback-mouse-20191024-a2c479c.diff'
 su -l $USER -c 'cd ~/lab/st && git apply -3 ~/.yadrlite/dwm/st/st-alpha-0.8.2.diff'
@@ -405,6 +405,9 @@ pkg install -y ffmpeg openssl makemkv
 # dnf install regionset
 # regionset /dev/sr0
 # rm ~/.dvdcss
+
+# ... in case you want to enable bash by default
+# chsh -s /usr/local/bin/bash
 
 printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
 printf "ALL DONE.  PLEASE REBOOT YOUR SYSTEM."
