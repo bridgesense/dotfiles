@@ -22,27 +22,13 @@ pkg install -y autoconf automake git htop rsync
 bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
 su -l $USER -c 'bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"'
 
-# Xorg base
-# # # # # # # # # # # # # # #
-
-# Install Ports 
-# # # # # # # # # # # # # # #
-# portsnap fetch
-# portsnap extract
-# cd /usr/ports/ports-mgmt/portmaster
-# make install clean
-# portmaster -G --no-confirm sysutils/gnome-control-center 
-# portmaster -G --no-confirm devel/ruby-gems 
-# portmaster -G --no-confirm multimedia/devede 
-# ln -s /usr/ports/multimedia/devede/work/stage/usr/local/bin/devede /usr/bin/devede
-
 # Install supporting applications
 # # # # # # # # # # # # # # #
 pkg install -y xorg
 pkg install -y font-awesome gucharmap
 pkg install -y xbacklight feh sxhkd setxkbmap
-pkg install -y xautolock asciiquarium
-pkg install -y lxappearance redshift
+pkg install -y xautolock asciiquarium wmctrl
+pkg install -y lxappearance
 pkg install -y pulseaudio alsa-utils compton 
 pkg install -y pulseeffects pavucontrol
 pkg install -y rxvt-unicode xclip vim
@@ -54,16 +40,31 @@ pkg install -y nemo
 pkg install -y fusefs-ext2 libmtp gvfs
 pkg install -y system-config-printer
 pkg install -y nomacs
-# dnf install -y simple-scan
-pkg install -y gnome-disk-utility atool
-pkg install -y cups hplip
+pkg install -y atool wifimgr
+pkg install -y cups hplip xsane
 pkg install -y clamav
 pkg install -y brasero
+pkg install -y freecolor
+
+# kldload coretemp
+# sysctl dev.cpu.0.temperature
+# sysctl: unknown oid 'dev.cpu.0.temperature'
+# sysctl -a|grep temperature
+# sukldload coretemp ; kldload acpi ; kldload aibs
 
 # gnome control center
+sysrc gnome_enable="YES"
 pkg install -y gnome-control-center
 chmod 0444 /dev/devstat
 echo "perm    devstat 0444" >> /etc/devfs.conf
+
+# redshift
+pkg install -y redshift
+echo "[redshift]" >> /usr/local/etc/geoclue/geoclue.conf
+echo "allowed=true" >> /usr/local/etc/geoclue/geoclue.conf
+echo "system=false" >> /usr/local/etc/geoclue/geoclue.conf
+echo "users=" >> /usr/local/etc/geoclue/geoclue.conf
+su -l $USER -c "mkdir ~/.config/redshift && cp ~/.yadrlite/dwm/redshift/redshift.conf ~/.config/redshift"
 
 # suckless setup
 # st - terminal
@@ -85,7 +86,7 @@ su -l $USER -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-attachbotto
 su -l $USER -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-rotatestack-20200510-6.2.diff'
 su -l $USER -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-statuscolors-20200511-6.2.diff'
 su -l $USER -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-actualfullscreen-20200602-6.2.diff'
-su -l $USER -c 'cp ~/.yadrlite/dwm/dwm/config.h ~/lab/dwm'
+su -l $USER -c 'cp ~/.yadrlite/dwm/dwm/config.h.bsd ~/lab/dwm/config.h'
 su -l $USER -c 'cp -f ~/.yadrlite/dwm/dwm/config.mk ~/lab/dwm/config.mk'
 cd /home/$USER/lab/dwm && make install clean
 # dwm - dmenu for app launcher script
@@ -115,10 +116,20 @@ su -l $USER -c 'cp ~/.yadrlite/dwm/scripts-bsd/* ~/.config/scripts'
 su -l $USER -c 'cp ~/.yadrlite/dwm/xinitrc ~/.xinitrc'
 su -l $USER -c "cp -r ~/.yadrlite/dwm/ranger ~/.config"
 cp -r ~/.yadrlite/dwm/ranger ~/.config
-su -l $USER -c "cp -r ~/.yadrlite/dwm/nvim ~/.config"
-cp -r ~/.yadrlite/dwm/nvim ~/.config
-sed -i '/# Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"\nalias urxvt="urxvt256c"' /home/$USER/.bashrc
-sed -i '/# Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"\nalias urxvt="urxvt256c"' ~/.bashrc
+su -l $USER -c "mkdir ~/.config/nvim && cp ~/.yadrlite/dwm/nvim/init.vim.bsd ~/.config/nvim/init.vim"
+mkdir ~/.config/nvim && cp ~/.yadrlite/dwm/nvim/init.vim.bsd ~/.config/nvim/init.vim
+
+sed '
+/Default Prompt/a\
+export XDG_CURRENT_DESKTOP=GNOME\
+export XDG_RUNTIME_DIR=/tmp\
+export EDITOR=nvim\
+export PAGER=less\
+alias vi="nvim"\
+alias vim="nvim"\
+alias urxvt="urxvt256c"
+' /home/$USER/.bashrc > ~/.bashrc
+su -l $USER -c "cp /root/.bashrc ~/.bashrc"
 # uncomment the following line to give Sudoers access to the user account
 echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
 # urxvt terminal font resizing
@@ -135,13 +146,13 @@ su -l $USER -c 'mkdir -p ~/Apps'
 # activate dunst
 # # # # # # # # # # # # # # #
 service dbus enable
-service dbus start
 su -l $USER -c "cp -r ~/.yadrlite/dwm/dunst ~/.config"
 
 # low battery indication
 # # # # # # # # # # # # # # #
-# sudo dnf install -y acpi ntpdate
-# (crontab -u $USER -l; echo "*/15 * * * * $SHELL /home/${USER}/.config/scripts/battery >/dev/null 2>&1") | crontab -u $USER -
+(crontab -u $USER -l; echo "*/15 * * * * bash /home/${USER}/.config/scripts/battery >/dev/null 2>&1") | crontab -u $USER -
+
+top -d1 | head -n 7
 
 # backlight fix for i915 GPU's
 # to work with cbacklight script
@@ -227,7 +238,6 @@ mv boris.phar /usr/local/bin/boris
 # # # # # # # # # # # # # # #
 pkg install -y php74-composer
 sudo sed -i "s#;phar.readonly = On#phar.readonly = Off#" /etc/php.ini
-#   systemctl restart httpd
 su -l $USER -c "mkdir -p ~/lab/box-phar"
 goosu -l $USER -c "cd ~/lab/box-phar && curl -LSs https://box-project.github.io/box2/installer.php | php"
 cp /home/$USER/lab/box-phar/box.phar /usr/local/bin/box && chmod 755 /usr/local/bin/box
@@ -269,11 +279,9 @@ pkg install -y chromium firefox
 pkg install -y xf86-input-synaptic
 echo 'hw.psm.synaptics_support="1"' >> /boot/loader.conf
 service bluetooth enable
-service bluetooth start
 
 # Firewall
-service ipfw enable
-service ipfw start
+# service ipfw enable
 sysrc firewall_enable="YES"
 sysrc firewall_type="client"
 sysrc firewall_logging="YES"
@@ -299,10 +307,10 @@ pkg install -y jpeg lib smpeg
 pkg install -y libvorbis freetype 
 pkg install -y jam gtk2
 cd /home/$USER/lab/garglk
-sudo env SYSTEM=1 jam install
-sudo ln -s -f /usr/local/libexec/gargoyle/gargoyle /usr/local/bin/gargoyle
-sudo ln -s -f /usr/local/lib/gargoyle/libgarglk.so /usr/lib/libgarglk.so
-sudo cp garglk/garglk.ini /etc/garglk.ini
+env SYSTEM=1 jam install
+ln -s -f /usr/local/libexec/gargoyle/gargoyle /usr/local/bin/gargoyle
+ln -s -f /usr/local/lib/gargoyle/libgarglk.so /usr/lib/libgarglk.so
+cp garglk/garglk.ini /etc/garglk.ini
 su -l $USER -c 'cp ~/.yadrlite/dwm/garglk.ini ~/.garglkrc'
 
 # Chess
@@ -350,6 +358,7 @@ chown +x /sbin/shutdown
 chown +x /sbin/poweroff
 
 # add manual entries
+su -l $USER -c 'mkdir ~/.local/share/applications'
 su -l $USER -c 'touch ~/.local/share/applications/screensaver.desktop'
 printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/screensaver.desktop
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/screensaver.desktop
@@ -385,6 +394,11 @@ printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/mpvbd.deskt
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/mpvbd.desktop
 printf 'Name=mpv Media Player Bluray\n' >> /home/$USER/.local/share/applications/mpvbd.desktop
 printf "Exec=mpv --bluray-device=/dev/sr0 bd://\n" >> /home/$USER/.local/share/applications/mpvbd.desktop 
+su -l $USER -c 'touch ~/.local/share/applications/appearance.desktop'
+printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/appearance.desktop
+printf 'Type=Application\n' >> /home/$USER/.local/share/applications/appearance.desktop
+printf 'Name=Desktop Appearance Settings\n' >> /home/$USER/.local/share/applications/appearance.desktop
+printf "Exec=lxappearance\n" >> /home/$USER/.local/share/applications/appearance.desktop 
 
 # Install Multimedia Codecs
 pkg install -y mpv youtube-dl
@@ -394,7 +408,7 @@ pkg install -y ffmpeg
 pkg install -y lsdvd libdvdnav libdvdread libdvdcss
 pkg install -y openjdk8
 pkg install -y libbluray
-su -c "cp -r ~/.yadrlite/dwm/mpv ~/.config" $USER
+su -l $USER -c "cp -r ~/.yadrlite/dwm/mpv ~/.config"
 
 # Bluray Playback
 # # # # # # # # # # # # # # #
