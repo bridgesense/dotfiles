@@ -30,7 +30,7 @@ dwm_alsa () {
 }
 
 dwm_backlight () {
-    printf "\x01%s ☀ %.0f%% \n" "$sep_line" "$(cbacklight)"
+    printf "\x01%s ☀ %.0f%% \n" "$sep_line" "$(xbacklight)"
 }
 
 dwm_networkmanager () {
@@ -79,7 +79,7 @@ dwm_networkmanager () {
     #     PUBLIC=$(curl -s https://ipinfo.io/ip)
 
     printf "\x03%s " "$sep_line"
-    printf "🌐 %s  %s kb/s %s \n" "$upspeed" "$downspeed" "$CONNAME"
+    printf "🌐 %s <> %s kb/s %s \n" "$upspeed" "$downspeed" "$CONNAME"
 }
 
 
@@ -87,33 +87,35 @@ dwm_resources () {
     # Used and total memory
     #MEMUSED=$(free -h | awk '(NR == 2) {print $3}')
     #MEMTOT=$(free -h |awk '(NR == 2) {print $2}')
-    MEMFREE=$(free -h | awk '(NR == 2) {print $4}')
+    MEMFREE=$(freecolor -m -o | awk '(NR == 2) {printf $4}')
+    MEMFREE="$( echo "scale=1; $MEMFREE / 1024" | bc -l)G"
 
     #TOTAL_SIZE=$(df -ht xfs --total | tail -1 | awk {'printf $2'})
     #USED_SIZE=$(df -ht xfs --total | tail -1 | awk {'printf $3'})
-    AVAILABLE=$(df -ht xfs --total | tail -1 | awk {'printf $4'})
+    AVAILABLE=$(df -h | awk '(NR == 2) {printf $4}')
     #PERCENTAGE=$(df -ht xfs --total | tail -1 | awk {'printf $5'})
 
     # CPU load
     # Get the first line with aggregate of all CPUs
-    cpu_last=($(head -n1 /proc/stat))
-    cpu_last_sum="${cpu_last[@]:1}"
-    cpu_last_sum=$((${cpu_last_sum// /+}))
-
-    sleep 0.05
-
-    cpu_now=($(head -n1 /proc/stat))
-    cpu_sum="${cpu_now[@]:1}"
-    cpu_sum=$((${cpu_sum// /+}))
-
-    cpu_delta=$((cpu_sum - cpu_last_sum))
-    cpu_idle=$((cpu_now[4]- cpu_last[4]))
-    cpu_used=$((cpu_delta - cpu_idle))
-    cpu_usage=$((100 * cpu_used / cpu_delta))
+    # cpu_last=($(head -n1 /proc/stat))
+    # cpu_last_sum="${cpu_last[@]:1}"
+    # cpu_last_sum=$((${cpu_last_sum// /+}))
+    #
+    # sleep 0.05
+    #
+    # cpu_now=($(head -n1 /proc/stat))
+    # cpu_sum="${cpu_now[@]:1}"
+    # cpu_sum=$((${cpu_sum// /+}))
+    #
+    # cpu_delta=$((cpu_sum - cpu_last_sum))
+    # cpu_idle=$((cpu_now[4]- cpu_last[4]))
+    # cpu_used=$((cpu_delta - cpu_idle))
+    # cpu_usage=$((100 * cpu_used / cpu_delta))
+    cpu_usage=$(top -bt | awk '(NR == 3) {print $2}')
 
     # Keep this as last for our next read
-    cpu_last=("${cpu_now[@]}")
-    cpu_last_sum=$cpu_sum
+    # cpu_last=("${cpu_now[@]}")
+    # cpu_last_sum=$cpu_sum
 
     # CPU temperature
     PREFIX=' '
@@ -121,14 +123,16 @@ dwm_resources () {
     WARNING_LEVEL=80
     # CPU_T=$(cat /sys/devices/platform/coretemp.0/hwmon/hwmon?/temp2_input)
 	# CPU_TEMP=$(expr $CPU_T / 1000)
-	CPU_TEMP="$(sensors | grep temp1 | awk 'NR==1{gsub("+", " "); gsub("\\..", " "); print $2}')"
+	#CPU_TEMP="$(sensors | grep temp1 | awk 'NR==1{gsub("+", " "); gsub("\\..", " "); print $2}')"
+    CPU_TEMP=0
 	if [ "$CPU_TEMP" -ge $WARNING_LEVEL ]; then
 		PREFIX="$FIRE$PREFIX"
 	fi
 
     printf "\x02%s " "$sep_line"
     #printf "🧠 MEM %s/%s CPU %s STO %s/%s: %s \n" "$MEMUSED" "$MEMTOT" "$CPU" "$STOUSED" "$STOTOT" "$STOPER"
-    printf "💻 %s  🧠 %s  %s%% %s°C \n" "$AVAILABLE" "$MEMFREE" "$cpu_usage" "$PREFIX$CPU_TEMP"
+    # printf "💻 %s  🧠 %s  %s%% %s°C \n" "$AVAILABLE" "$MEMFREE" "$cpu_usage" "$PREFIX$CPU_TEMP"
+    printf "💻 %s  🧠 %s  %s %s°C \n" "$AVAILABLE" "$MEMFREE" "$cpu_usage" "$PREFIX$CPU_TEMP"
 }
 
 
@@ -149,33 +153,27 @@ dwm_battery()
     ICON_COLOR=1
     # The vast majority of people only use one battery.
 
-	if [ -d /sys/class/power_supply/BAT0 ]; then
+    # if [[ $(apm -t) -ge 0 ]]; then
+    if [ 1 ]; then
         # Change BAT0 to whatever your battery is identified as. Typically BAT0 or BAT0
-		capacity=$(cat /sys/class/power_supply/BAT0/capacity)
-		charging=$(cat /sys/class/power_supply/BAT0/status)
-        
+		capacity=$(apm -l)
+		spent=$(apm -t)
+		charging=$(apm -b)
 
-		if [[ "$charging" == "Charging" ]]; then
+		if [[ "$charging" == 3 ]]; then
 			ICON="$CHARGING_ICON"
             ICON_COLOR=3
-            bat_status=$(upower -i $(upower -e | grep BAT0) | grep -oP 'time to full:\K[^"]+')
-		elif [[ $capacity -le 25 ]]; then
+            bat_status=$(echo "scale=2; ${spent} / 60 / 60" | bc -l)
+		elif [[ "$charging" == 2 ]]; then
 			ICON="$WARNING_ICON"
             ICON_COLOR=4
-            bat_status=$(upower -i $(upower -e | grep BAT0) | grep -oP 'time to empty:\K[^"]+')
+            bat_status=$(echo "scale=2; ${spent} / 60 / 60" | bc -l)
         else
-            bat_status=$(upower -i $(upower -e | grep BAT0) | grep -oP 'time to empty:\K[^"]+')
-        fi
-
-        if [[ "$bat_status" == "" ]]; then
-            if [[ "$charging" == "Unknown" ]]; then
-                bat_status="";
-            else
-                bat_status=$charging;
-            fi
+            bat_status=$(echo "scale=2; ${spent}} / 60 / 60" | bc -l)
         fi
 
 		if [[ $capacity -ge $FULL_AT ]]; then
+            bat_status="Full";
 			BAT_ICON=$BATTERY_FULL_ICON
 		elif [[ $capacity -le 25 ]]; then
 			BAT_ICON=$BATTERY_4_ICON

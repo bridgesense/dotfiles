@@ -3,9 +3,9 @@
 # include the following line
 # */15 * * * * /bin/bash /home/francis/.config/i3/battery >/dev/null 2>&1
 
-BATTINFO=`apm -l`
+BATTINFO=$(echo "`apm -t` / 60" | bc)
 
-if [[ $BATTINFO < 30 ]] ;
+if [[ `apm -b` != 0 && `apm -b` != 3 && $BATTINFO < 30 ]] ;
 then
-    DISPLAY=:0.0 /usr/bin/notify-send -u critical "low battery" "only $BATTINFO min left!"
+    DISPLAY=:0.0 /usr/local/bin/notify-send -u critical "low battery" "only $BATTINFO min left!"
 fi

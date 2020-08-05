@@ -31,4 +31,4 @@ setxkbmap -option caps:swapescape
 echo -e "connect A4:E9:75:F0:EF:87 \nquit" | bluetoothctl
 # simple lockout screen that leaves the machine running
 # build/update dmenu cache 
-$SHELL /home/$USER/.config/scripts/dmenu-app-launcher -build
+bash /home/$USER/.config/scripts/dmenu-app-launcher -build

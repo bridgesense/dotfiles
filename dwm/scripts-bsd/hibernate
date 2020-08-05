@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-$(/usr/bin/systemctl suspend && /usr/bin/xautolock -locknow)
+$(/usr/sbin/acpiconf -s 3 && /usr/bin/xautolock -locknow)
