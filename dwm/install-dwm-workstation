@@ -32,7 +32,8 @@ dnf install -y @base-x
 dnf install -y @Fonts gdouros-symbola-fonts fontawesome-fonts xorg-x11-fonts-misc gucharmap
 dnf install -y xbacklight feh sxhkd
 dnf install -y xautolock asciiquarium
-dnf install -y lxappearance arc-theme redshift-gtk
+dnf install -y gnome-tweaks arc-theme redshift-gtk
+dnf install -y gtk-murrine-engine gtk-engines
 dnf install -y pulseaudio alsa-utils pulseaudio-utils compton 
 dnf install -y pulseeffects pavucontrol
 dnf install -y rxvt-unicode xclip vim-common
@@ -109,6 +110,11 @@ su -c 'git clone https://github.com/jcs/xbanish.git ~/lab/xbanish' $USER
 su -c 'make -C ~/lab/xbanish' $USER
 cd /home/$USER/lab/xbanish && make install
 make clean
+
+# More themes
+# # # # # # # # # # # # # # #
+su -c 'git clone https://github.com/vinceliuice/Matcha-gtk-theme.git ~/lab/matcha' $USER
+su -c 'cd ~/lab/matcha && bash install.sh' $USER
 
 # copy over system start resources
 # # # # # # # # # # # # # # #
@@ -212,6 +218,7 @@ dnf install -y php
 # # # # # # # # # # # # # # #
 dnf install -y php-json php-readline php-process
 dnf install -y nodejs nodejs-yarn ruby-devel
+npm install -g npm@latest
 npm install -g grunt-cli coffee-jshint eslint js-yaml csslint
 su -c 'git clone https://github.com/xcwen/phpctags.git ~/lab/phpctags' $USER
 su -c 'make -C ~/lab/phpctags' $USER
@@ -285,7 +292,7 @@ flatpak install -y flathub com.spotify.Client
 flatpak install -y flathub org.signal.Signal
 flatpak install -y flathub com.skype.Client
 flatpak install -y flathub us.zoom.Zoom
-flatpak install -y flathub org.musescore.MuseScore  
+flatpak install -y flathub org.musescore.MuseScore
 
 # Install Browsers
 dnf install -y chromium-freeworld firefox-x11
