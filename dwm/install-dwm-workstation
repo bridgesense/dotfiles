@@ -426,15 +426,15 @@ su -c "cp -r ~/.yadrlite/dwm/mpv ~/.config" $USER
 # Bluray Playback
 # # # # # # # # # # # # # # #
 dnf install -y ffmpeg-devel openssl-devel qt5-devel
-su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-oss-1.15.1.tar.gz' $USER
-su -c 'cd ~/lab && tar xpf makemkv-oss-1.15.1.tar.gz' $USER
-su -c 'cd ~/lab/makemkv-oss-1.15.1 && ./configure' $USER
-su -c 'make -C ~/lab/makemkv-oss-1.15.1' $USER
-cd /home/$USER/lab/makemkv-oss-1.15.1 && make install
-su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-bin-1.15.1.tar.gz' $USER
-su -c 'cd ~/lab && tar xpf makemkv-bin-1.15.1.tar.gz' $USER
-su -c 'make -C ~/lab/makemkv-bin-1.15.1' $USER
-cd /home/$USER/lab/makemkv-bin-1.15.1 && make install
+su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-oss-1.15.2.tar.gz' $USER
+su -c 'cd ~/lab && tar xpf makemkv-oss-1.15.2.tar.gz' $USER
+su -c 'cd ~/lab/makemkv-oss-1.15.2 && ./configure' $USER
+su -c 'make -C ~/lab/makemkv-oss-1.15.2' $USER
+cd /home/$USER/lab/makemkv-oss-1.15.2 && make install
+su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-bin-1.15.2.tar.gz' $USER
+su -c 'cd ~/lab && tar xpf makemkv-bin-1.15.2.tar.gz' $USER
+su -c 'make -C ~/lab/makemkv-bin-1.15.2' $USER
+cd /home/$USER/lab/makemkv-bin-1.15.2 && make install
 
 # TROUBLESHOOTING 
 # # # # # # # # # # # # # # #
