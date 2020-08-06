@@ -32,7 +32,7 @@ dnf install -y @base-x
 dnf install -y @Fonts gdouros-symbola-fonts fontawesome-fonts xorg-x11-fonts-misc gucharmap
 dnf install -y xbacklight feh sxhkd
 dnf install -y xautolock asciiquarium
-dnf install -y gnome-tweaks arc-theme redshift-gtk
+dnf install -y lxappearance arc-theme redshift-gtk
 dnf install -y gtk-murrine-engine gtk-engines
 dnf install -y pulseaudio alsa-utils pulseaudio-utils compton 
 dnf install -y pulseeffects pavucontrol
@@ -143,8 +143,7 @@ su -c 'mkdir -p ~/Applications' $USER
 systemctl enable --user dunst.service
 systemctl start --user dunst.service
 su -c "cp -r ~/.yadrlite/dwm/dunst ~/.config" $USER
-eval $(dbus-launch)
-
+eval $(dbus-launch) 
 # low battery indication
 # # # # # # # # # # # # # # #
 sudo dnf install -y acpi ntpdate
@@ -176,7 +175,8 @@ echo "alternate-sample-rate = 44100" >> /etc/pulse/daemon.conf
 echo "default-fragments = 2" >> /etc/pulse/daemon.conf
 echo "default-fragment-size-msec = 125" >> /etc/pulse/daemon.conf
 echo "resample-method = soxr-vhq" >> /etc/pulse/daemon.conf
-echo "enable-lfe-remixing = no" >> /etc/pulse/daemon.conf
+echo "remixing-produce-lfe = no" >> /etc/pulse/daemon.conf
+echo "remixing-consume-lfe = no" >> /etc/pulse/daemon.conf
 echo "high-priority = yes" >> /etc/pulse/daemon.conf
 echo "realtime-scheduling = yes" >> /etc/pulse/daemon.conf
 echo "realtime-priority = 9" >> /etc/pulse/daemon.conf
@@ -370,6 +370,7 @@ find /home/$USER/.config -name "*" -execdir chmod u+x {} +
 plymouth-set-default-theme -R bgrt
 
 # add manual entries
+su -c 'mkdir -p ~/.local/share/applications' $USER
 su -c 'touch ~/.local/share/applications/screensaver.desktop' $USER
 printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/screensaver.desktop
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/screensaver.desktop
@@ -405,6 +406,12 @@ printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/mpvbd.deskt
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/mpvbd.desktop
 printf 'Name=mpv Media Player Bluray\n' >> /home/$USER/.local/share/applications/mpvbd.desktop
 printf "Exec=mpv --bluray-device=/dev/sr0 bd://\n" >> /home/$USER/.local/share/applications/mpvbd.desktop 
+su -l $USER -c 'touch ~/.local/share/applications/appearance.desktop'
+printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/appearance.desktop
+printf 'Type=Application\n' >> /home/$USER/.local/share/applications/appearance.desktop
+printf 'Name=Desktop Appearance Settings\n' >> /home/$USER/.local/share/applications/appearance.desktop
+printf "Exec=lxappearance\n" >> /home/$USER/.local/share/applications/appearance.desktop 
+
 # Install Multimedia Codecs
 dnf install -y rpmfusion-free-release-tainted
 dnf install -y mpv devedeng youtube-dl
