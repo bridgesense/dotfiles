@@ -75,8 +75,7 @@ su -c 'cd ~/lab/st && git apply -3 ~/.yadrlite/dwm/st/st-scrollback-mouse-201910
 su -c 'cd ~/lab/st && git apply -3 ~/.yadrlite/dwm/st/st-alpha-0.8.2.diff' $USER
 su -c 'cd ~/lab/st && git apply -3 ~/.yadrlite/dwm/st/st-gruvbox-both-alpha-20200510-0.8.3.diff' $USER
 su -c 'cp ~/.yadrlite/dwm/st/config.h ~/lab/st' $USER
-cd /home/$USER/lab/st && make install
-make clean
+cd /home/$USER/lab/st && make install clean
 # dwm - windows manager
 su -c 'git clone https://git.suckless.org/dwm ~/lab/dwm' $USER
 su -c 'cd ~/lab/dwm && git checkout f09418bbb6651ab4c299cfefbe1d18de401f630e' $USER
@@ -86,30 +85,26 @@ su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-rotatestack-20200510
 su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-statuscolors-20200511-6.2.diff' $USER
 su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-actualfullscreen-20200602-6.2.diff' $USER
 su -c 'cp ~/.yadrlite/dwm/dwm/config.h ~/lab/dwm' $USER
-cd /home/$USER/lab/dwm && make install
-make clean
+cd /home/$USER/lab/dwm && make install clean
 # dwm - dmenu for app launcher script
 su -c 'git clone https://git.suckless.org/dmenu ~/lab/dmenu' $USER
 su -c 'cd ~/lab/dmenu && git checkout db6093f6ec1bb884f7540f2512935b5254750b30' $USER
 su -c 'cd ~/lab/dmenu && git apply -3 ~/.yadrlite/dwm/dmenu/dmenu-highlight-4.9.diff' $USER
 su -c 'cp ~/.yadrlite/dwm/dmenu/config.h ~/lab/dmenu' $USER
-cd /home/$USER/lab/dmenu && make install
-make clean
+cd /home/$USER/lab/dmenu && make install clean
 # dwm - slock for screen locking
 su -c 'git clone https://git.suckless.org/slock ~/lab/slock' $USER
 su -c 'cd ~/lab/slock && git checkout 35633d45672d14bd798c478c45d1a17064701aa9' $USER
 su -c 'cd ~/lab/slock && git apply -3 ~/.yadrlite/dwm/slock/slock-unlock_screen-1.4.diff' $USER
 su -c 'cp ~/.yadrlite/dwm/slock/config.h ~/lab/slock' $USER
-cd /home/$USER/lab/slock && make install
-make clean
+cd /home/$USER/lab/slock && make install clean
 
 # install xbanish
 # # # # # # # # # # # # # # #
 dnf install -y libXt-devel libXfixes-devel libXi-devel
 su -c 'git clone https://github.com/jcs/xbanish.git ~/lab/xbanish' $USER
 su -c 'make -C ~/lab/xbanish' $USER
-cd /home/$USER/lab/xbanish && make install
-make clean
+cd /home/$USER/lab/xbanish && make install clean
 
 # More themes
 # # # # # # # # # # # # # # #
@@ -433,6 +428,20 @@ su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-bin-1.15.1.tar.g
 su -c 'cd ~/lab && tar xpf makemkv-bin-1.15.1.tar.gz' $USER
 su -c 'make -C ~/lab/makemkv-bin-1.15.1' $USER
 cd /home/$USER/lab/makemkv-bin-1.15.1 && make install
+
+# TROUBLESHOOTING 
+# # # # # # # # # # # # # # #
+
+# If the Thinkpad trackpoint and pad doesn't work on bootup
+# try adding the following line to /etc/default/grub
+# GRUB_CMDLINE_LINUX_DEFAULT="psmouse.synaptics_intertouch=0"
+# reference: https://bugzilla.redhat.com/show_bug.cgi?id=1815541 
+
+# If DWM doesn't start after logging in and xorg closes immediately
+# without error, try commenting out "exec dwm" in the .xinitrc
+# file and booting up once.  The Gnome start up will initiate
+# any missing files.  Edit .xinitrc and remove the comment to
+# activate dwm on the next log in 
 
 # if DVD's don't work try running regionset from comandline
 # and then deleteing the ~/.dvdcss directory
