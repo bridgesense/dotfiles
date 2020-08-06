@@ -11,8 +11,6 @@ if [ -d /etc/X11/xinit/xinitrc.d ]; then
   unset f
 fi
 
-env XDG_CURRENT_DESKTOP=GNOME gnome-control-center
-
 xrdb -merge ~/.Xresources
 
 $SHELL ~/.config/scripts/dwm-startup
