@@ -23,4 +23,4 @@ xautolock -time 10 -locker "bash ~/.config/scripts/screen-saver" &
 # repaints backgrounds
 $SHELL ~/.config/scripts/screen-init
 # Composite manager (always load last)
-compton --backend glx --vsync opengl &
+compton --backend glx --vsync none &
