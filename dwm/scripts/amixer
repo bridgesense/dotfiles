@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# amixer 1.2.3 no longer picking up proper default
+# workaround for docking station
+port="${1:Master}"
+action="${2:toggle}"
+MIXCHECK=$(amixer -c 0 | grep Master)
+if [ "$MIXCHECK" != "" ]; then
+    CARD=0
+else
+    CARD=1 
+fi
+if [ "$action" == "volume" ]; then
+    echo $(amixer -c $CARD sget $port | tail -n1 | sed -r "s/.*\[(.*)%\].*/\1/")
+else
+    amixer -c $CARD sset $port $action 
+fi
