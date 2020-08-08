@@ -12,7 +12,7 @@ sep_bar="|"
 
 dwm_alsa () {
     active_sink=$(pacmd list-sinks | awk '/* index:/{print $3}')
-    VOL=$(amixer -c 1 -- sget Master | tail -n1 | sed -r "s/.*\[(.*)%\].*/\1/")
+    VOL=$(bash ~/.config/scripts/amixer Master volume)
     curStatus=$(pacmd list-sinks | grep -A 15 "index: $active_sink$" | awk '/muted/{ print $2}')
 
     printf "\x02%s " "$sep_line"

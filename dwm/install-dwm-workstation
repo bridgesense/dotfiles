@@ -400,7 +400,7 @@ su -c 'touch ~/.local/share/applications/mpvdvdall.desktop' $USER
 printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/mpvdvdall.desktop
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/mpvdvdall.desktop
 printf 'Name=mpv Media Player DVD Play All\n' >> /home/$USER/.local/share/applications/mpvdvdall.desktop
-printf "Exec=mpv --dvd-device=/dev/sr0 dvd://0 dvd://1 dvd://2 dvd://3 dvd://4 dvd://5 dvd://6 dvd://7 dvd://8 dvd://9\n" >> /home/$USER/.local/share/applications/mpvdvd.desktop
+printf "Exec=mpv --dvd-device=/dev/sr0 dvd://0 dvd://1 dvd://2 dvd://3 dvd://4 dvd://5 dvd://6 dvd://7 dvd://8 dvd://9\n" >> /home/$USER/.local/share/applications/mpvdvdall.desktop
 su -c 'touch ~/.local/share/applications/mpvbd.desktop' $USER
 printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/mpvbd.desktop
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/mpvbd.desktop
