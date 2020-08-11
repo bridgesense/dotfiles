@@ -122,7 +122,7 @@ su -c "cp -r ~/.yadrlite/dwm/ranger ~/.config" $USER
 cp -r ~/.yadrlite/dwm/ranger ~/.config
 su -c "mkdir ~/.config/nvim && cp ~/.yadrlite/dwm/nvim/init.vim ~/.config/nvim" $USER
 mkdir ~/.config/nvim && cp ~/.yadrlite/dwm/nvim/init.vim ~/.config/nvim
-sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"\nalias urxvt="urxvt256c"' /home/$USER/.bashrc
+sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nexport WINEARCH=win32\nalias vi="nvim"\nalias vim="nvim"\nalias urxvt="urxvt256c"' /home/$USER/.bashrc
 sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"\nalias urxvt="urxvt256c"' ~/.bashrc
 # uncomment the following line to give Sudoers access to the user account
 echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
@@ -435,6 +435,11 @@ su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-bin-1.15.2.tar.g
 su -c 'cd ~/lab && tar xpf makemkv-bin-1.15.2.tar.gz' $USER
 su -c 'make -C ~/lab/makemkv-bin-1.15.2' $USER
 cd /home/$USER/lab/makemkv-bin-1.15.2 && make install
+
+# Windows 32-bit compatibility layer
+dnf install -y wine.x86_64 winetricks
+# initializes wine
+# WINEARCH=win32 wineboot
 
 # TROUBLESHOOTING 
 # # # # # # # # # # # # # # #
