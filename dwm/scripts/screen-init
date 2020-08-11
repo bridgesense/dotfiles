@@ -4,8 +4,6 @@ DEFAULT_LAYOUT="/home/$USER/.screenlayout/default.sh"
 if [[ -f "$DEFAULT_LAYOUT" ]]; then
     bash -c "$DEFAULT_LAYOUT"
 else
-    xset dpms force off
-    sleep 0.5
     mapfile -t monitor < <(xrandr -q | grep " connected ")
     if [ ${#monitor[@]} -eq 1 ]; then
         primary=(`echo ${monitor[0]} | cut -f 1 -d " "`)
