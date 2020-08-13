@@ -82,7 +82,7 @@ nmap <M-%> :so %<CR>
 
 " Uncomment the following to fix URXVT Alt key issue
 if g:urxvt_fix
-    for i in range(65,90) + range(97,122)
+    for i in range(65,90) + range(97,103) + range(108,122)
       let c = nr2char(i)
       exec "nmap \e".c." <M-".c.">"
     endfor
