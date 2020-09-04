@@ -38,7 +38,8 @@ declare -a plugins=('https://github.com/jiangmiao/auto-pairs.git' \
     'https://github.com/junegunn/fzf.vim.git' \
     'https://github.com/zackhsi/fzf-tags.git' \
     'https://github.com/tpope/vim-obsession.git' \
-    'https://github.com/bridgesense/vim-bufsurf.git')
+    'https://github.com/bridgesense/vim-bufsurf.git' \
+    'https://github.com/shawncplus/phpcomplete.vim.git')
 declare -a tmuxplugins=('https://github.com/tmux-plugins/tmux-resurrect.git' \
     'https://github.com/tmux-plugins/tmux-continuum.git')
 declare -a bashplugins=()

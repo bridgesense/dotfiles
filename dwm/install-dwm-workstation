@@ -78,7 +78,7 @@ su -c 'cp ~/.yadrlite/dwm/st/config.h ~/lab/st' $USER
 cd /home/$USER/lab/st && make install clean
 # dwm - windows manager
 su -c 'git clone https://git.suckless.org/dwm ~/lab/dwm' $USER
-su -c 'cd ~/lab/dwm && git checkout f09418bbb6651ab4c299cfefbe1d18de401f630e' $USER
+su -c 'cd ~/lab/dwm && git checkout 61bb8b2241d4db08bea4261c82e27cd9797099e7' $USER
 su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-ru_gaps-20200510-6.2.diff' $USER
 su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-attachbottom-20200510-6.2.diff' $USER
 su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-rotatestack-20200510-6.2.diff' $USER
@@ -295,8 +295,8 @@ dnf install -y chromium-freeworld firefox-x11
 # install Vagrant and Virtualbox
 # Warning: Secure boot may need to be disabled
 dnf install -y akmods vagrant VirtualBox
-su -c 'mkdir -p ~/Downloads && cd ~/Downloads && wget http://download.virtualbox.org/virtualbox/6.1.10/Oracle_VM_VirtualBox_Extension_Pack-6.1.10.vbox-extpack' $USER
-echo "y" | VBoxManage extpack install --replace /home/$USER/Downloads/Oracle_VM_VirtualBox_Extension_Pack-6.1.10.vbox-extpack
+su -c 'mkdir -p ~/Downloads && cd ~/Downloads && wget http://download.virtualbox.org/virtualbox/6.1.12/Oracle_VM_VirtualBox_Extension_Pack-6.1.12.vbox-extpack' $USER
+echo "y" | VBoxManage extpack install --replace /home/$USER/Downloads/Oracle_VM_VirtualBox_Extension_Pack-6.1.12.vbox-extpack
 firewall-cmd --permanent --zone=public --add-port=9041/tcp
 setsebool -P httpd_can_network_connect on
 semanage port -a -t http_port_t -p tcp 9041
