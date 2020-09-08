@@ -300,12 +300,6 @@ echo "y" | VBoxManage extpack install --replace /home/$USER/Downloads/Oracle_VM_
 firewall-cmd --permanent --zone=public --add-port=9041/tcp
 setsebool -P httpd_can_network_connect on
 semanage port -a -t http_port_t -p tcp 9041
-# vagrant/virtualbox compatiblity fix
-if ! grep Version_6_1 /usr/share/vagrant/gems/gems/vagrant-2.2.6/plugins/providers/virtualbox/driver/meta.rb; then
-    sed -i '/"6.0" => Version_6_0,/a \\t\t\t"6.1" => Version_6_1,' /usr/share/vagrant/gems/gems/vagrant-2.2.6/plugins/providers/virtualbox/driver/meta.rb
-    wget http://www.coter.net/upload/version_6_1.rb  -P /usr/share/vagrant/gems/gems/vagrant-2.2.6/plugins/providers/virtualbox/driver/
-    sed -i '/autoload :Version_6_0/a \\t  autoload :Version_6_1, File.expand_path("../driver/version_6_1", __FILE__)' /usr/share/vagrant/gems/gems/vagrant-2.2.6/plugins/providers/virtualbox/plugin.rb
-fi
 
 # Rambox
 # # # # # # # # # # # # # # #
