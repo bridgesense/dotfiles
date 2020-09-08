@@ -17,6 +17,7 @@ pactl list | grep -oP 'Sink #\K([0-9]+)' | while read -r i ; do pactl -- set-sin
 # turn on flameshot
 flameshot &
 # Device discovarability
+rfkill unblock 0
 pactl load-module module-bluetooth-discover
 # disable dpms to prevent conflict with xautolock suspend routines
 xset -dpms
