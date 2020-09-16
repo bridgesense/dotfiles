@@ -385,6 +385,11 @@ printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/shutdown.de
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/shutdown.desktop
 printf 'Name=Shutdown Now\n' >> /home/$USER/.local/share/applications/shutdown.desktop
 printf "Exec=/home/$USER/.config/scripts/shutdown-confirm\n" >> /home/$USER/.local/share/applications/shutdown.desktop
+su -c 'touch ~/.local/share/applications/touchpad.desktop' $USER
+printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/touchpad.desktop
+printf 'Type=Application\n' >> /home/$USER/.local/share/applications/touchpad.desktop
+printf 'Name=Toggle Touchpad\n' >> /home/$USER/.local/share/applications/touchpad.desktop
+printf "Exec=/home/$USER/.config/scripts/toggle-touchpad\n" >> /home/$USER/.local/share/applications/touchpad.desktop
 su -c 'touch ~/.local/share/applications/mpvdvd.desktop' $USER
 printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/mpvdvd.desktop
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/mpvdvd.desktop

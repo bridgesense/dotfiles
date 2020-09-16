@@ -279,6 +279,7 @@ See more about setting up the [.vimrc.local](https://gitlab.com/bridgesense/lamp
 * `<F12>`: evaluate variable under cursor
 * `:Breakpoint <type> <args>`: set a breakpoint of any type (see :help
   VdebugBreakpoints)
+* `:BreakpointRemove *`: remove all breakpoints
 * `:VdebugEval <code>`: evaluate some code and display the result
 * `,e`: evaluate the expression under visual highlight and display the
   result
