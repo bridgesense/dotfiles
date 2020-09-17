@@ -167,6 +167,9 @@ sed -i '/Identifier "libinput touchpad catchall"/a \\tOption "Tapping" "on"' /us
 # bluetooth headset fix for better audio quality
 sed -i 's/module-bluetooth-discover/module-bluetooth-discover headset=auto/' /etc/pulse/default.pa
 
+# disable Wayland
+sed -i '/\[daemon\]/a WaylandEnable=false\nDefaultSession=gnome-xorg.desktop' /etc/gdm/custom.conf
+
 # help the sound (for Thinkpads)
 # # # # # # # # # # # # # # #
 echo "default-sample-format = float32le" >> /etc/pulse/daemon.conf
