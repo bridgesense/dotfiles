@@ -293,7 +293,7 @@ flatpak install -y flathub us.zoom.Zoom
 flatpak install -y flathub org.musescore.MuseScore
 
 # Install Browsers
-dnf install -y chromium-freeworld firefox-x11
+dnf install -y chromium-freeworld firefox-x11 torbrowser-launcher
 
 # install Vagrant and Virtualbox
 # Warning: Secure boot may need to be disabled
@@ -413,6 +413,11 @@ printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/appearance.
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/appearance.desktop
 printf 'Name=Desktop Appearance Settings\n' >> /home/$USER/.local/share/applications/appearance.desktop
 printf "Exec=lxappearance\n" >> /home/$USER/.local/share/applications/appearance.desktop 
+su -c 'touch ~/.local/share/applications/tor.desktop' $USER
+printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/tor.desktop
+printf 'Type=Application\n' >> /home/$USER/.local/share/applications/tor.desktop
+printf 'Name=Start Tor Browser\n' >> /home/$USER/.local/share/applications/tor.desktop
+printf "Exec=/home/$USER/.local/share/torbrowser/tbb/x86_64/tor-browser_en-US/Browser/start-tor-browser\n" >> /home/$USER/.local/share/applications/tor.desktop
 
 # Install Multimedia Codecs
 dnf install -y rpmfusion-free-release-tainted
