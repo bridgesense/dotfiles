@@ -289,8 +289,8 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 flatpak install -y flathub com.spotify.Client
 flatpak install -y flathub org.signal.Signal
 flatpak install -y flathub com.skype.Client
-flatpak install -y flathub us.zoom.Zoom
 flatpak install -y flathub org.musescore.MuseScore
+su -c 'flatpak override --user --env=QT_SCALE_FACTOR=0.75 us.zoom.Zoom' $USER
 
 # Install Browsers
 dnf install -y chromium-freeworld firefox-x11 torbrowser-launcher
