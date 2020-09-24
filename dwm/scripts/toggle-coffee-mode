@@ -3,14 +3,14 @@
 if xset q | grep -q "timeout:  0" ; then
     xautolock -enable
     xset s on
-    # xset +dpms
+    xset +dpms
     notify-send -i "Movie Mode OFF" "The Screen Lock and Saver have been enabled."
     # line below disables compositor for vsync intensive applications
     # xcompmgr -c -f -n &
 else
     xautolock -disable
     xset s off
-    # xset -dpms
+    xset -dpms
     notify-send -i "Movie Mode ON" "The Screen Lock and Saver have been disabled."
     # line below enables the compositor
     # pkill -f xcompmgr
