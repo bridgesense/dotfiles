@@ -205,8 +205,18 @@ hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp2_input \n\
 systemctl enable thinkfan
 
 # install non-free firmware for compatibilty crises
- dnf install -y rpm fusion-nonfree-release-tainted
- dnf install -y \*-firmware
+dnf install -y rpm fusion-nonfree-release-tainted
+dnf groupupdate core -y
+dnf groupupdate multimedia -y
+dnf gorupupdate sound-and-video -y
+dnf groupupdate sound-and-video -y
+dnf update --best --allowerasing -y
+dnf copr enable kwizart/fedy
+dnf install fedy -y
+dnf install -y alsa-ucm alsa-firmware 
+dnf install -y alsa-sof-firmware alsa-tools
+dnf install -y \*-firmware
+dnf install -y gnome-flashback
 
 # install PHP essentials
 # # # # # # # # # # # # # # #
