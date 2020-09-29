@@ -20,7 +20,7 @@ flameshot &
 rfkill unblock 0
 pactl load-module module-bluetooth-discover
 # disable dpms to prevent conflict with xautolock suspend routines
-# xset -dpms 
+xset -dpms 
 # #---Screen/Monitor Setup---# #
 xautolock -time 10 -locker "bash ~/.config/scripts/screen-saver" &
 # repaints backgrounds
