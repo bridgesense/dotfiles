@@ -17,8 +17,8 @@ else
             primary=(`echo ${monitor[0]} | cut -f 1 -d " "`)
             secondary=(`echo ${monitor[1]} | cut -f 1 -d " "`)
         fi
-        xrandr --output ${secondary} --auto --primary --left-of ${primary}
         xrandr --output ${primary} --auto
+        xrandr --output ${secondary} --auto --primary --left-of ${primary}
    fi
 fi
 
