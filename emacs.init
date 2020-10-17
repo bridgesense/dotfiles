@@ -38,7 +38,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:height 120 :family "Dejavu Sans Mono" "Monaco"))))
+ '(default ((t (:height 120 :family "Dejavu Sans Mono for Powerline" "Monaco"))))
  '(diff-added ((t (:foreground "#cc241d" :background "#282828"))))
  '(diff-changed ((t (:foreground "#d79921" :background "#282828"))))
  '(diff-context ((t (:inherit default foreground "#ebdbb2" :background "#282828"))))
@@ -67,9 +67,9 @@
  '(ediff-odd-diff-A ((t (:foreground "#cc241d" :background "#282828"))))
  '(ediff-odd-diff-B ((t (:foreground "#d79921" :background "#282828"))))
  '(ediff-odd-diff-C ((t (:foreground "#cc241d" :background "#282828"))))
- '(org-level-1 ((t (:inherit default :weight bold :height 1.25))))
- '(org-level-2 ((t (:inherit default :weight bold :height 1.15))))
- '(org-level-3 ((t (:inherit default :weight bold :height 1.1))))
+ '(org-level-1 ((t (:inherit default :weight bold))))
+ '(org-level-2 ((t (:inherit default :weight bold))))
+ '(org-level-3 ((t (:inherit default :weight bold))))
  '(org-level-4 ((t (:inherit default :weight bold))))
  '(org-level-5 ((t (:inherit default :weight bold))))
  '(org-level-6 ((t (:inherit default :weight bold))))
@@ -187,6 +187,7 @@
             (evil-set-initial-state 'eww-mode 'emacs)))
 ;; Helps prevent excess cpu during visual mode
 (setq auto-window-vscroll nil)
+
 
 ;; More Vim-like
 ;; # # # # # # # # # # #
@@ -739,7 +740,7 @@
   (setq bbdb-mua-auto-update-p 'query)
                                         ; turn off auto carraige return after 70 chars
   (add-hook 'message-mode-hook 'turn-off-auto-fill)
-  (use-package bbdb-vcard :ensure t)
+  ;; (use-package bbdb-vcard :ensure t)
 
 
   ;; AutoComplete Settings
