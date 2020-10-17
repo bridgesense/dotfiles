@@ -69,7 +69,7 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", NULL };
 static const char *htop[] = { "st", "-e", "htop" };
-static const char *ranger[] = { "st", "-e", "ranger" };
+static const char *ranger[] = { "urxvt256c", "-e", "ranger" };
 static const char *brightnessdown[] = { "cbacklight", "--dec", "10" };
 static const char *brightnessup[] = { "cbacklight", "--inc", "10" };
 

@@ -1,7 +1,9 @@
 " Make it beautiful - colors and fonts
 
 "tell the term has 256 colors
-set termguicolors
+if $COLORTERM !~ "rxvt."
+    set termguicolors
+endif
 set t_Co=256
 
 if has("gui_running")
