@@ -1,7 +1,7 @@
 " Make it beautiful - colors and fonts
 
 "tell the term has 256 colors
-if $COLORTERM !~ "rxvt."
+if (has("termguicolors"))
     set termguicolors
 endif
 set t_Co=256
@@ -48,9 +48,9 @@ colorscheme gruvbox
 set background=dark
 
 " uncomment for transparent background
-" let t:is_transparent = 1                                                                    
-" hi! Normal ctermbg=none guibg=NONE
-" hi! NonText ctermbg=none guibg=NONE
+let t:is_transparent = 1                                                                    
+hi! Normal ctermbg=none guibg=NONE
+hi! NonText ctermbg=none guibg=NONE
 
 " prettier EasyMotion
 hi EasyMotionTarget ctermbg=none ctermfg=red
