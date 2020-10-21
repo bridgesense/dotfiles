@@ -226,7 +226,6 @@ VIM Shortcuts
 * `,S`: saves all buffers (`:wa`)
 
 #### Code/Search Navigation:
-* `Cmd-[jk]`: (`Alt-[jk]` move up and down roughly by functions 
 * `Ctrl-o`: Old cursor position this is a standard mapping but very useful, so included here
 * `Ctrl-i`: opposite of Ctrl-O (again, this is standard)
 * `,gf`: same as vim normal gf (go to file)
