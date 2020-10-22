@@ -151,7 +151,7 @@ sudo dnf install -y acpi ntpdate
 
 # backlight fix for i915 GPU's
 # to work with cbacklight script
-usermod -a -G video $USER
+usermod -aG video $USER
 echo "ACTION==\"add\", SUBSYSTEM==\"backlight\", KERNEL==\"intel_backlight\", RUN+=\"/bin/chgrp video /sys/class/backlight/%k/brightness\"" >> /etc/udev/rules.d/backlight.rules
 echo "ACTION==\"add\", SUBSYSTEM==\"backlight\", KERNEL==\"intel_backlight\", RUN+=\"/bin/chmod g+w /sys/class/backlight/%k/brightness\"" >> /etc/udev/rules.d/backlight.rules
 cp /home/$USER/.yadrlite/dwm/scripts/cbacklight /usr/bin/cbacklight
@@ -211,12 +211,9 @@ dnf groupupdate multimedia -y
 dnf gorupupdate sound-and-video -y
 dnf groupupdate sound-and-video -y
 dnf update --best --allowerasing -y
-dnf copr enable kwizart/fedy
-dnf install fedy -y
 dnf install -y alsa-ucm alsa-firmware 
 dnf install -y alsa-sof-firmware alsa-tools
 dnf install -y \*-firmware
-dnf install -y gnome-flashback
 
 # install PHP essentials
 # # # # # # # # # # # # # # #
