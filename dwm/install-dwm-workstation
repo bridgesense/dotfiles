@@ -11,62 +11,112 @@
 # Options
 # # # # # # # # # # # # # # #
 USER="${1:francis}"
+LOGFILE='/root/workstation-installation.log'
+
+# Functions
+# # # # # # # # # # # # # # #
+function log {
+    if [ -f "$LOGFILE" ]; then
+        echo $1 >> $LOGFILE
+    else
+        echo $1 > $LOGFILE
+    fi
+}
+
+function install {
+    arr=("$@")
+    _type=
+    if [[ "$(declare -p arr)" =~ "declare -a" ]]; then
+        for package in "${arr[@]}"; do
+            if [[ $package == "package" ]]; then
+                _type=$package
+                continue
+            fi
+            if [[ $package == "group" ]]; then
+                _type=$package
+                continue
+            fi
+            cnt=3
+            while [ $cnt -gt 0 ]; do
+                if dnf list installed $package > /dev/null 2>&1; then
+                    break;
+                else
+                    if "$_type" == "group"; then
+                        dnf group install -y $package
+                    else
+                        dnf install -y $package
+                    fi
+                fi
+                let "cnt-=1"
+            done
+            if ! dnf list installed $package > /dev/null 2>&1; then
+                log "There was a problem installing ${package}.  Please make sure this package exists."
+            fi
+        done
+    else
+        log "Warning! Passed variable is not an array".
+    fi
+}
 
 # Run as root
 # Commandline Tools
 # # # # # # # # # # # # # # #
+log "installing commandline tools"
 dnf update -y
-dnf install -y autoconf automake git rsync htop bashtop
-dnf group install -y development-tools rpm-development-tools c-development
+install package autoconf automake git rsync htop bashtop
+install group development-tools rpm-development-tools c-development
 $SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
 su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
 
 # Install RPM Fusion
 # # # # # # # # # # # # # # #
+log "installing RPM Fusion"
 dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
 dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
 # Install supporting applications
 # # # # # # # # # # # # # # #
-dnf install -y @base-x
-dnf install -y @Fonts gdouros-symbola-fonts fontawesome-fonts xorg-x11-fonts-misc gucharmap
-dnf install -y xbacklight feh sxhkd
-dnf install -y xautolock asciiquarium
-dnf install -y lxappearance arc-theme redshift-gtk
-dnf install -y gtk-murrine-engine gtk-engines
-dnf install -y pulseaudio alsa-utils pulseaudio-utils compton 
-dnf install -y pulseeffects pavucontrol
-dnf install -y rxvt-unicode xclip vim-common
-dnf install -y arandr zenity flameshot
-dnf install -y gnome-keyring
-dnf install -y gnome-control-center
-dnf install -y NetworkManager-tui NetworkManager-wifi 
-dnf install -y NetworkManager-openvpn-gnome NetworkManager-openconnect-gnome
-dnf install -y ftp telnet
-dnf install -y dhcp-client iw wpa_supplicant blueman sbc
-dnf install -y dunst libnotify
-dnf install -y gnutls mailx wireless-tools
-dnf install -y python3-httplib2 wordnet
-dnf install -y aspell-en texlive-latex
-dnf install -y texlive-collection-latex texlive-collection-latexextra
-dnf install -y papirus-icon-theme
-dnf install -y nemo
-dnf install -y fuse-exfat exfat-utils libmtp libmtp-examples gvfs-mtp
-dnf install -y acpi crontabs
-dnf install -y firewall-config
-dnf install -y system-config-printer
-dnf install -y simple-scan
-dnf install -y nomacs
-dnf install -y gnome-disk-utility atool
-dnf install -y cups hplip hplip-gui
-dnf install -y policycoreutils-gui setools-console setroubleshoot
-dnf install -y clamav clamav-update
-dnf install -y timeshift
-dnf install -y brasero
+log "installing supporting applications"
+dnf install -y @base-x @Fonts
+install package gdouros-symbola-fonts fontawesome-fonts xorg-x11-fonts-misc gucharmap
+install package xbacklight feh
+install package xautolock asciiquarium
+install package lxappearance arc-theme redshift-gtk
+install package gtk-murrine-engine gtk-engines
+install package pulseaudio alsa-utils pulseaudio-utils compton 
+install package pulseeffects pavucontrol
+install package rxvt-unicode xclip vim-common
+install package arandr zenity flameshot
+install package gnome-keyring
+install package gnome-control-center
+install package NetworkManager-tui NetworkManager-wifi 
+install package NetworkManager-openvpn-gnome NetworkManager-openconnect-gnome
+install package ftp telnet
+install package dhcp-client iw wpa_supplicant blueman sbc
+install package dunst libnotify
+install package gnutls mailx wireless-tools
+install package python3-httplib2 wordnet
+install package aspell-en texlive-latex
+install package texlive-collection-latex texlive-collection-latexextra
+install package papirus-icon-theme
+install package nemo
+install package fuse-exfat exfat-utils libmtp libmtp-examples gvfs-mtp
+install package acpi crontabs
+install package firewall-config
+install package system-config-printer
+install package simple-scan
+install package nomacs
+install package gnome-disk-utility atool
+install package cups hplip hplip-gui
+install package policycoreutils-gui setools-console setroubleshoot
+install package clamav clamav-update
+install package timeshift
+install package brasero
 
 # suckless setup
 # st - terminal
-dnf install -y libX11-devel
+log "suckless setup"
+install package libX11-devel
 su -c 'mkdir ~/lab' $USER
 su -c 'git clone https://git.suckless.org/st ~/lab/st' $USER
 su -c 'cd ~/lab/st && git checkout 914fb825df3bde7abdd7947e54f8bf4d2b55e34e' $USER
@@ -75,7 +125,7 @@ su -c 'cd ~/lab/st && git apply -3 ~/.yadrlite/dwm/st/st-scrollback-mouse-201910
 su -c 'cd ~/lab/st && git apply -3 ~/.yadrlite/dwm/st/st-alpha-0.8.2.diff' $USER
 su -c 'cd ~/lab/st && git apply -3 ~/.yadrlite/dwm/st/st-gruvbox-both-alpha-20200510-0.8.3.diff' $USER
 su -c 'cp ~/.yadrlite/dwm/st/config.h ~/lab/st' $USER
-cd /home/$USER/lab/st && make install clean
+cd /home/$USER/lab/st && make install && make clean
 # dwm - windows manager
 su -c 'git clone https://git.suckless.org/dwm ~/lab/dwm' $USER
 su -c 'cd ~/lab/dwm && git checkout 61bb8b2241d4db08bea4261c82e27cd9797099e7' $USER
@@ -85,34 +135,37 @@ su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-rotatestack-20200510
 su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-statuscolors-20200511-6.2.diff' $USER
 su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-actualfullscreen-20200602-6.2.diff' $USER
 su -c 'cp ~/.yadrlite/dwm/dwm/config.h ~/lab/dwm' $USER
-cd /home/$USER/lab/dwm && make install clean
+cd /home/$USER/lab/dwm && make install && make clean
 # dwm - dmenu for app launcher script
 su -c 'git clone https://git.suckless.org/dmenu ~/lab/dmenu' $USER
 su -c 'cd ~/lab/dmenu && git checkout db6093f6ec1bb884f7540f2512935b5254750b30' $USER
 su -c 'cd ~/lab/dmenu && git apply -3 ~/.yadrlite/dwm/dmenu/dmenu-highlight-4.9.diff' $USER
 su -c 'cp ~/.yadrlite/dwm/dmenu/config.h ~/lab/dmenu' $USER
-cd /home/$USER/lab/dmenu && make install clean
+cd /home/$USER/lab/dmenu && make install && make clean
 # dwm - slock for screen locking
 su -c 'git clone https://git.suckless.org/slock ~/lab/slock' $USER
 su -c 'cd ~/lab/slock && git checkout 35633d45672d14bd798c478c45d1a17064701aa9' $USER
 su -c 'cd ~/lab/slock && git apply -3 ~/.yadrlite/dwm/slock/slock-unlock_screen-1.4.diff' $USER
 su -c 'cp ~/.yadrlite/dwm/slock/config.h ~/lab/slock' $USER
-cd /home/$USER/lab/slock && make install clean
+cd /home/$USER/lab/slock && make install && make clean
 
 # install xbanish
 # # # # # # # # # # # # # # #
-dnf install -y libXt-devel libXfixes-devel libXi-devel
+log "installing xbanish"
+install package libXt-devel libXfixes-devel libXi-devel
 su -c 'git clone https://github.com/jcs/xbanish.git ~/lab/xbanish' $USER
 su -c 'make -C ~/lab/xbanish' $USER
-cd /home/$USER/lab/xbanish && make install clean
+cd /home/$USER/lab/xbanish && make install && make clean
 
 # More themes
 # # # # # # # # # # # # # # #
+log "installing themes"
 su -c 'git clone https://github.com/vinceliuice/Matcha-gtk-theme.git ~/lab/matcha' $USER
 su -c 'cd ~/lab/matcha && bash install.sh' $USER
 
 # copy over system start resources
 # # # # # # # # # # # # # # #
+log "copying over system start resources"
 su -c 'cp -f ~/.yadrlite/dwm/Xresources ~/.Xresources' $USER
 cp -f ~/.yadrlite/dwm/Xresources ~/.Xresources
 su -c 'mkdir -p ~/.config/scripts' $USER
@@ -140,38 +193,47 @@ su -c 'mkdir -p ~/Applications' $USER
 
 # activate dunst
 # # # # # # # # # # # # # # #
+log "activating dunst"
 systemctl enable --user dunst.service
 systemctl start --user dunst.service
 su -c "cp -r ~/.yadrlite/dwm/dunst ~/.config" $USER
 eval $(dbus-launch) 
+
 # low battery indication
 # # # # # # # # # # # # # # #
-sudo dnf install -y acpi ntpdate
+log "activating low battery indication"
+install package acpi ntpdate
 (crontab -u $USER -l; echo "*/15 * * * * $SHELL /home/${USER}/.config/scripts/battery >/dev/null 2>&1") | crontab -u $USER -
 
 # backlight fix for i915 GPU's
 # to work with cbacklight script
+log "applying backlight fix for i915 GPU"
 usermod -aG video $USER
 echo "ACTION==\"add\", SUBSYSTEM==\"backlight\", KERNEL==\"intel_backlight\", RUN+=\"/bin/chgrp video /sys/class/backlight/%k/brightness\"" >> /etc/udev/rules.d/backlight.rules
 echo "ACTION==\"add\", SUBSYSTEM==\"backlight\", KERNEL==\"intel_backlight\", RUN+=\"/bin/chmod g+w /sys/class/backlight/%k/brightness\"" >> /etc/udev/rules.d/backlight.rules
 cp /home/$USER/.yadrlite/dwm/scripts/cbacklight /usr/bin/cbacklight
 
 # syncs headphone to master sound control
-# vi /usr/share/pulseaudio/alsa-mixer/paths/analog-output-headphones.conf
-# change to: volume = merge
+log "TODO:"
+log "vi /usr/share/pulseaudio/alsa-mixer/paths/analog-output-headphones.conf"
+log "change to: volume = merge"
 
 # Add "tap to click" for touchpads
 # # # # # # # # # # # # # # #
+log "add 'tap to click' for touchpads"
 sed -i '/Identifier "libinput touchpad catchall"/a \\tOption "Tapping" "on"' /usr/share/X11/xorg.conf.d/40-libinput.conf
 
-# bluetooth headset fix for better audio quality
+# blutooth headset fix for better audio quality
+log "blutooth heaset fix for better audio quality"
 sed -i 's/module-bluetooth-discover/module-bluetooth-discover headset=auto/' /etc/pulse/default.pa
 
 # disable Wayland
+log "disabling wayland"
 sed -i '/\[daemon\]/a WaylandEnable=false\nDefaultSession=gnome-xorg.desktop' /etc/gdm/custom.conf
 
 # help the sound (for Thinkpads)
 # # # # # # # # # # # # # # #
+log "improving sound output for Thinkads"
 echo "default-sample-format = float32le" >> /etc/pulse/daemon.conf
 echo "default-sample-rate = 48000" >> /etc/pulse/daemon.conf
 echo "alternate-sample-rate = 44100" >> /etc/pulse/daemon.conf
@@ -188,12 +250,14 @@ echo "daemonize = no" >> /etc/pulse/daemon.conf
 
 # set timezone
 # # # # # # # # # # # # # # #
+log "setting timezone to Pacific"
 timedatectl set-timezone America/Los_Angeles
 
 # enable thinkfan
 # this is a sample config for a t460
 # # # # # # # # # # # # # # #
-dnf install -y thinkfan
+log "enabling thinkfan"
+install package thinkfan
 HWMONDEV=`basename /sys/devices/platform/coretemp.0/hwmon/*`
 sed -i "/55)/i \
 hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp3_input \n\
@@ -205,24 +269,27 @@ hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp2_input \n\
 systemctl enable thinkfan
 
 # install non-free firmware for compatibilty crises
-dnf install -y rpm fusion-nonfree-release-tainted
+log "installing non-free firmware"
+install package rpm fusion-nonfree-release-tainted
 dnf groupupdate core -y
 dnf groupupdate multimedia -y
-dnf gorupupdate sound-and-video -y
+dnf groupupdate sound-and-video -y
 dnf groupupdate sound-and-video -y
 dnf update --best --allowerasing -y
-dnf install -y alsa-ucm alsa-firmware 
-dnf install -y alsa-sof-firmware alsa-tools
+install package alsa-ucm alsa-firmware 
+install package alsa-sof-firmware alsa-tools
 dnf install -y \*-firmware
 
 # install PHP essentials
 # # # # # # # # # # # # # # #
-dnf install -y php
+log "installing php"
+install package php
 
 # required modules for boris and phpctags
 # # # # # # # # # # # # # # #
-dnf install -y php-json php-readline php-process
-dnf install -y nodejs nodejs-yarn ruby-devel
+log "installing requried php modules for boris and phpctags"
+install package php-json php-readline php-process
+install package nodejs nodejs-yarn ruby-devel
 npm install -g npm@latest
 npm install -g grunt-cli coffee-jshint eslint js-yaml csslint
 su -c 'git clone https://github.com/xcwen/phpctags.git ~/lab/phpctags' $USER
@@ -233,13 +300,15 @@ su -c 'gem install compass'
 
 # boris (nice PHP sandbox tool)
 # # # # # # # # # # # # # # #
+log "installing boris"
 curl -L -O https://github.com/borisrepl/boris/releases/download/v1.0.8/boris.phar
 chmod +x boris.phar
 mv boris.phar /usr/local/bin/boris
 
 # PHP Parallel Lint
 # # # # # # # # # # # # # # #
-dnf install -y composer
+log "installing PHP parallel lint"
+install package composer
 sudo sed -i "s#;phar.readonly = On#phar.readonly = Off#" /etc/php.ini
 systemctl restart httpd
 su -c "mkdir -p ~/lab/box-phar" $USER
@@ -253,18 +322,18 @@ cp /home/$USER/lab/PHP-Parallel-Lint/parallel-lint.phar /usr/local/bin/parallel-
 
 # install code editors and PHP dev tools
 # # # # # # # # # # # # # # #
-dnf install -y tmux the_silver_searcher ack fzf
-dnf install -y tree ranger w3m w3m-img expect
-dnf install -y hugo
-ln -s /usr/bin/gvim /usr/bin/vim
+log "installing code editors and PHP dev tools"
+install package tmux the_silver_searcher ack fzf
+install package tree ranger w3m w3m-img expect
+install package hugo
 # install ctags
-sudo dnf install -y python3-docutils libseccomp-devel jansson-devel libyaml-devel libxml2-devel
+install package python3-docutils libseccomp-devel jansson-devel libyaml-devel libxml2-devel
 su -c "cd ~/lab && git clone https://github.com/universal-ctags/ctags.git" $USER
 su -c "cd ~/lab/ctags && ./autogen.sh" $USER
 su -c "cd ~/lab/ctags && ./configure --program-prefix=ex" $USER
 cd /home/$USER/lab/ctags && make prefix=/usr/local install && clean
 # neovim
-dnf install -y neovim
+install package neovim
 pip3 install pynvim
 su -c "gem install neovim" $USER
 su -c "gem environment" $USER
@@ -274,10 +343,11 @@ npm install -g neovim
 # for much better speed and compatibitily
 # WARNING: emacs X11 will crash with pacakge: google-noto-emoji-color-fonts
 # # # # # # # # # # # # # # #
-dnf install -y liblockfile-devel libotf-devel m17n-db-devel m17n-lib-devel
-dnf install -y gtk3-devel ncurses-devel gnutls-devel gnutls-utils
-dnf install -y libXpm-devel libxml2-devel libjpeg-turbo-devel giflib-devel libtiff-devel
-dnf install -y texinfo
+log "compiling emacs 27"
+install package liblockfile-devel libotf-devel m17n-db-devel m17n-lib-devel
+install package gtk3-devel ncurses-devel gnutls-devel gnutls-utils
+install package libXpm-devel libxml2-devel libjpeg-turbo-devel giflib-devel libtiff-devel
+install package texinfo
 su -c 'git clone -b master git://git.sv.gnu.org/emacs.git ~/lab/emacs' $USER
 # locks emacs into March 27th, 2020 release (stable)
 su -c 'cd ~/lab/emacs && git checkout 6075a7c5ae3fa456cd099946f6e042b57e925263' $USER
@@ -285,26 +355,27 @@ sleep 1.5s
 su -c 'cd ~/lab/emacs && ./autogen.sh' $USER
 su -c 'cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils' $USER
 su -c 'make -C ~/lab/emacs' $USER
-cd /home/$USER/lab/emacs && make install
+cd /home/$USER/lab/emacs && make install && make clean
 
 # Support Software
-dnf install -y nextcloud-client
-dnf install -y gimp gimpfx-foundry gimp-save-for-web gimp-data-extras
-dnf install -y libreoffice libreoffice-icon-theme-papirus
-dnf install -y flatpak
+log "installing support software"
+install package nextcloud-client
+install package gimp gimpfx-foundry gimp-save-for-web gimp-data-extras
+install package libreoffice libreoffice-icon-theme-papirus
+install package flatpak
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y flathub com.spotify.Client
 flatpak install -y flathub org.signal.Signal
-flatpak install -y flathub com.skype.Client
 flatpak install -y flathub org.musescore.MuseScore
-su -c 'flatpak override --user --env=QT_SCALE_FACTOR=0.75 us.zoom.Zoom' $USER
 
 # Install Browsers
-dnf install -y chromium-freeworld firefox-x11 torbrowser-launcher
+log "installing browsers"
+install package chromium-freeworld firefox-x11 torbrowser-launcher
 
 # install Vagrant and Virtualbox
 # Warning: Secure boot may need to be disabled
-dnf install -y akmods vagrant VirtualBox
+log "installing Vagrant and Virtualbox"
+install package akmods vagrant VirtualBox
 su -c 'mkdir -p ~/Downloads && cd ~/Downloads && wget http://download.virtualbox.org/virtualbox/6.1.14/Oracle_VM_VirtualBox_Extension_Pack-6.1.14.vbox-extpack' $USER
 echo "y" | VBoxManage extpack install --replace /home/$USER/Downloads/Oracle_VM_VirtualBox_Extension_Pack-6.1.14.vbox-extpack
 firewall-cmd --permanent --zone=public --add-port=9041/tcp
@@ -313,54 +384,60 @@ semanage port -a -t http_port_t -p tcp 9041
 
 # Rambox
 # # # # # # # # # # # # # # #
-dnf install -y  https://github.com/ramboxapp/community-edition/releases/download/0.7.3/Rambox-0.7.3-linux-x86_64.rpm
+log "installing Rambox"
+dnf install -y  https://github.com/ramboxapp/community-edition/releases/download/0.7.7/Rambox-0.7.7-linux-x86_64.rpm
 
 # Gargoyle (for sanity checks)
 # # # # # # # # # # # # # # #
-dnf install -y SDL SDL_mixer SDL_sound fluidsynth
+log "install Gargoyle"
+install package SDL SDL_mixer SDL_sound fluidsynth
 su -c 'wget -O ~/Downloads/gargoyle.rpm https://github.com/rpmsphere/x86_64/blob/master/g/gargoyle-2015-5.4.x86_64.rpm?raw=true' $USER
 dnf install -y /home/$USER/Downloads/gargoyle.rpm
 su -c 'cp ~/.yadrlite/dwm/garglk.ini ~/.garglkrc' $USER
 
 # Chess
 # # # # # # # # # # # # # # #
+log "installing chess engines"
 dnf config-manager --add-repo https://copr.fedorainfracloud.org/coprs/awood/scid_vs_pc/repo/fedora-$(rpm -E %fedora)/awood-scid_vs_pc-fedora-$(rpm -E %fedora).repo
-dnf install -y scid_vs_pc.x86_64 scid_vs_pc-sounds scid_vs_pc-books
+install package scid_vs_pc.x86_64 scid_vs_pc-sounds scid_vs_pc-books
 # stockfish
-dnf install -y stockfish
+install package stockfish
 # leela
-dnf install -y openblas-devel.x86_64 gtest-devel
-dnf install -y ninja-build meson
+install package openblas-devel.x86_64 gtest-devel
+install package ninja-build meson
 su -c 'cd ~/Applications && git clone -b release/0.24 --recurse-submodules https://github.com/LeelaChessZero/lc0.git' $USER
 su -c 'cd ~/Applications/lc0 && $SHELL build.sh' $USER
 
 # pdf support
-dnf install -y cups-pdf evince pdfarranger mupdf
+log "installing pdf support"
+install package cups-pdf evince pdfarranger mupdf
 # install Adobe Acrobat
+log "installing adobe acrobat"
 su -c 'cd ~/Downloads && wget "ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/AdbeRdr9.5.5-1_i486linux_enu.rpm"' $USER
-dnf install -y atk.i686 avahi-libs.i686 bzip2-libs.i686 cairo.i686 cups-libs.i686
-dnf install -y dbus-libs.i686 expat.i686 fontconfig.i686 freetype.i686 fribidi.i686
-dnf install -y gdk-pixbuf2.i686 gdk-pixbuf2-modules.i686 gdk-pixbuf2-xlib.i686
-dnf install -y gdk-pixbuf2-xlib.x86_64 glib2.i686 glibc.i686 gmp.i686 gnutls.i686
-dnf install -y graphite2.i686 gtk2.i686 harfbuzz.i686 jasper-libs.i686 jbigkit-libs.i686
-dnf install -y keyutils-libs.i686 krb5-libs.i686 libICE.i686 libSM.i686 libX11.i686
-dnf install -y libX11-xcb.i686 libXau.i686 libXcomposite.i686 libXcursor.i686
-dnf install -y libXdamage.i686 libXext.i686 libXfixes.i686 libXft.i686 libXi.i686
-dnf install -y libXinerama.i686 libXrandr.i686 libXrender.i686 libXt.i686 libXxf86vm.i686
-dnf install -y libblkid.i686 libcap.i686 libcom_err.i686 libdatrie.i686 libdrm.i686
-dnf install -y libffi.i686 libgcc.i686 libgcrypt.i686 libglvnd.i686 libglvnd-glx.i686
-dnf install -y libgpg-error.i686 libidn.i686 libidn2.i686 libjpeg-turbo.i686 libmount.i686
-dnf install -y libpciaccess.i686 libpng.i686 libselinux.i686 libsepol.i686 libstdc++.i686
-dnf install -y libtasn1.i686 libthai.i686 libtiff.i686 libunistring.i686 libuuid.i686
-dnf install -y libverto.i686 libxcb.i686 libxcrypt.i686 libxml2.i686 libxshmfence.i686
-dnf install -y lz4-libs.i686 mesa-libGL.i686 mesa-libGLU.i686 mesa-libGLU.x86_64
-dnf install -y mesa-libglapi.i686 nettle.i686 openssl-libs.i686 p11-kit.i686 pango.i686
-dnf install -y pangox-compat.i686 pangox-compat.x86_64 pcre.i686 pcre2.i686 pixman.i686
-dnf install -y systemd-libs.i686 xz-libs.i686 zlib.i686 libidn.x86_64
-dnf install -y libidn.i686 coreutils.x86_64 libidn1.34.i686
+install package atk.i686 avahi-libs.i686 bzip2-libs.i686 cairo.i686 cups-libs.i686
+install package dbus-libs.i686 expat.i686 fontconfig.i686 freetype.i686 fribidi.i686
+install package gdk-pixbuf2.i686 gdk-pixbuf2-modules.i686 gdk-pixbuf2-xlib.i686
+install package gdk-pixbuf2-xlib.x86_64 glib2.i686 glibc.i686 gmp.i686 gnutls.i686
+install package graphite2.i686 gtk2.i686 harfbuzz.i686 jasper-libs.i686 jbigkit-libs.i686
+install package keyutils-libs.i686 krb5-libs.i686 libICE.i686 libSM.i686 libX11.i686
+install package libX11-xcb.i686 libXau.i686 libXcomposite.i686 libXcursor.i686
+install package libXdamage.i686 libXext.i686 libXfixes.i686 libXft.i686 libXi.i686
+install package libXinerama.i686 libXrandr.i686 libXrender.i686 libXt.i686 libXxf86vm.i686
+install package libblkid.i686 libcap.i686 libcom_err.i686 libdatrie.i686 libdrm.i686
+install package libffi.i686 libgcc.i686 libgcrypt.i686 libglvnd.i686 libglvnd-glx.i686
+install package libgpg-error.i686 libidn.i686 libidn2.i686 libjpeg-turbo.i686 libmount.i686
+install package libpciaccess.i686 libpng.i686 libselinux.i686 libsepol.i686 libstdc++.i686
+install package libtasn1.i686 libthai.i686 libtiff.i686 libunistring.i686 libuuid.i686
+install package libverto.i686 libxcb.i686 libxcrypt.i686 libxml2.i686 libxshmfence.i686
+install package lz4-libs.i686 mesa-libGL.i686 mesa-libGLU.i686 mesa-libGLU.x86_64
+install package mesa-libglapi.i686 nettle.i686 openssl-libs.i686 p11-kit.i686 pango.i686
+install package pangox-compat.i686 pangox-compat.x86_64 pcre.i686 pcre2.i686 pixman.i686
+install package systemd-libs.i686 xz-libs.i686 zlib.i686 libidn.x86_64
+install package libidn.i686 coreutils.x86_64 libidn1.34.i686
 rpm -i /home/$USER/Downloads/AdbeRdr*rpm
 
-# handle ACPI wake-up settings for none platform devices
+# handle ACPI wake-up settings for non-platform devices
+log "handle ACPI wake-up settings for non-platform devices"
 cp -f /home/$USER/.yadrlite/src/org/system/acpi-wake.service /etc/systemd/system
 chmod 777 /etc/systemd/system/acpi-wake.service
 systemctl start acpi-wake.service
@@ -368,12 +445,14 @@ systemctl enable acpi-wake.service
 
 # permissions, status and boot configuration
 # # # # # # # # # # # # # # #
+log "setup permissions, status and boot configuration"
 find /home/$USER/.config -type d -exec chmod 0755 {} \;
 find /home/$USER/.config -type f -exec chmod 0644 {} \;
 find /home/$USER/.config -name "*" -execdir chmod u+x {} +
 plymouth-set-default-theme -R bgrt
 
 # add manual entries
+log "add application entries"
 su -c 'mkdir -p ~/.local/share/applications' $USER
 su -c 'touch ~/.local/share/applications/screensaver.desktop' $USER
 printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/screensaver.desktop
@@ -427,19 +506,21 @@ printf 'Name=Start Tor Browser\n' >> /home/$USER/.local/share/applications/tor.d
 printf "Exec=/home/$USER/.local/share/torbrowser/tbb/x86_64/tor-browser_en-US/Browser/start-tor-browser\n" >> /home/$USER/.local/share/applications/tor.desktop
 
 # Install Multimedia Codecs
-dnf install -y rpmfusion-free-release-tainted
-dnf install -y mpv devedeng youtube-dl
+log "installing multimedia codecs"
+install package rpmfusion-free-release-tainted
+install package mpv devedeng youtube-dl
 dnf install -y gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel
 dnf install -y lame\* --exclude=lame-devel
-dnf install -y ffmpeg ffmpeg-libs compat-ffmpeg28
-dnf install -y lsdvd libdvdnav libdvdread libdvdcss
-dnf install -y java-1.8.0-openjdk
-dnf install -y libbluray libbluray-utils libbluray-bdj
+install package ffmpeg ffmpeg-libs compat-ffmpeg28
+install package lsdvd libdvdnav libdvdread libdvdcss
+install package java-1.8.0-openjdk
+install package libbluray libbluray-utils libbluray-bdj
 su -c "cp -r ~/.yadrlite/dwm/mpv ~/.config" $USER
 
 # Bluray Playback
 # # # # # # # # # # # # # # #
-dnf install -y ffmpeg-devel openssl-devel qt5-devel
+log "installing bluray playback"
+install package ffmpeg-devel openssl-devel qt5-devel
 su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-oss-1.15.2.tar.gz' $USER
 su -c 'cd ~/lab && tar xpf makemkv-oss-1.15.2.tar.gz' $USER
 su -c 'cd ~/lab/makemkv-oss-1.15.2 && ./configure' $USER
@@ -451,9 +532,11 @@ su -c 'make -C ~/lab/makemkv-bin-1.15.2' $USER
 cd /home/$USER/lab/makemkv-bin-1.15.2 && make install
 
 # Windows 32-bit compatibility layer
-# dnf install -y wine.x86_64 winetricks
-# initializes wine
-# WINEARCH=win32 wineboot
+log "TODO:"
+log "If you want a windows 32-bit compatiblity layer"
+log "dnf install -y wine.x86_64 winetricks"
+log "Next initialize wine with:"
+log "WINEARCH=win32 wineboot"
 
 # TROUBLESHOOTING 
 # # # # # # # # # # # # # # #
@@ -474,6 +557,6 @@ cd /home/$USER/lab/makemkv-bin-1.15.2 && make install
 # dnf install regionset
 # regionset /dev/sr0
 # rm ~/.dvdcss
-
+log "Installation complete.  Please reboot your system."
 printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
 printf "ALL DONE.  PLEASE REBOOT YOUR SYSTEM."
