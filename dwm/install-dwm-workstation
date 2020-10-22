@@ -16,7 +16,7 @@ USER="${1:francis}"
 # Commandline Tools
 # # # # # # # # # # # # # # #
 dnf update -y
-dnf install -y autoconf automake git htop rsync
+dnf install -y autoconf automake git rsync htop bashtop
 dnf group install -y development-tools rpm-development-tools c-development
 $SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
 su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
