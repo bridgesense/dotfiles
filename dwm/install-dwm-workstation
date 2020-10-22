@@ -451,7 +451,7 @@ su -c 'make -C ~/lab/makemkv-bin-1.15.2' $USER
 cd /home/$USER/lab/makemkv-bin-1.15.2 && make install
 
 # Windows 32-bit compatibility layer
-dnf install -y wine.x86_64 winetricks
+# dnf install -y wine.x86_64 winetricks
 # initializes wine
 # WINEARCH=win32 wineboot
 
