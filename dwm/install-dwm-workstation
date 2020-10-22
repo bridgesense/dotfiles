@@ -381,6 +381,7 @@ install package flatpak
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y flathub com.spotify.Client
 flatpak install -y flathub org.signal.Signal
+flatpak install -y flathub us.zoom.Zoom 
 flatpak install -y flathub org.musescore.MuseScore
 
 # Install Browsers
