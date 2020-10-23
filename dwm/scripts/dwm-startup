@@ -20,8 +20,8 @@ flameshot &
 rfkill unblock 0
 pactl load-module module-bluetooth-discover
 # #---Screen/Monitor Setup---# #
-xset -s off -dpms
 xautolock -time 10 -locker "bash ~/.config/scripts/screen-saver" -detectsleep &
+xset s 600 0 -dpms
 # repaints backgrounds
 $SHELL ~/.config/scripts/screen-init
 # Composite manager (always load last)
