@@ -324,7 +324,7 @@ st is a very nice lightweight terminal.
 
 dwm Commands
 ---
-These commands are part of the sample workstations included in this repo.  This is designed to be used with a "Custom Fedora" installation via the server Net install disk.  If you're interested in checking it out, download the file and review it before installing it on a new system.
+These commands are part of the sample workstations included in this repo.  This is designed to be used with a custom or minimal Fedora installation via the server Net install disk.  Some of the options in the script may need adjusted for your hardware.
 
 ### dwm Workstation Installation
 ```bash
