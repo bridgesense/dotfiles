@@ -67,9 +67,9 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "st", NULL };
-static const char *bashtop[] = { "st", "-e", "bashtop" };
-static const char *ranger[] = { "urxvt", "-e", "ranger" };
+static const char *termcmd[]  = { "alacritty", NULL };
+static const char *bashtop[] = { "alacritty", "-e", "bashtop" };
+static const char *ranger[] = { "alacritty", "-e", "ranger" };
 static const char *brightnessdown[] = { "cbacklight", "--dec", "10" };
 static const char *brightnessup[] = { "cbacklight", "--inc", "10" };
 
@@ -140,6 +140,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
+	{ ControlMask|ShiftMask,        XK_t,      spawn,          SHCMD("python ~/.config/alacritty/set_colorscheme.py") },
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 };
 

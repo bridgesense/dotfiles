@@ -86,7 +86,7 @@ install package lxappearance arc-theme redshift-gtk
 install package gtk-murrine-engine gtk-engines
 install package pulseaudio alsa-utils pulseaudio-utils compton 
 install package pulseeffects pavucontrol
-install package rxvt-unicode xclip vim-common
+install package xclip vim-common
 install package arandr zenity flameshot
 install package gnome-keyring
 install package gnome-control-center
@@ -109,7 +109,7 @@ install package simple-scan
 install package nomacs
 install package gnome-disk-utility atool
 install package cups hplip hplip-gui
-instal package policycoreutils-gui setools-console setroubleshoot
+install package policycoreutils-gui setools-console setroubleshoot
 install package clamav clamav-update
 install package timeshift
 install package brasero
@@ -117,19 +117,6 @@ install package brasero
 # suckless setup
 # st - terminal
 log "suckless setup"
-install package libX11-devel
-su -c 'mkdir ~/lab' $USER
-su -c 'git clone https://git.suckless.org/st ~/lab/st' $USER
-su -c 'cd ~/lab/st && git checkout 914fb825df3bde7abdd7947e54f8bf4d2b55e34e' $USER
-su -c 'cd ~/lab/st && git apply -3 ~/.yadrlite/dwm/st/st-scrollback-20200419-72e3f6c.diff' $USER
-su -c 'cd ~/lab/st && git apply -3 ~/.yadrlite/dwm/st/st-scrollback-mouse-20191024-a2c479c.diff' $USER
-su -c 'cd ~/lab/st && git apply -3 ~/.yadrlite/dwm/st/st-alpha-0.8.2.diff' $USER
-su -c 'cd ~/lab/st && git apply -3 ~/.yadrlite/dwm/st/st-gruvbox-both-alpha-20200510-0.8.3.diff' $USER
-su -c 'cp ~/.yadrlite/dwm/st/config.h ~/lab/st' $USER
-cd /home/$USER/lab/st
-make install
-sleep 1 
-make clean
 # dwm - windows manager
 su -c 'git clone https://git.suckless.org/dwm ~/lab/dwm' $USER
 su -c 'cd ~/lab/dwm && git checkout 61bb8b2241d4db08bea4261c82e27cd9797099e7' $USER
@@ -191,8 +178,8 @@ su -c "cp -r ~/.yadrlite/dwm/ranger ~/.config" $USER
 cp -r ~/.yadrlite/dwm/ranger ~/.config
 su -c "mkdir ~/.config/nvim && cp ~/.yadrlite/dwm/nvim/init.vim ~/.config/nvim" $USER
 mkdir ~/.config/nvim && cp ~/.yadrlite/dwm/nvim/init.vim ~/.config/nvim
-sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nexport WINEARCH=win32\nalias vi="nvim"\nalias vim="nvim"\nalias urxvt="urxvt256c"' /home/$USER/.bashrc
-sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"\nalias urxvt="urxvt256c"' ~/.bashrc
+sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nexport WINEARCH=win32\nalias vi="nvim"\nalias vim="nvim"\nalias ls="ls --color=auto"\nexport LS_COLORS=\nexport PROMPT_COMMAND=' /home/$USER/.bashrc
+sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"\nalias ls="ls --color=auto"\nexport LS_COLORS=\nexport PROMPT_COMMAND=' ~/.bashrc
 # uncomment the following line to give Sudoers access to the user account
 echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
 # urxvt terminal font resizing
@@ -206,6 +193,22 @@ su -c 'cd ~/.local/share/fonts && svn checkout https://github.com/powerline/font
 fc-cache
 # misc
 su -c 'mkdir -p ~/Applications' $USER
+
+# install alacritty terminal
+pip3 install pyyaml
+dnf copr enable -y pschyska/alacritty
+install package alacritty
+su -c 'mkdir -p ~/.config/alacritty' $USER
+su -c 'cp ~/.yadrlite/dwm/alacritty/* ~/.config/alacritty' $USER
+
+# install ranger
+pip3 install ueberzug
+install package caca-utils ffmpegthumbnailer unrar python-bidict
+su -c 'git clone https://github.com/ranger/ranger.git ~/lab/ranger' $USER
+cd /home/$USER/lab/ranger
+make install
+sleep 1
+make clean
 
 # activate dunst
 # # # # # # # # # # # # # # #
@@ -339,7 +342,7 @@ cp /home/$USER/lab/PHP-Parallel-Lint/parallel-lint.phar /usr/local/bin/parallel-
 # # # # # # # # # # # # # # #
 log "installing code editors and PHP dev tools"
 install package tmux the_silver_searcher ack fzf
-install package tree ranger w3m w3m-img expect
+install package tree w3m w3m-img expect
 install package hugo
 # install ctags
 install package python3-docutils libseccomp-devel jansson-devel libyaml-devel libxml2-devel
@@ -452,6 +455,10 @@ install package systemd-libs.i686 xz-libs.i686 zlib.i686 libidn.x86_64
 install package libidn.i686 coreutils.x86_64 libidn1.34.i686
 rpm -i /home/$USER/Downloads/AdbeRdr*rpm
 
+# install locate
+install package mlocate
+updatedb
+
 # handle ACPI wake-up settings for non-platform devices
 log "handle ACPI wake-up settings for non-platform devices"
 cp -f /home/$USER/.yadrlite/src/org/system/acpi-wake.service /etc/systemd/system
@@ -537,15 +544,15 @@ su -c "cp -r ~/.yadrlite/dwm/mpv ~/.config" $USER
 # # # # # # # # # # # # # # #
 log "installing bluray playback"
 install package ffmpeg-devel openssl-devel qt5-devel
-su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-oss-1.15.2.tar.gz' $USER
-su -c 'cd ~/lab && tar xpf makemkv-oss-1.15.2.tar.gz' $USER
-su -c 'cd ~/lab/makemkv-oss-1.15.2 && ./configure' $USER
-su -c 'make -C ~/lab/makemkv-oss-1.15.2' $USER
-cd /home/$USER/lab/makemkv-oss-1.15.2 && make install
-su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-bin-1.15.2.tar.gz' $USER
-su -c 'cd ~/lab && tar xpf makemkv-bin-1.15.2.tar.gz' $USER
-su -c 'make -C ~/lab/makemkv-bin-1.15.2' $USER
-cd /home/$USER/lab/makemkv-bin-1.15.2 && make install
+su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-oss-1.15.3.tar.gz' $USER
+su -c 'cd ~/lab && tar xpf makemkv-oss-1.15.3.tar.gz' $USER
+su -c 'cd ~/lab/makemkv-oss-1.15.3 && ./configure' $USER
+su -c 'make -C ~/lab/makemkv-oss-1.15.3' $USER
+cd /home/$USER/lab/makemkv-oss-1.15.3 && make install
+su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-bin-1.15.3.tar.gz' $USER
+su -c 'cd ~/lab && tar xpf makemkv-bin-1.15.3.tar.gz' $USER
+su -c 'make -C ~/lab/makemkv-bin-1.15.3' $USER
+cd /home/$USER/lab/makemkv-bin-1.15.3 && make install
 
 # Windows 32-bit compatibility layer
 log "TODO:"

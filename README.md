@@ -308,18 +308,21 @@ See more about setting up the [.vimrc.local](https://gitlab.com/bridgesense/lamp
 * `,vr`: (Vim Reload) source current file as a vim file
 
 
-st Shortcuts
+Alacritty Shortcuts
 ---
-st is a very nice lightweight terminal.
+Alacritty is a full featured GPU-accelerated terminal.
 
 ### History:
 * `Shift+PageUP`: Pages up through terminal history
 * `Shift+PageDown`: Pages down terminal history
 
+### Vim Mode:
+* `Ctrl+Shift+Space`: Toggles the Vim mode which provides the standard Vim positional and copy commands.
+
 ### Display Options:
-* `Ctrl+F6`: Toggle Dark/Light Theme
-* `Ctrl+Shift+PageUP`: Inscrease Font Size 
-* `Ctrl+Shift+PageDown`: Decrease Font Size 
+* `Ctrl+Shift+t`: Toggle Dark/Light Theme
+* `Ctrl+Equals`: Inscrease Font Size 
+* `Ctrl+Slash`: Decrease Font Size 
 
 
 dwm Commands
