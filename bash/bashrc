@@ -1,2 +1,6 @@
+# list colorfix
+alias ls='ls --color=auto'
+export LS_COLORS=
+
 # Default Prompt
 export PS1="\[\033[0;31m\]\u \[\033[0;33m\]\w\[\033[0;0m\]: "

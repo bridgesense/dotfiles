@@ -178,8 +178,8 @@ su -c "cp -r ~/.yadrlite/dwm/ranger ~/.config" $USER
 cp -r ~/.yadrlite/dwm/ranger ~/.config
 su -c "mkdir ~/.config/nvim && cp ~/.yadrlite/dwm/nvim/init.vim ~/.config/nvim" $USER
 mkdir ~/.config/nvim && cp ~/.yadrlite/dwm/nvim/init.vim ~/.config/nvim
-sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nexport WINEARCH=win32\nalias vi="nvim"\nalias vim="nvim"\nalias ls="ls --color=auto"\nexport LS_COLORS=' /home/$USER/.bashrc
-sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"\nalias ls="ls --color=auto"\nexport LS_COLORS=' ~/.bashrc
+sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nexport WINEARCH=win32\nalias vi="nvim"\nalias vim="nvim"' /home/$USER/.bashrc
+sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"' ~/.bashrc
 # uncomment the following line to give Sudoers access to the user account
 echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
 # powerline font patch
