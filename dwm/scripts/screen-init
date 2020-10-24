@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 # handle monitor changes 
+xrandr --auto
+
 DEFAULT_LAYOUT="/home/$USER/.screenlayout/default.sh"
 if [[ -f "$DEFAULT_LAYOUT" ]]; then
     bash -c "$DEFAULT_LAYOUT"
