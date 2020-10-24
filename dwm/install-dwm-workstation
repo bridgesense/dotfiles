@@ -424,7 +424,7 @@ su -c 'cd ~/Applications/lc0 && $SHELL build.sh' $USER
 
 # pdf support
 log "installing pdf support"
-install package cups-pdf evince pdfarranger mupdf
+install package cups-pdf evince pdfarranger mupdf xournal
 # install Adobe Acrobat
 log "installing adobe acrobat"
 su -c 'cd ~/Downloads && wget "ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/AdbeRdr9.5.5-1_i486linux_enu.rpm"' $USER
