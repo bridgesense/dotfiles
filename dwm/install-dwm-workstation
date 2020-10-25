@@ -64,7 +64,7 @@ function install {
 # # # # # # # # # # # # # # #
 log "installing commandline tools"
 dnf update -y
-install package autoconf automake git rsync htop bashtop
+install package autoconf automake git rsync htop
 install group development-tools rpm-development-tools c-development
 $SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
 su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
@@ -92,6 +92,7 @@ install package gnome-keyring
 install package gnome-control-center
 install package NetworkManager-tui NetworkManager-wifi 
 install package NetworkManager-openvpn-gnome NetworkManager-openconnect-gnome
+install package net-tools
 install package ftp telnet
 install package dhcp-client iw wpa_supplicant blueman sbc
 install package dunst libnotify
@@ -195,6 +196,9 @@ dnf copr enable -y pschyska/alacritty
 install package alacritty
 su -c 'mkdir -p ~/.config/alacritty' $USER
 su -c 'cp ~/.yadrlite/dwm/alacritty/* ~/.config/alacritty' $USER
+
+# install bpytop
+pip3 install bpytop --upgrade
 
 # install ranger
 pip3 install ueberzug

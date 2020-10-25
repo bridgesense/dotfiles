@@ -7,7 +7,7 @@ xset dpms force off
 sleep 0.5 
 
 # kill any instance of asciiquarium
-alacritty -e sh -c "wmctrl -x -r 'alacritty' -b add,fullscreen; asciiquarium" &
+alacritty -e sh -c "wmctrl -r 'alacritty' -b add,fullscreen; asciiquarium" &
 slock
 pkill -f asciiquarium
 bash ~/.config/scripts/screen-init 
