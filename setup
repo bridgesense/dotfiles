@@ -162,13 +162,13 @@ if [ "$action" == "install" ]; then
         if [[ "$(installed 'brew info')" == "yes" ]]; then
             if [[ $(vim --version) != *"+lua"* ]]; then
                 brew remove vim 2>/dev/null
-                brew install vim --with-lua --with-override-system-vi
+                brew install vim --with-override-system-vi
             fi
 
             brew install tmux reattach-to-user-namespace the_silver_searcher ack openssl boris
             # next line fixes bug with newest changes to MacOS security
             ln -s `brew --prefix openssl`/bin/openssl /usr/local/bin/openssl 2>/dev/null
-            brew install aspell --with-lang-en
+            brew install aspell
             # fixes the cruddy looking font in Emacs on MacOS
             defaults write org.gnu.Emacs AppleFontSmoothing -int 0
             brew cask install gpg-suite
