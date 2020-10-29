@@ -393,12 +393,11 @@ install package chromium-freeworld firefox-x11 torbrowser-launcher
 # install Vagrant and Virtualbox
 # Warning: Secure boot may need to be disabled
 log "installing Vagrant and Virtualbox"
-install package akmods vagrant VirtualBox
-su -c 'mkdir -p ~/Downloads && cd ~/Downloads && wget http://download.virtualbox.org/virtualbox/6.1.14/Oracle_VM_VirtualBox_Extension_Pack-6.1.14.vbox-extpack' $USER
-echo "y" | VBoxManage extpack install --replace /home/$USER/Downloads/Oracle_VM_VirtualBox_Extension_Pack-6.1.14.vbox-extpack
+install package akmods vagrant VirtualBox virtualbox-guest-additions
 firewall-cmd --permanent --zone=public --add-port=9041/tcp
 setsebool -P httpd_can_network_connect on
-semanage port -a -t http_port_t -p tcp 9041
+semanage port -a -t http_port_t -p tcp 9041 # xdebug
+usermod -aG vboxusers $USER
 
 # Rambox
 # # # # # # # # # # # # # # #
@@ -505,12 +504,12 @@ su -c 'touch ~/.local/share/applications/mpvdvd.desktop' $USER
 printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/mpvdvd.desktop
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/mpvdvd.desktop
 printf 'Name=mpv Media Player DVD\n' >> /home/$USER/.local/share/applications/mpvdvd.desktop
-printf "Exec=mpv --dvd-device=/dev/sr0 dvd://\n" >> /home/$USER/.local/share/applications/mpvdvd.desktop
+printf "Exec=mpv --dvd-device=/dev/sr0 dvd:// --player-operation-mode=pseudo-gui --force-window --idle\n" >> /home/$USER/.local/share/applications/mpvdvd.desktop
 su -c 'touch ~/.local/share/applications/mpvdvdall.desktop' $USER
 printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/mpvdvdall.desktop
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/mpvdvdall.desktop
 printf 'Name=mpv Media Player DVD Play All\n' >> /home/$USER/.local/share/applications/mpvdvdall.desktop
-printf "Exec=mpv --dvd-device=/dev/sr0 dvd://0 dvd://1 dvd://2 dvd://3 dvd://4 dvd://5 dvd://6 dvd://7 dvd://8 dvd://9\n" >> /home/$USER/.local/share/applications/mpvdvdall.desktop
+printf "Exec=mpv --dvd-device=/dev/sr0 dvd://0 dvd://1 dvd://2 dvd://3 dvd://4 dvd://5 dvd://6 dvd://7 dvd://8 dvd://9 --player-operation-mode=pseudo-gui --force-window --idle\n" >> /home/$USER/.local/share/applications/mpvdvdall.desktop
 su -c 'touch ~/.local/share/applications/mpvbd.desktop' $USER
 printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/mpvbd.desktop
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/mpvbd.desktop
