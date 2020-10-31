@@ -255,7 +255,7 @@ if [ "$action" == "install" ]; then
         mv ~/.$cfile $dir/$dotfiles_old/ 2>/dev/null
         ln -s $dir/$cfile ~/.$cfile
     done
-    vi -c Helptags -c q
+    vi -c "Silent Helptags" -c "q!"
 
     if [[ "$(uname)" != "Darwin" ]]; then
         echo "This script does not install ack, emacs, silversearcher, tmux or Vim with Lua support. That's something you might look into."
