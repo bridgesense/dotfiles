@@ -52,9 +52,6 @@ function installed {
     if [[ $($1 2>&1) =~ (not found) ]]; then
         local inststatus=no
     fi
-    if ! [ -x "$(command -v vi)" ]; then
-        vi -c "silent Helptags" -c "q!"
-    fi
     echo "$inststatus"
 }
 
@@ -67,9 +64,6 @@ function update {
        echo "Updating $pdir..."
        git pull
     done
-    if [ -x "$(command -v vi)" ]; then
-        vi -c "silent Helptags" -c "q!"
-    fi
     echo "Update finished."
 }
 
@@ -84,9 +78,6 @@ if [ "$action" == "remove" ]; then
         mv $dir/$dotfiles_old/.$cfile ~/ 2>/dev/null
     done
     rm -rf $dir 2>/dev/null
-    if [ -x "$(command -v vi)" ]; then
-        vi -c "silent Helptags" -c "q!"
-    fi
     echo "Your original dotfiles have been restored.  Please restart the terminal or re-login to supress error messages."
 fi
 
@@ -104,9 +95,6 @@ if [ "$action" == "update" ]; then
         update $dir/vim/bundle
         update $dir/tmux/plugin
         update $dir/bash/plugin
-        if [ -x "$(command -v vi)" ]; then
-            vi -c "silent Helptags" -c "q!"
-        fi
         echo "The update is finished."
     fi
 fi
