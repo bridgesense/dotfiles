@@ -39,7 +39,6 @@ function install {
             cnt=3
             while [ $cnt -gt 0 ]; do
                 if dnf list installed $package > /dev/null 2>&1; then
-                    log "This package was already installed: ${package}".
                     break;
                 else
                     if [[ $_type == "group" ]]; then
@@ -81,7 +80,7 @@ dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-
 log "installing supporting applications"
 install group "Fedora Workstation" 
 install package awesome
-install package fontawesome-fonts xautolock gnome-tweak-tool
+install package fontawesome-fonts xautolock i3lock gnome-tweaks
 install pacakge xbacklight feh arc-theme redshift-gtk
 install package gtk-murrine-engine compton
 install package pulseeffects pavucontrol
@@ -115,9 +114,6 @@ install package clamav clamav-update
 install package timeshift
 install package brasero
 
-# Install supporting applications
-# # # # # # # # # # # # # # #
-
 # copy over system start resources
 # # # # # # # # # # # # # # #
 log "copying over system start resources"
@@ -126,12 +122,12 @@ su -c 'cp -f ~/.yadrlite/awesome/Xresources ~/.Xresources' $USER
 cp -f ~/.yadrlite/awesome/Xresources ~/.Xresources
 su -c 'mkdir -p ~/.config/awesome' $USER
 su -c 'rsync -azhLP ~/.yadrlite/awesome/setup/ ~/.config/awesome' $USER
-su -c "cp -r ~/.yadrlite/awesome/ranger ~/.config" $USER
-cp -r ~/.yadrlite/awesome/ranger ~/.config
-su -c "mkdir ~/.config/nvim && cp ~/.yadrlite/awesome/nvim/init.vim ~/.config/nvim" $USER
-mkdir ~/.config/nvim && cp ~/.yadrlite/awesome/nvim/init.vim ~/.config/nvim
-sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nexport WINEARCH=win32\nalias vi="nvim"\nalias vim="nvim"' /home/$USER/.bashrc
-sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"' ~/.bashrc
+su -c 'git clone https://github.com/lcpz/awesome-freedesktop.git ~/.config/awesome/freedesktop'
+echo "[User]" > /var/lib/AccountsService/users/$USER 
+echo "Language=" >> /var/lib/AccountsService/users/$USER 
+echo "XSession=awesome" >> /var/lib/AccountsService/users/$USER 
+echo "Icon=/home/$USER/.face" >> /var/lib/AccountsService/users/$USER 
+echo "SystemAccount=false" >> /var/lib/AccountsService/users/$USER 
 # uncomment the following line to give Sudoers access to the user account
 echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
 # powerline font patch
@@ -140,6 +136,10 @@ su -c 'cd ~/.local/share/fonts && svn checkout https://github.com/powerline/font
 fc-cache
 # misc
 su -c 'mkdir -p ~/Applications' $USER
+
+# Install supporting applications
+# # # # # # # # # # # # # # #
+log "installing supporting applications"
 
 # install alacritty terminal
 pip3 install pyyaml
@@ -153,12 +153,9 @@ pip3 install bpytop --upgrade
 
 # install ranger
 pip3 install ueberzug
-install package caca-utils ffmpegthumbnailer unrar python-bidict
-su -c 'git clone https://github.com/ranger/ranger.git ~/lab/ranger' $USER
-cd /home/$USER/lab/ranger
-make install
-sleep 1
-make clean
+install package caca-utils ffmpegthumbnailer unrar python3-bidict ranger
+su -c "cp -r ~/.yadrlite/awesome/ranger ~/.config" $USER
+cp -r ~/.yadrlite/awesome/ranger ~/.config
 
 # backlight fix for i915 GPU's
 # to work with cbacklight script
@@ -292,6 +289,10 @@ pip3 install pynvim
 su -c "gem install neovim" $USER
 su -c "gem environment" $USER
 npm install -g neovim
+su -c "mkdir ~/.config/nvim && cp ~/.yadrlite/awesome/nvim/init.vim ~/.config/nvim" $USER
+mkdir ~/.config/nvim && cp ~/.yadrlite/awesome/nvim/init.vim ~/.config/nvim
+sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nexport WINEARCH=win32\nalias vi="nvim"\nalias vim="nvim"' /home/$USER/.bashrc
+sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"' ~/.bashrc
 
 # compiles emacs 27
 # for much better speed and compatibitily
@@ -429,7 +430,7 @@ su -c "cp -r ~/.yadrlite/awesome/mpv ~/.config" $USER
 # Bluray Playback
 # # # # # # # # # # # # # # #
 log "installing bluray playback"
-install package ffmpeg-devel openssl-devel qt5-devel
+install package ffmpeg-devel openssl-devel
 su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-oss-1.15.3.tar.gz' $USER
 su -c 'cd ~/lab && tar xpf makemkv-oss-1.15.3.tar.gz' $USER
 su -c 'cd ~/lab/makemkv-oss-1.15.3 && ./configure' $USER
