@@ -4,7 +4,7 @@
 # Please review this script and adjust it to your needs prior to running it.
 # This script is intended for a minimal Fedora Workstation installation on a Thinkpad
 # run as root:
-# curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/dwm/install-dwm-workstation > custom-fedora-setup
+# curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/awesomewm/install-awesome-workstation > custom-fedora-setup
 # $SHELL custom-fedora-setup <username>
 # # # # # # # # # # # # # # #
 
@@ -39,6 +39,7 @@ function install {
             cnt=3
             while [ $cnt -gt 0 ]; do
                 if dnf list installed $package > /dev/null 2>&1; then
+                    log "This package was already installed: ${package}".
                     break;
                 else
                     if [[ $_type == "group" ]]; then
@@ -75,20 +76,18 @@ log "installing RPM Fusion"
 dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
 dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
-# Install supporting applications
+# Install Window Manager 
 # # # # # # # # # # # # # # #
 log "installing supporting applications"
-dnf install -y @base-x @Fonts
-install package xorg-x11-xinit-session
-install package gdouros-symbola-fonts fontawesome-fonts xorg-x11-fonts-misc gucharmap
-install package xbacklight feh
-install package xautolock asciiquarium
-install package lxappearance arc-theme redshift-gtk
-install package gtk-murrine-engine gtk-engines
-install package pulseaudio alsa-utils pulseaudio-utils compton 
+install group "Fedora Workstation" 
+install package awesome
+install package fontawesome-fonts xautolock gnome-tweak-tool
+install pacakge xbacklight feh arc-theme redshift-gtk
+install package gtk-murrine-engine compton
 install package pulseeffects pavucontrol
 install package xclip vim-common
 install package arandr zenity flameshot
+pip install autorandr
 install package gnome-keyring
 install package gnome-control-center
 install package NetworkManager-tui NetworkManager-wifi 
@@ -116,70 +115,21 @@ install package clamav clamav-update
 install package timeshift
 install package brasero
 
-# suckless setup
-# st - terminal
-log "suckless setup"
-# dwm - windows manager
-su -c 'git clone https://git.suckless.org/dwm ~/lab/dwm' $USER
-su -c 'cd ~/lab/dwm && git checkout 61bb8b2241d4db08bea4261c82e27cd9797099e7' $USER
-su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-ru_gaps-20200510-6.2.diff' $USER
-su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-attachbottom-20200510-6.2.diff' $USER
-su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-rotatestack-20200510-6.2.diff' $USER
-su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-statuscolors-20200511-6.2.diff' $USER
-su -c 'cd ~/lab/dwm && git apply -3 ~/.yadrlite/dwm/dwm/dwm-actualfullscreen-20200602-6.2.diff' $USER
-su -c 'cp ~/.yadrlite/dwm/dwm/config.h ~/lab/dwm' $USER
-cd /home/$USER/lab/dwm 
-make install
-sleep 1 
-make clean
-# dwm - dmenu for app launcher script
-su -c 'git clone https://git.suckless.org/dmenu ~/lab/dmenu' $USER
-su -c 'cd ~/lab/dmenu && git checkout db6093f6ec1bb884f7540f2512935b5254750b30' $USER
-su -c 'cd ~/lab/dmenu && git apply -3 ~/.yadrlite/dwm/dmenu/dmenu-highlight-4.9.diff' $USER
-su -c 'cp ~/.yadrlite/dwm/dmenu/config.h ~/lab/dmenu' $USER
-cd /home/$USER/lab/dmenu
-make install
-sleep 1 
-make clean
-# dwm - slock for screen locking
-su -c 'git clone https://git.suckless.org/slock ~/lab/slock' $USER
-su -c 'cd ~/lab/slock && git checkout 35633d45672d14bd798c478c45d1a17064701aa9' $USER
-su -c 'cd ~/lab/slock && git apply -3 ~/.yadrlite/dwm/slock/slock-unlock_screen-1.4.diff' $USER
-su -c 'cp ~/.yadrlite/dwm/slock/config.h ~/lab/slock' $USER
-cd /home/$USER/lab/slock 
-make install
-sleep 1 
-make clean
-
-# install xbanish
+# Install supporting applications
 # # # # # # # # # # # # # # #
-log "installing xbanish"
-install package libXt-devel libXfixes-devel libXi-devel
-su -c 'git clone https://github.com/jcs/xbanish.git ~/lab/xbanish' $USER
-su -c 'make -C ~/lab/xbanish' $USER
-cd /home/$USER/lab/xbanish 
-make install
-sleep 1
-make clean
-
-# More themes
-# # # # # # # # # # # # # # #
-log "installing themes"
-su -c 'git clone https://github.com/vinceliuice/Matcha-gtk-theme.git ~/lab/matcha' $USER
-su -c 'cd ~/lab/matcha && bash install.sh' $USER
 
 # copy over system start resources
 # # # # # # # # # # # # # # #
 log "copying over system start resources"
-su -c 'cp -f ~/.yadrlite/dwm/Xresources ~/.Xresources' $USER
-cp -f ~/.yadrlite/dwm/Xresources ~/.Xresources
-su -c 'mkdir -p ~/.config/scripts' $USER
-su -c 'cp ~/.yadrlite/dwm/scripts/* ~/.config/scripts' $USER
-su -c 'cp ~/.yadrlite/dwm/xinitrc ~/.xinitrc' $USER
-su -c "cp -r ~/.yadrlite/dwm/ranger ~/.config" $USER
-cp -r ~/.yadrlite/dwm/ranger ~/.config
-su -c "mkdir ~/.config/nvim && cp ~/.yadrlite/dwm/nvim/init.vim ~/.config/nvim" $USER
-mkdir ~/.config/nvim && cp ~/.yadrlite/dwm/nvim/init.vim ~/.config/nvim
+systemctl set-default graphical.target
+su -c 'cp -f ~/.yadrlite/awesome/Xresources ~/.Xresources' $USER
+cp -f ~/.yadrlite/awesome/Xresources ~/.Xresources
+su -c 'mkdir -p ~/.config/awesome' $USER
+su -c 'rsync -azhLP ~/.yadrlite/awesome/setup/ ~/.config/awesome' $USER
+su -c "cp -r ~/.yadrlite/awesome/ranger ~/.config" $USER
+cp -r ~/.yadrlite/awesome/ranger ~/.config
+su -c "mkdir ~/.config/nvim && cp ~/.yadrlite/awesome/nvim/init.vim ~/.config/nvim" $USER
+mkdir ~/.config/nvim && cp ~/.yadrlite/awesome/nvim/init.vim ~/.config/nvim
 sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nexport WINEARCH=win32\nalias vi="nvim"\nalias vim="nvim"' /home/$USER/.bashrc
 sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"' ~/.bashrc
 # uncomment the following line to give Sudoers access to the user account
@@ -196,7 +146,7 @@ pip3 install pyyaml
 dnf copr enable -y pschyska/alacritty
 install package alacritty
 su -c 'mkdir -p ~/.config/alacritty' $USER
-su -c 'cp ~/.yadrlite/dwm/alacritty/* ~/.config/alacritty' $USER
+su -c 'cp ~/.yadrlite/awesome/alacritty/* ~/.config/alacritty' $USER
 
 # install bpytop
 pip3 install bpytop --upgrade
@@ -210,27 +160,13 @@ make install
 sleep 1
 make clean
 
-# activate dunst
-# # # # # # # # # # # # # # #
-log "activating dunst"
-systemctl enable --user dunst.service
-systemctl start --user dunst.service
-su -c "cp -r ~/.yadrlite/dwm/dunst ~/.config" $USER
-eval $(dbus-launch) 
-
-# low battery indication
-# # # # # # # # # # # # # # #
-log "activating low battery indication"
-install package acpi ntpdate
-(crontab -u $USER -l; echo "*/15 * * * * $SHELL /home/${USER}/.config/scripts/battery >/dev/null 2>&1") | crontab -u $USER -
-
 # backlight fix for i915 GPU's
 # to work with cbacklight script
 log "applying backlight fix for i915 GPU"
 usermod -aG video $USER
 echo "ACTION==\"add\", SUBSYSTEM==\"backlight\", KERNEL==\"intel_backlight\", RUN+=\"/bin/chgrp video /sys/class/backlight/%k/brightness\"" >> /etc/udev/rules.d/backlight.rules
 echo "ACTION==\"add\", SUBSYSTEM==\"backlight\", KERNEL==\"intel_backlight\", RUN+=\"/bin/chmod g+w /sys/class/backlight/%k/brightness\"" >> /etc/udev/rules.d/backlight.rules
-cp /home/$USER/.yadrlite/dwm/scripts/cbacklight /usr/bin/cbacklight
+cp /home/$USER/.yadrlite/awesome/scripts/cbacklight /usr/bin/cbacklight
 
 # syncs headphone to master sound control
 log "TODO:"
@@ -411,7 +347,7 @@ log "install Gargoyle"
 install package SDL SDL_mixer SDL_sound fluidsynth
 su -c 'wget -O ~/Downloads/gargoyle.rpm https://github.com/rpmsphere/x86_64/blob/master/g/gargoyle-2015-5.4.x86_64.rpm?raw=true' $USER
 dnf install -y /home/$USER/Downloads/gargoyle.rpm
-su -c 'cp ~/.yadrlite/dwm/garglk.ini ~/.garglkrc' $USER
+su -c 'cp ~/.yadrlite/awesome/garglk.ini ~/.garglkrc' $USER
 
 # Chess
 # # # # # # # # # # # # # # #
@@ -429,30 +365,6 @@ su -c 'cd ~/Applications/lc0 && $SHELL build.sh' $USER
 # pdf support
 log "installing pdf support"
 install package cups-pdf evince pdfarranger mupdf xournal
-# install Adobe Acrobat
-log "installing adobe acrobat"
-su -c 'cd ~/Downloads && wget "ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/AdbeRdr9.5.5-1_i486linux_enu.rpm"' $USER
-install package atk.i686 avahi-libs.i686 bzip2-libs.i686 cairo.i686 cups-libs.i686
-install package dbus-libs.i686 expat.i686 fontconfig.i686 freetype.i686 fribidi.i686
-install package gdk-pixbuf2.i686 gdk-pixbuf2-modules.i686 gdk-pixbuf2-xlib.i686
-install package gdk-pixbuf2-xlib.x86_64 glib2.i686 glibc.i686 gmp.i686 gnutls.i686
-install package graphite2.i686 gtk2.i686 harfbuzz.i686 jasper-libs.i686 jbigkit-libs.i686
-install package keyutils-libs.i686 krb5-libs.i686 libICE.i686 libSM.i686 libX11.i686
-install package libX11-xcb.i686 libXau.i686 libXcomposite.i686 libXcursor.i686
-install package libXdamage.i686 libXext.i686 libXfixes.i686 libXft.i686 libXi.i686
-install package libXinerama.i686 libXrandr.i686 libXrender.i686 libXt.i686 libXxf86vm.i686
-install package libblkid.i686 libcap.i686 libcom_err.i686 libdatrie.i686 libdrm.i686
-install package libffi.i686 libgcc.i686 libgcrypt.i686 libglvnd.i686 libglvnd-glx.i686
-install package libgpg-error.i686 libidn.i686 libidn2.i686 libjpeg-turbo.i686 libmount.i686
-install package libpciaccess.i686 libpng.i686 libselinux.i686 libsepol.i686 libstdc++.i686
-install package libtasn1.i686 libthai.i686 libtiff.i686 libunistring.i686 libuuid.i686
-install package libverto.i686 libxcb.i686 libxcrypt.i686 libxml2.i686 libxshmfence.i686
-install package lz4-libs.i686 mesa-libGL.i686 mesa-libGLU.i686 mesa-libGLU.x86_64
-install package mesa-libglapi.i686 nettle.i686 openssl-libs.i686 p11-kit.i686 pango.i686
-install package pangox-compat.i686 pangox-compat.x86_64 pcre.i686 pcre2.i686 pixman.i686
-install package systemd-libs.i686 xz-libs.i686 zlib.i686 libidn.x86_64
-install package libidn.i686 coreutils.x86_64 libidn1.34.i686
-rpm -i /home/$USER/Downloads/AdbeRdr*rpm
 
 # install locate
 install package mlocate
@@ -476,31 +388,11 @@ plymouth-set-default-theme -R bgrt
 # add manual entries
 log "add application entries"
 su -c 'mkdir -p ~/.local/share/applications' $USER
-su -c 'touch ~/.local/share/applications/screensaver.desktop' $USER
-printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/screensaver.desktop
-printf 'Type=Application\n' >> /home/$USER/.local/share/applications/screensaver.desktop
-printf 'Name=Start Screen Saver\n' >> /home/$USER/.local/share/applications/screensaver.desktop
-printf "Exec=/home/$USER/.config/scripts/screen-saver\n" >> /home/$USER/.local/share/applications/screensaver.desktop
-su -c 'touch ~/.local/share/applications/hibernate.desktop' $USER
-printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/hibernate.desktop
-printf 'Type=Application\n' >> /home/$USER/.local/share/applications/hibernate.desktop
-printf 'Name=Hibernate Now\n' >> /home/$USER/.local/share/applications/hibernate.desktop
-printf "Exec=/home/$USER/.config/scripts/hibernate\n" >> /home/$USER/.local/share/applications/hibernate.desktop
-su -c 'touch ~/.local/share/applications/reboot.desktop' $USER
-printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/reboot.desktop
-printf 'Type=Application\n' >> /home/$USER/.local/share/applications/reboot.desktop
-printf 'Name=Restart Now\n' >> /home/$USER/.local/share/applications/reboot.desktop
-printf "Exec=/home/$USER/.config/scripts/reboot-confirm\n" >> /home/$USER/.local/share/applications/reboot.desktop
-su -c 'touch ~/.local/share/applications/shutdown.desktop' $USER
-printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/shutdown.desktop
-printf 'Type=Application\n' >> /home/$USER/.local/share/applications/shutdown.desktop
-printf 'Name=Shutdown Now\n' >> /home/$USER/.local/share/applications/shutdown.desktop
-printf "Exec=/home/$USER/.config/scripts/shutdown-confirm\n" >> /home/$USER/.local/share/applications/shutdown.desktop
 su -c 'touch ~/.local/share/applications/touchpad.desktop' $USER
 printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/touchpad.desktop
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/touchpad.desktop
 printf 'Name=Toggle Touchpad\n' >> /home/$USER/.local/share/applications/touchpad.desktop
-printf "Exec=/home/$USER/.config/scripts/toggle-touchpad\n" >> /home/$USER/.local/share/applications/touchpad.desktop
+printf "Exec=/home/$USER/.config/awesome/scripts/toggle-touchpad\n" >> /home/$USER/.local/share/applications/touchpad.desktop
 su -c 'touch ~/.local/share/applications/mpvdvd.desktop' $USER
 printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/mpvdvd.desktop
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/mpvdvd.desktop
@@ -516,11 +408,6 @@ printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/mpvbd.deskt
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/mpvbd.desktop
 printf 'Name=mpv Media Player Bluray\n' >> /home/$USER/.local/share/applications/mpvbd.desktop
 printf "Exec=mpv --bluray-device=/dev/sr0 bd://\n" >> /home/$USER/.local/share/applications/mpvbd.desktop 
-su -l $USER -c 'touch ~/.local/share/applications/appearance.desktop'
-printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/appearance.desktop
-printf 'Type=Application\n' >> /home/$USER/.local/share/applications/appearance.desktop
-printf 'Name=Desktop Appearance Settings\n' >> /home/$USER/.local/share/applications/appearance.desktop
-printf "Exec=lxappearance\n" >> /home/$USER/.local/share/applications/appearance.desktop 
 su -c 'touch ~/.local/share/applications/tor.desktop' $USER
 printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/tor.desktop
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/tor.desktop
@@ -537,7 +424,7 @@ install package ffmpeg ffmpeg-libs compat-ffmpeg28
 install package lsdvd libdvdnav libdvdread libdvdcss
 install package java-1.8.0-openjdk
 install package libbluray libbluray-utils libbluray-bdj
-su -c "cp -r ~/.yadrlite/dwm/mpv ~/.config" $USER
+su -c "cp -r ~/.yadrlite/awesome/mpv ~/.config" $USER
 
 # Bluray Playback
 # # # # # # # # # # # # # # #
@@ -567,12 +454,6 @@ log "WINEARCH=win32 wineboot"
 # try adding the following line to /etc/default/grub
 # GRUB_CMDLINE_LINUX_DEFAULT="psmouse.synaptics_intertouch=0"
 # reference: https://bugzilla.redhat.com/show_bug.cgi?id=1815541 
-
-# If DWM doesn't start after logging in and xorg closes immediately
-# without error, try commenting out "exec dwm" in the .xinitrc
-# file and booting up once.  The Gnome start up will initiate
-# any missing files.  Edit .xinitrc and remove the comment to
-# activate dwm on the next log in 
 
 # if DVD's don't work try running regionset from comandline
 # and then deleteing the ~/.dvdcss directory
