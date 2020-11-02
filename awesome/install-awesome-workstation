@@ -138,6 +138,10 @@ echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
 su -c 'mkdir -p ~/.local/share/fonts/' $USER
 su -c 'cd ~/.local/share/fonts && svn checkout https://github.com/powerline/fonts/trunk/DejaVuSansMono' $USER
 fc-cache
+# freedesktop repo
+su -c 'git clone https://github.com/lcpz/awesome-freedesktop.git /home/$USER/.config/awesome/freedesktop' $USER
+git clone https://github.com/lcpz/awesome-freedesktop.git ~/.config/awesome/freedesktop
+
 # misc
 su -c 'mkdir -p ~/Applications' $USER
 
