@@ -178,7 +178,7 @@ The leader key Ctrl-a can be followed by the next key concurrently without holdi
 * `Ctrl-a j`: Focus on window above the current one
 * `Ctrl-a k`: Focus on window below the current one
 * `Ctrl-a l`: Focus on window right of the current one
-* `Ctrl-a x`: Kill current window pane 
+* `Ctrl-a x`: Kill current window pane
 * `Ctrl+H`: Shift current window pane left
 * `Ctrl+J`: Shift current window pane up
 * `Ctrl+K`: Shift current window pane down
@@ -186,7 +186,7 @@ The leader key Ctrl-a can be followed by the next key concurrently without holdi
 * `Ctrl-a s`: Create new window horizontally below current one
 * `Ctrl-a v`: Create new window vertically to right of current one
 * `Ctrl-a [`: Enter Vim-like normal mode
-* `Ctrl-a Ctrl-s`, `Ctrl-r`: Saves and Restores Tmux Session  
+* `Ctrl-a Ctrl-s`, `Ctrl-r`: Saves and Restores Tmux Session
 In visual mode use `h,j,k,l` to move, `v` to change to visual mode and `y` to yank selection.  Press `Enter` to exit mode.
 
 
@@ -217,7 +217,7 @@ VIM Shortcuts
 * `,TAB`: toggle between last two opened buffers
 * `,t`: CtrlP fuzzy file selector
 * `,b`: CtrlP buffer selector great for jumping to a file you already have open
-* `,,b`: opens buffer selector containing recently opened files  
+* `,,b`: opens buffer selector containing recently opened files
 * `,n`: Toggles NERDTree
 * `,m`: show current file in NERDTree
 * `,q`: closes buffer without saving (`:bd!`)
@@ -230,10 +230,10 @@ VIM Shortcuts
 * `Ctrl-i`: opposite of Ctrl-O (again, this is standard)
 * `,gf`: same as vim normal gf (go to file)
 * `,ag`: Grep command line using Silver Searcher and Fzf
-* `,ad`: search for term in directory of current file 
-* `,aw`: Search the current word under the cursor 
+* `,ad`: search for term in directory of current file
+* `,aw`: Search the current word under the cursor
 * `,hl`: toggle search highlight on and off
-* `Ctrl-x Ctrl-o`: Lookup PHP Arguments for function during insert mode 
+* `Ctrl-x Ctrl-o`: Lookup PHP Arguments for function during insert mode
 * `//`: clear the search
 * `,mc`: mark this word for MultiCursor (like sublime). Use `Ctrl-n`: (next), `Ctrl-p`: (prev), `Ctrl-x`(skip) to add more cursors, then do normal vim things like edit the word.
 * `K`: Opens the documentation for the word under the cursor.
@@ -286,7 +286,7 @@ See more about setting up the [.vimrc.local](https://gitlab.com/bridgesense/lamp
 #### Better keystrokes for common editing commands:
 * Ctrl-Space to autocomplete. Tab for snipmate snippets.
 * `S#` `S"` `S'` `S]` `S)` `S}`: to surround a word in these common wrappers. the # does #{ruby interpolation}. works in visual mode (thanks @cj). Normally these are done with something like `ysw#`
-* `ci'`, `ci"`, `ci]`, `ci)`: (`Alt` Linux) changes content inside those surrounding marks. You don't have to be inside them 
+* `ci'`, `ci"`, `ci]`, `ci)`: (`Alt` Linux) changes content inside those surrounding marks. You don't have to be inside them
 * `,.`: to go to last edit location (same as `'.`) because the apostrophe is hard on the pinky
 * `,ci`: to change inside any set of quotes/brackets/etc
 
@@ -321,21 +321,24 @@ Alacritty is a full featured GPU-accelerated terminal.
 
 ### Display Options:
 * `Ctrl+Shift+t`: Toggle Dark/Light Theme
-* `Ctrl+Equals`: Inscrease Font Size 
-* `Ctrl+Slash`: Decrease Font Size 
+* `Ctrl+Equals`: Inscrease Font Size
+* `Ctrl+Slash`: Decrease Font Size
 
 
 Awesome
 ---
-The following script installs the Awesome window manager with theme and tweaks by [Jonas Belouadi](https://github.com/potamides/dotfiles/tree/master/.config/awesome).  The modalawesome library introduces some very nice vi-like, sequential keybindings.
+The following script installs the [Awesome window manager](https://awesomewm.org/) with theme and tweaks by [Jonas Belouadi](https://github.com/potamides/dotfiles/tree/master/.config/awesome).  The [modalawesome](https://github.com/potamides/modalawesome) library introduces some very nice vi-like, sequential keybindings.  This concept modalizes the windows into three states,
 
 ### Awesome Workstation Installation
 ```bash
-# run as root on a Fedora 32+ installation 
+# run as root on a Fedora 32+ installation
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/awesome/install-awesome-workstation > custom-fedora-setup
 # The workstation user must already be set up
 bash custom-fedora-setup <workstation_username>
 ```
 
 #### Bindings:
-* `Super r h`: brings up a help screen that displays the keybindings 
+* `Super`: puts the window into tag mode which turns off keyboard input and allows windows to be shuffled around
+* `i`: puts the window into the client mode which accepts keyboard input
+* `w`: puts the selected window into layout mode
+* `Super r h`: brings up a help screen that displays the keybindings for each mode 
