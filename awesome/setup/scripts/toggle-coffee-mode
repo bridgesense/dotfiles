@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 
-if xset q | grep -q "timeout:  0" ; then
+if xset q | grep -q "cycle:  0" ; then
     xautolock -enable
-    xset s on 
+    # using xset as a global var for the xautolock state
+    xset s 0 600 
     notify-send -i "Movie Mode OFF" "The Screen Lock and Saver have been enabled."
 else
     xautolock -disable
-    xset s off 
+    xset s 0 0
     notify-send -i "Movie Mode ON" "The Screen Lock and Saver have been disabled."
 fi

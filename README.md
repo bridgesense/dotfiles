@@ -329,11 +329,11 @@ Awesome
 ---
 The following script installs the [Awesome window manager](https://awesomewm.org/) with theme and tweaks by [Jonas Belouadi](https://github.com/potamides/dotfiles/tree/master/.config/awesome).  The [modalawesome](https://github.com/potamides/modalawesome) library introduces some very nice vi-like, sequential keybindings.  This concept modalizes the windows into four states, in similar manner to Vim and Emacs Evil.  
 
-All applications start in tag mode and will not accept keyboard input until they are put into client with the `i` key.
+NOTE: All applications start in tag mode and will not accept keyboard input until they are put into client with the `i` key.  Use `Super` to exit the client mode.
 
 ### Awesome Workstation Installation
 ```bash
-# run as root on a Fedora 32+ installation
+# run as root on any Fedora 33 installation
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/awesome/install-awesome-workstation > custom-fedora-setup
 # The workstation user must already be set up
 bash custom-fedora-setup <workstation_username>
@@ -389,6 +389,7 @@ bash custom-fedora-setup <workstation_username>
 * `H`: hibernate
 * `N`: launch nemo 
 * `n`: launch ranger 
+* `Q`: restart awesome with lua changes
 * `R`: restart machine 
 * `S`: take a screenshot with flameshot
 * `X`: shut down machine

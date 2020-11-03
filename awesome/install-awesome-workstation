@@ -242,6 +242,12 @@ hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp2_input \n\
 " /etc/thinkfan.conf
 systemctl enable thinkfan
 
+# Enable Guc /Huc firmware for Skylake and newer processesors
+# RE: resolution issues and monitor freezing
+# ref: https://wiki.archlinux.org/index.php/intel_graphics#Enable_eary_KMS
+echo "options i915 enable_guc=2" > /etc/modprobe.d/i915.conf
+dracut -f
+
 # install non-free firmware for compatibilty crises
 log "installing non-free firmware"
 install package rpmfusion-nonfree-release-tainted
