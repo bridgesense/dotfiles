@@ -351,8 +351,8 @@ bash custom-fedora-setup <workstation_username>
 * `hjkl`: focus window by direction 
 * `eq`: focus monitor by index
 * `1-9 gfb`: focus desktop by index
-* `A`: jump to window on any screen
-* `a`: jump to window on current screen 
+* `A`: jump to window on current screen 
+* `a`: jump to window on any screen 
 * `C`: closes the window in focus 
 * `F`: toggle full screen  
 * `M`: toggle maximized view

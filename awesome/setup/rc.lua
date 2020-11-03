@@ -392,13 +392,13 @@ local modes = require("modalawesome.modes")
 modes.tag = gears.table.join(
   {
     {
-      description = "show all clients on screen",
-      pattern = {'A'},
+      description = "jump to any open client",
+      pattern = {'a'},
       handler = function() revelation() end
     },
     {
-      description = "show all clients on current tag",
-      pattern = {'a'},
+      description = "jump to an open client on the desktop",
+      pattern = {'A'},
       handler = function() revelation({curr_tag_only=true}) end
     },
     {
