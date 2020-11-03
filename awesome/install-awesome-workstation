@@ -80,7 +80,8 @@ dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-
 log "installing supporting applications"
 install group "Fedora Workstation" 
 install package awesome
-install package fontawesome-fonts xautolock i3lock gnome-tweaks
+install package gnome-tweaks fontawesome-fonts xautolock i3lock lxappearance 
+install package gdouros-symbola-fonts gucharmap
 install pacakge xbacklight feh arc-theme redshift-gtk
 install package gtk-murrine-engine compton
 install package pulseeffects pavucontrol
@@ -94,7 +95,7 @@ install package NetworkManager-openvpn-gnome NetworkManager-openconnect-gnome
 install package net-tools
 install package ftp telnet
 install package dhcp-client iw wpa_supplicant blueman sbc
-install package dunst libnotify
+install package libnotify
 install package gnutls mailx wireless-tools
 install package python3-httplib2 wordnet
 install package aspell-en texlive-latex
@@ -145,9 +146,26 @@ su -c 'mkdir -p ~/Applications' $USER
 # # # # # # # # # # # # # # #
 log "installing supporting applications"
 
+# install xbanish
+# # # # # # # # # # # # # # #
+log "installing xbanish"
+install package libXt-devel libXfixes-devel libXi-devel
+su -c 'git clone https://github.com/jcs/xbanish.git ~/lab/xbanish' $USER
+su -c 'make -C ~/lab/xbanish' $USER
+cd /home/$USER/lab/xbanish 
+make install
+sleep 1
+make clean
+
+# More themes
+# # # # # # # # # # # # # # #
+log "installing themes"
+su -c 'git clone https://github.com/vinceliuice/Matcha-gtk-theme.git ~/lab/matcha' $USER
+su -c 'cd ~/lab/matcha && bash install.sh' $USER
+
 # install alacritty terminal
 pip3 install pyyaml
-dnf copr enable -y pschyska/alacritty
+dnf copr enable -y pschyska/alacrittyinstall package pulseaudio alsa-utils pulseaudio-utils compton 
 install package alacritty
 su -c 'mkdir -p ~/.config/alacritty' $USER
 su -c 'cp ~/.yadrlite/awesome/alacritty/* ~/.config/alacritty' $USER
@@ -388,6 +406,7 @@ log "setup permissions, status and boot configuration"
 find /home/$USER/.config -type d -exec chmod 0755 {} \;
 find /home/$USER/.config -type f -exec chmod 0644 {} \;
 find /home/$USER/.config -name "*" -execdir chmod u+x {} +
+install package plymouth-theme-spinner
 plymouth-set-default-theme -R bgrt
 
 # add manual entries
