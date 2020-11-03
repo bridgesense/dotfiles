@@ -329,7 +329,7 @@ Awesome
 ---
 The following script installs the [Awesome window manager](https://awesomewm.org/) with theme and tweaks by [Jonas Belouadi](https://github.com/potamides/dotfiles/tree/master/.config/awesome).  The [modalawesome](https://github.com/potamides/modalawesome) library introduces some very nice vi-like, sequential keybindings.  This concept modalizes the windows into three states, in similar manner to Vim and Emacs Evil.  
 
-All applications start in tag mode and will not accept keyboard input until they are put into client mode by hitting `i`.
+All applications start in tag mode and will not accept keyboard input until they are put into client with the `i` key.
 
 ### Awesome Workstation Installation
 ```bash
