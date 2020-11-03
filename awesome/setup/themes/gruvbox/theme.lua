@@ -122,7 +122,7 @@ theme.menu_border_color = theme.bg_normal
 --theme.taglist_squares_resize = "false"
 
 -- notifications
-theme.notification_opacity = 0.75
+theme.notification_opacity = 0.95
 theme.notification_icon_size = 45 
 
 -- Calendar

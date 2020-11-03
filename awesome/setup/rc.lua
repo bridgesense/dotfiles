@@ -42,8 +42,7 @@ shell.screenInit()
 -- another config (This code will only ever execute for the fallback config)
 if awesome.startup_errors then
   naughty.notify({ preset = naughty.config.presets.critical,
-  title = "Oops, there were errors during startup!",
-  text = awesome.startup_errors })
+  title = "Oops, there were errors during startup!", text = awesome.startup_errors })
 end
 
 -- Handle runtime errors after startup
@@ -100,9 +99,9 @@ local myawesomemenu = {
   { "manual", terminal .. " -e man awesome" },
   { "edit config", editor_cmd .. " " .. awesome.conffile },
   { "restart", awesome.restart },
-  { "quit", function() awesome.quit() end},
+  { "quit", function() awesome.quit() end },
   { "open terminal", terminal },
-  { "lock", terminal .. "xautolock -locknow" },
+  { "lock", function() awesome.spawn("xautolock -locknow") end },
   { "reboot", function() awesome.spawn("systemctl reboot") end },
   { "shutdown", function() awesome.spawn("systemctl poweroff") end },
 }
@@ -383,6 +382,10 @@ local keybindings = {
   {{}, "XF86MonBrightnessUp", function() awful.spawn("cbacklight --inc 10") end},
   {{}, "XF86Display", function() shell.screenInit() end},
   {{}, "XF86Tools", function() awful.spawn(editor_cmd .. " " .. awesome.conffile) end},
+  {{}, "XF86WLAN", function() awful.spawn.with_shell("bash " .. gears.filesystem.get_dir("config") .. "/scripts/toggle-wifi") end},
+  {{}, "XF86PowerOff", function() awesome.spawn("systemctl poweroff") end},
+  {{}, "XF86Suspend", function() awesome.spawn("systemctl suspend") end},
+  {{}, "XF86Favorites", function() awful.spawn.with_shell("bash " .. gears.filesystem.get_dir("config") .. "/scripts/toggle-touchpad") end},
 }
 
 local modes = require("modalawesome.modes")
@@ -473,7 +476,7 @@ modes.launcher = gears.table.join(
       handler = function() shell.screenInit() end 
     },
     {
-      description = "caffeine",
+      description = "caffeinate",
       pattern = {'m'},
       handler = function() awful.spawn.with_shell("bash " .. gears.filesystem.get_dir("config") .. "/scripts/toggle-coffee-mode") end
     },
@@ -593,9 +596,9 @@ modes.launcher = gears.table.join(
 
 
 modalawesome.init{
-  modkey      = modkey,
-  modes       = modes,
-  keybindings = keybindings,
+  modkey       = modkey,
+  modes        = modes,
+  keybindings  = keybindings,
 }
 -- }}}
 

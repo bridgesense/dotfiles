@@ -325,72 +325,17 @@ Alacritty is a full featured GPU-accelerated terminal.
 * `Ctrl+Slash`: Decrease Font Size 
 
 
-dwm Commands
+Awesome
 ---
-These commands are part of the sample workstations included in this repo.  This is designed to be used with a custom or minimal Fedora installation via the server Net install disk.  Some of the options in the script may need adjusted for your hardware.
+The following script installs the Awesome window manager with theme and tweaks by [Jonas Belouadi](https://github.com/potamides/dotfiles/tree/master/.config/awesome).  The modalawesome library introduces some very nice vi-like, sequential keybindings.
 
-### dwm Workstation Installation
+### Awesome Workstation Installation
 ```bash
-# Log in as root on a clean barebones install
-curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/dwm/install-dwm-workstation > custom-fedora-setup
+# run as root on a Fedora 32+ installation 
+curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/awesome/install-awesome-workstation > custom-fedora-setup
 # The workstation user must already be set up
 bash custom-fedora-setup <workstation_username>
 ```
 
-#### Software Bindings:
-* `Super+Return`: Brings up the terminal
-* `Super+Space`: Brings up a customized dmenu application launcher 
-* `Super+Shift+Space`: Refreshes the application list before bringing up the app launcher 
-* `Super+p`: Brings up htop, a process manager
-* `Super+c`: Toggles coffee mode where the screen compositor, screen saver and lock system is disabled
-* `Super+n`: Brings up Ranger, a curses file manager
-* `Super+Shft-n`: Brings up Nemo a graphical file manager
-* `Super+r`: Refreshes screens on all monitors
-* `Super+s`: Screenshot mode with markup tools (Flameshot) 
-
-#### Screenshots
-* `Super+s`: Brings up flameshot, a OSX style screenshot application
-
-#### Machine Bindings
-* `Super+Shift+r`: Brings up reboot dialog
-* `Super+Shift+x`: Brings up shutdown dialog
-
-#### Window Movement Bindings
-* `Super+h`, `Super+k`: Shift focus anti-clockwise through window stack 
-* `Super+l`, `Super+j`: Shift focus clockwise through window stack
-* `Super+Shift+Return`: Move window to prominent (left) position
-* `Super+Shift+h`, `Super+Shift+k`: Rotate the window stack anti-clockwise
-* `Super+Shift+l`, `Super+Shift+j`: Rotate the window stack clockwise 
-* `Super+[`: expand window frame left
-* `Super+]`: expand window frame right 
-
-* `Super+i`,`Super+d`: increases / decreases the number of windows on the left side
-
-* `Super+minus`, `Super+equals` : Contracts and expands window gaps 
-* `Super+plus`: Minimalizes window gaps to lowest setting
-
-#### Window State Bindings
-* `Super+q`: Close current window (and program)
-* `Super+t`: Sets workspace windows into tiled (default) mode 
-* `Super+f`: Sets workspace windows into floating mode 
-* `Super+Shift+f`: Toggles focused window between floating/tiled state 
-* `Super+m`: Puts windows in workspace into monacle (Semi-Fullscreen) state 
-* `Super+Shift+m`: Toggles fullscreen mode for current window 
-* `Super+b`: Toggles (hides) the status bar 
-
-#### Workspace Bindings
-* `Super+1`: jump to / create Workspace 1
-* `Super+2`: jump to / create Workspace 2
-* `Super+3`: jump to / create Workspace 3
-* `Super+4`: jump to / create Workspace 4
-* `Super+5`: jump to / create Workspace 5
-* `Super+6`: jump to / create Workspace 6
-* `Super+7`: jump to / create Workspace 7
-* `Super+8`: jump to / create Workspace 8
-* `Super+9`: jump to / create Workspace 9
-* `Super+0`: view all windows in workspace 1-9 
-* `Super+Shift+{1-9}`: Move window to workspace 1-9
-
-* `Super+comma`, `Super+period`: shift workspace to right screen round robin
-
-* `Super+Tab`: Toggle between last selected workspace
+#### Bindings:
+* `Super r h`: brings up a help screen that displays the keybindings 

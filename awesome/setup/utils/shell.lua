@@ -29,7 +29,7 @@ function shell.startupAwesome()
      -- device discoverability
      awful.spawn("rfkill unblock 0 && pactl load-module module-bluetooth-discover")
      -- screen locker
-     awful.spawn.with_shell("xautolock -time 10 -locker \"i3lock -c 1d2021\" -detectsleep -resetsaver")
+     awful.spawn.with_shell("xautolock -time 10 -locker \"i3lock -c 1d2021\" -resetsaver")
      -- composite manager 
      awful.spawn.with_shell("compton --backend glx --vsync none")
 end
