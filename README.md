@@ -346,6 +346,11 @@ bash custom-fedora-setup <workstation_username>
 * `w`: puts the selected window into layout mode
 
 ### Tag Mode:
+* `,.`: focus window by index
+* `HJKL`: swap window by direction
+* `hjkl`: focus window by direction 
+* `eq`: focus monitor by index
+* `1-9 gfb`: focus desktop by index
 * `A`: jump to window on any screen
 * `a`: jump to window on current screen 
 * `C`: closes the window in focus 
