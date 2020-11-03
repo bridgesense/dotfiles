@@ -339,13 +339,11 @@ curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/awesome/insta
 bash custom-fedora-setup <workstation_username>
 ```
 
-#### Bindings:
+### Modes:
 * `Super`: puts the window into tag mode which turns off keyboard input and allows windows to be shuffled around
 * `i`: puts the window into the client mode which accepts keyboard input
 * `r`: puts the window into launcher mode
 * `w`: puts the selected window into layout mode
-* `Super r h`: brings up a help screen that displays the keybindings for each mode 
-* `Super r r`: application launcher
 
 ### Tag Mode:
 * `A`: jump to window on any screen
