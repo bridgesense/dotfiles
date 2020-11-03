@@ -327,7 +327,9 @@ Alacritty is a full featured GPU-accelerated terminal.
 
 Awesome
 ---
-The following script installs the [Awesome window manager](https://awesomewm.org/) with theme and tweaks by [Jonas Belouadi](https://github.com/potamides/dotfiles/tree/master/.config/awesome).  The [modalawesome](https://github.com/potamides/modalawesome) library introduces some very nice vi-like, sequential keybindings.  This concept modalizes the windows into three states, in similar manner to Vim and Emacs Evil. 
+The following script installs the [Awesome window manager](https://awesomewm.org/) with theme and tweaks by [Jonas Belouadi](https://github.com/potamides/dotfiles/tree/master/.config/awesome).  The [modalawesome](https://github.com/potamides/modalawesome) library introduces some very nice vi-like, sequential keybindings.  This concept modalizes the windows into three states, in similar manner to Vim and Emacs Evil.  
+
+All applications start in tag mode and will not accept keyboard input until they are put into client mode by hitting `i`.
 
 ### Awesome Workstation Installation
 ```bash
@@ -340,5 +342,59 @@ bash custom-fedora-setup <workstation_username>
 #### Bindings:
 * `Super`: puts the window into tag mode which turns off keyboard input and allows windows to be shuffled around
 * `i`: puts the window into the client mode which accepts keyboard input
+* `r`: puts the window into launcher mode
 * `w`: puts the selected window into layout mode
 * `Super r h`: brings up a help screen that displays the keybindings for each mode 
+* `Super r r`: application launcher
+
+### Tag Mode:
+* `A`: jump to window on any screen
+* `a`: jump to window on current screen 
+* `C`: closes the window in focus 
+* `F`: toggle full screen  
+* `M`: toggle maximized view
+* `N`: hide all visible windows
+* `O`: toggle keep on top
+* `S`: toggle sticky 
+* `V`: toggle floating 
+* `Z`: go back in client history
+* `1-9 gfb`: shift focus to next/previous screen 
+* `m 1-9 gfb`: move window to next/previous screen 
+* `n`: minimize window 
+* `t 1-9 gfb`: toggle tag 
+* `u`: restore minimized windows 
+* `x`: jump to urgent window  
+* `y`: move to master screen
+* `z`: go back in tag history
+
+### Layout Mode:
+* `1-9 fb`: change layout 
+* `hl`: expand/contract width of window 
+* `jk`: expand/contract height of window 
+* `c 1-9 fb`: change number of columns 
+* `g 1-9 fb`: change useless gap 
+* `m 1-9 fb`: chagne number of master clients
+
+### Launcher Mode:
+* `F1`: lower volume 
+* `F2`: raise volume
+* `F3`: toggle volume mute 
+* `F4`: toggle mic mute
+* `F5`: decrease backlight 
+* `F6`: increase backlight 
+* `F7`: engage autorandr --change
+* `H`: hibernate
+* `N`: launch nemo 
+* `n`: launch ranger 
+* `R`: restart machine 
+* `S`: take a screenshot with flameshot
+* `X`: shut down machine
+* `b`: launch browser 
+* `d`: execute duckduckgo search 
+* `h`: show help screen
+* `m`: caffeinates monitors
+* `p`: launch bpytop 
+* `r`: application launcher 
+* `s`: run prompt 
+* `t`: open terminal
+* `x`: lua prompt
