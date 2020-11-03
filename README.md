@@ -327,7 +327,7 @@ Alacritty is a full featured GPU-accelerated terminal.
 
 Awesome
 ---
-The following script installs the [Awesome window manager](https://awesomewm.org/) with theme and tweaks by [Jonas Belouadi](https://github.com/potamides/dotfiles/tree/master/.config/awesome).  The [modalawesome](https://github.com/potamides/modalawesome) library introduces some very nice vi-like, sequential keybindings.  This concept modalizes the windows into three states, in similar manner to Vim and Emacs Evil.  
+The following script installs the [Awesome window manager](https://awesomewm.org/) with theme and tweaks by [Jonas Belouadi](https://github.com/potamides/dotfiles/tree/master/.config/awesome).  The [modalawesome](https://github.com/potamides/modalawesome) library introduces some very nice vi-like, sequential keybindings.  This concept modalizes the windows into four states, in similar manner to Vim and Emacs Evil.  
 
 All applications start in tag mode and will not accept keyboard input until they are put into client with the `i` key.
 
