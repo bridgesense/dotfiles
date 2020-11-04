@@ -473,7 +473,7 @@ modes.launcher = gears.table.join(
     {
       description = "switch monitor setup",
       pattern = { "F7" },
-      handler = function() shell.screenInit() end 
+      handler = function() shell.screenInit() end
     },
     {
       description = "caffeinate",
@@ -515,6 +515,11 @@ modes.launcher = gears.table.join(
       pattern = {'H'},
       handler = function() awful.spawn("systemctl suspend")
       end
+    },
+    {
+      description = "reload awesome",
+      pattern = {'Q'},
+      handler = function() awesome.restart() end
     },
     {
       description = "lua execute prompt",

@@ -138,6 +138,7 @@ fc-cache
 # freedesktop repo implementation
 su -c "git clone https://github.com/lcpz/awesome-freedesktop.git /home/$USER/.config/awesome/freedesktop" $USER
 git clone https://github.com/lcpz/awesome-freedesktop.git ~/.config/awesome/freedesktop
+git clone https://github.com/potamides/modalawesome.git ~/.config/awesome/modalawesome 
 
 # misc
 su -c 'mkdir -p ~/Applications' $USER
@@ -302,7 +303,7 @@ cp /home/$USER/lab/PHP-Parallel-Lint/parallel-lint.phar /usr/local/bin/parallel-
 # install code editors and PHP dev tools
 # # # # # # # # # # # # # # #
 log "installing code editors and PHP dev tools"
-install package tmux the_silver_searcher ack fzf
+install package tmux the_silver_searcher ack
 install package tree w3m w3m-img expect
 install package hugo
 # install ctags
@@ -359,11 +360,13 @@ install package chromium-freeworld firefox-x11 torbrowser-launcher
 # install Vagrant and Virtualbox
 # Warning: Secure boot may need to be disabled
 log "installing Vagrant and Virtualbox"
-install package akmods vagrant VirtualBox virtualbox-guest-additions
+install package akmods vagrant VirtualBox virtualbox-guest-additions kernel-devel
 firewall-cmd --permanent --zone=public --add-port=9041/tcp
 setsebool -P httpd_can_network_connect on
 semanage port -a -t http_port_t -p tcp 9041 # xdebug
 usermod -aG vboxusers $USER
+akmods
+systemctl restart vboxdrv.service
 
 # Rambox
 # # # # # # # # # # # # # # #

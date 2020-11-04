@@ -3,10 +3,10 @@
 if xset q | grep -q "cycle:  0" ; then
     xautolock -enable
     # using xset as a global var for the xautolock state
-    xset s 0 600 
+    xset s 0 600 -dpms
     notify-send -i "Movie Mode OFF" "The Screen Lock and Saver have been enabled."
 else
     xautolock -disable
-    xset s 0 0
+    xset s 0 0 -dpms
     notify-send -i "Movie Mode ON" "The Screen Lock and Saver have been disabled."
 fi

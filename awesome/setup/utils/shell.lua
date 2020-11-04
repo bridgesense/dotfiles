@@ -1,4 +1,5 @@
 local awful = require("awful")
+local gears = require("gears")
 
 local shell = {}
 
@@ -18,21 +19,21 @@ function shell.startupAwesome()
      -- fix multimonitor lockup bug on wakeup
      awful.spawn("xset s off -dpms") 
      -- xbanish makes the mouse invisible after keyboard interaction
-     awful.spawn.raise_or_spawn("xbanish")
+     awful.spawn.with_shell("bash " .. gears.filesystem.get_dir("config") .. "/scripts/startup xbanish")
       -- blue-light adaptation
-     awful.spawn.raise_or_spawn("redshift-gtk")
+     awful.spawn.with_shell("bash " .. gears.filesystem.get_dir("config") .. "/scripts/startup redshift-gtk")
      -- sound setup
      awful.spawn("pacmd \"load-module module-switch-on-connect\"")
      -- unmute microphone
      awful.spawn("amixer set Capture cap")
      -- turn on flameshot
-     awful.spawn.raise_or_spawn("flameshot")
+     awful.spawn.with_shell("bash " .. gears.filesystem.get_dir("config") .. "/scripts/startup flameshot")
      -- device discoverability
      awful.spawn.with_shell("rfkill unblock 0 && pactl load-module module-bluetooth-discover")
      -- screen locker
-     awful.spawn.raise_or_spawn("xautolock -time 10 -locker \"xset dpms force off && i3lock -c 1d2021\" -resetsaver")
+     awful.spawn.with_shell("bash " .. gears.filesystem.get_dir("config") .. "/scripts/startup xautolock -time 10 -locker \"xset dpms force off && i3lock -c 1d2021\" -resetsaver")
      -- composite manager 
-     awful.spawn.raise_or_spawn("compton --backend glx --vsync none")
+     awful.spawn.with_shell("bash " .. gears.filesystem.get_dir("config") .. "/scripts/startup compton --backend glx --vsync none")
 end
 
 return shell
