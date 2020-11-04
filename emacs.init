@@ -258,7 +258,8 @@
 (setq auto-save-default nil)
 ;; Symmetric File Encryption
 (require 'epa-file)
-(epa-file-enable)
+(if (not window-system) 
+  (epa-file-enable))
 ;;(setq epa-file-select-keys nil)
 ;; Theme Conventions for Org Mode
 ;; Hide emphasis marks
