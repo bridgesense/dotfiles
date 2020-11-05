@@ -9,6 +9,8 @@
 /tmux.conf
 /tags
 /tmux/plugin/*
+/vim/autoload/plug.vim
 /vim/bundle/*
+/vim/plugged/*
 /vim/Session.vim
 /vimrc.after
