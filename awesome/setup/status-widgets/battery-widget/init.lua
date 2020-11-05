@@ -76,7 +76,7 @@ function battery_widget.init(args)
     battery_widget.text:set_markup(string.format("<span color=%q><b>%s%%</b></span>",
       beautiful.bg_normal, math.floor(charge)))
 
-    if (charge >= 0 and charge < 15) then
+    if (charge >= 0 and charge < 7) then
       batteryType = "battery-empty%s-symbolic"
       if not args.disable_battery_warning and status ~= 'Charging'
         and os.difftime(os.time(), last_battery_check) > 300 then

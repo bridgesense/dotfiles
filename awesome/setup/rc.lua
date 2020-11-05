@@ -31,7 +31,10 @@ shell.startupAwesome()
 revelation.init()
 volume.init()
 battery.init()
-net_widget.init()
+net_widget.init({
+    wireless_interface = "wlp0s20f3",
+    wired_interface = "enp0s20f0u2u1",
+})
 shell.screenInit()
 
 -------------------------------------------------------------------------------
@@ -402,6 +405,22 @@ modes.tag = gears.table.join(
       handler = function() revelation({curr_tag_only=true}) end
     },
     {
+      description = "close client",
+      pattern = {'C'},
+      handler = function()
+        local c = client.focus
+        if c then
+          c:kill()
+        end
+      end
+    },
+    {
+      pattern = {'c'},
+      handler = function()
+          -- unbinds original close tag 
+      end
+    },
+    {
       description = "hide all visible clients until keypress",
       pattern = {'N'},
       handler = function(mode)
@@ -574,6 +593,24 @@ modes.launcher = gears.table.join(
           prompt = 'DuckDuckGo: ',
           exe_callback = function(command)
             local search = "https://duckduckgo.com/?q=" .. command:gsub('%s', '+')
+            awful.spawn.easy_async("xdg-open " .. search, function()
+              local find_browser = function(c) return awful.rules.match(c, {class = browser, urgent = true}) end
+              local browser_instance = awful.client.iterate(find_browser)()
+              browser_instance:jump_to()
+              mode.stop()
+            end)
+          end,
+        }
+      end
+    },
+    {
+      description = "execute google search",
+      pattern = {'g'},
+      handler = function(mode)
+        run_shell.launch{
+          prompt = 'Google: ',
+          exe_callback = function(command)
+            local search = "https://google.com/?q=" .. command:gsub('%s', '+')
             awful.spawn.easy_async("xdg-open " .. search, function()
               local find_browser = function(c) return awful.rules.match(c, {class = browser, urgent = true}) end
               local browser_instance = awful.client.iterate(find_browser)()
