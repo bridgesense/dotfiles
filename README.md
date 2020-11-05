@@ -6,9 +6,9 @@ This dotfile repo is heavily based on [YADR](https://github.com/skwp/dotfiles) w
 
 Check out the original repo, [YADR](https://github.com/skwp/dotfiles) especially if you work in Python or Ruby.
 
+Also see: [Emacs](#emacs), [Tmux](#tmux-shortcuts), [Vim](#vim-shortcuts), [Alacritty](#alacritty-shortcuts), and [AwesomeWM  Workstation](#awesome-workstation)
 
-Installation:
----
+# Dotfiles Installation
 
 ```bash
 bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
@@ -44,13 +44,15 @@ Shortcuts have been pulled over from YADR, so those working with YADR should fee
 
 As with YADR, most of the key mapping not mentioned below can be found in the settings directory for reference.  This package is ready for deployment on most Linux distros and MacOS.
 
-Vim:
+Vim
 ---
 ![screenshot](https://www.bridgesense.com/images/dotfiles/vim-style.jpg)
 
-Emacs:
+Emacs
 ---
 ![screenshot](https://www.bridgesense.com/images/dotfiles/emacs-style.jpg)
+
+# Emacs
 
 Emacs 24.4 or higher is preferred.
 
@@ -168,8 +170,8 @@ The [General](https://github.com/noctuid/general.el) plugin has been included wi
 * `,Wa`: See antonyms of word under cursor
 
 
-Tmux Shortcuts
----
+# Tmux Shortcuts
+
 The leader key Ctrl-a can be followed by the next key concurrently without holding them all down at once.  Use `tmux ls`to list the current open sessions and `tmux a -t <session_no>` to join them.  Use `tmux kill-session -t <session_no>`: to remove one.
 
 #### General Shortcuts:
@@ -190,8 +192,7 @@ The leader key Ctrl-a can be followed by the next key concurrently without holdi
 In visual mode use `h,j,k,l` to move, `v` to change to visual mode and `y` to yank selection.  Press `Enter` to exit mode.
 
 
-VIM Shortcuts
----
+# Vim Shortcuts
 
 #### Window Navigation:
 * `Cmd-[1-]`: (`Alt-[1-9]`) switches to a specific tab number (like iTerm and Chrome) and tabs have been set up to show numbers
@@ -308,8 +309,8 @@ See more about setting up the [.vimrc.local](https://gitlab.com/bridgesense/lamp
 * `,vr`: (Vim Reload) source current file as a vim file
 
 
-Alacritty Shortcuts
----
+# Alacritty Shortcuts
+
 Alacritty is a full featured GPU-accelerated terminal.
 
 ### History:
@@ -325,9 +326,9 @@ Alacritty is a full featured GPU-accelerated terminal.
 * `Ctrl+Slash`: Decrease Font Size
 
 
-Awesome
----
-The following script installs the [Awesome window manager](https://awesomewm.org/) with theme and tweaks by [Jonas Belouadi](https://github.com/potamides/dotfiles/tree/master/.config/awesome).  The [modalawesome](https://github.com/potamides/modalawesome) library introduces some very nice vi-like, sequential keybindings.  This concept modalizes the windows into four states, in similar manner to Vim and Emacs Evil.  
+# AwesomeWM Workstation
+
+The following script installs the [Awesome window manager](https://awesomewm.org/) with theme and tweaks by [Jonas Belouadi](https://github.com/potamides/dotfiles/tree/master/.config/awesome).  The [modalawesome](https://github.com/potamides/modalawesome) library introduces some very nice vi-like, sequential keybindings.  This concept modalizes the windows into four states similar in manner to Vim and Emacs Evil.
 
 NOTE: All applications start in tag mode and will not accept keyboard input until they are put into client with the `i` key.  Use `Super` to exit the client mode.
 
@@ -348,57 +349,58 @@ bash custom-fedora-setup <workstation_username>
 ### Tag Mode:
 * `,.`: focus window by index
 * `HJKL`: swap window by direction
-* `hjkl`: focus window by direction 
+* `hjkl`: focus window by direction
 * `eq`: focus monitor by index
 * `1-9 gfb`: focus desktop by index
-* `A`: jump to window on current screen 
-* `a`: jump to window on any screen 
-* `C`: closes the window in focus 
-* `F`: toggle full screen  
+* `A`: jump to window on current screen
+* `a`: jump to window on any screen
+* `C`: closes the window in focus
+* `F`: toggle full screen
 * `M`: toggle maximized view
 * `N`: hide all visible windows
 * `O`: toggle keep on top
-* `S`: toggle sticky 
-* `V`: toggle floating 
+* `S`: toggle sticky
+* `V`: toggle floating
 * `Z`: go back in client history
-* `1-9 gfb`: shift focus to next/previous screen 
-* `m 1-9 gfb`: move window to next/previous screen 
-* `n`: minimize window 
-* `t 1-9 gfb`: toggle tag 
-* `u`: restore minimized windows 
-* `x`: jump to urgent window  
+* `1-9 gfb`: shift focus to next/previous screen
+* `m 1-9 gfb`: move window to next/previous screen
+* `n`: minimize window
+* `t 1-9 gfb`: toggle tag
+* `u`: restore minimized windows
+* `x`: jump to urgent window
 * `y`: move to master screen
 * `z`: go back in tag history
 
 ### Layout Mode:
-* `1-9 fb`: change layout 
-* `hl`: expand/contract width of window 
-* `jk`: expand/contract height of window 
-* `c 1-9 fb`: change number of columns 
-* `g 1-9 fb`: change useless gap 
+* `1-9 fb`: change layout
+* `hl`: expand/contract width of window
+* `jk`: expand/contract height of window
+* `c 1-9 fb`: change number of columns
+* `g 1-9 fb`: change useless gap
 * `m 1-9 fb`: chagne number of master clients
 
 ### Launcher Mode:
-* `F1`: lower volume 
+* `F1`: lower volume
 * `F2`: raise volume
-* `F3`: toggle volume mute 
+* `F3`: toggle volume mute
 * `F4`: toggle mic mute
-* `F5`: decrease backlight 
-* `F6`: increase backlight 
+* `F5`: decrease backlight
+* `F6`: increase backlight
 * `F7`: engage autorandr --change
 * `H`: hibernate
-* `N`: launch nemo 
-* `n`: launch ranger 
+* `N`: launch nemo
+* `n`: launch ranger
 * `Q`: restart awesome with lua changes
-* `R`: restart machine 
+* `R`: restart machine
 * `S`: take a screenshot with flameshot
 * `X`: shut down machine
-* `b`: launch browser 
-* `d`: execute duckduckgo search 
+* `b`: launch browser
+* `d`: execute duckduckgo search
+* `g`: execute google search
 * `h`: show help screen
 * `m`: caffeinates monitors
-* `p`: launch bpytop 
-* `r`: application launcher 
-* `s`: run prompt 
+* `p`: launch bpytop
+* `r`: application launcher
+* `s`: run prompt
 * `t`: open terminal
 * `x`: lua prompt
