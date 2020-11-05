@@ -6,7 +6,7 @@ This dotfile repo is heavily based on [YADR](https://github.com/skwp/dotfiles) w
 
 Check out the original repo, [YADR](https://github.com/skwp/dotfiles) especially if you work in Python or Ruby.
 
-Also see: [Emacs](#emacs), [Tmux](#tmux-shortcuts), [Vim](#vim-shortcuts), [Alacritty](#alacritty-shortcuts), and [AwesomeWM  Workstation](#awesome-workstation)
+Also see: [Emacs](#emacs), [Tmux](#tmux-shortcuts), [Vim](#vim-shortcuts), [Alacritty](#alacritty-shortcuts), and [AwesomeWM  Workstation](#awesomewm-workstation)
 
 # Dotfiles Installation
 
