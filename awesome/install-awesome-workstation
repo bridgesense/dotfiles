@@ -79,7 +79,6 @@ dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-
 # # # # # # # # # # # # # # #
 log "installing supporting applications"
 install group "Fedora Workstation" 
-install package awesome
 install package gnome-tweaks fontawesome-fonts xautolock i3lock lxappearance 
 install package gdouros-symbola-fonts gucharmap
 install pacakge xbacklight feh arc-theme redshift-gtk
@@ -114,6 +113,13 @@ install package policycoreutils-gui setools-console setroubleshoot
 install package clamav clamav-update
 install package timeshift
 install package brasero
+
+# install awesome window manager nightly
+# v4.3 stable has a pretty bad bug in the keygrabber
+# that doesn't work well with this theme
+# # # # # # # # # # # # # # #
+dnf copr enable -y jcrd/awesome-luajit-nightly
+install package awesome
 
 # copy over system start resources
 # # # # # # # # # # # # # # #
@@ -166,7 +172,6 @@ su -c 'cd ~/lab/matcha && bash install.sh' $USER
 
 # install alacritty terminal
 pip3 install pyyaml
-dnf copr enable -y pschyska/alacrittyinstall package pulseaudio alsa-utils pulseaudio-utils compton 
 install package alacritty
 su -c 'mkdir -p ~/.config/alacritty' $USER
 su -c 'cp ~/.yadrlite/awesome/alacritty/* ~/.config/alacritty' $USER

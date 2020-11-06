@@ -6,7 +6,7 @@ This dotfile repo is heavily based on [YADR](https://github.com/skwp/dotfiles) w
 
 Check out the original repo, [YADR](https://github.com/skwp/dotfiles) especially if you work in Python or Ruby.
 
-Also see: [Emacs](#emacs), [Tmux](#tmux-shortcuts), [Vim](#vim-shortcuts), [Alacritty](#alacritty-shortcuts), and [AwesomeWM  Workstation](#awesomewm-workstation)
+index: [Emacs](#emacs), [Tmux](#tmux-shortcuts), [Vim](#vim-shortcuts), [Alacritty](#alacritty-shortcuts), and [AwesomeWM  Workstation](#awesomewm-workstation)
 
 # Dotfiles Installation
 
@@ -331,6 +331,8 @@ Alacritty is a full featured GPU-accelerated terminal.
 The following script installs the [Awesome window manager](https://awesomewm.org/) with theme and tweaks by [Jonas Belouadi](https://github.com/potamides/dotfiles/tree/master/.config/awesome).  The [modalawesome](https://github.com/potamides/modalawesome) library introduces some very nice vi-like, sequential keybindings.  This concept modalizes the windows into four states similar in manner to Vim and Emacs Evil.
 
 NOTE: All applications start in tag mode and will not accept keyboard input until they are put into client with the `i` key.  Use `Super` to exit the client mode.
+
+WARNING: There is a bug in the awful.keygrabber library of the stable release (4.3 too long) that causes awesome to exit in Luancher mode when hitting the backspace key.  I'd encourage people to compile awesome directily from the [repo](https://github.com/awesomeWM/awesome.git).  On Fedora I would suggest this [copr](https://copr.fedorainfracloud.org/coprs/jcrd/awesome-luajit-nightly/) by James R.
 
 ### Awesome Workstation Installation
 ```bash
