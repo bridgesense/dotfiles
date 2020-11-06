@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
-prog="${@}"
+prog="$@"
 if ! pgrep ${prog:0:6}  >/dev/null; then
-    ${prog} &
+    if [ "${prog:0:6}" == "xautol" ]; then
+        xautolock -time 10 -locker "i3lock -c 1d2021" &
+    else 
+        ${prog} &
+    fi
 fi

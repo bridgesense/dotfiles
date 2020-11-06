@@ -81,6 +81,7 @@ log "installing supporting applications"
 install group "Fedora Workstation" 
 install package gnome-tweaks fontawesome-fonts xautolock i3lock lxappearance 
 install package gdouros-symbola-fonts gucharmap
+install package copr-cli dnf-plugins-core
 install pacakge xbacklight feh arc-theme redshift-gtk
 install package gtk-murrine-engine compton
 install package pulseeffects pavucontrol
@@ -248,11 +249,16 @@ hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp2_input \n\
 " /etc/thinkfan.conf
 systemctl enable thinkfan
 
-# Enable Guc /Huc firmware for Skylake and newer processesors
-# RE: resolution issues and monitor freezing
-# ref: https://wiki.archlinux.org/index.php/intel_graphics#Enable_eary_KMS
-echo "options i915 enable_guc=2" > /etc/modprobe.d/i915.conf
-dracut -f
+# RE: freezing issue on newer intel graphics when monitor idles 
+# ref: https://linuxreviews.org/Intel_graphics  
+echo "fix issue with intel graphics on newer machines"
+echo "edit /etc/default/grub and add the following to GRUB_CMDLINE_LINUX"
+echo "add ahci.mobile_lpm_policy=1 for recently released Lenovo Laptops"
+echo "add i915.enable_dc=0 for Goldmount or Kaby Lake Processors"
+echo "add intel_idle.max_cstate=1 for Bay Trail or Kaby Lake Processors"
+echo "run the following as root:"
+echo "grub2-mkconfig --output=/boot/efi/EFI/fedora/grub.cfg"
+echo "after reboot, test by viewing "/proc/cmdline and search for your changes" 
 
 # install non-free firmware for compatibilty crises
 log "installing non-free firmware"

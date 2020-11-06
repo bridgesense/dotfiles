@@ -16,8 +16,6 @@ end
 function shell.startupAwesome()
      -- blank out screen during startup 
      awful.spawn("xset dpms force off")
-     -- fix multimonitor lockup bug on wakeup
-     awful.spawn("xset s off -dpms") 
      -- xbanish makes the mouse invisible after keyboard interaction
      awful.spawn.with_shell("bash " .. gears.filesystem.get_dir("config") .. "/scripts/startup xbanish")
       -- blue-light adaptation
@@ -31,7 +29,7 @@ function shell.startupAwesome()
      -- device discoverability
      awful.spawn.with_shell("rfkill unblock 0 && pactl load-module module-bluetooth-discover")
      -- screen locker
-     awful.spawn.with_shell("bash " .. gears.filesystem.get_dir("config") .. "/scripts/startup xautolock -time 10 -locker \"xset dpms force off && i3lock -c 1d2021\" -resetsaver")
+     awful.spawn.with_shell("bash " .. gears.filesystem.get_dir("config") .. "/scripts/startup xautolock")
      -- composite manager 
      awful.spawn.with_shell("bash " .. gears.filesystem.get_dir("config") .. "/scripts/startup compton --backend glx --vsync none")
 end
