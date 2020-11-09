@@ -101,7 +101,7 @@ install package python3-httplib2 wordnet
 install package aspell-en texlive-latex
 install package texlive-collection-latex texlive-collection-latexextra
 install package papirus-icon-theme
-install package nemo
+install package nemo aria2
 install package fuse-exfat exfat-utils libmtp libmtp-examples gvfs-mtp
 install package acpi crontabs
 install package firewall-config
@@ -391,6 +391,9 @@ install package SDL SDL_mixer SDL_sound fluidsynth
 su -c 'wget -O ~/Downloads/gargoyle.rpm https://github.com/rpmsphere/x86_64/blob/master/g/gargoyle-2015-5.4.x86_64.rpm?raw=true' $USER
 dnf install -y /home/$USER/Downloads/gargoyle.rpm
 su -c 'cp ~/.yadrlite/awesome/garglk.ini ~/.garglkrc' $USER
+
+# more sanity checks
+install package install cool-retro-term bsd-games
 
 # Chess
 # # # # # # # # # # # # # # #

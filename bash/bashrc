@@ -1,6 +1,7 @@
 # list colorfix
 alias ls='ls --color=auto'
 export LS_COLORS=
+export TERM=xterm-256color
 
 # tmux truecolor
 alias tmux='env TERM=tmux-256color tmux'
