@@ -1,0 +1,526 @@
+#!/usr/bin/env bash
+# Fedora Workstation Setup
+# WARNING: This is a personal installation script.
+# Please review this script and adjust it to your needs prior to running it.
+# This script is intended for a minimal Fedora Workstation installation on a Thinkpad
+# run as root:
+# curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/awesomewm/install-awesome-workstation > custom-fedora-setup
+# $SHELL custom-fedora-setup <username>
+# # # # # # # # # # # # # # #
+set -eux
+NAME=fedora-toolbox-30
+
+if [ -n "${TOOLBOX_RELEASE:-}" ]; then
+    RELEASE="--release $TOOLBOX_RELEASE"
+    NAME="$NAME-$TOOLBOX_RELEASE"
+else
+    RELEASE=''
+fi
+
+toolbox rm --force $NAME || true
+toolbox create $RELEASE -c $NAME
+
+# install cockpit's build deps and other development tools
+toolbox run -c "$NAME" sh -exec "\
+
+# Options
+# # # # # # # # # # # # # # #
+USER=\${1:francis}\"
+LOGFILE='/root/workstation-installation.log'
+
+# Functions
+# # # # # # # # # # # # # # #
+function log {
+    if [ -f \$LOGFILE\" ]; then
+        echo $1 >> $LOGFILE
+    else
+        echo $1 > $LOGFILE
+    fi
+}
+
+function install {
+    arr=(\$@\")
+    _type=
+    if [[ \$(declare -p arr)\" =~ \"declare -a\" ]]; then
+        for package in \${arr[@]}\"; do
+            if [[ $package == \package\" ]]; then
+                _type=$package continue
+            fi
+            if [[ $package == \group\" ]]; then
+                _type=$package
+                continue
+            fi
+            cnt=3
+            while [ $cnt -gt 0 ]; do
+                if dnf list installed $package > /dev/null 2>&1; then
+                    break;
+                else
+                    if [[ $_type == \group\" ]]; then
+                        dnf group install -y $package
+                        break;
+                    else
+                        dnf install -y $package
+                    fi
+                fi
+                let \cnt-=1\"
+            done
+            if ! dnf list installed $package > /dev/null 2>&1 && [[ $_type != \group\" ]]; then
+                log \There was a problem installing ${package}.  Please make sure this package exists.\"
+            fi
+        done
+    else
+        log \Warning! Passed variable is not an array\".
+    fi
+}
+
+# Run as root
+# Commandline Tools
+# # # # # # # # # # # # # # #
+log \installing commandline tools\"
+dnf update -y
+install package autoconf automake git rsync htop
+install group development-tools rpm-development-tools c-development
+$SHELL -c \`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`\"
+su -c '$SHELL -c \`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`\"' $USER
+
+# Install RPM Fusion
+# # # # # # # # # # # # # # #
+log \installing RPM Fusion\"
+dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+
+# Install Window Manager 
+# # # # # # # # # # # # # # #
+log \installing supporting applications\"
+install group \Fedora Workstation\" 
+install package gnome-tweaks fontawesome-fonts xautolock i3lock lxappearance 
+install package gdouros-symbola-fonts gucharmap
+install package copr-cli dnf-plugins-core
+install pacakge xbacklight feh arc-theme redshift-gtk
+install package gtk-murrine-engine compton
+install package pulseeffects pavucontrol
+install package xclip vim-common
+install package arandr zenity flameshot
+pip install autorandr
+install package gnome-keyring
+install package gnome-control-center
+install package NetworkManager-tui NetworkManager-wifi 
+install package NetworkManager-openvpn-gnome NetworkManager-openconnect-gnome
+install package net-tools
+install package ftp telnet
+install package dhcp-client iw wpa_supplicant blueman sbc
+install package libnotify
+install package gnutls mailx wireless-tools
+install package python3-httplib2 wordnet
+install package aspell-en texlive-latex
+install package texlive-collection-latex texlive-collection-latexextra
+install package papirus-icon-theme
+install package nemo aria2
+install package fuse-exfat exfat-utils libmtp libmtp-examples gvfs-mtp
+install package acpi crontabs
+install package firewall-config
+install package system-config-printer
+install package simple-scan
+install package nomacs
+install package gnome-disk-utility atool
+install package cups hplip hplip-gui
+install package policycoreutils-gui setools-console setroubleshoot
+install package clamav clamav-update
+install package timeshift
+install package brasero
+
+# install awesome window manager nightly
+# v4.3 stable has a pretty bad bug in the keygrabber
+# that doesn't work well with this theme
+# # # # # # # # # # # # # # #
+dnf copr enable -y jcrd/awesome-luajit-nightly
+install package awesome
+
+# copy over system start resources
+# # # # # # # # # # # # # # #
+log \copying over system start resources\"
+systemctl set-default graphical.target
+su -c 'cp -f ~/.yadrlite/awesome/Xresources ~/.Xresources' $USER
+cp -f ~/.yadrlite/awesome/Xresources ~/.Xresources
+su -c 'mkdir -p ~/.config/awesome' $USER
+su -c 'rsync -azhLP ~/.yadrlite/awesome/setup/ ~/.config/awesome' $USER
+su -c 'git clone https://github.com/lcpz/awesome-freedesktop.git ~/.config/awesome/freedesktop'
+echo \[User]\" > /var/lib/AccountsService/users/$USER 
+echo \Language=\" >> /var/lib/AccountsService/users/$USER 
+echo \XSession=awesome\" >> /var/lib/AccountsService/users/$USER 
+echo \Icon=/home/$USER/.face\" >> /var/lib/AccountsService/users/$USER 
+echo \SystemAccount=false\" >> /var/lib/AccountsService/users/$USER 
+# uncomment the following line to give Sudoers access to the user account
+echo \pgrep 'tmux|start' || startx\" >> /home/$USER/.bash_profile
+# powerline font patch
+su -c 'mkdir -p ~/.local/share/fonts/' $USER
+su -c 'cd ~/.local/share/fonts && svn checkout https://github.com/powerline/fonts/trunk/DejaVuSansMono' $USER
+fc-cache
+# freedesktop repo implementation
+su -c \git clone https://github.com/lcpz/awesome-freedesktop.git /home/$USER/.config/awesome/freedesktop\" $USER
+git clone https://github.com/lcpz/awesome-freedesktop.git ~/.config/awesome/freedesktop
+git clone https://github.com/potamides/modalawesome.git ~/.config/awesome/modalawesome 
+
+# misc
+su -c 'mkdir -p ~/Applications' $USER
+
+# Install supporting applications
+# # # # # # # # # # # # # # #
+log \installing supporting applications\"
+
+# install xbanish
+# # # # # # # # # # # # # # #
+log \installing xbanish\"
+install package libXt-devel libXfixes-devel libXi-devel
+su -c 'git clone https://github.com/jcs/xbanish.git ~/lab/xbanish' $USER
+su -c 'make -C ~/lab/xbanish' $USER
+cd /home/$USER/lab/xbanish 
+make install
+sleep 1
+make clean
+
+# More themes
+# # # # # # # # # # # # # # #
+log \installing themes\"
+su -c 'git clone https://github.com/vinceliuice/Matcha-gtk-theme.git ~/lab/matcha' $USER
+su -c 'cd ~/lab/matcha && bash install.sh' $USER
+
+# install alacritty terminal
+pip3 install pyyaml
+install package alacritty
+su -c 'mkdir -p ~/.config/alacritty' $USER
+su -c 'cp ~/.yadrlite/awesome/alacritty/* ~/.config/alacritty' $USER
+
+# install bpytop
+pip3 install bpytop --upgrade
+
+# install ranger
+pip3 install ueberzug
+install package caca-utils ffmpegthumbnailer unrar python3-bidict ranger
+su -c \cp -r ~/.yadrlite/awesome/ranger ~/.config\" $USER
+cp -r ~/.yadrlite/awesome/ranger ~/.config
+
+# backlight fix for i915 GPU's
+# to work with cbacklight script
+log \applying backlight fix for i915 GPU\"
+usermod -aG video $USER
+echo \ACTION==\\"add\\", SUBSYSTEM==\\"backlight\\", KERNEL==\\"intel_backlight\\", RUN+=\\"/bin/chgrp video /sys/class/backlight/%k/brightness\\"\" >> /etc/udev/rules.d/backlight.rules
+echo \ACTION==\\"add\\", SUBSYSTEM==\\"backlight\\", KERNEL==\\"intel_backlight\\", RUN+=\\"/bin/chmod g+w /sys/class/backlight/%k/brightness\\"\" >> /etc/udev/rules.d/backlight.rules
+cp /home/$USER/.yadrlite/awesome/scripts/cbacklight /usr/bin/cbacklight
+
+# syncs headphone to master sound control
+log \TODO:\"
+log \vi /usr/share/pulseaudio/alsa-mixer/paths/analog-output-headphones.conf\"
+log \change to: volume = merge\"
+
+# Add \tap to click\" for touchpads
+# # # # # # # # # # # # # # #
+log \add 'tap to click' for touchpads\"
+sed -i '/Identifier \libinput touchpad catchall\"/a \\tOption \"Tapping\" \"on\"' /usr/share/X11/xorg.conf.d/40-libinput.conf
+
+# blutooth headset fix for better audio quality
+log \blutooth heaset fix for better audio quality\"
+sed -i 's/module-bluetooth-discover/module-bluetooth-discover headset=auto/' /etc/pulse/default.pa
+
+# disable Wayland
+log \disabling wayland\"
+sed -i '/\[daemon\]/a WaylandEnable=false\nDefaultSession=gnome-xorg.desktop' /etc/gdm/custom.conf
+
+# help the sound (for Thinkpads)
+# # # # # # # # # # # # # # #
+log \improving sound output for Thinkads\"
+echo \default-sample-format = float32le\" >> /etc/pulse/daemon.conf
+echo \default-sample-rate = 48000\" >> /etc/pulse/daemon.conf
+echo \alternate-sample-rate = 44100\" >> /etc/pulse/daemon.conf
+echo \default-fragments = 2\" >> /etc/pulse/daemon.conf
+echo \default-fragment-size-msec = 125\" >> /etc/pulse/daemon.conf
+echo \resample-method = soxr-vhq\" >> /etc/pulse/daemon.conf
+echo \remixing-produce-lfe = no\" >> /etc/pulse/daemon.conf
+echo \remixing-consume-lfe = no\" >> /etc/pulse/daemon.conf
+echo \high-priority = yes\" >> /etc/pulse/daemon.conf
+echo \realtime-scheduling = yes\" >> /etc/pulse/daemon.conf
+echo \realtime-priority = 9\" >> /etc/pulse/daemon.conf
+echo \rlimit-rtprio = 9\" >> /etc/pulse/daemon.conf
+echo \daemonize = no\" >> /etc/pulse/daemon.conf
+
+# set timezone
+# # # # # # # # # # # # # # #
+log \setting timezone to Pacific\"
+timedatectl set-timezone America/Los_Angeles
+
+# enable thinkfan
+# this is a sample config for a t460
+# # # # # # # # # # # # # # #
+log \enabling thinkfan\"
+install package thinkfan
+HWMONDEV=`basename /sys/devices/platform/coretemp.0/hwmon/*`
+sed -i \/55)/i \
+hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp3_input \n\
+hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp4_input \n\
+hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp1_input \n\
+hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp5_input \n\
+hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp2_input \n\
+\ /etc/thinkfan.conf
+systemctl enable thinkfan
+
+# RE: freezing issue on newer intel graphics when monitor idles 
+# ref: https://linuxreviews.org/Intel_graphics  
+echo \fix issue with intel graphics on newer machines\"
+echo \edit /etc/default/grub and add the following to GRUB_CMDLINE_LINUX\"
+echo \add ahci.mobile_lpm_policy=1 for recently released Lenovo Laptops\"
+echo \add i915.enable_dc=0 for Goldmount or Kaby Lake Processors\"
+echo \add intel_idle.max_cstate=1 for Bay Trail or Kaby Lake Processors\"
+echo \run the following as root:\"
+echo \grub2-mkconfig --output=/boot/efi/EFI/fedora/grub.cfg\"
+echo \after reboot, test by viewing \"/proc/cmdline and search for your changes\" 
+
+# install non-free firmware for compatibilty crises
+log \installing non-free firmware\"
+install package rpmfusion-nonfree-release-tainted
+dnf groupupdate core -y
+dnf groupupdate multimedia -y
+dnf groupupdate sound-and-video -y
+dnf update --best --allowerasing -y
+install package alsa-ucm alsa-firmware 
+install package alsa-sof-firmware alsa-tools
+dnf install -y \*-firmware
+
+# install PHP essentials
+# # # # # # # # # # # # # # #
+log \installing php\"
+install package php
+
+# required modules for boris and phpctags
+# # # # # # # # # # # # # # #
+log \installing requried php modules for boris and phpctags\"
+install package php-json php-process
+install package nodejs ruby-devel
+npm install -g npm@latest
+npm install -g grunt-cli coffee-jshint eslint js-yaml csslint
+su -c 'git clone https://github.com/xcwen/phpctags.git ~/lab/phpctags' $USER
+su -c 'make -C ~/lab/phpctags' $USER
+cp /home/$USER/lab/phpcstags/build/phpctags.phar /usr/local/bin
+su -c 'gem update'
+su -c 'gem install compass'
+
+# boris (nice PHP sandbox tool)
+# # # # # # # # # # # # # # #
+log \installing boris\"
+curl -L -O https://github.com/borisrepl/boris/releases/download/v1.0.8/boris.phar
+chmod +x boris.phar
+mv boris.phar /usr/local/bin/boris
+
+# PHP Parallel Lint
+# # # # # # # # # # # # # # #
+log \installing PHP parallel lint\"
+install package composer
+sudo sed -i \s#;phar.readonly = On#phar.readonly = Off#\" /etc/php.ini
+systemctl restart httpd
+su -c \mkdir -p ~/lab/box-phar\" $USER
+su -c \cd ~/lab/box-phar && curl -LSs https://box-project.github.io/box2/installer.php | php\" $USER
+cp /home/$USER/lab/box-phar/box.phar /usr/local/bin/box && chmod 755 /usr/local/bin/box
+su -c \git clone https://github.com/JakubOnderka/PHP-Parallel-Lint.git ~/lab/PHP-Parallel-Lint\" $USER
+su -c \cd ~/lab/PHP-Parallel-Lint && composer install\" $USER
+su -c \cp ~/lab/PHP-Parallel-Lint/parallel-lint ~/lab/PHP-Parallel-Lint/parallel-lint.php\" $USER
+su -c \cd ~/lab/PHP-Parallel-Lint && box build\" $USER
+cp /home/$USER/lab/PHP-Parallel-Lint/parallel-lint.phar /usr/local/bin/parallel-lint && chmod 755 /usr/local/bin/parallel-lint
+
+# install code editors and PHP dev tools
+# # # # # # # # # # # # # # #
+log \installing code editors and PHP dev tools\"
+install package tmux the_silver_searcher ack
+install package tree w3m w3m-img expect
+install package hugo
+# install ctags
+install package python3-docutils libseccomp-devel jansson-devel libyaml-devel libxml2-devel
+su -c \cd ~/lab && git clone https://github.com/universal-ctags/ctags.git\" $USER
+su -c \cd ~/lab/ctags && ./autogen.sh\" $USER
+su -c \cd ~/lab/ctags && ./configure --program-prefix=ex\" $USER
+cd /home/$USER/lab/ctags && make prefix=/usr/local install && clean
+# neovim
+install package neovim
+pip3 install pynvim
+su -c \gem install neovim\" $USER
+su -c \gem environment\" $USER
+npm install -g neovim
+su -c \mkdir ~/.config/nvim && cp ~/.yadrlite/awesome/nvim/init.vim ~/.config/nvim\" $USER
+mkdir ~/.config/nvim && cp ~/.yadrlite/awesome/nvim/init.vim ~/.config/nvim
+sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nexport WINEARCH=win32\nalias vi=\nvim\"\nalias vim=\"nvim\"' /home/$USER/.bashrc
+sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi=\nvim\"\nalias vim=\"nvim\"' ~/.bashrc
+
+# compiles emacs 27
+# for much better speed and compatibitily
+# WARNING: emacs X11 will crash with pacakge: google-noto-emoji-color-fonts
+# # # # # # # # # # # # # # #
+log \compiling emacs 27\"
+install package liblockfile-devel libotf-devel m17n-db-devel m17n-lib-devel
+install package gtk3-devel ncurses-devel gnutls-devel gnutls-utils
+install package libXpm-devel libxml2-devel libjpeg-turbo-devel giflib-devel libtiff-devel
+install package texinfo
+su -c 'git clone -b master git://git.sv.gnu.org/emacs.git ~/lab/emacs' $USER
+# locks emacs into March 27th, 2020 release (stable)
+su -c 'cd ~/lab/emacs && git checkout 6075a7c5ae3fa456cd099946f6e042b57e925263' $USER
+sleep 1.5s
+su -c 'cd ~/lab/emacs && ./autogen.sh' $USER
+su -c 'cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils' $USER
+su -c 'make -C ~/lab/emacs' $USER
+cd /home/$USER/lab/emacs && make install && make clean
+
+# Support Software
+log \installing support software\"
+install package nextcloud-client
+install package gimp gimpfx-foundry gimp-save-for-web gimp-data-extras
+install package libreoffice libreoffice-icon-theme-papirus
+install package flatpak
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak install -y flathub com.spotify.Client
+flatpak install -y flathub org.signal.Signal
+flatpak install -y flathub us.zoom.Zoom 
+flatpak install -y flathub org.musescore.MuseScore
+
+# Install Browsers
+log \installing browsers\"
+install package chromium-freeworld firefox-x11 torbrowser-launcher
+
+# install Vagrant and Virtualbox
+# Warning: Secure boot may need to be disabled
+log \installing Vagrant and Virtualbox\"
+install package akmods vagrant VirtualBox virtualbox-guest-additions kernel-devel
+firewall-cmd --permanent --zone=public --add-port=9041/tcp
+setsebool -P httpd_can_network_connect on
+semanage port -a -t http_port_t -p tcp 9041 # xdebug
+usermod -aG vboxusers $USER
+akmods
+systemctl restart vboxdrv.service
+
+# Rambox
+# # # # # # # # # # # # # # #
+log \installing Rambox\"
+dnf install -y  https://github.com/ramboxapp/community-edition/releases/download/0.7.7/Rambox-0.7.7-linux-x86_64.rpm
+
+# Gargoyle (for sanity checks)
+# # # # # # # # # # # # # # #
+log \install Gargoyle\"
+install package SDL SDL_mixer SDL_sound fluidsynth
+su -c 'wget -O ~/Downloads/gargoyle.rpm https://github.com/rpmsphere/x86_64/blob/master/g/gargoyle-2015-5.4.x86_64.rpm?raw=true' $USER
+dnf install -y /home/$USER/Downloads/gargoyle.rpm
+su -c 'cp ~/.yadrlite/awesome/garglk.ini ~/.garglkrc' $USER
+
+# more sanity checks
+install package install cool-retro-term bsd-games
+
+# Chess
+# # # # # # # # # # # # # # #
+log \installing chess engines\"
+dnf config-manager --add-repo https://copr.fedorainfracloud.org/coprs/awood/scid_vs_pc/repo/fedora-$(rpm -E %fedora)/awood-scid_vs_pc-fedora-$(rpm -E %fedora).repo
+install package scid_vs_pc.x86_64 scid_vs_pc-sounds scid_vs_pc-books
+# stockfish
+install package stockfish
+# leela
+install package openblas-devel.x86_64 gtest-devel
+install package ninja-build meson
+su -c 'cd ~/Applications && git clone -b release/0.24 --recurse-submodules https://github.com/LeelaChessZero/lc0.git' $USER
+su -c 'cd ~/Applications/lc0 && $SHELL build.sh' $USER
+
+# pdf support
+log \installing pdf support\"
+install package cups-pdf evince pdfarranger mupdf xournal
+
+# install locate
+install package mlocate
+updatedb
+
+# handle ACPI wake-up settings for non-platform devices
+log \handle ACPI wake-up settings for non-platform devices\"
+cp -f /home/$USER/.yadrlite/src/org/system/acpi-wake.service /etc/systemd/system
+chmod 777 /etc/systemd/system/acpi-wake.service
+systemctl start acpi-wake.service
+systemctl enable acpi-wake.service
+
+# permissions, status and boot configuration
+# # # # # # # # # # # # # # #
+log \setup permissions, status and boot configuration\"
+find /home/$USER/.config -type d -exec chmod 0755 {} \;
+find /home/$USER/.config -type f -exec chmod 0644 {} \;
+find /home/$USER/.config -name \*\" -execdir chmod u+x {} +
+install package plymouth-theme-spinner
+plymouth-set-default-theme -R bgrt
+
+# add manual entries
+log \add application entries\"
+su -c 'mkdir -p ~/.local/share/applications' $USER
+su -c 'touch ~/.local/share/applications/touchpad.desktop' $USER
+printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/touchpad.desktop
+printf 'Type=Application\n' >> /home/$USER/.local/share/applications/touchpad.desktop
+printf 'Name=Toggle Touchpad\n' >> /home/$USER/.local/share/applications/touchpad.desktop
+printf \Exec=/home/$USER/.config/awesome/scripts/toggle-touchpad\n\" >> /home/$USER/.local/share/applications/touchpad.desktop
+su -c 'touch ~/.local/share/applications/mpvdvd.desktop' $USER
+printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/mpvdvd.desktop
+printf 'Type=Application\n' >> /home/$USER/.local/share/applications/mpvdvd.desktop
+printf 'Name=mpv Media Player DVD\n' >> /home/$USER/.local/share/applications/mpvdvd.desktop
+printf \Exec=mpv --dvd-device=/dev/sr0 dvd:// --player-operation-mode=pseudo-gui --force-window --idle\n\" >> /home/$USER/.local/share/applications/mpvdvd.desktop
+su -c 'touch ~/.local/share/applications/mpvdvdall.desktop' $USER
+printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/mpvdvdall.desktop
+printf 'Type=Application\n' >> /home/$USER/.local/share/applications/mpvdvdall.desktop
+printf 'Name=mpv Media Player DVD Play All\n' >> /home/$USER/.local/share/applications/mpvdvdall.desktop
+printf \Exec=mpv --dvd-device=/dev/sr0 dvd://0 dvd://1 dvd://2 dvd://3 dvd://4 dvd://5 dvd://6 dvd://7 dvd://8 dvd://9 --player-operation-mode=pseudo-gui --force-window --idle\n\" >> /home/$USER/.local/share/applications/mpvdvdall.desktop
+su -c 'touch ~/.local/share/applications/mpvbd.desktop' $USER
+printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/mpvbd.desktop
+printf 'Type=Application\n' >> /home/$USER/.local/share/applications/mpvbd.desktop
+printf 'Name=mpv Media Player Bluray\n' >> /home/$USER/.local/share/applications/mpvbd.desktop
+printf \Exec=mpv --bluray-device=/dev/sr0 bd://\n\" >> /home/$USER/.local/share/applications/mpvbd.desktop 
+su -c 'touch ~/.local/share/applications/tor.desktop' $USER
+printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/tor.desktop
+printf 'Type=Application\n' >> /home/$USER/.local/share/applications/tor.desktop
+printf 'Name=Start Tor Browser\n' >> /home/$USER/.local/share/applications/tor.desktop
+printf \Exec=/home/$USER/.local/share/torbrowser/tbb/x86_64/tor-browser_en-US/Browser/start-tor-browser\n\" >> /home/$USER/.local/share/applications/tor.desktop
+
+# Install Multimedia Codecs
+log \installing multimedia codecs\"
+install package rpmfusion-free-release-tainted
+install package mpv devedeng youtube-dl
+dnf install -y gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel
+dnf install -y lame\* --exclude=lame-devel
+install package ffmpeg ffmpeg-libs compat-ffmpeg28
+install package lsdvd libdvdnav libdvdread libdvdcss
+install package java-1.8.0-openjdk
+install package libbluray libbluray-utils libbluray-bdj
+su -c \cp -r ~/.yadrlite/awesome/mpv ~/.config\" $USER
+
+# Bluray Playback
+# # # # # # # # # # # # # # #
+log \installing bluray playback\"
+install package ffmpeg-devel openssl-devel
+su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-oss-1.15.3.tar.gz' $USER
+su -c 'cd ~/lab && tar xpf makemkv-oss-1.15.3.tar.gz' $USER
+su -c 'cd ~/lab/makemkv-oss-1.15.3 && ./configure' $USER
+su -c 'make -C ~/lab/makemkv-oss-1.15.3' $USER
+cd /home/$USER/lab/makemkv-oss-1.15.3 && make install
+su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-bin-1.15.3.tar.gz' $USER
+su -c 'cd ~/lab && tar xpf makemkv-bin-1.15.3.tar.gz' $USER
+su -c 'make -C ~/lab/makemkv-bin-1.15.3' $USER
+cd /home/$USER/lab/makemkv-bin-1.15.3 && make install
+
+# Windows 32-bit compatibility layer
+log \TODO:\"
+log \If you want a windows 32-bit compatiblity layer\"
+log \dnf install -y wine.x86_64 winetricks\"
+log \Next initialize wine with:\"
+log \WINEARCH=win32 wineboot\"
+
+# TROUBLESHOOTING 
+# # # # # # # # # # # # # # #
+
+# If the Thinkpad trackpoint and pad doesn't work on bootup
+# try adding the following line to /etc/default/grub
+# GRUB_CMDLINE_LINUX_DEFAULT=\psmouse.synaptics_intertouch=0\"
+# reference: https://bugzilla.redhat.com/show_bug.cgi?id=1815541 
+
+# if DVD's don't work try running regionset from comandline
+# and then deleteing the ~/.dvdcss directory
+# dnf install regionset
+# regionset /dev/sr0
+# rm ~/.dvdcss
+log \Installation complete.  Please reboot your system.\"
+printf \\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r\"
+printf \ALL DONE.  PLEASE REBOOT YOUR SYSTEM.\"
