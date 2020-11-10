@@ -56,9 +56,16 @@ function install {
 # # # # # # # # # # # # # # #
 log "installing commandline tools"
 install autoconf automake git rsync htop
-install gettext diffstat doxygen git patch patchutils subversion systemtap buildbot colordiff cvs cvs2clcvsgraph cvsps darcs dejagnu expect gambas3-ide git-annex git-cola git2cl gitg gtranslator highlight lcov manedit meld monotone myrepos nemiver qgit quilt rapidsvn rcs robodoc scanmem subunit svn2cl tig tkcvs tortoisehg translate-toolkit utrac
+install gettext diffstat doxygen git patch patchutils subversion systemtap buildbot 
+install colordiff cvs cvs2clcvsgraph cvsps darcs dejagnu expect gambas3-ide git-annex 
+install git-cola git2cl gitg gtranslator highlight lcov manedit meld monotone myrepos 
+install nemiver qgit quilt rapidsvn rcs robodoc scanmem subunit svn2cl tig tkcvs 
+install tortoisehg translate-toolkit utrac
 install redhat-rpm-config rpm-build koji mock rpmdevtools pungi rpmlint
-install autoconf automake binutils bison flex gcc gcc-c++ gdb glibc-devel libtool make pkgconf strace byacc ccache cscope ctags elfutils indent ltrace perf valgrind ElectricFence astyle cbmc check cmake coan cproto insight nasm pscan python3-scons remake scorep splint yasm zzuf
+install autoconf automake binutils bison flex gcc gcc-c++ gdb glibc-devel libtool make 
+install pkgconf strace byacc ccache cscope ctags elfutils indent ltrace perf valgrind 
+install ElectricFence astyle cbmc check cmake coan cproto insight nasm pscan python3-scons 
+install remake scorep splint yasm zzuf
 su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
 
 # Install Window Manager
@@ -140,7 +147,7 @@ log "installing supporting applications"
 # install xbanish
 # # # # # # # # # # # # # # #
 log "installing xbanish"
-install package libXt-devel libXfixes-devel libXi-devel
+install libXt-devel libXfixes-devel libXi-devel
 su -c 'git clone https://github.com/jcs/xbanish.git ~/lab/xbanish' $USER
 su -c 'make -C ~/lab/xbanish' $USER
 cd /var/home/$USER/lab/xbanish
@@ -155,17 +162,17 @@ su -c 'git clone https://github.com/vinceliuice/Matcha-gtk-theme.git ~/lab/match
 su -c 'cd ~/lab/matcha && bash install.sh' $USER
 
 # install alacritty terminal
-pip3 install pyyaml
-install package alacritty
+su -c "pip install pyyaml" $USER
+install alacritty
 su -c 'mkdir -p ~/.config/alacritty' $USER
 su -c 'cp ~/.yadrlite/awesome/alacritty/* ~/.config/alacritty' $USER
 
 # install bpytop
-pip3 install bpytop --upgrade
+su -c "pip install bpytop --upgrade" $USER
 
 # install ranger
-pip3 install ueberzug
-install package caca-utils ffmpegthumbnailer unrar python3-bidict ranger
+su -c "pip install ueberzug" $USER
+install caca-utils ffmpegthumbnailer unrar python3-bidict ranger
 su -c "cp -r ~/.yadrlite/awesome/ranger ~/.config" $USER
 cp -r ~/.yadrlite/awesome/ranger ~/.config
 
@@ -221,7 +228,7 @@ timedatectl set-timezone America/Los_Angeles
 # this is a sample config for a t460
 # # # # # # # # # # # # # # #
 log "enabling thinkfan"
-install package thinkfan
+install thinkfan
 HWMONDEV=`basename /sys/devices/platform/coretemp.0/hwmon/*`
 sed -i "/55)/i \
 hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp3_input \n\
@@ -245,27 +252,32 @@ echo "after reboot, test by viewing "/proc/cmdline and search for your changes"
 # install non-free firmware for compatibilty crises
 log "installing non-free firmware"
 rpm-ostree install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
-install package rpmfusion-nonfree-release-tainted
-dnf groupupdate core -y
-dnf groupupdate multimedia -y
-dnf groupupdate sound-and-video -y
-dnf update --best --allowerasing -y
-install package alsa-ucm alsa-firmware
-install package alsa-sof-firmware alsa-tools
-dnf install -y \*-firmware
+rpm-ostree update
+install alsa-ucm alsa-firmware
+install alsa-tools alsa-firmware alsa-sof-firmware alsa-tools-firmware
+install atmel-firmware bfa-firmware crystalhd-firmware gnome-firmware ipw2100-firmware
+install ipw2200-firmware iscan-firmware ivtv-firmware iwl100-firmware iwl1000-firmware
+install iwl105-firmware iwl135-firmware iwl2000-firmware iwl2030-firmware iwl3160-firmware
+install iwl3945-firmware iwl4965-firmware iwl5000-firmware
+install iwl5150-firmware iwl6000-firmware iwl6000g2a-firmware iwl6000g2b-firmware iwl6050-firmware
+install iwl7260-firmware libertas-sd8686-firmware libertas-sd8787-firmware libertas-usb8388-firmware
+install libertas-usb8388-olpc-firmwarelinux-firmware liquidio-firmware lulzbot-marlin-firmware
+install lulzbot-marlin-firmware-bio lulzbot-marlin-firmware-pro midisport-firmware
+install netronome-firmware r5u87x-firmware sigrok-firmware-filesystem sigrok-firmware-fx2lafw
+install sigrok-firmware-nonfree uhd-firmware zd1211-firmware
 
 # install PHP essentials
 # # # # # # # # # # # # # # #
 log "installing php"
-install package php
+install php
 
 # required modules for boris and phpctags
 # # # # # # # # # # # # # # #
 log "installing requried php modules for boris and phpctags"
-install package php-json php-process
-install package nodejs ruby-devel
-npm install -g npm@latest
-npm install -g grunt-cli coffee-jshint eslint js-yaml csslint
+install php-json php-process
+install nodejs ruby-devel
+su -c "npm install -g npm@latest" $USER
+su -c "npm install -g grunt-cli coffee-jshint eslint js-yaml csslint" $USER
 su -c 'git clone https://github.com/xcwen/phpctags.git ~/lab/phpctags' $USER
 su -c 'make -C ~/lab/phpctags' $USER
 cp /var/home/$USER/lab/phpcstags/build/phpctags.phar /usr/local/bin
@@ -282,7 +294,7 @@ mv boris.phar /usr/local/bin/boris
 # PHP Parallel Lint
 # # # # # # # # # # # # # # #
 log "installing PHP parallel lint"
-install package composer
+install composer
 sudo sed -i "s#;phar.readonly = On#phar.readonly = Off#" /etc/php.ini
 systemctl restart httpd
 su -c "mkdir -p ~/lab/box-phar" $USER
@@ -297,21 +309,21 @@ cp /var/home/$USER/lab/PHP-Parallel-Lint/parallel-lint.phar /usr/local/bin/paral
 # install code editors and PHP dev tools
 # # # # # # # # # # # # # # #
 log "installing code editors and PHP dev tools"
-install package tmux the_silver_searcher ack
-install package tree w3m w3m-img expect
-install package hugo
+install tmux the_silver_searcher ack
+install tree w3m w3m-img expect
+install hugo
 # install ctags
-install package python3-docutils libseccomp-devel jansson-devel libyaml-devel libxml2-devel
+install python3-docutils libseccomp-devel jansson-devel libyaml-devel libxml2-devel
 su -c "cd ~/lab && git clone https://github.com/universal-ctags/ctags.git" $USER
 su -c "cd ~/lab/ctags && ./autogen.sh" $USER
 su -c "cd ~/lab/ctags && ./configure --program-prefix=ex" $USER
 cd /var/home/$USER/lab/ctags && make prefix=/usr/local install && clean
 # neovim
-install package neovim
-pip3 install pynvim
+install neovim
+su -c "pip install pynvim" $USER
 su -c "gem install neovim" $USER
 su -c "gem environment" $USER
-npm install -g neovim
+su -c "npm install -g neovim" $USER
 su -c "mkdir ~/.config/nvim && cp ~/.yadrlite/awesome/nvim/init.vim ~/.config/nvim" $USER
 mkdir ~/.config/nvim && cp ~/.yadrlite/awesome/nvim/init.vim ~/.config/nvim
 sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nexport WINEARCH=win32\nalias vi="nvim"\nalias vim="nvim"' /var/home/$USER/.bashrc
@@ -322,10 +334,10 @@ sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"
 # WARNING: emacs X11 will crash with pacakge: google-noto-emoji-color-fonts
 # # # # # # # # # # # # # # #
 log "compiling emacs 27"
-install package liblockfile-devel libotf-devel m17n-db-devel m17n-lib-devel
-install package gtk3-devel ncurses-devel gnutls-devel gnutls-utils
-install package libXpm-devel libxml2-devel libjpeg-turbo-devel giflib-devel libtiff-devel
-install package texinfo
+install liblockfile-devel libotf-devel m17n-db-devel m17n-lib-devel
+install gtk3-devel ncurses-devel gnutls-devel gnutls-utils
+install libXpm-devel libxml2-devel libjpeg-turbo-devel giflib-devel libtiff-devel
+install texinfo
 su -c 'git clone -b master git://git.sv.gnu.org/emacs.git ~/lab/emacs' $USER
 # locks emacs into March 27th, 2020 release (stable)
 su -c 'cd ~/lab/emacs && git checkout 6075a7c5ae3fa456cd099946f6e042b57e925263' $USER
@@ -337,10 +349,10 @@ cd /var/home/$USER/lab/emacs && make install && make clean
 
 # Support Software
 log "installing support software"
-install package nextcloud-client
-install package gimp gimpfx-foundry gimp-save-for-web gimp-data-extras
-install package libreoffice libreoffice-icon-theme-papirus
-install package flatpak
+install nextcloud-client
+install gimp gimpfx-foundry gimp-save-for-web gimp-data-extras
+install libreoffice libreoffice-icon-theme-papirus
+install flatpak
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y flathub com.spotify.Client
 flatpak install -y flathub org.signal.Signal
@@ -349,12 +361,12 @@ flatpak install -y flathub org.musescore.MuseScore
 
 # Install Browsers
 log "installing browsers"
-install package chromium-freeworld firefox-x11 torbrowser-launcher
+install chromium-freeworld firefox-x11 torbrowser-launcher
 
 # install Vagrant and Virtualbox
 # Warning: Secure boot may need to be disabled
 log "installing Vagrant and Virtualbox"
-install package akmods vagrant VirtualBox virtualbox-guest-additions kernel-devel
+install akmods vagrant VirtualBox virtualbox-guest-additions kernel-devel
 firewall-cmd --permanent --zone=public --add-port=9041/tcp
 setsebool -P httpd_can_network_connect on
 semanage port -a -t http_port_t -p tcp 9041 # xdebug
@@ -365,38 +377,38 @@ systemctl restart vboxdrv.service
 # Rambox
 # # # # # # # # # # # # # # #
 log "installing Rambox"
-dnf install -y  https://github.com/ramboxapp/community-edition/releases/download/0.7.7/Rambox-0.7.7-linux-x86_64.rpm
+rpm-ostree install https://github.com/ramboxapp/community-edition/releases/download/0.7.7/Rambox-0.7.7-linux-x86_64.rpm
 
 # Gargoyle (for sanity checks)
 # # # # # # # # # # # # # # #
 log "install Gargoyle"
-install package SDL SDL_mixer SDL_sound fluidsynth
+install SDL SDL_mixer SDL_sound fluidsynth
 su -c 'wget -O ~/Downloads/gargoyle.rpm https://github.com/rpmsphere/x86_64/blob/master/g/gargoyle-2015-5.4.x86_64.rpm?raw=true' $USER
-dnf install -y /var/home/$USER/Downloads/gargoyle.rpm
+rpm-ostree install /var/home/$USER/Downloads/gargoyle.rpm
 su -c 'cp ~/.yadrlite/awesome/garglk.ini ~/.garglkrc' $USER
 
 # more sanity checks
-install package install cool-retro-term bsd-games
+install install cool-retro-term bsd-games
 
 # Chess
 # # # # # # # # # # # # # # #
 log "installing chess engines"
-dnf config-manager --add-repo https://copr.fedorainfracloud.org/coprs/awood/scid_vs_pc/repo/fedora-$(rpm -E %fedora)/awood-scid_vs_pc-fedora-$(rpm -E %fedora).repo
-install package scid_vs_pc.x86_64 scid_vs_pc-sounds scid_vs_pc-books
+wget https://copr.fedorainfracloud.org/coprs/awood/scid_vs_pc/repo/fedora-$(rpm -E %fedora)/awood-scid_vs_pc-fedora-$(rpm -E %fedora).repo -P /etc/yum.repos.d/
+install scid_vs_pc.x86_64 scid_vs_pc-sounds scid_vs_pc-books
 # stockfish
-install package stockfish
+install stockfish
 # leela
-install package openblas-devel.x86_64 gtest-devel
-install package ninja-build meson
+install openblas-devel.x86_64 gtest-devel
+install ninja-build meson
 su -c 'cd ~/Applications && git clone -b release/0.24 --recurse-submodules https://github.com/LeelaChessZero/lc0.git' $USER
 su -c 'cd ~/Applications/lc0 && $SHELL build.sh' $USER
 
 # pdf support
 log "installing pdf support"
-install package cups-pdf evince pdfarranger mupdf xournal
+install cups-pdf evince pdfarranger mupdf xournal
 
 # install locate
-install package mlocate
+install mlocate
 updatedb
 
 # handle ACPI wake-up settings for non-platform devices
@@ -412,7 +424,7 @@ log "setup permissions, status and boot configuration"
 find /var/home/$USER/.config -type d -exec chmod 0755 {} \;
 find /var/home/$USER/.config -type f -exec chmod 0644 {} \;
 find /var/home/$USER/.config -name "*" -execdir chmod u+x {} +
-install package plymouth-theme-spinner
+install plymouth-theme-spinner
 plymouth-set-default-theme -R bgrt
 
 # add manual entries
@@ -446,20 +458,29 @@ printf "Exec=/var/home/$USER/.local/share/torbrowser/tbb/x86_64/tor-browser_en-U
 
 # Install Multimedia Codecs
 log "installing multimedia codecs"
-install package rpmfusion-free-release-tainted
-install package mpv devedeng youtube-dl
-dnf install -y gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel
-dnf install -y lame\* --exclude=lame-devel
-install package ffmpeg ffmpeg-libs compat-ffmpeg28
-install package lsdvd libdvdnav libdvdread libdvdcss
-install package java-1.8.0-openjdk
-install package libbluray libbluray-utils libbluray-bdj
+install rpmfusion-free-release-tainted
+install mpv devedeng youtube-dl
+install gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free-extras
+install gstreamer1-plugins-bad-free-fluidsynth gstreamer1-plugins-bad-free-wildmidi
+install gstreamer1-plugins-bad-free-zbar gstreamer1-plugins-bad-freeworld
+install gstreamer1-plugins-base gstreamer1-plugins-base-devel
+install gstreamer1-plugins-base-tools gstreamer1-plugins-entrans
+install gstreamer1-plugins-entrans-docs gstreamer1-plugins-fc
+install gstreamer1-plugins-good gstreamer1-plugins-good-extras
+install gstreamer1-plugins-good-gtk gstreamer1-plugins-good-qt
+install gstreamer1-plugins-ugly gstreamer1-plugins-ugly-free
+install gstreamer1-plugin-openh264 gstreamer1-libav
+install lame lame-libs
+install ffmpeg ffmpeg-libs compat-ffmpeg28
+install lsdvd libdvdnav libdvdread libdvdcss
+install java-1.8.0-openjdk
+install libbluray libbluray-utils libbluray-bdj
 su -c "cp -r ~/.yadrlite/awesome/mpv ~/.config" $USER
 
 # Bluray Playback
 # # # # # # # # # # # # # # #
 log "installing bluray playback"
-install package ffmpeg-devel openssl-devel
+install ffmpeg-devel openssl-devel
 su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-oss-1.15.3.tar.gz' $USER
 su -c 'cd ~/lab && tar xpf makemkv-oss-1.15.3.tar.gz' $USER
 su -c 'cd ~/lab/makemkv-oss-1.15.3 && ./configure' $USER
