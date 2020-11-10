@@ -5,7 +5,10 @@
 # This script is intended for a minimal Fedora Workstation installation on a Thinkpad
 # run as root:
 # curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/awesomewm/awesome-on-silverblue > custom-fedora-setup
-# $SHELL sudo custom-fedora-setup <username>
+# # install command line tools
+# sudo $SHELL custom-fedora-setup <username> toolbox
+# # install awesome wm
+# sudo $SHELL custom-fedora-setup <username> awesome
 # # # # # # # # # # # # # # #
 if [[ "${USER}" != "root" ]]; then
    echo "this script must be run with sudo"
@@ -15,6 +18,7 @@ fi
 # Options
 # # # # # # # # # # # # # # #
 USER="${1:francis}"
+INSTALL="${2:toolbox}"
 LOGFILE=/var/home/$USER/workstation-installation.log
 
 # Functions
@@ -30,88 +34,223 @@ function log {
 function install {
     arr=("$@")
     _type=
+    _group=
     if [[ "$(declare -p arr)" =~ "declare -a" ]]; then
         for package in "${arr[@]}"; do
+ 	    if [[ $package == "dnf" ]]; then
+                _type=$package
+                continue
+            fi
+            if [[ $package == "rpm-ostree" ]]; then
+                _type=$package
+                continue
+            fi
+	    if [[ $package == "group" ]]; then
+                _group=$package
+                continue
+            fi
             cnt=3
             while [ $cnt -gt 0 ]; do
-                if rpm-ostree db diff | grep $package > /dev/null 2>&1; then
-                    break;
-                else
-                   rpm-ostree install $package
-                fi
-                let "cnt-=1"
+                if [[ $_type == "dnf" ]]; then
+                    if dnf list installed $package > /dev/null 2>&1; then
+          		break;            
+                    else
+			if [[ $_group == "group" ]]; then
+                            dnf group install -y $package
+                            break;
+                        else
+                            dnf install -y $package
+                        fi
+                    fi
+		fi
+                if [[ $_type == "rpm-ostree" ]]; then
+		    if rpm-ostree db diff | grep $package > /dev/null 2>&1; then
+		        break;
+	            else
+			rpm-ostree install $package
+		    fi
+		fi
+		let "cnt-=1"
             done
-            if ! rpm-ostree db diff | grep $package > /dev/null 2>&1; then
-                log "There was a problem installing ${package}.  Please make sure this package exists."
+            if [[ $_type == "rpm-ostree" ]]; then
+                if ! rpm-ostree db diff | grep $package > /dev/null 2>&1; then
+                    log "There was a problem installing ${package}.  Please make sure this package exists."
+                fi
             fi
+            if [[ $_type == "dnf" ]]; then
+                if ! dnf list installed $package > /dev/null 2>&1 && [[ $_group != "group" ]]; then
+                    log "There was a problem installing ${package}.  Please make sure this package exists."
+                fi
+	    fi
         done
     else
         log "Warning! Passed variable is not an array".
     fi
 }
 
+if [[ $INSTALL == "toolbox" ]]; then
+if ! command -v dnf &> /dev/null; then
+   echo "Please create a toolbox and enter it before starting this script"
+   echo "run: toolbox create -y"  
+   echo "toolbox enter"
+   exit
+fi
 
-# Run as root
-# Commandline Tools
+# build the toolbox 
 # # # # # # # # # # # # # # #
+if ! command -v cmake &> /dev/null; then
 log "installing commandline tools"
-install autoconf automake git rsync htop
-install gettext diffstat doxygen git patch patchutils subversion systemtap buildbot 
-install colordiff cvs cvs2clcvsgraph cvsps darcs dejagnu expect gambas3-ide git-annex 
-install git-cola git2cl gitg gtranslator highlight lcov manedit meld monotone myrepos 
-install nemiver qgit quilt rapidsvn rcs robodoc scanmem subunit svn2cl tig tkcvs 
-install tortoisehg translate-toolkit utrac
-install redhat-rpm-config rpm-build koji mock rpmdevtools pungi rpmlint
-install autoconf automake binutils bison flex gcc gcc-c++ gdb glibc-devel libtool make 
-install pkgconf strace byacc ccache cscope ctags elfutils indent ltrace perf valgrind 
-install ElectricFence astyle cbmc check cmake coan cproto insight nasm pscan python3-scons 
-install remake scorep splint yasm zzuf
-su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
+install dnf autoconf automake git rsync htop
+install dnf group development-tools rpm-development-tools c-development 
 
-# Install Window Manager
+# command line support
+install dnf net-tools
+install dnf ftp telnet
+install dnf gnutls mailx wireless-tools
+
+# install xbanish
 # # # # # # # # # # # # # # #
+su -c 'mkdir ~/.local/bin' $USER
+if ! command -v xbanish &> /dev/null; then
+log "installing xbanish"
+install dnf libXt-devel libXfixes-devel libXi-devel
+su -c 'git clone https://github.com/jcs/xbanish.git ~/lab/xbanish' $USER
+su -c 'cd ~/lab/xbanish && make -C ~/lab/xbanish' $USER
+sleep 1
+su -c 'cp  ~/lab/xbanish/xbanish ~/.local/bin' $USER
+su -c 'cd ~/lab/xbanish && make clean' $USER 
+fi
+
+# install code editors and PHP dev tools
+# # # # # # # # # # # # # # #
+log "installing code editors and PHP dev tools"
+install dnf tmux the_silver_searcher ack
+install dnf tree w3m w3m-img expect
+install dnf hugo
+# install ctags
+install dnf python3-docutils libseccomp-devel jansson-devel libyaml-devel libxml2-devel
+su -c "cd ~/lab && git clone https://github.com/universal-ctags/ctags.git" $USER
+su -c "cd ~/lab/ctags && ./autogen.sh" $USER
+su -c "cd ~/lab/ctags && ./configure --program-prefix=ex" $USER
+su -c "cd ~/lab/ctags && make PREFIX=/var/home/$USER/.local/bin install && make clean" $USER
+# neovim
+install dnf neovim ruby-devel
+su -c "pip install pynvim" $USER
+su -c "gem install neovim" $USER
+su -c "gem environment" $USER
+su -c "npm install -g neovim" $USER
+su -c "mkdir ~/.config/nvim && cp ~/.yadrlite/awesome/nvim/init.vim ~/.config/nvim" $USER
+mkdir ~/.config/nvim && cp ~/.yadrlite/awesome/nvim/init.vim ~/.config/nvim
+sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"' /var/home/$USER/.bashrc
+
+# compiles emacs 27
+# for much better speed and compatibitily
+# WARNING: emacs X11 will crash with pacakge: google-noto-emoji-color-fonts
+# # # # # # # # # # # # # # #
+log "compiling emacs 27"
+install dnf liblockfile-devel libotf-devel m17n-db-devel m17n-lib-devel
+install dnf gtk3-devel ncurses-devel gnutls-devel gnutls-utils
+install dnf libXpm-devel libxml2-devel libjpeg-turbo-devel giflib-devel libtiff-devel
+install dnf texinfo
+su -c 'git clone -b master git://git.sv.gnu.org/emacs.git ~/lab/emacs' $USER
+# locks emacs into March 27th, 2020 release (stable)
+su -c 'cd ~/lab/emacs && git checkout 6075a7c5ae3fa456cd099946f6e042b57e925263' $USER
+sleep 1.5s
+su -c 'cd ~/lab/emacs && ./autogen.sh' $USER
+su -c "cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils --prefix=/var/home/$USER/.local/bin" $USER
+su -c 'make -C ~/lab/emacs' $USER
+su -c 'cp ~/lab/emacs && make install' $USER
+su -c 'cd ~/lab/emacs && make clean' $USER
+
+# required modules for boris and phpctags
+# # # # # # # # # # # # # # #
+log "installing phpctags"
+install dnf ruby-devel
+su -c 'git clone https://github.com/xcwen/phpctags.git ~/lab/phpctags' $USER
+su -c 'make -C ~/lab/phpctags' $USER
+su -c "cp /var/home/$USER/lab/phpcstags/build/phpctags.phar ~/.local/bin" $USER
+
+# Bluray Playback
+# # # # # # # # # # # # # # #
+log "installing bluray playback"
+install dnf ffmpeg-devel openssl-devel
+su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-oss-1.15.3.tar.gz' $USER
+su -c 'cd ~/lab && tar xpf makemkv-oss-1.15.3.tar.gz' $USER
+su -c 'cd ~/lab/makemkv-oss-1.15.3 && ./configure' $USER
+su -c 'make -C ~/lab/makemkv-oss-1.15.3' $USER
+cd /var/home/$USER/lab/makemkv-oss-1.15.3 && make install PREFIX=/var/home/$USER/.local/bin
+su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-bin-1.15.3.tar.gz' $USER
+su -c 'cd ~/lab && tar xpf makemkv-bin-1.15.3.tar.gz' $USER
+su -c 'make -C ~/lab/makemkv-bin-1.15.3' $USER
+cd /var/home/$USER/lab/makemkv-bin-1.15.3 && make install PREFIX=/var/home/$USER/.local/bin
+chown $USER:$USER -R /var/home/$USER/.local/bin
+
+# leela
+# # # # # # # # # # # # # # #
+install dnf openblas-devel.x86_64 gtest-devel
+install dnf ninja-build meson
+su -c 'cd ~/Applications && git clone -b release/0.24 --recurse-submodules https://github.com/LeelaChessZero/lc0.git' $USER
+su -c 'cd ~/Applications/lc0 && $SHELL build.sh' $USER
+
+
+# end command tools and custom support applications
+fi
+
+# install/update dotfiles 
+# # # # # # # # # # # # # # #
+if [ -d "/var/home/$USER/.yadrlite" ]; then
+    su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
+else
+    su -c "$SHELL /var/home/$USER/.yadrlite/setup update" $USER
+fi
+# end toolbox install
+printf "Toolbox Installation complete."
+printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
+fi
+
+
+# Override Silverblue Gnome with Awesome WM 
+# # # # # # # # # # # # # # #
+if [[ $INSTALL == "awesome" ]]; then
 log "installing supporting applications"
-install fontawesome-fonts xautolock i3lock lxappearance
-install gdouros-symbola-fonts gucharmap
-install pacakge xbacklight feh arc-theme redshift-gtk
-install gtk-murrine-engine compton
-install pulseeffects pavucontrol
-install xclip vim-common
-install arandr zenity flameshot
+install rpm-ostree fontawesome-fonts xautolock i3lock lxappearance
+install rpm-ostree gdouros-symbola-fonts gucharmap
+install rpm-ostree pacakge xbacklight feh arc-theme redshift-gtk
+install rpm-ostree gtk-murrine-engine compton
+install rpm-ostree pulseeffects pavucontrol
+install rpm-ostree xclip vim-common
+install rpm-ostree arandr zenity flameshot
 su -c "pip install autorandr" $USER
-install gnome-keyring
-install gnome-control-center
-install NetworkManager-tui NetworkManager-wifi
-install NetworkManager-openvpn-gnome NetworkManager-openconnect-gnome
-install net-tools
-install ftp telnet
-install dhcp-client iw wpa_supplicant blueman sbc
-install libnotify
-install gnutls mailx wireless-tools
-install python3-httplib2 wordnet
-install aspell-en texlive-latex
-install texlive-collection-latex texlive-collection-latexextra
-install papirus-icon-theme
-install nemo aria2
-install fuse-exfat exfat-utils libmtp libmtp-examples gvfs-mtp
-install acpi crontabs
-install firewall-config
-install system-config-printer
-install simple-scan
-install nomacs
-install gnome-disk-utility atool
-install cups hplip hplip-gui
-install policycoreutils-gui setools-console setroubleshoot
-install clamav clamav-update
-install timeshift
-install brasero
+install rpm-ostree gnome-keyring
+install rpm-ostree gnome-control-center
+install rpm-ostree NetworkManager-tui NetworkManager-wifi
+install rpm-ostree NetworkManager-openvpn-gnome NetworkManager-openconnect-gnome
+install rpm-ostree dhcp-client iw wpa_supplicant blueman sbc
+install rpm-ostree libnotify
+install rpm-ostree python3-httplib2 wordnet
+install rpm-ostree aspell-en texlive-latex
+install rpm-ostree texlive-collection-latex texlive-collection-latexextra
+install rpm-ostree papirus-icon-theme
+install rpm-ostree nemo
+install rpm-ostree fuse-exfat exfat-utils libmtp libmtp-examples gvfs-mtp
+install rpm-ostree acpi crontabs
+install rpm-ostree firewall-config
+install rpm-ostree system-config-printer
+install rpm-ostree simple-scan
+install rpm-ostree nomacs
+install rpm-ostree gnome-disk-utility atool
+install rpm-ostree cups hplip hplip-gui
+install rpm-ostree policycoreutils-gui setools-console setroubleshoot
+install rpm-ostree clamav clamav-update
+install rpm-ostree timeshift
+install rpm-ostree brasero
 
 # install awesome window manager nightly
 # v4.3 stable has a pretty bad bug in the keygrabber
 # that doesn't work well with this theme
 # # # # # # # # # # # # # # #
 wget https://copr.fedorainfracloud.org/coprs/jcrd/awesome-luajit-nightly/repo/fedora-33/jcrd-awesome-luajit-nightly-fedora-33.repo -P /etc/yum.repos.d/
-install awesome
+install rpm-ostree awesome
 
 # copy over system start resources
 # # # # # # # # # # # # # # #
@@ -144,16 +283,6 @@ su -c 'mkdir -p ~/Applications' $USER
 # # # # # # # # # # # # # # #
 log "installing supporting applications"
 
-# install xbanish
-# # # # # # # # # # # # # # #
-log "installing xbanish"
-install libXt-devel libXfixes-devel libXi-devel
-su -c 'git clone https://github.com/jcs/xbanish.git ~/lab/xbanish' $USER
-su -c 'make -C ~/lab/xbanish' $USER
-cd /var/home/$USER/lab/xbanish
-make install
-sleep 1
-make clean
 
 # More themes
 # # # # # # # # # # # # # # #
@@ -163,7 +292,7 @@ su -c 'cd ~/lab/matcha && bash install.sh' $USER
 
 # install alacritty terminal
 su -c "pip install pyyaml" $USER
-install alacritty
+install rpm-ostree alacritty
 su -c 'mkdir -p ~/.config/alacritty' $USER
 su -c 'cp ~/.yadrlite/awesome/alacritty/* ~/.config/alacritty' $USER
 
@@ -172,7 +301,7 @@ su -c "pip install bpytop --upgrade" $USER
 
 # install ranger
 su -c "pip install ueberzug" $USER
-install caca-utils ffmpegthumbnailer unrar python3-bidict ranger
+install rpm-ostree caca-utils ffmpegthumbnailer unrar python3-bidict ranger
 su -c "cp -r ~/.yadrlite/awesome/ranger ~/.config" $USER
 cp -r ~/.yadrlite/awesome/ranger ~/.config
 
@@ -182,17 +311,13 @@ log "applying backlight fix for i915 GPU"
 usermod -aG video $USER
 echo "ACTION==\"add\", SUBSYSTEM==\"backlight\", KERNEL==\"intel_backlight\", RUN+=\"/bin/chgrp video /sys/class/backlight/%k/brightness\"" >> /etc/udev/rules.d/backlight.rules
 echo "ACTION==\"add\", SUBSYSTEM==\"backlight\", KERNEL==\"intel_backlight\", RUN+=\"/bin/chmod g+w /sys/class/backlight/%k/brightness\"" >> /etc/udev/rules.d/backlight.rules
-cp /var/home/$USER/.yadrlite/awesome/scripts/cbacklight /usr/bin/cbacklight
-
-# syncs headphone to master sound control
-log "TODO:"
-log "vi /usr/share/pulseaudio/alsa-mixer/paths/analog-output-headphones.conf"
-log "change to: volume = merge"
+su -c "cp /var/home/$USER/.yadrlite/awesome/scripts/cbacklight ~/.local/bin/cbacklight"
 
 # Add "tap to click" for touchpads
 # # # # # # # # # # # # # # #
 log "add 'tap to click' for touchpads"
-sed -i '/Identifier "libinput touchpad catchall"/a \\tOption "Tapping" "on"' /usr/share/X11/xorg.conf.d/40-libinput.conf
+cp /run/host/usr/share/X11/xorg.conf.d/40-libinput.conf /etc/X11/xorg.conf.d
+sed -i '/Identifier "libinput touchpad catchall"/a \\tOption "Tapping" "on"' /etc/X11/xorg.conf.d/40-libinput.conf
 
 # blutooth headset fix for better audio quality
 log "blutooth heaset fix for better audio quality"
@@ -200,6 +325,8 @@ sed -i 's/module-bluetooth-discover/module-bluetooth-discover headset=auto/' /et
 
 # disable Wayland
 log "disabling wayland"
+mkdir -p /etc/gdm
+cp /run/host/etc/gdm/custom.conf /etc/gdm/custom.conf
 sed -i '/\[daemon\]/a WaylandEnable=false\nDefaultSession=gnome-xorg.desktop' /etc/gdm/custom.conf
 
 # help the sound (for Thinkpads)
@@ -228,7 +355,7 @@ timedatectl set-timezone America/Los_Angeles
 # this is a sample config for a t460
 # # # # # # # # # # # # # # #
 log "enabling thinkfan"
-install thinkfan
+install rpm-ostree thinkfan
 HWMONDEV=`basename /sys/devices/platform/coretemp.0/hwmon/*`
 sed -i "/55)/i \
 hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp3_input \n\
@@ -253,120 +380,75 @@ echo "after reboot, test by viewing "/proc/cmdline and search for your changes"
 log "installing non-free firmware"
 rpm-ostree install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 rpm-ostree update
-install alsa-ucm alsa-firmware
-install alsa-tools alsa-firmware alsa-sof-firmware alsa-tools-firmware
-install atmel-firmware bfa-firmware crystalhd-firmware gnome-firmware ipw2100-firmware
-install ipw2200-firmware iscan-firmware ivtv-firmware iwl100-firmware iwl1000-firmware
-install iwl105-firmware iwl135-firmware iwl2000-firmware iwl2030-firmware iwl3160-firmware
-install iwl3945-firmware iwl4965-firmware iwl5000-firmware
-install iwl5150-firmware iwl6000-firmware iwl6000g2a-firmware iwl6000g2b-firmware iwl6050-firmware
-install iwl7260-firmware libertas-sd8686-firmware libertas-sd8787-firmware libertas-usb8388-firmware
-install libertas-usb8388-olpc-firmwarelinux-firmware liquidio-firmware lulzbot-marlin-firmware
-install lulzbot-marlin-firmware-bio lulzbot-marlin-firmware-pro midisport-firmware
-install netronome-firmware r5u87x-firmware sigrok-firmware-filesystem sigrok-firmware-fx2lafw
-install sigrok-firmware-nonfree uhd-firmware zd1211-firmware
+install rpm-ostree alsa-ucm alsa-firmware
+install rpm-ostree alsa-tools alsa-firmware alsa-sof-firmware alsa-tools-firmware
+install rpm-ostree atmel-firmware bfa-firmware crystalhd-firmware gnome-firmware ipw2100-firmware
+install rpm-ostree ipw2200-firmware iscan-firmware ivtv-firmware iwl100-firmware iwl1000-firmware
+install rpm-ostree iwl105-firmware iwl135-firmware iwl2000-firmware iwl2030-firmware iwl3160-firmware
+install rpm-ostree iwl3945-firmware iwl4965-firmware iwl5000-firmware
+install rpm-ostree iwl5150-firmware iwl6000-firmware iwl6000g2a-firmware iwl6000g2b-firmware iwl6050-firmware
+install rpm-ostree iwl7260-firmware libertas-sd8686-firmware libertas-sd8787-firmware libertas-usb8388-firmware
+install rpm-ostree libertas-usb8388-olpc-firmwarelinux-firmware liquidio-firmware lulzbot-marlin-firmware
+install rpm-ostree lulzbot-marlin-firmware-bio lulzbot-marlin-firmware-pro midisport-firmware
+install rpm-ostree netronome-firmware r5u87x-firmware sigrok-firmware-filesystem sigrok-firmware-fx2lafw
+install rpm-ostree sigrok-firmware-nonfree uhd-firmware zd1211-firmware
 
 # install PHP essentials
 # # # # # # # # # # # # # # #
 log "installing php"
-install php
+install rpm-ostree php
 
 # required modules for boris and phpctags
 # # # # # # # # # # # # # # #
 log "installing requried php modules for boris and phpctags"
-install php-json php-process
-install nodejs ruby-devel
+install rpm-ostree php-json php-process
+install rpm-ostree nodejs
 su -c "npm install -g npm@latest" $USER
 su -c "npm install -g grunt-cli coffee-jshint eslint js-yaml csslint" $USER
-su -c 'git clone https://github.com/xcwen/phpctags.git ~/lab/phpctags' $USER
-su -c 'make -C ~/lab/phpctags' $USER
-cp /var/home/$USER/lab/phpcstags/build/phpctags.phar /usr/local/bin
-su -c 'gem update'
-su -c 'gem install compass'
+su -c 'gem update' $USER
+su -c 'gem install compass' $USER
 
 # boris (nice PHP sandbox tool)
 # # # # # # # # # # # # # # #
 log "installing boris"
-curl -L -O https://github.com/borisrepl/boris/releases/download/v1.0.8/boris.phar
-chmod +x boris.phar
-mv boris.phar /usr/local/bin/boris
+su -c 'curl -L -O https://github.com/borisrepl/boris/releases/download/v1.0.8/boris.phar' $USER
+su -c 'chmod +x boris.phar' $USER
+su -c 'mv boris.phar ~/.local/bin/boris' $USER
 
 # PHP Parallel Lint
 # # # # # # # # # # # # # # #
 log "installing PHP parallel lint"
-install composer
-sudo sed -i "s#;phar.readonly = On#phar.readonly = Off#" /etc/php.ini
+install rpm-ostree composer
+sed -i "s#;phar.readonly = On#phar.readonly = Off#" /etc/php.ini
 systemctl restart httpd
 su -c "mkdir -p ~/lab/box-phar" $USER
 su -c "cd ~/lab/box-phar && curl -LSs https://box-project.github.io/box2/installer.php | php" $USER
-cp /var/home/$USER/lab/box-phar/box.phar /usr/local/bin/box && chmod 755 /usr/local/bin/box
+su -c "cp ~/lab/box-phar/box.phar ~/.local/bin/box && chmod 755 ~/.local/bin/box" $USER
 su -c "git clone https://github.com/JakubOnderka/PHP-Parallel-Lint.git ~/lab/PHP-Parallel-Lint" $USER
 su -c "cd ~/lab/PHP-Parallel-Lint && composer install" $USER
 su -c "cp ~/lab/PHP-Parallel-Lint/parallel-lint ~/lab/PHP-Parallel-Lint/parallel-lint.php" $USER
 su -c "cd ~/lab/PHP-Parallel-Lint && box build" $USER
-cp /var/home/$USER/lab/PHP-Parallel-Lint/parallel-lint.phar /usr/local/bin/parallel-lint && chmod 755 /usr/local/bin/parallel-lint
-
-# install code editors and PHP dev tools
-# # # # # # # # # # # # # # #
-log "installing code editors and PHP dev tools"
-install tmux the_silver_searcher ack
-install tree w3m w3m-img expect
-install hugo
-# install ctags
-install python3-docutils libseccomp-devel jansson-devel libyaml-devel libxml2-devel
-su -c "cd ~/lab && git clone https://github.com/universal-ctags/ctags.git" $USER
-su -c "cd ~/lab/ctags && ./autogen.sh" $USER
-su -c "cd ~/lab/ctags && ./configure --program-prefix=ex" $USER
-cd /var/home/$USER/lab/ctags && make prefix=/usr/local install && clean
-# neovim
-install neovim
-su -c "pip install pynvim" $USER
-su -c "gem install neovim" $USER
-su -c "gem environment" $USER
-su -c "npm install -g neovim" $USER
-su -c "mkdir ~/.config/nvim && cp ~/.yadrlite/awesome/nvim/init.vim ~/.config/nvim" $USER
-mkdir ~/.config/nvim && cp ~/.yadrlite/awesome/nvim/init.vim ~/.config/nvim
-sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nexport WINEARCH=win32\nalias vi="nvim"\nalias vim="nvim"' /var/home/$USER/.bashrc
-sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"' ~/.bashrc
-
-# compiles emacs 27
-# for much better speed and compatibitily
-# WARNING: emacs X11 will crash with pacakge: google-noto-emoji-color-fonts
-# # # # # # # # # # # # # # #
-log "compiling emacs 27"
-install liblockfile-devel libotf-devel m17n-db-devel m17n-lib-devel
-install gtk3-devel ncurses-devel gnutls-devel gnutls-utils
-install libXpm-devel libxml2-devel libjpeg-turbo-devel giflib-devel libtiff-devel
-install texinfo
-su -c 'git clone -b master git://git.sv.gnu.org/emacs.git ~/lab/emacs' $USER
-# locks emacs into March 27th, 2020 release (stable)
-su -c 'cd ~/lab/emacs && git checkout 6075a7c5ae3fa456cd099946f6e042b57e925263' $USER
-sleep 1.5s
-su -c 'cd ~/lab/emacs && ./autogen.sh' $USER
-su -c 'cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils' $USER
-su -c 'make -C ~/lab/emacs' $USER
-cd /var/home/$USER/lab/emacs && make install && make clean
+su -c "cp /var/home/$USER/lab/PHP-Parallel-Lint/parallel-lint.phar ~/.local/bin/parallel-lint && chmod 755 ~/.local/bin/parallel-lint" $USER
 
 # Support Software
 log "installing support software"
-install nextcloud-client
-install gimp gimpfx-foundry gimp-save-for-web gimp-data-extras
-install libreoffice libreoffice-icon-theme-papirus
-install flatpak
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install -y flathub com.spotify.Client
-flatpak install -y flathub org.signal.Signal
-flatpak install -y flathub us.zoom.Zoom
-flatpak install -y flathub org.musescore.MuseScore
+su -c "flatpak install -y fedora org.libreoffice.LibreOffice" $USER
+su -c "flatpak install -y fedora org.gimp.GIMP" $USER
+su -c "flatpak install -y flathub com.nextcloud" $USER
+su -c "flatpak install -y flathub com.spotify.Client" $USER
+su -c "flatpak install -y flathub org.signal.Signal" $USER
+su -c "flatpak install -y flathub us.zoom.Zoom" $USER
+su -c "flatpak install -y flathub org.musescore.MuseScore" $USER
 
 # Install Browsers
 log "installing browsers"
-install chromium-freeworld firefox-x11 torbrowser-launcher
+install rpm-ostree chromium-freeworld firefox-x11 
 
 # install Vagrant and Virtualbox
 # Warning: Secure boot may need to be disabled
 log "installing Vagrant and Virtualbox"
-install akmods vagrant VirtualBox virtualbox-guest-additions kernel-devel
+install rpm-ostree akmods vagrant VirtualBox virtualbox-guest-additions kernel-devel
 firewall-cmd --permanent --zone=public --add-port=9041/tcp
 setsebool -P httpd_can_network_connect on
 semanage port -a -t http_port_t -p tcp 9041 # xdebug
@@ -382,33 +464,28 @@ rpm-ostree install https://github.com/ramboxapp/community-edition/releases/downl
 # Gargoyle (for sanity checks)
 # # # # # # # # # # # # # # #
 log "install Gargoyle"
-install SDL SDL_mixer SDL_sound fluidsynth
+install rpm-ostree SDL SDL_mixer SDL_sound fluidsynth
 su -c 'wget -O ~/Downloads/gargoyle.rpm https://github.com/rpmsphere/x86_64/blob/master/g/gargoyle-2015-5.4.x86_64.rpm?raw=true' $USER
 rpm-ostree install /var/home/$USER/Downloads/gargoyle.rpm
 su -c 'cp ~/.yadrlite/awesome/garglk.ini ~/.garglkrc' $USER
 
 # more sanity checks
-install install cool-retro-term bsd-games
+install rpm-ostree install cool-retro-term bsd-games
 
 # Chess
 # # # # # # # # # # # # # # #
 log "installing chess engines"
 wget https://copr.fedorainfracloud.org/coprs/awood/scid_vs_pc/repo/fedora-$(rpm -E %fedora)/awood-scid_vs_pc-fedora-$(rpm -E %fedora).repo -P /etc/yum.repos.d/
-install scid_vs_pc.x86_64 scid_vs_pc-sounds scid_vs_pc-books
+install rpm-ostree scid_vs_pc.x86_64 scid_vs_pc-sounds scid_vs_pc-books
 # stockfish
-install stockfish
-# leela
-install openblas-devel.x86_64 gtest-devel
-install ninja-build meson
-su -c 'cd ~/Applications && git clone -b release/0.24 --recurse-submodules https://github.com/LeelaChessZero/lc0.git' $USER
-su -c 'cd ~/Applications/lc0 && $SHELL build.sh' $USER
+install rpm-ostree stockfish
 
 # pdf support
 log "installing pdf support"
-install cups-pdf evince pdfarranger mupdf xournal
+install rpm-ostree cups-pdf evince pdfarranger mupdf xournal
 
 # install locate
-install mlocate
+install rpm-ostree mlocate
 updatedb
 
 # handle ACPI wake-up settings for non-platform devices
@@ -424,7 +501,7 @@ log "setup permissions, status and boot configuration"
 find /var/home/$USER/.config -type d -exec chmod 0755 {} \;
 find /var/home/$USER/.config -type f -exec chmod 0644 {} \;
 find /var/home/$USER/.config -name "*" -execdir chmod u+x {} +
-install plymouth-theme-spinner
+install rpm-ostree plymouth-theme-spinner
 plymouth-set-default-theme -R bgrt
 
 # add manual entries
@@ -450,53 +527,27 @@ printf '[Desktop Entry] \n' >> /var/home/$USER/.local/share/applications/mpvbd.d
 printf 'Type=Application\n' >> /var/home/$USER/.local/share/applications/mpvbd.desktop
 printf 'Name=mpv Media Player Bluray\n' >> /var/home/$USER/.local/share/applications/mpvbd.desktop
 printf "Exec=mpv --bluray-device=/dev/sr0 bd://\n" >> /var/home/$USER/.local/share/applications/mpvbd.desktop
-su -c 'touch ~/.local/share/applications/tor.desktop' $USER
-printf '[Desktop Entry] \n' >> /var/home/$USER/.local/share/applications/tor.desktop
-printf 'Type=Application\n' >> /var/home/$USER/.local/share/applications/tor.desktop
-printf 'Name=Start Tor Browser\n' >> /var/home/$USER/.local/share/applications/tor.desktop
-printf "Exec=/var/home/$USER/.local/share/torbrowser/tbb/x86_64/tor-browser_en-US/Browser/start-tor-browser\n" >> /var/home/$USER/.local/share/applications/tor.desktop
 
 # Install Multimedia Codecs
 log "installing multimedia codecs"
-install rpmfusion-free-release-tainted
-install mpv devedeng youtube-dl
-install gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free-extras
-install gstreamer1-plugins-bad-free-fluidsynth gstreamer1-plugins-bad-free-wildmidi
-install gstreamer1-plugins-bad-free-zbar gstreamer1-plugins-bad-freeworld
-install gstreamer1-plugins-base gstreamer1-plugins-base-devel
-install gstreamer1-plugins-base-tools gstreamer1-plugins-entrans
-install gstreamer1-plugins-entrans-docs gstreamer1-plugins-fc
-install gstreamer1-plugins-good gstreamer1-plugins-good-extras
-install gstreamer1-plugins-good-gtk gstreamer1-plugins-good-qt
-install gstreamer1-plugins-ugly gstreamer1-plugins-ugly-free
-install gstreamer1-plugin-openh264 gstreamer1-libav
-install lame lame-libs
-install ffmpeg ffmpeg-libs compat-ffmpeg28
-install lsdvd libdvdnav libdvdread libdvdcss
-install java-1.8.0-openjdk
-install libbluray libbluray-utils libbluray-bdj
+install rpm-ostree rpmfusion-free-release-tainted
+install rpm-ostree mpv devedeng youtube-dl aria2
+install rpm-ostree gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free-extras
+install rpm-ostree gstreamer1-plugins-bad-free-fluidsynth gstreamer1-plugins-bad-free-wildmidi
+install rpm-ostree gstreamer1-plugins-bad-free-zbar gstreamer1-plugins-bad-freeworld
+install rpm-ostree gstreamer1-plugins-base gstreamer1-plugins-base-devel
+install rpm-ostree gstreamer1-plugins-base-tools gstreamer1-plugins-entrans
+install rpm-ostree gstreamer1-plugins-entrans-docs gstreamer1-plugins-fc
+install rpm-ostree gstreamer1-plugins-good gstreamer1-plugins-good-extras
+install rpm-ostree gstreamer1-plugins-good-gtk gstreamer1-plugins-good-qt
+install rpm-ostree gstreamer1-plugins-ugly gstreamer1-plugins-ugly-free
+install rpm-ostree gstreamer1-plugin-openh264 gstreamer1-libav
+install rpm-ostree lame lame-libs
+install rpm-ostree ffmpeg ffmpeg-libs compat-ffmpeg28
+install rpm-ostree lsdvd libdvdnav libdvdread libdvdcss
+install rpm-ostree java-1.8.0-openjdk
+install rpm-ostree libbluray libbluray-utils libbluray-bdj
 su -c "cp -r ~/.yadrlite/awesome/mpv ~/.config" $USER
-
-# Bluray Playback
-# # # # # # # # # # # # # # #
-log "installing bluray playback"
-install ffmpeg-devel openssl-devel
-su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-oss-1.15.3.tar.gz' $USER
-su -c 'cd ~/lab && tar xpf makemkv-oss-1.15.3.tar.gz' $USER
-su -c 'cd ~/lab/makemkv-oss-1.15.3 && ./configure' $USER
-su -c 'make -C ~/lab/makemkv-oss-1.15.3' $USER
-cd /var/home/$USER/lab/makemkv-oss-1.15.3 && make install
-su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-bin-1.15.3.tar.gz' $USER
-su -c 'cd ~/lab && tar xpf makemkv-bin-1.15.3.tar.gz' $USER
-su -c 'make -C ~/lab/makemkv-bin-1.15.3' $USER
-cd /var/home/$USER/lab/makemkv-bin-1.15.3 && make install
-
-# Windows 32-bit compatibility layer
-log "TODO:"
-log "If you want a windows 32-bit compatiblity layer"
-log "dnf install -y wine.x86_64 winetricks"
-log "Next initialize wine with:"
-log "WINEARCH=win32 wineboot"
 
 # TROUBLESHOOTING
 # # # # # # # # # # # # # # #
@@ -511,6 +562,12 @@ log "WINEARCH=win32 wineboot"
 # dnf install regionset
 # regionset /dev/sr0
 # rm ~/.dvdcss
-log "Installation complete.  Please reboot your system."
+
+# deploy changes
+rpm-ostree deploy
+
+# end awesome install
+printf "Awesome Installation complete.  Please reboot your system."
 printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
+fi
 
