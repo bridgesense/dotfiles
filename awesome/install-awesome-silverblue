@@ -35,6 +35,8 @@ function install {
     arr=("$@")
     _type=
     _group=
+    _cmd=
+    _diff=
     if [[ "$(declare -p arr)" =~ "declare -a" ]]; then
         for package in "${arr[@]}"; do
  	    if [[ $package == "dnf" ]]; then
@@ -43,39 +45,49 @@ function install {
             fi
             if [[ $package == "rpm-ostree" ]]; then
                 _type=$package
+                _diff="$(rpm-ostree db diff > /dev/null 2>&1)"
                 continue
             fi
 	    if [[ $package == "group" ]]; then
                 _group=$package
                 continue
             fi
-            cnt=3
-            while [ $cnt -gt 0 ]; do
-                if [[ $_type == "dnf" ]]; then
-                    if dnf list installed $package > /dev/null 2>&1; then
-          		break;            
-                    else
-			if [[ $_group == "group" ]]; then
-                            dnf group install -y $package
-                            break;
-                        else
-                            dnf install -y $package
-                        fi
-                    fi
+            if [[ $_type == "dnf" ]]; then
+                if dnf list installed $package > /dev/null 2>&1; then
+                    continue;            
+                else
+                    $_cmd = "${_cmd} ${package}" 
 		fi
-                if [[ $_type == "rpm-ostree" ]]; then
-		    if rpm-ostree db diff | grep $package > /dev/null 2>&1; then
-		        break;
-	            else
-			rpm-ostree install $package
-		    fi
-		fi
-		let "cnt-=1"
-            done
+            fi
             if [[ $_type == "rpm-ostree" ]]; then
-                if ! rpm-ostree db diff | grep $package > /dev/null 2>&1; then
+               if [[ $_diff =~ "$(package)" ]]; then
+	           continue;
+	       else
+                   $_cmd = "${_cmd} ${package}" 
+	       fi
+	    fi
+	    if [[ $package == "group" ]]; then
+               $_cmd = "${_cmd} ${package}" 
+            fi
+        done
+        if [[ $_type == "dnf" ]]; then
+	    dnf install -y $_cmd
+	fi 
+	if [[ $_group == "group" ]]; then
+	    dnf group install -y $_cmd
+	fi
+        if [[ $_type == "rpm-ostree" ]]; then
+            rpm-ostree install -y $_cmd
+            _diff="$(rpm-ostree db diff > /dev/null 2>&1)"
+        fi
+        for package in "${arr[@]}"; do
+ 	    if [[ $package == "dnf" ]] || [[ $package == "rpm-ostree" ]] || [[ $package == "group" ]]; then
+                continue;
+            fi
+            if [[ $_type == "rpm-ostree" ]]; then
+               if [[ $_diff != *"$(package)"* ]]; then
                     log "There was a problem installing ${package}.  Please make sure this package exists."
-                fi
+               fi
             fi
             if [[ $_type == "dnf" ]]; then
                 if ! dnf list installed $package > /dev/null 2>&1 && [[ $_group != "group" ]]; then
@@ -102,11 +114,19 @@ if ! command -v cmake &> /dev/null; then
 log "installing commandline tools"
 install dnf autoconf automake git rsync htop
 install dnf group development-tools rpm-development-tools c-development 
-
+dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+dnf update -y
 # command line support
-install dnf net-tools
-install dnf ftp telnet
-install dnf gnutls mailx wireless-tools
+install dnf net-tools ftp telnet gnutls mailx wireless-tools
+fi
+
+# install/update dotfiles 
+# # # # # # # # # # # # # # #
+if [ -d "/var/home/$USER/.yadrlite" ]; then
+    su -c "$SHELL /var/home/$USER/.yadrlite/setup update" $USER
+else
+    su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
+fi
 
 # install xbanish
 # # # # # # # # # # # # # # #
@@ -123,10 +143,8 @@ fi
 
 # install code editors and PHP dev tools
 # # # # # # # # # # # # # # #
-log "installing code editors and PHP dev tools"
-install dnf tmux the_silver_searcher ack
-install dnf tree w3m w3m-img expect
-install dnf hugo
+if ! command -v tmux &> /dev/null; then
+install dnf tmux the_silver_searcher ack tree w3m w3m-img expect hugo
 # install ctags
 install dnf python3-docutils libseccomp-devel jansson-devel libyaml-devel libxml2-devel
 su -c "cd ~/lab && git clone https://github.com/universal-ctags/ctags.git" $USER
@@ -134,7 +152,7 @@ su -c "cd ~/lab/ctags && ./autogen.sh" $USER
 su -c "cd ~/lab/ctags && ./configure --program-prefix=ex" $USER
 su -c "cd ~/lab/ctags && make PREFIX=/var/home/$USER/.local/bin install && make clean" $USER
 # neovim
-install dnf neovim ruby-devel
+install dnf ruby-devel
 su -c "pip install pynvim" $USER
 su -c "gem install neovim" $USER
 su -c "gem environment" $USER
@@ -142,33 +160,42 @@ su -c "npm install -g neovim" $USER
 su -c "mkdir ~/.config/nvim && cp ~/.yadrlite/awesome/nvim/init.vim ~/.config/nvim" $USER
 mkdir ~/.config/nvim && cp ~/.yadrlite/awesome/nvim/init.vim ~/.config/nvim
 sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"' /var/home/$USER/.bashrc
+fi
 
 # compiles emacs 27
 # for much better speed and compatibitily
 # WARNING: emacs X11 will crash with pacakge: google-noto-emoji-color-fonts
 # # # # # # # # # # # # # # #
+if ! command -v emacs &> /dev/null; then
 log "compiling emacs 27"
-install dnf liblockfile-devel libotf-devel m17n-db-devel m17n-lib-devel
-install dnf gtk3-devel ncurses-devel gnutls-devel gnutls-utils
-install dnf libXpm-devel libxml2-devel libjpeg-turbo-devel giflib-devel libtiff-devel
-install dnf texinfo
+install dnf liblockfile-devel libotf-devel m17n-db-devel m17n-lib-devel gtk3-devel ncurses-devel gnutls-devel gnutls-utils
+install dnf libXpm-devel libxml2-devel libjpeg-turbo-devel giflib-devel libtiff-devel texinfo
 su -c 'git clone -b master git://git.sv.gnu.org/emacs.git ~/lab/emacs' $USER
 # locks emacs into March 27th, 2020 release (stable)
 su -c 'cd ~/lab/emacs && git checkout 6075a7c5ae3fa456cd099946f6e042b57e925263' $USER
 sleep 1.5s
 su -c 'cd ~/lab/emacs && ./autogen.sh' $USER
-su -c "cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils --prefix=/var/home/$USER/.local/bin" $USER
+su -c "cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils --prefix=/var/home/$USER/.local" $USER
 su -c 'make -C ~/lab/emacs' $USER
-su -c 'cp ~/lab/emacs && make install' $USER
+su -c 'cd ~/lab/emacs && make install' $USER
 su -c 'cd ~/lab/emacs && make clean' $USER
+fi
 
 # required modules for boris and phpctags
 # # # # # # # # # # # # # # #
+if ! command -v phpctags.phar &> /dev/null; then
 log "installing phpctags"
 install dnf ruby-devel
 su -c 'git clone https://github.com/xcwen/phpctags.git ~/lab/phpctags' $USER
 su -c 'make -C ~/lab/phpctags' $USER
 su -c "cp /var/home/$USER/lab/phpcstags/build/phpctags.phar ~/.local/bin" $USER
+fi
+
+# leela
+# # # # # # # # # # # # # # #
+install dnf openblas-devel.x86_64 gtest-devel ninja-build meson
+su -c 'cd ~/Applications && git clone -b release/0.24 --recurse-submodules https://github.com/LeelaChessZero/lc0.git' $USER
+su -c 'cd ~/Applications/lc0 && $SHELL build.sh' $USER
 
 # Bluray Playback
 # # # # # # # # # # # # # # #
@@ -178,31 +205,13 @@ su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-oss-1.15.3.tar.g
 su -c 'cd ~/lab && tar xpf makemkv-oss-1.15.3.tar.gz' $USER
 su -c 'cd ~/lab/makemkv-oss-1.15.3 && ./configure' $USER
 su -c 'make -C ~/lab/makemkv-oss-1.15.3' $USER
-cd /var/home/$USER/lab/makemkv-oss-1.15.3 && make install PREFIX=/var/home/$USER/.local/bin
+cd /var/home/$USER/lab/makemkv-oss-1.15.3 && make install PREFIX=/var/home/$USER/.local
 su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-bin-1.15.3.tar.gz' $USER
 su -c 'cd ~/lab && tar xpf makemkv-bin-1.15.3.tar.gz' $USER
 su -c 'make -C ~/lab/makemkv-bin-1.15.3' $USER
-cd /var/home/$USER/lab/makemkv-bin-1.15.3 && make install PREFIX=/var/home/$USER/.local/bin
+cd /var/home/$USER/lab/makemkv-bin-1.15.3 && make install PREFIX=/var/home/$USER/.local
 chown $USER:$USER -R /var/home/$USER/.local/bin
 
-# leela
-# # # # # # # # # # # # # # #
-install dnf openblas-devel.x86_64 gtest-devel
-install dnf ninja-build meson
-su -c 'cd ~/Applications && git clone -b release/0.24 --recurse-submodules https://github.com/LeelaChessZero/lc0.git' $USER
-su -c 'cd ~/Applications/lc0 && $SHELL build.sh' $USER
-
-
-# end command tools and custom support applications
-fi
-
-# install/update dotfiles 
-# # # # # # # # # # # # # # #
-if [ -d "/var/home/$USER/.yadrlite" ]; then
-    su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
-else
-    su -c "$SHELL /var/home/$USER/.yadrlite/setup update" $USER
-fi
 # end toolbox install
 printf "Toolbox Installation complete."
 printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
@@ -244,6 +253,7 @@ install rpm-ostree policycoreutils-gui setools-console setroubleshoot
 install rpm-ostree clamav clamav-update
 install rpm-ostree timeshift
 install rpm-ostree brasero
+install rpm-ostree neovim
 
 # install awesome window manager nightly
 # v4.3 stable has a pretty bad bug in the keygrabber
