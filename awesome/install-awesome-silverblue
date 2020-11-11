@@ -4,7 +4,7 @@
 # Please review this script and adjust it to your needs prior to running it.
 # This script is intended for a minimal Fedora Workstation installation on a Thinkpad
 # run as root:
-# curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/awesomewm/awesome-on-silverblue > custom-fedora-setup
+# curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/awesomewm/install-awesome-silverblue > custom-fedora-setup
 # # install command line tools
 # sudo $SHELL custom-fedora-setup <username> toolbox
 # # install awesome wm
