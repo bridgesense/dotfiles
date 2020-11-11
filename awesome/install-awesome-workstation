@@ -130,7 +130,8 @@ su -c 'cp -f ~/.yadrlite/awesome/Xresources ~/.Xresources' $USER
 cp -f ~/.yadrlite/awesome/Xresources ~/.Xresources
 su -c 'mkdir -p ~/.config/awesome' $USER
 su -c 'rsync -azhLP ~/.yadrlite/awesome/setup/ ~/.config/awesome' $USER
-su -c 'git clone https://github.com/lcpz/awesome-freedesktop.git ~/.config/awesome/freedesktop'
+su -c 'git clone https://github.com/lcpz/awesome-freedesktop.git ~/.config/awesome/freedesktop' $USER
+su -c 'git clone https://github.com/potamides/modalawesome.git ~/.config/modalawesome' $USER
 echo "[User]" > /var/lib/AccountsService/users/$USER 
 echo "Language=" >> /var/lib/AccountsService/users/$USER 
 echo "XSession=awesome" >> /var/lib/AccountsService/users/$USER 

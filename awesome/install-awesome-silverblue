@@ -56,18 +56,18 @@ function install {
                 if dnf list installed $package > /dev/null 2>&1; then
                     continue;            
                 else
-                    $_cmd = "${_cmd} ${package}" 
+                    _cmd="${_cmd} ${package}" 
 		fi
             fi
             if [[ $_type == "rpm-ostree" ]]; then
-               if [[ $_diff =~ "$(package)" ]]; then
+               if [[ $_diff =~ "${package}" ]]; then
 	           continue;
 	       else
-                   $_cmd = "${_cmd} ${package}" 
+                   _cmd="${_cmd} ${package}" 
 	       fi
 	    fi
 	    if [[ $package == "group" ]]; then
-               $_cmd = "${_cmd} ${package}" 
+               _cmd="${_cmd} ${package}" 
             fi
         done
         if [[ $_type == "dnf" ]]; then
@@ -77,7 +77,7 @@ function install {
 	    dnf group install -y $_cmd
 	fi
         if [[ $_type == "rpm-ostree" ]]; then
-            rpm-ostree install -y $_cmd
+            rpm-ostree install --allow-inactive $_cmd
             _diff="$(rpm-ostree db diff > /dev/null 2>&1)"
         fi
         for package in "${arr[@]}"; do
@@ -85,7 +85,7 @@ function install {
                 continue;
             fi
             if [[ $_type == "rpm-ostree" ]]; then
-               if [[ $_diff != *"$(package)"* ]]; then
+               if [[ $_diff != *"${package}"* ]]; then
                     log "There was a problem installing ${package}.  Please make sure this package exists."
                fi
             fi
@@ -152,7 +152,7 @@ su -c "cd ~/lab/ctags && ./autogen.sh" $USER
 su -c "cd ~/lab/ctags && ./configure --program-prefix=ex" $USER
 su -c "cd ~/lab/ctags && make PREFIX=/var/home/$USER/.local/bin install && make clean" $USER
 # neovim
-install dnf ruby-devel
+install dnf python3-devel ruby-devel
 su -c "pip install pynvim" $USER
 su -c "gem install neovim" $USER
 su -c "gem environment" $USER
@@ -160,6 +160,21 @@ su -c "npm install -g neovim" $USER
 su -c "mkdir ~/.config/nvim && cp ~/.yadrlite/awesome/nvim/init.vim ~/.config/nvim" $USER
 mkdir ~/.config/nvim && cp ~/.yadrlite/awesome/nvim/init.vim ~/.config/nvim
 sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"' /var/home/$USER/.bashrc
+# screen adjustments 
+su -c "pip install autorandr" $USER
+# for alacritty
+su -c "pip3 install pyyaml" $USER
+# install bpytop
+su -c "pip3 install bpytop --upgrade" $USER
+# for ranger
+su -c "pip3 install ueberzug" $USER
+# grunt
+su -c "npm install -g npm@latest" $USER
+su -c "npm install -g grunt-cli coffee-jshint eslint js-yaml csslint" $USER
+su -c 'gem update' $USER
+su -c 'gem install compass' $USER
+# composer
+install dnf composer
 fi
 
 # compiles emacs 27
@@ -222,38 +237,7 @@ fi
 # # # # # # # # # # # # # # #
 if [[ $INSTALL == "awesome" ]]; then
 log "installing supporting applications"
-install rpm-ostree fontawesome-fonts xautolock i3lock lxappearance
-install rpm-ostree gdouros-symbola-fonts gucharmap
-install rpm-ostree pacakge xbacklight feh arc-theme redshift-gtk
-install rpm-ostree gtk-murrine-engine compton
-install rpm-ostree pulseeffects pavucontrol
-install rpm-ostree xclip vim-common
-install rpm-ostree arandr zenity flameshot
-su -c "pip install autorandr" $USER
-install rpm-ostree gnome-keyring
-install rpm-ostree gnome-control-center
-install rpm-ostree NetworkManager-tui NetworkManager-wifi
-install rpm-ostree NetworkManager-openvpn-gnome NetworkManager-openconnect-gnome
-install rpm-ostree dhcp-client iw wpa_supplicant blueman sbc
-install rpm-ostree libnotify
-install rpm-ostree python3-httplib2 wordnet
-install rpm-ostree aspell-en texlive-latex
-install rpm-ostree texlive-collection-latex texlive-collection-latexextra
-install rpm-ostree papirus-icon-theme
-install rpm-ostree nemo
-install rpm-ostree fuse-exfat exfat-utils libmtp libmtp-examples gvfs-mtp
-install rpm-ostree acpi crontabs
-install rpm-ostree firewall-config
-install rpm-ostree system-config-printer
-install rpm-ostree simple-scan
-install rpm-ostree nomacs
-install rpm-ostree gnome-disk-utility atool
-install rpm-ostree cups hplip hplip-gui
-install rpm-ostree policycoreutils-gui setools-console setroubleshoot
-install rpm-ostree clamav clamav-update
-install rpm-ostree timeshift
-install rpm-ostree brasero
-install rpm-ostree neovim
+install rpm-ostree fontawesome-fonts xautolock i3lock lxappearance gdouros-symbola-fonts gucharmap xbacklight feh arc-theme redshift-gtk gtk-murrine-engine compton pulseeffects pavucontrol xclip vim-common arandr zenity flameshot gnome-keyring gnome-control-center NetworkManager-tui NetworkManager-wifi NetworkManager-openvpn-gnome NetworkManager-openconnect-gnome dhcp-client iw wpa_supplicant blueman sbc libnotify python3-httplib2 wordnet aspell-en texlive-latex texlive-collection-latex texlive-collection-latexextra papirus-icon-theme nemo fuse-exfat exfat-utils libmtp libmtp-examples gvfs-mtp acpi crontabs firewall-config system-config-printer simple-scan nomacs gnome-disk-utility atool cups hplip hplip-gui policycoreutils-gui setools-console setroubleshoot clamav clamav-update timeshift brasero neovim gnutls-utils obs-studio
 
 # install awesome window manager nightly
 # v4.3 stable has a pretty bad bug in the keygrabber
@@ -269,12 +253,8 @@ su -c 'cp -f ~/.yadrlite/awesome/Xresources ~/.Xresources' $USER
 cp -f ~/.yadrlite/awesome/Xresources ~/.Xresources
 su -c 'mkdir -p ~/.config/awesome' $USER
 su -c 'rsync -azhLP ~/.yadrlite/awesome/setup/ ~/.config/awesome' $USER
-su -c 'git clone https://github.com/lcpz/awesome-freedesktop.git ~/.config/awesome/freedesktop'
-echo "[User]" > /var/lib/AccountsService/users/$USER
-echo "Language=" >> /var/lib/AccountsService/users/$USER
-echo "XSession=awesome" >> /var/lib/AccountsService/users/$USER
-echo "Icon=/var/home/$USER/.face" >> /var/lib/AccountsService/users/$USER
-echo "SystemAccount=false" >> /var/lib/AccountsService/users/$USER
+su -c 'git clone https://github.com/lcpz/awesome-freedesktop.git ~/.config/awesome/freedesktop' $USER
+su -c 'git clone https://github.com/potamides/modalawesome.git ~/.config/awesome/modalawesome' $USER
 # uncomment the following line to give Sudoers access to the user account
 echo "pgrep 'tmux|start' || startx" >> /var/home/$USER/.bash_profile
 # powerline font patch
@@ -301,16 +281,11 @@ su -c 'git clone https://github.com/vinceliuice/Matcha-gtk-theme.git ~/lab/match
 su -c 'cd ~/lab/matcha && bash install.sh' $USER
 
 # install alacritty terminal
-su -c "pip install pyyaml" $USER
 install rpm-ostree alacritty
 su -c 'mkdir -p ~/.config/alacritty' $USER
 su -c 'cp ~/.yadrlite/awesome/alacritty/* ~/.config/alacritty' $USER
 
-# install bpytop
-su -c "pip install bpytop --upgrade" $USER
-
 # install ranger
-su -c "pip install ueberzug" $USER
 install rpm-ostree caca-utils ffmpegthumbnailer unrar python3-bidict ranger
 su -c "cp -r ~/.yadrlite/awesome/ranger ~/.config" $USER
 cp -r ~/.yadrlite/awesome/ranger ~/.config
@@ -390,18 +365,7 @@ echo "after reboot, test by viewing "/proc/cmdline and search for your changes"
 log "installing non-free firmware"
 rpm-ostree install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 rpm-ostree update
-install rpm-ostree alsa-ucm alsa-firmware
-install rpm-ostree alsa-tools alsa-firmware alsa-sof-firmware alsa-tools-firmware
-install rpm-ostree atmel-firmware bfa-firmware crystalhd-firmware gnome-firmware ipw2100-firmware
-install rpm-ostree ipw2200-firmware iscan-firmware ivtv-firmware iwl100-firmware iwl1000-firmware
-install rpm-ostree iwl105-firmware iwl135-firmware iwl2000-firmware iwl2030-firmware iwl3160-firmware
-install rpm-ostree iwl3945-firmware iwl4965-firmware iwl5000-firmware
-install rpm-ostree iwl5150-firmware iwl6000-firmware iwl6000g2a-firmware iwl6000g2b-firmware iwl6050-firmware
-install rpm-ostree iwl7260-firmware libertas-sd8686-firmware libertas-sd8787-firmware libertas-usb8388-firmware
-install rpm-ostree libertas-usb8388-olpc-firmwarelinux-firmware liquidio-firmware lulzbot-marlin-firmware
-install rpm-ostree lulzbot-marlin-firmware-bio lulzbot-marlin-firmware-pro midisport-firmware
-install rpm-ostree netronome-firmware r5u87x-firmware sigrok-firmware-filesystem sigrok-firmware-fx2lafw
-install rpm-ostree sigrok-firmware-nonfree uhd-firmware zd1211-firmware
+install rpm-ostree alsa-ucm alsa-firmware alsa-tools alsa-firmware alsa-sof-firmware alsa-tools-firmware atmel-firmware bfa-firmware crystalhd-firmware gnome-firmware ipw2100-firmware ipw2200-firmware iscan-firmware ivtv-firmware iwl100-firmware iwl1000-firmware iwl105-firmware iwl135-firmware iwl2000-firmware iwl2030-firmware iwl3160-firmware iwl3945-firmware iwl4965-firmware iwl5000-firmware iwl5150-firmware iwl6000-firmware iwl6000g2a-firmware iwl6000g2b-firmware iwl6050-firmware iwl7260-firmware libertas-sd8686-firmware libertas-sd8787-firmware libertas-usb8388-firmware libertas-usb8388-olpc-firmwarelinux-firmware liquidio-firmware lulzbot-marlin-firmware lulzbot-marlin-firmware-bio lulzbot-marlin-firmware-pro midisport-firmware netronome-firmware r5u87x-firmware sigrok-firmware-filesystem sigrok-firmware-fx2lafw sigrok-firmware-nonfree uhd-firmware zd1211-firmware
 
 # install PHP essentials
 # # # # # # # # # # # # # # #
@@ -412,11 +376,6 @@ install rpm-ostree php
 # # # # # # # # # # # # # # #
 log "installing requried php modules for boris and phpctags"
 install rpm-ostree php-json php-process
-install rpm-ostree nodejs
-su -c "npm install -g npm@latest" $USER
-su -c "npm install -g grunt-cli coffee-jshint eslint js-yaml csslint" $USER
-su -c 'gem update' $USER
-su -c 'gem install compass' $USER
 
 # boris (nice PHP sandbox tool)
 # # # # # # # # # # # # # # #
@@ -428,7 +387,6 @@ su -c 'mv boris.phar ~/.local/bin/boris' $USER
 # PHP Parallel Lint
 # # # # # # # # # # # # # # #
 log "installing PHP parallel lint"
-install rpm-ostree composer
 sed -i "s#;phar.readonly = On#phar.readonly = Off#" /etc/php.ini
 systemctl restart httpd
 su -c "mkdir -p ~/lab/box-phar" $USER
@@ -540,41 +498,9 @@ printf "Exec=mpv --bluray-device=/dev/sr0 bd://\n" >> /var/home/$USER/.local/sha
 
 # Install Multimedia Codecs
 log "installing multimedia codecs"
-install rpm-ostree rpmfusion-free-release-tainted
-install rpm-ostree mpv devedeng youtube-dl aria2
-install rpm-ostree gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free-extras
-install rpm-ostree gstreamer1-plugins-bad-free-fluidsynth gstreamer1-plugins-bad-free-wildmidi
-install rpm-ostree gstreamer1-plugins-bad-free-zbar gstreamer1-plugins-bad-freeworld
-install rpm-ostree gstreamer1-plugins-base gstreamer1-plugins-base-devel
-install rpm-ostree gstreamer1-plugins-base-tools gstreamer1-plugins-entrans
-install rpm-ostree gstreamer1-plugins-entrans-docs gstreamer1-plugins-fc
-install rpm-ostree gstreamer1-plugins-good gstreamer1-plugins-good-extras
-install rpm-ostree gstreamer1-plugins-good-gtk gstreamer1-plugins-good-qt
-install rpm-ostree gstreamer1-plugins-ugly gstreamer1-plugins-ugly-free
-install rpm-ostree gstreamer1-plugin-openh264 gstreamer1-libav
-install rpm-ostree lame lame-libs
-install rpm-ostree ffmpeg ffmpeg-libs compat-ffmpeg28
-install rpm-ostree lsdvd libdvdnav libdvdread libdvdcss
-install rpm-ostree java-1.8.0-openjdk
-install rpm-ostree libbluray libbluray-utils libbluray-bdj
+install rpm-ostree rpmfusion-free-release-tainted 
+install rpm-ostree mpv devedeng youtube-dl aria2 gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free-extras gstreamer1-plugins-bad-free-fluidsynth gstreamer1-plugins-bad-free-wildmidi gstreamer1-plugins-bad-free-zbar gstreamer1-plugins-bad-freeworld gstreamer1-plugins-base gstreamer1-plugins-base-devel gstreamer1-plugins-base-tools gstreamer1-plugins-entrans gstreamer1-plugins-entrans-docs gstreamer1-plugins-fc gstreamer1-plugins-good gstreamer1-plugins-good-extras gstreamer1-plugins-good-gtk gstreamer1-plugins-good-qt gstreamer1-plugins-ugly gstreamer1-plugins-ugly-free gstreamer1-plugin-openh264 gstreamer1-libav lame lame-libs ffmpeg ffmpeg-libs compat-ffmpeg28 lsdvd libdvdnav libdvdread libdvdcss java-1.8.0-openjdk libbluray libbluray-utils libbluray-bdj
 su -c "cp -r ~/.yadrlite/awesome/mpv ~/.config" $USER
-
-# TROUBLESHOOTING
-# # # # # # # # # # # # # # #
-
-# If the Thinkpad trackpoint and pad doesn't work on bootup
-# try adding the following line to /etc/default/grub
-# GRUB_CMDLINE_LINUX_DEFAULT="psmouse.synaptics_intertouch=0"
-# reference: https://bugzilla.redhat.com/show_bug.cgi?id=1815541
-
-# if DVD's don't work try running regionset from comandline
-# and then deleteing the ~/.dvdcss directory
-# dnf install regionset
-# regionset /dev/sr0
-# rm ~/.dvdcss
-
-# deploy changes
-rpm-ostree deploy
 
 # end awesome install
 printf "Awesome Installation complete.  Please reboot your system."
