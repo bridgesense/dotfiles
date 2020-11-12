@@ -250,17 +250,6 @@ hwmon /sys/devices/platform/coretemp.0/hwmon/${HWMONDEV}/temp2_input \n\
 " /etc/thinkfan.conf
 systemctl enable thinkfan
 
-# RE: freezing issue on newer intel graphics when monitor idles 
-# ref: https://linuxreviews.org/Intel_graphics  
-echo "fix issue with intel graphics on newer machines"
-echo "edit /etc/default/grub and add the following to GRUB_CMDLINE_LINUX"
-echo "add ahci.mobile_lpm_policy=1 for recently released Lenovo Laptops"
-echo "add i915.enable_dc=0 for Goldmount or Kaby Lake Processors"
-echo "add intel_idle.max_cstate=1 for Bay Trail or Kaby Lake Processors"
-echo "run the following as root:"
-echo "grub2-mkconfig --output=/boot/efi/EFI/fedora/grub.cfg"
-echo "after reboot, test by viewing "/proc/cmdline and search for your changes" 
-
 # install non-free firmware for compatibilty crises
 log "installing non-free firmware"
 install package rpmfusion-nonfree-release-tainted
@@ -287,8 +276,8 @@ npm install -g grunt-cli coffee-jshint eslint js-yaml csslint
 su -c 'git clone https://github.com/xcwen/phpctags.git ~/lab/phpctags' $USER
 su -c 'make -C ~/lab/phpctags' $USER
 cp /home/$USER/lab/phpcstags/build/phpctags.phar /usr/local/bin
-su -c 'gem update'
-su -c 'gem install compass'
+su -c 'gem update' $USER
+su -c 'gem install compass' $USER
 
 # boris (nice PHP sandbox tool)
 # # # # # # # # # # # # # # #
@@ -332,7 +321,7 @@ su -c "gem environment" $USER
 npm install -g neovim
 su -c "mkdir ~/.config/nvim && cp ~/.yadrlite/awesome/nvim/init.vim ~/.config/nvim" $USER
 mkdir ~/.config/nvim && cp ~/.yadrlite/awesome/nvim/init.vim ~/.config/nvim
-sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nexport WINEARCH=win32\nalias vi="nvim"\nalias vim="nvim"' /home/$USER/.bashrc
+sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"' /home/$USER/.bashrc
 sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"' ~/.bashrc
 
 # compiles emacs 27
@@ -488,26 +477,16 @@ su -c 'cd ~/lab && tar xpf makemkv-bin-1.15.3.tar.gz' $USER
 su -c 'make -C ~/lab/makemkv-bin-1.15.3' $USER
 cd /home/$USER/lab/makemkv-bin-1.15.3 && make install
 
-# Windows 32-bit compatibility layer
-log "TODO:"
-log "If you want a windows 32-bit compatiblity layer"
-log "dnf install -y wine.x86_64 winetricks"
-log "Next initialize wine with:"
-log "WINEARCH=win32 wineboot"
-
 # TROUBLESHOOTING 
 # # # # # # # # # # # # # # #
 
-# If the Thinkpad trackpoint and pad doesn't work on bootup
-# try adding the following line to /etc/default/grub
-# GRUB_CMDLINE_LINUX_DEFAULT="psmouse.synaptics_intertouch=0"
-# reference: https://bugzilla.redhat.com/show_bug.cgi?id=1815541 
+# RE: freezing issue on newer intel graphics when monitor idles 
+# ref: https://linuxreviews.org/Intel_graphics  
+# I found that none of the grub commands were successful with comet lake.  If you have a newer intel gpu, it's time to use the override feature and work with i965 or iris.
+# vi /etc/systemd/system.conf
+# DefaultEnvironment=MESA_LOADER_DRIVER_OVERRIDE=i965
+# DefaultEnvironment=MESA_LOADER_DRIVER_OVERRIDE=iris
 
-# if DVD's don't work try running regionset from comandline
-# and then deleteing the ~/.dvdcss directory
-# dnf install regionset
-# regionset /dev/sr0
-# rm ~/.dvdcss
 log "Installation complete.  Please reboot your system."
 printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
 printf "ALL DONE.  PLEASE REBOOT YOUR SYSTEM."

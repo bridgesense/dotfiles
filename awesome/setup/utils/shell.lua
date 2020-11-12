@@ -14,8 +14,6 @@ function shell.screenInit()
 end
 
 function shell.startupAwesome()
-     -- blank out screen during startup 
-     -- awful.spawn("xset dpms force off")
      -- xbanish makes the mouse invisible after keyboard interaction
      awful.spawn.with_shell("bash " .. gears.filesystem.get_dir("config") .. "/scripts/startup xbanish")
       -- blue-light adaptation
