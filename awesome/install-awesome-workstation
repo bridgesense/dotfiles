@@ -193,7 +193,7 @@ log "applying backlight fix for i915 GPU"
 usermod -aG video $USER
 echo "ACTION==\"add\", SUBSYSTEM==\"backlight\", KERNEL==\"intel_backlight\", RUN+=\"/bin/chgrp video /sys/class/backlight/%k/brightness\"" >> /etc/udev/rules.d/backlight.rules
 echo "ACTION==\"add\", SUBSYSTEM==\"backlight\", KERNEL==\"intel_backlight\", RUN+=\"/bin/chmod g+w /sys/class/backlight/%k/brightness\"" >> /etc/udev/rules.d/backlight.rules
-cp /home/$USER/.yadrlite/awesome/scripts/cbacklight /usr/bin/cbacklight
+cp /home/$USER/.yadrlite/awesome/setup/scripts/cbacklight /usr/bin/cbacklight
 
 # syncs headphone to master sound control
 log "TODO:"
@@ -482,7 +482,7 @@ cd /home/$USER/lab/makemkv-bin-1.15.3 && make install
 
 # RE: freezing issue on newer intel graphics when monitor idles 
 # ref: https://linuxreviews.org/Intel_graphics  
-# I found that none of the grub commands were successful with comet lake.  If you have a newer intel gpu, it's time to use the override feature and work with i965 or iris.
+# I found that none of the grub commands were successful with comet lake.  If you have a newer intel gpu, it might be time to use the override feature and work with i965 or iris.
 # vi /etc/systemd/system.conf
 # DefaultEnvironment=MESA_LOADER_DRIVER_OVERRIDE=i965
 # DefaultEnvironment=MESA_LOADER_DRIVER_OVERRIDE=iris
