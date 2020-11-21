@@ -17,7 +17,7 @@ declare -a plugins=('https://github.com/jiangmiao/auto-pairs.git' \
     'https://github.com/scrooloose/nerdtree.git' \
     'https://github.com/vim-syntastic/syntastic.git' \
     'https://github.com/christoomey/vim-tmux-navigator.git' \
-    'https://github.com/joonty/vdebug.git' \
+    'https://github.com/vim-vdebug/vdebug.git' \
     'https://github.com/gorodinskiy/vim-coloresque.git' \
     'https://github.com/easymotion/vim-easymotion.git' \
     'https://github.com/tpope/vim-fugitive.git' \
