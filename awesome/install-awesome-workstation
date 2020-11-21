@@ -272,7 +272,7 @@ log "installing requried php modules for boris and phpctags"
 install package php-json php-process
 install package nodejs ruby-devel
 npm install -g npm@latest
-npm install -g grunt-cli coffee-jshint eslint js-yaml csslint
+npm install -g grunt-cli coffee-jshint eslint js-yaml csslint js2cofee
 su -c 'git clone https://github.com/xcwen/phpctags.git ~/lab/phpctags' $USER
 su -c 'make -C ~/lab/phpctags' $USER
 cp /home/$USER/lab/phpcstags/build/phpctags.phar /usr/local/bin
@@ -316,6 +316,9 @@ cd /home/$USER/lab/ctags && make prefix=/usr/local install && clean
 # neovim
 install package neovim
 pip3 install pynvim
+su -c "cd /home/$USER/lab && wget https://bootstrap.pypa.io/get-pip.py" $USER
+cd /home/$USER/lab && python2.7 get-pip.py
+pip2.7 install pynvim
 su -c "gem install neovim" $USER
 su -c "gem environment" $USER
 npm install -g neovim
