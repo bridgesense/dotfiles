@@ -246,7 +246,7 @@ if [ "$action" == "install" ]; then
     mkdir -p $dotfiles_old 2>/dev/null
     for cfile in ${files[@]}; do
         mv ~/.$cfile $dir/$dotfiles_old/ 2>/dev/null
-        if [[ $cfile != "oh-my-zsh" || $cfile != "zshrc" ]]; then
+        if [[ $cfile != "oh-my-zsh" && $cfile != "zshrc" ]]; then
             ln -s $dir/$cfile ~/.$cfile
         fi
     done
