@@ -246,18 +246,24 @@ if [ "$action" == "install" ]; then
     mkdir -p $dotfiles_old 2>/dev/null
     for cfile in ${files[@]}; do
         mv ~/.$cfile $dir/$dotfiles_old/ 2>/dev/null
-        if [[ $cfile != "oh-my-zsh" ]]; then
+        if [[ $cfile != "oh-my-zsh" || $cfile != "zshrc" ]]; then
             ln -s $dir/$cfile ~/.$cfile
         fi
     done
    
     # installing oh my zsh
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    zclose=""
+    if [! -x "$(command -v zsh)" ]; then
+        zclos=" && exit"
+    fi 
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)${zclose}"
+    rm ~/.zshrc && ln -s $dir/zshrc ~/.zshrc
     cd ~/.oh-my-zsh/custom/plugins
     for zplug in "${zshplugins[@]}"; do
         echo "git clone $zplug"
         git clone $zplug
     done
+    cd $dir
 
     if [[ "$(uname)" != "Darwin" ]]; then
         echo "This script does not install ack, emacs, silversearcher, tmux or Vim with Lua support. That's something you might look into."
