@@ -6,4 +6,4 @@ export LS_COLORS=
 export TERM=tmux-256color
 
 # Default Prompt
-export PS1="\[\033[0;31m\]\u \[\033[0;33m\]\w\[\033[0;0m\]: "
+export PS1="\[\033[0;31m\]\u \[\033[0;36m\]\w\[\033[0;0m\] "

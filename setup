@@ -10,7 +10,7 @@ USEREPO=yes
 dir=~/.yadrlite
 dotfiles_old=backup
 action="${1:-install}"
-declare -a files=('vim vimrc tmux.conf profile bash_profile bashrc vimrc.after emacs emacs.d')
+declare -a files=('vim vimrc tmux.conf profile bash_profile bashrc vimrc.after emacs emacs.d oh-my-zsh zshrc')
 declare -a plugins=('https://github.com/jiangmiao/auto-pairs.git' \
     'https://github.com/Shougo/deoplete.nvim.git' \
     'https://github.com/itchyny/lightline.vim.git' \
@@ -42,6 +42,8 @@ declare -a plugins=('https://github.com/jiangmiao/auto-pairs.git' \
     'https://github.com/shawncplus/phpcomplete.vim.git')
 declare -a tmuxplugins=('https://github.com/tmux-plugins/tmux-resurrect.git' \
     'https://github.com/tmux-plugins/tmux-continuum.git')
+declare -a zshplugins=('https://github.com/zdharma/fast-syntax-highlighting.git' \
+    'https://github.com/zsh-users/zsh-completions.git')
 declare -a bashplugins=()
 
 
@@ -60,9 +62,11 @@ function update {
     cd $dirs
     local plugindirs=(*/)
     for pdir in "${plugindirs[@]}"; do
-       cd $dirs/$pdir
-       echo "Updating $pdir..."
-       git pull
+       if [[$pdir != "example" ]]; then
+          cd $dirs/$pdir
+          echo "Updating $pdir..."
+          git pull
+       fi
     done
     echo "Update finished."
 }
@@ -95,6 +99,7 @@ if [ "$action" == "update" ]; then
         update $dir/vim/bundle
         update $dir/tmux/plugin
         update $dir/bash/plugin
+        update ~/.oh-my-zsh/custom/plugins 
         echo "The update is finished."
     fi
 fi
@@ -241,7 +246,17 @@ if [ "$action" == "install" ]; then
     mkdir -p $dotfiles_old 2>/dev/null
     for cfile in ${files[@]}; do
         mv ~/.$cfile $dir/$dotfiles_old/ 2>/dev/null
-        ln -s $dir/$cfile ~/.$cfile
+        if [[ $cfile != "oh-my-zsh" ]]; then
+            ln -s $dir/$cfile ~/.$cfile
+        fi
+    done
+   
+    # installing oh my zsh
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    cd ~/.oh-my-zsh/custom/plugins
+    for zplug in "${zshplugins[@]}"; do
+        echo "git clone $zplug"
+        git clone $zplug
     done
 
     if [[ "$(uname)" != "Darwin" ]]; then
