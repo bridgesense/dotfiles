@@ -44,8 +44,6 @@ declare -a tmuxplugins=('https://github.com/tmux-plugins/tmux-resurrect.git' \
     'https://github.com/tmux-plugins/tmux-continuum.git')
 declare -a zshplugins=('https://github.com/zdharma/fast-syntax-highlighting.git' \
     'https://github.com/zsh-users/zsh-completions.git')
-declare -a bashplugins=()
-
 
 # # Routines
 # # # # # # # # # # # # # # #
@@ -62,13 +60,12 @@ function update {
     cd $dirs
     local plugindirs=(*/)
     for pdir in "${plugindirs[@]}"; do
-       if [[$pdir != "example" ]]; then
-          cd $dirs/$pdir
-          echo "Updating $pdir..."
-          git pull
-       fi
+      cd $dirs/$pdir
+      echo "Updating $pdir..."
+      if [ -d ".git" ]; then
+          git pull --rebase
+      fi
     done
-    echo "Update finished."
 }
 
 
@@ -95,11 +92,10 @@ if [ "$action" == "update" ]; then
         action=install
     else
         cd $dir
-        git pull
+        git pull --rebase
         update $dir/vim/bundle
         update $dir/tmux/plugin
-        update $dir/bash/plugin
-        if [ -d "/path/to/dir" ]; then
+        if [ -d "~/.oh-my-zsh" ]; then
             update ~/.oh-my-zsh/custom/plugins 
         fi
         echo "The update is finished."
@@ -234,13 +230,6 @@ if [ "$action" == "install" ]; then
     # fixes sourcing of bashrc within tmux
     sed -i "s@.*\..*/etc/bashrc@    source /etc/bashrc@g" $dir/bashrc
     sed -i "s@.*\..*~\.bashrc@    source ~/.bashrc@g" $dir/bash_profile
-
-    mkdir $dir/bash/plugin 2>/dev/null
-    cd $dir/bash/plugin
-    for bplug in "${bashplugins[@]}"; do
-        echo "git clone $bplug"
-        git clone $bplug
-    done
 
     echo "# # Backing up current configurations"
     echo "# # # # # # # # # # # # # # # # # # # # # #"
