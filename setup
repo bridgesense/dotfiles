@@ -99,7 +99,9 @@ if [ "$action" == "update" ]; then
         update $dir/vim/bundle
         update $dir/tmux/plugin
         update $dir/bash/plugin
-        update ~/.oh-my-zsh/custom/plugins 
+        if [ -d "/path/to/dir" ]; then
+            update ~/.oh-my-zsh/custom/plugins 
+        fi
         echo "The update is finished."
     fi
 fi
@@ -252,14 +254,16 @@ if [ "$action" == "install" ]; then
     done
    
     # installing oh my zsh
-    wait 10 | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)${zclose}"/echo "done"
-    rm ~/.zshrc && ln -s $dir/zshrc ~/.zshrc
-    cd ~/.oh-my-zsh/custom/plugins
-    for zplug in "${zshplugins[@]}"; do
-        echo "git clone $zplug"
-        git clone $zplug
-    done
-    cd $dir
+    if [ -x "$(command -v zsh)" ]; then
+        wait 10 | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)${zclose}"/echo "done"
+        rm ~/.zshrc && ln -s $dir/zshrc ~/.zshrc
+        cd ~/.oh-my-zsh/custom/plugins
+        for zplug in "${zshplugins[@]}"; do
+            echo "git clone $zplug"
+            git clone $zplug
+        done
+        cd $dir
+    fi
 
     if [[ "$(uname)" != "Darwin" ]]; then
         echo "This script does not install ack, emacs, silversearcher, tmux or Vim with Lua support. That's something you might look into."
