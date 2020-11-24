@@ -64,7 +64,7 @@ function install {
 # # # # # # # # # # # # # # #
 log "installing commandline tools"
 dnf update -y
-install package autoconf automake git rsync htop
+install package autoconf automake git rsync htop zsh
 install group development-tools rpm-development-tools c-development
 echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
 $SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
@@ -150,7 +150,8 @@ fc-cache
 su -c "git clone https://github.com/lcpz/awesome-freedesktop.git /home/$USER/.config/awesome/freedesktop" $USER
 git clone https://github.com/lcpz/awesome-freedesktop.git ~/.config/awesome/freedesktop
 git clone https://github.com/potamides/modalawesome.git ~/.config/awesome/modalawesome 
-
+# set shell to zsh
+usermod -s $(which zsh) $USER
 
 # misc
 su -c 'mkdir -p ~/Applications' $USER
@@ -483,11 +484,6 @@ su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-bin-1.15.3.tar.g
 su -c 'cd ~/lab && tar xpf makemkv-bin-1.15.3.tar.gz' $USER
 su -c 'make -C ~/lab/makemkv-bin-1.15.3' $USER
 cd /home/$USER/lab/makemkv-bin-1.15.3 && make install
-
-# zsh
-# # # # # # # # # # # # # # #
-install package zsh 
-usermod -s $(which zsh) $USER
 
 # TROUBLESHOOTING 
 # # # # # # # # # # # # # # #
