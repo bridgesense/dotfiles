@@ -14,3 +14,4 @@
 /vim/plugged/*
 /vim/Session.vim
 /vimrc.after
+/vshrc
