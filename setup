@@ -244,7 +244,7 @@ if [ "$action" == "install" ]; then
    
     # installing oh my zsh
     if [ -x "$(command -v zsh)" ]; then
-        wait 10 | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)${zclose}"/echo "done"
+        wait 10 | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"/echo "done"
         rm ~/.zshrc && ln -s $dir/zshrc ~/.zshrc
         cd ~/.oh-my-zsh/custom/plugins
         for zplug in "${zshplugins[@]}"; do
