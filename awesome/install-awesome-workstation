@@ -66,6 +66,7 @@ log "installing commandline tools"
 dnf update -y
 install package autoconf automake git rsync htop
 install group development-tools rpm-development-tools c-development
+echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
 $SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
 su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
 
@@ -87,7 +88,7 @@ install package gtk-murrine-engine compton
 install package pulseeffects pavucontrol
 install package xclip vim-common
 install package arandr zenity flameshot
-pip install autorandr
+pip3 install autorandr
 install package gnome-keyring
 install package gnome-control-center
 install package NetworkManager-tui NetworkManager-wifi 
@@ -125,9 +126,13 @@ install package awesome
 # copy over system start resources
 # # # # # # # # # # # # # # #
 log "copying over system start resources"
-systemctl set-default graphical.target
+# Graphical  Login
+# systemctl set-default graphical.target
+# Minimalist Login
+systemctl set-default multi-user.target
 su -c 'cp -f ~/.yadrlite/awesome/Xresources ~/.Xresources' $USER
 cp -f ~/.yadrlite/awesome/Xresources ~/.Xresources
+su -c 'cp -f ~/.yadrlite/awesome/xinitrc ~/.xinitrc' $USER
 su -c 'mkdir -p ~/.config/awesome' $USER
 su -c 'rsync -azhLP ~/.yadrlite/awesome/setup/ ~/.config/awesome' $USER
 su -c 'git clone https://github.com/lcpz/awesome-freedesktop.git ~/.config/awesome/freedesktop' $USER
@@ -137,8 +142,6 @@ echo "Language=" >> /var/lib/AccountsService/users/$USER
 echo "XSession=awesome" >> /var/lib/AccountsService/users/$USER 
 echo "Icon=/home/$USER/.face" >> /var/lib/AccountsService/users/$USER 
 echo "SystemAccount=false" >> /var/lib/AccountsService/users/$USER 
-# uncomment the following line to give Sudoers access to the user account
-echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
 # powerline font patch
 su -c 'mkdir -p ~/.local/share/fonts/' $USER
 su -c 'cd ~/.local/share/fonts && svn checkout https://github.com/powerline/fonts/trunk/DejaVuSansMono' $USER
