@@ -106,3 +106,5 @@ export TERM='tmux-256color'
 
 # Custom Prompt
 PROMPT="%{$fg[red]%}%n %{$fg[cyan]%}%~%{$reset_color%} \$(git_prompt_info)"
+
+# User specific environment and startup programs

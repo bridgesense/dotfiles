@@ -66,9 +66,10 @@ log "installing commandline tools"
 dnf update -y
 install package autoconf automake git rsync htop zsh
 install group development-tools rpm-development-tools c-development
-echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
 $SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
 su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
+echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
+echo "pgrep 'tmux|start' >/dev/null || startx" >> /home/$USER/.zshrc
 
 # Install RPM Fusion
 # # # # # # # # # # # # # # #
