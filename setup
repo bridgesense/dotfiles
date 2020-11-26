@@ -196,7 +196,7 @@ if [ "$action" == "install" ]; then
     # installing oh my zsh
     if [ -x "$(command -v zsh)" ]; then
         unset ZSH
-        crashandburn >/dev/null | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"/echo "moving on..."
+        crashandburn | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"/echo "moving on..."
         rm -f ~/.zshrc
         cat $dir/zsh/zshrc >> $dir/zshrc 2>/dev/null
         cd ~/.oh-my-zsh/custom/plugins
