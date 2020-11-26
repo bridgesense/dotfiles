@@ -306,11 +306,13 @@ su -c "cp ~/lab/PHP-Parallel-Lint/parallel-lint ~/lab/PHP-Parallel-Lint/parallel
 su -c "cd ~/lab/PHP-Parallel-Lint && box build" $USER
 cp /home/$USER/lab/PHP-Parallel-Lint/parallel-lint.phar /usr/local/bin/parallel-lint && chmod 755 /usr/local/bin/parallel-lint
 
-# install code editors and PHP dev tools
+# install code editors and dev tools
 # # # # # # # # # # # # # # #
 log "installing code editors and PHP dev tools"
 install package tmux the_silver_searcher ack
 install package tree w3m w3m-img expect
+pip3 install jedi
+su -c "go get -u github.com/mdempsky/gocode" $USER
 install package hugo
 # install ctags
 install package python3-docutils libseccomp-devel jansson-devel libyaml-devel libxml2-devel

@@ -27,6 +27,13 @@ Plug 'phpactor/ncm2-phpactor'
 Plug 'ncm2/ncm2-bufword'
 Plug 'ncm2/ncm2-gtags'
 Plug 'ncm2/ncm2-path'
+Plug 'ncm2/ncm2-tern',  {'do': 'npm install'}
+Plug 'ncm2/ncm2-cssomni'
+Plug 'ncm2/ncm2-go'
+Plug 'ncm2/ncm2-jedi'
+Plug 'ncm2/ncm2-pyclang'
+Plug 'ObserverOfTime/ncm2-jc2', {'for': ['java', 'jsp']}
+Plug 'artur-shaik/vim-javacomplete2', {'for': ['java', 'jsp']}
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-surround'
 Plug 'vim-syntastic/syntastic'

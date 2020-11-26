@@ -59,13 +59,6 @@ endif
 " the plugins.
 let mapleader=","
 
-" =============== Vundle Initialization ===============
-" This loads all the plugins specified in ~/.vim/vundles.vim
-" Use Vundle plugin to manage all other plugins
-filetype off
-execute pathogen#infect()
-filetype plugin indent on
-
 " ================ vimrc.after ================
 " This loads user definable changes
 if filereadable(expand("~/.vimrc.after"))
