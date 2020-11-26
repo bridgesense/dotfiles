@@ -11,7 +11,7 @@ index: [Emacs](#emacs), [Tmux](#tmux-shortcuts), [Vim](#vim-shortcuts), [Alacrit
 # Dotfiles Installation
 
 ```bash
-bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
+bash -c "`curl -H 'Cache-Control: no-cache' -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
 ```
 
 #### Update:
