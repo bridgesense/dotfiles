@@ -65,7 +65,7 @@ if [ "$action" == "update" ]; then
         cd $dir
         git pull --rebase
         update $dir/tmux/plugin
-        if [ -d "~/.oh-my-zsh" ]; then
+        if [ -d "$dir/../.oh-my-zsh" ]; then
             update ~/.oh-my-zsh/custom/plugins
         fi
         echo "The update is finished."
