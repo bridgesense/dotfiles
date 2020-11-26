@@ -11,35 +11,6 @@ dir=~/.yadrlite
 dotfiles_old=backup
 action="${1:-install}"
 declare -a files=('vim vimrc tmux.conf profile bash_profile bashrc vimrc.after emacs emacs.d oh-my-zsh zshrc')
-declare -a plugins=('https://github.com/jiangmiao/auto-pairs.git' \
-    'https://github.com/Shougo/deoplete.nvim.git' \
-    'https://github.com/itchyny/lightline.vim.git' \
-    'https://github.com/scrooloose/nerdtree.git' \
-    'https://github.com/vim-syntastic/syntastic.git' \
-    'https://github.com/christoomey/vim-tmux-navigator.git' \
-    'https://github.com/vim-vdebug/vdebug.git' \
-    'https://github.com/gorodinskiy/vim-coloresque.git' \
-    'https://github.com/easymotion/vim-easymotion.git' \
-    'https://github.com/tpope/vim-fugitive.git' \
-    'https://github.com/airblade/vim-gitgutter.git' \
-    'https://github.com/bridgesense/vim-hsftp.git' \
-    'https://github.com/tpope/vim-surround.git' \
-    'https://github.com/morhetz/gruvbox.git' \
-    'https://github.com/terryma/vim-multiple-cursors.git' \
-    'https://github.com/vim-scripts/YankRing.vim.git' \
-    'https://github.com/kchmck/vim-coffee-script.git' \
-    'https://github.com/tomtom/tcomment_vim.git' \
-    'https://github.com/tpope/vim-repeat.git' \
-    'https://github.com/inkarkat/vim-SyntaxRange.git' \
-    'https://github.com/PhilRunninger/nerdtree-visual-selection.git' \
-    'https://github.com/vim-scripts/MultipleSearch.git' \
-    'https://github.com/andymass/vim-matchup.git' \
-    'https://github.com/junegunn/fzf.git' \
-    'https://github.com/junegunn/fzf.vim.git' \
-    'https://github.com/zackhsi/fzf-tags.git' \
-    'https://github.com/tpope/vim-obsession.git' \
-    'https://github.com/bridgesense/vim-bufsurf.git' \
-    'https://github.com/shawncplus/phpcomplete.vim.git')
 declare -a tmuxplugins=('https://github.com/tmux-plugins/tmux-resurrect.git' \
     'https://github.com/tmux-plugins/tmux-continuum.git')
 declare -a zshplugins=('https://github.com/zdharma/fast-syntax-highlighting.git' \
@@ -93,10 +64,9 @@ if [ "$action" == "update" ]; then
     else
         cd $dir
         git pull --rebase
-        update $dir/vim/bundle
         update $dir/tmux/plugin
         if [ -d "~/.oh-my-zsh" ]; then
-            update ~/.oh-my-zsh/custom/plugins 
+            update ~/.oh-my-zsh/custom/plugins
         fi
         echo "The update is finished."
     fi
@@ -204,12 +174,6 @@ if [ "$action" == "install" ]; then
 
     echo "# # Loading plugins"
     echo "# # # # # # # # # # # # # # # # # # # # # #"
-    mkdir $dir/vim/bundle 2>/dev/null
-    cd $dir/vim/bundle
-    for vplug in "${plugins[@]}"; do
-        echo "git clone $vplug"
-        git clone $vplug
-    done
     mkdir $dir/tmux/plugin 2>/dev/null
     cd $dir/tmux/plugin
     for tplug in "${tmuxplugins[@]}"; do
@@ -219,7 +183,7 @@ if [ "$action" == "install" ]; then
     cat ~/.bashrc > $dir/bashrc 2>/dev/null
     cat ~/.bash_profile > $dir/bash_profile 2>/dev/null
     if ! grep -q "~/.bashrc" $dir/bash_profile && ! grep -q "~/.bash_profile" $dir/bashrc; then
-        cat $dir/bash/bashrc >> $dir/bashrc 2>/dev/null
+        cat $dir/bash/bashrc >> $dir/bashrc 2>/dev/null 
         echo "source ~/.bashrc" >> $dir/bash_profile 2>/dev/null
     elif ! grep -q "~/.bashrc" $dir/bash_profile; then
         cat $dir/bash/bashrc >> $dir/bash_profile 2>/dev/null
@@ -241,7 +205,7 @@ if [ "$action" == "install" ]; then
             ln -s $dir/$cfile ~/.$cfile
         fi
     done
-   
+
     # installing oh my zsh
     if [ -x "$(command -v zsh)" ]; then
         unset ZSH

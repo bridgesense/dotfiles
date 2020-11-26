@@ -118,7 +118,7 @@ if exists('g:lightline')
   let s:p.normal.error = [ [ s:bg0, s:orange ] ]
   let s:p.normal.warning = [ [ s:bg2, s:yellow ] ]
 
-  let g:lightline#colorscheme#gruvbox#palette = lightline#colorscheme#flatten(s:p)
+  :silent! let g:lightline#colorscheme#gruvbox#palette = lightline#colorscheme#flatten(s:p)
 
   " to try recent saved cahgnes, uncomment lines below and `:w` then `:so %`
   " let g:lightline.colorscheme = 'gruvbox'

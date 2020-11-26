@@ -43,8 +43,15 @@ endfunction
 
 nnoremap <silent> ,Ot :call ToggleGruvbox()<CR>
 
+function! HasColorscheme(name) abort
+    let pat = 'colors/'.a:name.'.vim'
+    return !empty(globpath(&rtp, pat))
+endfunction
+
 set t_Co=256
-colorscheme gruvbox
+if HasColorscheme('gruvbox')
+    colorscheme gruvbox
+endif
 set background=dark
 
 " uncomment for transparent background

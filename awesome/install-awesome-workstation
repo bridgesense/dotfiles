@@ -64,8 +64,9 @@ function install {
 # # # # # # # # # # # # # # #
 log "installing commandline tools"
 dnf update -y
-install package autoconf automake git rsync htop zsh
+install package autoconf automake git rsync htop zsh composer nodejs golang ruby-devel
 install group development-tools rpm-development-tools c-development
+npm install -g npm
 $SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
 su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
 echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
@@ -276,7 +277,6 @@ install package php
 # # # # # # # # # # # # # # #
 log "installing requried php modules for boris and phpctags"
 install package php-json php-process
-install package nodejs ruby-devel
 npm install -g npm@latest
 npm install -g grunt-cli coffee-jshint eslint js-yaml csslint js2cofee
 su -c 'git clone https://github.com/xcwen/phpctags.git ~/lab/phpctags' $USER
@@ -295,7 +295,6 @@ mv boris.phar /usr/local/bin/boris
 # PHP Parallel Lint
 # # # # # # # # # # # # # # #
 log "installing PHP parallel lint"
-install package composer
 sudo sed -i "s#;phar.readonly = On#phar.readonly = Off#" /etc/php.ini
 systemctl restart httpd
 su -c "mkdir -p ~/lab/box-phar" $USER
