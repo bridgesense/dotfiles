@@ -3,7 +3,6 @@
 # Optimized Dotfiles
 # # # # # # # # # # # # # # #
 
-
 # # Options
 # # # # # # # # # # # # # # #
 USEREPO=yes
@@ -22,7 +21,7 @@ function installed {
     local inststatus=yes
     if [[ $($1 2>&1) =~ (not found) ]]; then
         local inststatus=no
-    fi
+    fi 
     echo "$inststatus"
 }
 
@@ -39,7 +38,6 @@ function update {
     done
 }
 
-
 # # Remove
 # # # # # # # # # # # # # # #
 if [ "$action" == "remove" ]; then
@@ -50,7 +48,11 @@ if [ "$action" == "remove" ]; then
         mv $dir/$dotfiles_old/.$cfile ~/ 2>/dev/null
     done
     rm -rf $dir 2>/dev/null
-    echo "Your original dotfiles have been restored.  Please restart the terminal or re-login to supress error messages."
+
+    echo ""
+    echo "Your original dotfiles have been restored.  Please restart"
+    echo "the terminal or re-login to supress error messages."
+    echo ""
 fi
 
 
@@ -79,11 +81,13 @@ if [ "$action" == "install" ]; then
     echo "# # Installing Dotfiles"
     echo "# # # # # # # # # # # # # # # # # # # # # #"
     if [ -f $dir/setup ]; then
+        echo ""
         echo "YADRLite is already installed."
         exit
     fi
 
     if ! [ -x "$(command -v git)" ]; then
+        echo ""
         echo "'Git' doesn't seem to be installed.  Install it. :)"
         exit
     fi
@@ -96,8 +100,22 @@ if [ "$action" == "install" ]; then
             cp -R . $dir
         fi
     fi
-    cp $dir/emacs.init $dir/emacs
-    mkdir $dir/emacs.d
+    
+    echo "# # Backing up current configurations"
+    echo "# # # # # # # # # # # # # # # # # # # # # #"
+    cd $dir
+    cat ~/.bashrc > $dir/bashrc 2>/dev/null
+    cat ~/.bash_profile > $dir/bash_profile 2>/dev/null
+    mkdir -p $dotfiles_old 2>/dev/null
+    for cfile in ${files[@]}; do
+        mv ~/.$cfile $dir/$dotfiles_old/ 2>/dev/null
+    done
+
+    echo "# # Vim, Emacs and Tmux Configurations"
+    echo "# # # # # # # # # # # # # # # # # # # # # #"
+    cat $dir/vim/vimrc >> $dir/vimrc 2>/dev/null
+    cat $dir/vim/vimrc.after >> $dir/vimrc.after 2>/dev/null
+    cp $dir/emacs.d/emacs $dir/emacs
     sed -i "s@multi-term-program.*@multi-term-program \"$(which bash)\")@" $dir/emacs 2>/dev/null
     cat $dir/tmux/tmux.conf > $dir/tmux.conf
     echo "set-option -g default-shell \$SHELL" >> $dir/tmux.conf
@@ -111,7 +129,10 @@ if [ "$action" == "install" ]; then
             else
                 mkdir -p ~/Library/Developer/Xcode/UserData/FontAndColorThemes/
                 cp -rf $dir/themes/gruvbox/xcode/Gruvbox.xccolortheme ~/Library/Developer/Xcode/UserData/FontAndColorThemes/
-                echo "Do you want to install Homebrew?  If you have MacPorts already installed, they may not play well together."
+	        echo ""        
+		echo "Do you want to install Homebrew?  If you have MacPorts"
+                echo "already installed, they may not play well together."
+                echo ""
                 read -p "Install homebrew? [y,n]" -n 1 -r
                 if [[ $REPLY =~ ^[Yy]$ ]]; then
                     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -148,30 +169,7 @@ if [ "$action" == "install" ]; then
         echo "I'm sorry, but your OS isn't supported yet."
         exit
     fi
-
-    echo '" Modifications to this file will not be overwritten when YADRLite is updated.' > $dir/vimrc.after
-    echo '" If you are using a terminal and have installed the Gruvbox theme, try commenting out the line below.' >> $dir/vimrc.after
-    echo "let g:yadr_using_gruvbox_terminal=1" >> $dir/vimrc.after
-
-    echo "" >> $dir/vimrc.after
-    echo '" Modify languages as needed.' >> $dir/vimrc.after
-    echo 'let g:myLangList=["en_us","es_es","en_ru","nospell"]' >> $dir/vimrc.after
-
-
-    echo "" >> $dir/vimrc.after
-    echo '" This fixes the ALT mappings in URXVT.' >> $dir/vimrc.after
-
-    if [[ "$(uname)" == "Linux" || "$(uname)" == "FreeBSD" ]]; then
-        echo 'let g:urxvt_fix=1' >> $dir/vimrc.after
-        echo "# # A patch has been applied for URXVT."
-        echo "# # If you do not use the URXVT terminal,"
-        echo "# # review ~/.vimrc.after if you exprience"
-        echo "# # any issues with meta (Alt) keys in vi"
-        echo "# # # # # # # # # # # # # # # # # # # # # #"
-    else
-        echo 'let g:urxvt_fix=0' >> $dir/vimrc.after
-    fi
-
+    
     echo "# # Loading plugins"
     echo "# # # # # # # # # # # # # # # # # # # # # #"
     mkdir $dir/tmux/plugin 2>/dev/null
@@ -180,8 +178,8 @@ if [ "$action" == "install" ]; then
         echo "git clone $tplug"
         git clone $tplug
     done
-    cat ~/.bashrc > $dir/bashrc 2>/dev/null
-    cat ~/.bash_profile > $dir/bash_profile 2>/dev/null
+
+    # covers injection into most existing configurations
     if ! grep -q "~/.bashrc" $dir/bash_profile && ! grep -q "~/.bash_profile" $dir/bashrc; then
         cat $dir/bash/bashrc >> $dir/bashrc 2>/dev/null 
         echo "source ~/.bashrc" >> $dir/bash_profile 2>/dev/null
@@ -195,35 +193,40 @@ if [ "$action" == "install" ]; then
     sed -i "s@.*\..*/etc/bashrc@    source /etc/bashrc@g" $dir/bashrc
     sed -i "s@.*\..*~\.bashrc@    source ~/.bashrc@g" $dir/bash_profile
 
-    echo "# # Backing up current configurations"
-    echo "# # # # # # # # # # # # # # # # # # # # # #"
-    cd $dir
-    mkdir -p $dotfiles_old 2>/dev/null
-    for cfile in ${files[@]}; do
-        mv ~/.$cfile $dir/$dotfiles_old/ 2>/dev/null
-        if [[ $cfile != "oh-my-zsh" && $cfile != "zshrc" ]]; then
-            ln -s $dir/$cfile ~/.$cfile
-        fi
-    done
-
     # installing oh my zsh
     if [ -x "$(command -v zsh)" ]; then
         unset ZSH
-        wait 10 | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"/echo "done"
+        crashandburn >/dev/null | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"/echo "moving on..."
+        rm -f ~/.zshrc
         cat $dir/zsh/zshrc >> $dir/zshrc 2>/dev/null
-        rm ~/.zshrc && ln -s $dir/zshrc ~/.zshrc
         cd ~/.oh-my-zsh/custom/plugins
         for zplug in "${zshplugins[@]}"; do
             echo "git clone $zplug"
             git clone $zplug
         done
-        cd $dir
     fi
+
+    echo "# # Building Symbolic Links"
+    echo "# # # # # # # # # # # # # # # # # # # # # #"
+    cd $dir
+    mkdir -p $dotfiles_old 2>/dev/null
+    for cfile in ${files[@]}; do
+        if [[ $cfile != "oh-my-zsh" ]]; then
+            ln -s $dir/$cfile ~/.$cfile
+        fi
+    done
 
     if [[ "$(uname)" != "Darwin" ]]; then
-        echo "This script does not install ack, emacs, silversearcher, tmux or Vim with Lua support. That's something you might look into."
-        echo "It is also assumed that a PHP environment is already installed and makes use of such tools as Boris, js-beautify and phpctags."
+        echo ""
+        echo "This script does not install ack, emacs, silversearcher, tmux or"
+        echo "Vim with Lua support. That's something you might look into."
+        echo ""
+        echo "It's also assumed that a PHP environment is already installed." 
+        echo "The Emacs configuration makes use of Boris, js-beautify and phpctags" 
+        echo "which might need to be installed."
+	echo ""
     fi
-
-    echo "The dotfiles are installed. Restart the terminal or re-login to remote deployment to see changes."
+    echo "The dotfiles are installed. Restart the terminal or re-login to"
+    echo "remote deployment to see changes."
+    echo ""
 fi
