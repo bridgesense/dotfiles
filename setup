@@ -115,7 +115,7 @@ if [ "$action" == "install" ]; then
     echo "# # # # # # # # # # # # # # # # # # # # # #"
     cat $dir/vim/vimrc >> $dir/vimrc 2>/dev/null
     cat $dir/vim/vimrc.after >> $dir/vimrc.after 2>/dev/null
-    cp $dir/emacs.d/emacs $dir/emacs
+    cp $dir/emacs.d/emacs.init $dir/emacs
     sed -i "s@multi-term-program.*@multi-term-program \"$(which bash)\")@" $dir/emacs 2>/dev/null
     cat $dir/tmux/tmux.conf > $dir/tmux.conf
     echo "set-option -g default-shell \$SHELL" >> $dir/tmux.conf
