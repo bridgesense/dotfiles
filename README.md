@@ -238,6 +238,7 @@ In visual mode use `h,j,k,l` to move, `v` to change to visual mode and `y` to ya
 * `//`: clear the search
 * `,mc`: mark this word for MultiCursor (like sublime). Use `Ctrl-n`: (next), `Ctrl-p`: (prev), `Ctrl-x`(skip) to add more cursors, then do normal vim things like edit the word.
 * `K`: Opens the documentation for the word under the cursor.
+* `Ctrl-k`: Opens php documentation on website for word under the cursor.
 * `,jx`: EasyMotion Jump to character x
 * Spacebar Sneak type two characters to move there in a line. Kind of like vim's `f`: but more accurate.
 * `:Gsearch foo`: global search, then do your normal `%s/search/replace/g` and follow up with `:Greplace` to replace across all files. When done use `:wall`: to write all the files.
