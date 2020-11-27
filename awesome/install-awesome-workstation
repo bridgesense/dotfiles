@@ -331,8 +331,6 @@ su -c "gem environment" $USER
 npm install -g neovim
 su -c "mkdir ~/.config/nvim && cp ~/.yadrlite/awesome/nvim/init.vim ~/.config/nvim" $USER
 mkdir ~/.config/nvim && cp ~/.yadrlite/awesome/nvim/init.vim ~/.config/nvim
-sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"' /home/$USER/.bashrc
-sed -i '/Default Prompt/a export EDITOR=nvim\nexport PAGER=less\nalias vi="nvim"\nalias vim="nvim"' ~/.bashrc
 
 # compiles emacs 27
 # for much better speed and compatibitily
