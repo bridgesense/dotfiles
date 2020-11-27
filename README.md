@@ -239,7 +239,7 @@ Vim Shortcuts
 * `,,b`: opens buffer selector containing recently opened files
 * `,n`: Toggles NERDTree
 * `,m`: show current file in NERDTree
-* `,q`: closes buffer without saving (`:bd!`)
+* `,q`: closes buffer without skving (`:bd!`)
 * `,Q`: completely closes Vim without saving any buffers (`:qa!`)
 * `,Z`: completely closes Vim saving all buffers (`:xa`)
 * `,S`: saves all buffers (`:wa`)
@@ -407,7 +407,7 @@ AwesomeWM Workstation Shortcuts
 * `jk`: expand/contract height of window
 * `c 1-9 fb`: change number of columns
 * `g 1-9 fb`: change useless gap
-* `m 1-9 fb`: chagne number of master clients
+* `m 1-9 fb`: change number of master clients
 
 #### Launcher Mode:
 * `F1`: lower volume

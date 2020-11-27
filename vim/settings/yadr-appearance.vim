@@ -25,9 +25,6 @@ else
   let g:CSApprox_loaded = 1
 endif
 
-"fix for spellbad
-let g:gruvbox_guisp_fallback = "bg"
-
 " Light/Dark Theme Switch
 let g:gruvboxtheme="dark"
 let g:gruvbox_termcolors=256
@@ -51,23 +48,31 @@ function! HasColorscheme(name) abort
     return !empty(globpath(&rtp, pat))
 endfunction
 
+" fix SpellBad
+let g:gruvbox_guisp_fallback='bg'
+au colorscheme * hi SpellBad ctermbg=NONE ctermfg=NONE cterm=underline gui=undercurl 
+au colorscheme * hi SpellCap ctermbg=NONE ctermfg=NONE cterm=underline gui=undercurl 
+au colorscheme * hi SpellLocal ctermbg=NONE ctermfg=NONE cterm=underline gui=undercurl 
+au colorscheme * hi SpellRare ctermbg=NONE ctermfg=NONE cterm=underline gui=undercurl 
+
 set t_Co=256
 if HasColorscheme('gruvbox')
     colorscheme gruvbox
 endif
 set background=dark
 
+
 " uncomment for transparent background
 let t:is_transparent = 1                                                                    
-hi! Normal ctermbg=none guibg=NONE
-hi! NonText ctermbg=none guibg=NONE
+hi! Normal ctermbg=NONE guibg=NONE
+hi! NonText ctermbg=NONE guibg=NONE
 
 " prettier EasyMotion
-hi EasyMotionTarget ctermbg=none ctermfg=red
-hi EasyMotionShade  ctermbg=none ctermfg=gray
+hi EasyMotionTarget ctermbg=NONE ctermfg=red
+hi EasyMotionShade  ctermbg=NONE ctermfg=gray
 
-hi EasyMotionTarget2First ctermbg=none ctermfg=red
-hi EasyMotionTarget2Second ctermbg=none ctermfg=lightred
+hi EasyMotionTarget2First ctermbg=NONE ctermfg=red
+hi EasyMotionTarget2Second ctermbg=NONE ctermfg=lightred
 
 hi EasyMotionMoveHL ctermbg=none ctermfg=black
-hi EasyMotionIncSearch ctermbg=none ctermfg=black
+hi EasyMotionIncSearch ctermbg=NONE ctermfg=black
