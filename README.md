@@ -206,7 +206,7 @@ This configuration uses [Vim-Plug](https://github.com/junegunn/vim-plug).  To in
 
 Requirements: [Vim w/ Lua support](https://www.vim.org)
 
-Suggested: [Silver Searcher](https://github.com/ggreer/the_silver_searcher)
+Plugin Requirements: [Composer](https://getcomposer.org/), [neovim](https://neovim.io/), [nodejs](https://nodejs.org/), [Python 3+](https://www.python.org), [Pynvim](https://github.com/neovim/pynvim), [Silver Searcher](https://github.com/ggreer/the_silver_searcher) 
 
 [Return to top](#yadrlite)
 
