@@ -255,7 +255,6 @@ Vim Shortcuts
 * `Ctrl-x Ctrl-o`: vim omnicompletion 
 * `//`: clear the search
 * `,mc`: mark this word for MultiCursor (like sublime). Use `Ctrl-n`: (next), `Ctrl-p`: (prev), `Ctrl-x`(skip) to add more cursors, then do normal vim things like edit the word.
-* `K`: Opens the documentation for the word under the cursor.
 * `Ctrl-K`: Opens php documentation on website for word under the cursor.
 * `,jx`: EasyMotion Jump to character x
 * Spacebar Sneak type two characters to move there in a line. Kind of like vim's `f`: but more accurate.
