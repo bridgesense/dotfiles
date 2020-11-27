@@ -46,12 +46,10 @@ Shortcuts have been pulled over from YADR, so those working with YADR should fee
 
 As with YADR, most of the key mapping not mentioned below can be found in the settings directory for reference.  This package is ready for deployment on most Linux distros and MacOS.
 
-Vim
----
+__Vim / Tmux__
 ![screenshot](https://www.bridgesense.com/images/dotfiles/vim-style.jpg)
 
-Emacs
----
+__Emacs__
 ![screenshot](https://www.bridgesense.com/images/dotfiles/emacs-style.jpg)
 
 # Emacs
@@ -180,8 +178,8 @@ Requirements: [Tmux](https://github.com/tmux/tmux/wiki/Installing)
 
 [Return to top](#yadrlite)
 
-# Tmux Shortcuts
-
+Tmux Shortcuts
+---
 The leader key Ctrl-a can be followed by the next key concurrently without holding them all down at once.  Use `tmux ls`to list the current open sessions and `tmux a -t <session_no>` to join them.  Use `tmux kill-session -t <session_no>`: to remove one.
 
 #### General Shortcuts:
@@ -212,8 +210,8 @@ Suggested: [Silver Searcher](https://github.com/ggreer/the_silver_searcher)
 
 [Return to top](#yadrlite)
 
-# Vim Shortcuts
-
+Vim Shortcuts
+---
 #### Window Navigation:
 * `Cmd-[1-]`: (`Alt-[1-9]`) switches to a specific tab number (like iTerm and Chrome) and tabs have been set up to show numbers
 * `Ctrl-h,l,j,k`: to move left, right, down, up between splits. This also works between vim and tmux splits thanks to `vim-tmux-navigator`.
@@ -305,7 +303,7 @@ See more about setting up the [.vimrc.local](https://gitlab.com/bridgesense/lamp
   result
 
 #### Better keystrokes for common editing commands:
-* `S#` `S"` `S'` `S]` `S)` `S}`: to surround a word in these common wrappers in visual mode
+* `S#` `S"` `S'` `S]` `S)` `S}`: to surround a visual selection with these common wrappers
 * `ci'`, `ci"`, `ci]`, `ci)`: (`Alt` Linux) changes content inside those surrounding marks. You don't have to be inside them
 * `,.`: to go to last edit location (same as `'.`) because the apostrophe is hard on the pinky
 * `,ci`: to change inside any set of quotes/brackets/etc
@@ -334,18 +332,18 @@ Requirements: [Alacritty](https://github.com/alacritty/alacritty)
 
 [Return to top](#yadrlite)
 
-# Alacritty Shortcuts
-
+Alacritty Shortcuts
+---
 Alacritty is a full featured GPU-accelerated terminal.
 
-### History:
+#### History:
 * `Shift+PageUP`: Pages up through terminal history
 * `Shift+PageDown`: Pages down terminal history
 
-### Vim Mode:
+#### Vim Mode:
 * `Ctrl+Shift+Space`: Toggles the Vim mode which provides the standard Vim positional and copy commands.
 
-### Display Options:
+#### Display Options:
 * `Ctrl+Shift+t`: Toggle Dark/Light Theme
 * `Ctrl+Equals`: Inscrease Font Size
 * `Ctrl+Slash`: Decrease Font Size
@@ -363,7 +361,7 @@ Requirements: any flavor of [Fedora 33](https://getfedora.org)
 
 [Return to top](#yadrlite)
 
-### Awesome Workstation Installation
+#### Awesome Workstation Installation
 ```bash
 # run as root on any Fedora 33 installation
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/awesome/install-awesome-workstation > custom-fedora-setup
@@ -371,13 +369,15 @@ curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/awesome/insta
 bash custom-fedora-setup <workstation_username>
 ```
 
-### Modes:
+AwesomeWM Workstation Shortcuts
+---
+#### Modes:
 * `Super`: puts the window into tag mode which turns off keyboard input and allows windows to be shuffled around
 * `i`: puts the window into the client mode which accepts keyboard input
 * `r`: puts the window into launcher mode
 * `w`: puts the selected window into layout mode
 
-### Tag Mode:
+#### Tag Mode:
 * `,.`: focus window by index
 * `HJKL`: swap window by direction
 * `hjkl`: focus window by direction
@@ -402,7 +402,7 @@ bash custom-fedora-setup <workstation_username>
 * `y`: move to master screen
 * `z`: go back in tag history
 
-### Layout Mode:
+#### Layout Mode:
 * `1-9 fb`: change layout
 * `hl`: expand/contract width of window
 * `jk`: expand/contract height of window
@@ -410,7 +410,7 @@ bash custom-fedora-setup <workstation_username>
 * `g 1-9 fb`: change useless gap
 * `m 1-9 fb`: chagne number of master clients
 
-### Launcher Mode:
+#### Launcher Mode:
 * `F1`: lower volume
 * `F2`: raise volume
 * `F3`: toggle volume mute
