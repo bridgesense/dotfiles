@@ -25,6 +25,9 @@ else
   let g:CSApprox_loaded = 1
 endif
 
+"fix for spellbad
+let g:gruvbox_guisp_fallback = "bg"
+
 " Light/Dark Theme Switch
 let g:gruvboxtheme="dark"
 let g:gruvbox_termcolors=256

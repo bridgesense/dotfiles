@@ -6,9 +6,11 @@ This dotfile repo is heavily based on [YADR](https://github.com/skwp/dotfiles) w
 
 Check out the original repo, [YADR](https://github.com/skwp/dotfiles) especially if you work in Python or Ruby.
 
-index: [Emacs](#emacs), [Tmux](#tmux-shortcuts), [Vim](#vim-shortcuts), [Alacritty](#alacritty-shortcuts), and [AwesomeWM  Workstation](#awesomewm-workstation)
+index: [Emacs](#emacs), [Tmux](#tmux), [Vim](#vim), [Alacritty](#alacritty-shortcuts), and [AwesomeWM  Workstation](#awesomewm-workstation)
 
 # Dotfiles Installation
+
+Requirements: [git](https://git-scm.com/downloads), [Homebrew](https://brew.sh)(for MacOS)
 
 ```bash
 bash -c "`curl -H 'Cache-Control: no-cache' -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
@@ -54,7 +56,9 @@ Emacs
 
 # Emacs
 
-Emacs 24.4 or higher is preferred.
+Requirements: [Emacs 24.4+ w/ Lua support](https://www.gnu.org/software/emacs/)
+
+Suggested: [Silver Searcher](https://github.com/ggreer/the_silver_searcher)
 
 Emacs has a huge performance advantage over Vi.  This configuration includes the [Evil](https://www.emacswiki.org/emacs/Evil) package which emulates Vim's modal functionality.  In Evil mode Emacs shares keybindings familiar to the YADR package.  Switching between Emacs and Evil mode is done by C-z. There is inline documentation with live hints for ease of discovery.  After entering Emacs just hit the leader key (,) to get started.  Hit the leader key twice for a fuzzy command search.
 
@@ -169,6 +173,9 @@ The [General](https://github.com/noctuid/general.el) plugin has been included wi
 * `,Wt`: See synonyms (thesaurus) of word under cursor
 * `,Wa`: See antonyms of word under cursor
 
+# Tmux
+
+Requirements [Tmux](https://github.com/tmux/tmux/wiki/Installing)
 
 # Tmux Shortcuts
 
@@ -191,6 +198,16 @@ The leader key Ctrl-a can be followed by the next key concurrently without holdi
 * `Ctrl-a Ctrl-s`, `Ctrl-r`: Saves and Restores Tmux Session
 In visual mode use `h,j,k,l` to move, `v` to change to visual mode and `y` to yank selection.  Press `Enter` to exit mode.
 
+
+# Vim
+
+This asdfa configuration uses [Vim-Plug](https://github.com/junegunn/vim-plug).  To initialize the plugins, enter Normal mode and type `:PlugInstall`.  Similarly, you use `:PlugUpdate` to update your plugins.
+
+Requirements  [Vim w/ Lua support](https://www.vim.org)
+
+Suggested: [Silver Searcher](https://github.com/ggreer/the_silver_searcher)
+
+[Return to top](#yadrlite)
 
 # Vim Shortcuts
 
@@ -303,12 +320,18 @@ See more about setting up the [.vimrc.local](https://gitlab.com/bridgesense/lamp
 * `,;`, `gcc`: un/comment selected lines in visual mode thanks to [tComment](https://github.com/tomtom/tcomment_vim)
 * `,o`,`,p`: start a new or restore an existing Vim session thanks to [obsession](https://github.com/tpope/vim-obsession)
 * `zf`,`zo`,`zc`,`za`,`zr`,`zm`,`zd`: creates, opens, closes, toggles, toggles all, collapses all and deletes code folds
-* `F7`,`z=`,`]s`,`[s`: spell check, word suggestion and jump to next misspelled word
+* `,W`,`z=`,`]s`,`[s`: toggle spell check, word suggestion and jump forward/backward to next misspelled word
 
 #### Vim Dev:
 * `,vc`: (Vim Command) copies the command under your cursor and executes it in vim. Great for testing single line changes to vimrc.
 * `,vr`: (Vim Reload) source current file as a vim file
 
+
+# Alacritty
+
+Requirements: [Alacritty](https://github.com/alacritty/alacritty)
+
+[Return to top](#yadrlite)
 
 # Alacritty Shortcuts
 

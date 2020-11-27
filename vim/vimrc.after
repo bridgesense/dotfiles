@@ -2,8 +2,5 @@
 " If you are using a terminal and have installed the Gruvbox theme, try commenting out the line below.
 let g:yadr_using_gruvbox_terminal=1
 
-" Modify languages as needed.
-let g:myLangList=["en_us","es_es","en_ru","nospell"]
-
 " This fixes the ALT mappings in URXVT.
 let g:urxvt_fix=1
