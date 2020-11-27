@@ -328,14 +328,14 @@ See more about setting up the [.vimrc.local](https://gitlab.com/bridgesense/lamp
 
 # Alacritty
 
+Alacritty is a full featured GPU-accelerated terminal.  It's fast.
+
 Requirements: [Alacritty](https://github.com/alacritty/alacritty)
 
 [Return to top](#yadrlite)
 
 Alacritty Shortcuts
 ---
-Alacritty is a full featured GPU-accelerated terminal.
-
 #### History:
 * `Shift+PageUP`: Pages up through terminal history
 * `Shift+PageDown`: Pages down terminal history
