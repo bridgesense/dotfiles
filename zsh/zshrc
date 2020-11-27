@@ -89,7 +89,7 @@ else
   export EDITOR='nvim'
 fi
 
-export TERM='tmux-256color'
+export TERM='xterm-256color'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"

@@ -3,7 +3,7 @@ alias ls='ls --color=auto'
 export LS_COLORS=
 
 # offers the widest compatibility on remote access
-export TERM=tmux-256color
+export TERM=xterm-256color
 
 # Default Prompt
 export PS1="\[\033[0;31m\]\u \[\033[0;36m\]\w\[\033[0;0m\] "
