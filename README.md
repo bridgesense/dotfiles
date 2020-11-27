@@ -6,7 +6,7 @@ This dotfile repo is heavily based on [YADR](https://github.com/skwp/dotfiles) w
 
 Check out the original repo, [YADR](https://github.com/skwp/dotfiles) especially if you work in Python or Ruby.
 
-index: [Emacs](#emacs), [Tmux](#tmux), [Vim](#vim), [Alacritty](#alacritty-shortcuts), and [AwesomeWM  Workstation](#awesomewm-workstation)
+index: [Emacs](#emacs), [Tmux](#tmux), [Vim](#vim), [Alacritty](#alacritty), and [AwesomeWM  Workstation](#awesomewm-workstation)
 
 # Dotfiles Installation
 
@@ -62,6 +62,7 @@ Suggested: [Silver Searcher](https://github.com/ggreer/the_silver_searcher)
 
 Emacs has a huge performance advantage over Vi.  This configuration includes the [Evil](https://www.emacswiki.org/emacs/Evil) package which emulates Vim's modal functionality.  In Evil mode Emacs shares keybindings familiar to the YADR package.  Switching between Emacs and Evil mode is done by C-z. There is inline documentation with live hints for ease of discovery.  After entering Emacs just hit the leader key (,) to get started.  Hit the leader key twice for a fuzzy command search.
 
+[Return to top](#yadrlite)
 
 Emacs Shortcuts
 ---
@@ -175,14 +176,16 @@ The [General](https://github.com/noctuid/general.el) plugin has been included wi
 
 # Tmux
 
-Requirements [Tmux](https://github.com/tmux/tmux/wiki/Installing)
+Requirements: [Tmux](https://github.com/tmux/tmux/wiki/Installing)
+
+[Return to top](#yadrlite)
 
 # Tmux Shortcuts
 
 The leader key Ctrl-a can be followed by the next key concurrently without holding them all down at once.  Use `tmux ls`to list the current open sessions and `tmux a -t <session_no>` to join them.  Use `tmux kill-session -t <session_no>`: to remove one.
 
 #### General Shortcuts:
-* `Ctrl-a d`: Detatch from current session and close Tmux.  Run `tmux attach`: to resume later.
+* `Ctrl-a d`: Detach from current session and close Tmux.  Run `tmux attach`: to resume later.
 * `Ctrl-a h`: Focus on window left of the current one
 * `Ctrl-a j`: Focus on window above the current one
 * `Ctrl-a k`: Focus on window below the current one
@@ -201,9 +204,9 @@ In visual mode use `h,j,k,l` to move, `v` to change to visual mode and `y` to ya
 
 # Vim
 
-This asdfa configuration uses [Vim-Plug](https://github.com/junegunn/vim-plug).  To initialize the plugins, enter Normal mode and type `:PlugInstall`.  Similarly, you use `:PlugUpdate` to update your plugins.
+This configuration uses [Vim-Plug](https://github.com/junegunn/vim-plug).  To initialize the plugins, enter Normal mode and type `:PlugInstall`.  Similarly, you use `:PlugUpdate` to update your plugins.
 
-Requirements  [Vim w/ Lua support](https://www.vim.org)
+Requirements: [Vim w/ Lua support](https://www.vim.org)
 
 Suggested: [Silver Searcher](https://github.com/ggreer/the_silver_searcher)
 
@@ -255,7 +258,7 @@ Suggested: [Silver Searcher](https://github.com/ggreer/the_silver_searcher)
 * `//`: clear the search
 * `,mc`: mark this word for MultiCursor (like sublime). Use `Ctrl-n`: (next), `Ctrl-p`: (prev), `Ctrl-x`(skip) to add more cursors, then do normal vim things like edit the word.
 * `K`: Opens the documentation for the word under the cursor.
-* `Ctrl-k`: Opens php documentation on website for word under the cursor.
+* `Ctrl-K`: Opens php documentation on website for word under the cursor.
 * `,jx`: EasyMotion Jump to character x
 * Spacebar Sneak type two characters to move there in a line. Kind of like vim's `f`: but more accurate.
 * `:Gsearch foo`: global search, then do your normal `%s/search/replace/g` and follow up with `:Greplace` to replace across all files. When done use `:wall`: to write all the files.
@@ -295,16 +298,14 @@ See more about setting up the [.vimrc.local](https://gitlab.com/bridgesense/lamp
 * `<F10>`: toggle line breakpoint
 * `<F11>`: show context variables (e.g. after "eval")
 * `<F12>`: evaluate variable under cursor
-* `:Breakpoint <type> <args>`: set a breakpoint of any type (see :help
-  VdebugBreakpoints)
+* `:Breakpoint <type> <args>`: set a breakpoint of any type (see :help VdebugBreakpoints)
 * `:BreakpointRemove *`: remove all breakpoints
 * `:VdebugEval <code>`: evaluate some code and display the result
 * `,e`: evaluate the expression under visual highlight and display the
   result
 
 #### Better keystrokes for common editing commands:
-* Ctrl-Space to autocomplete. Tab for snipmate snippets.
-* `S#` `S"` `S'` `S]` `S)` `S}`: to surround a word in these common wrappers. the # does #{ruby interpolation}. works in visual mode (thanks @cj). Normally these are done with something like `ysw#`
+* `S#` `S"` `S'` `S]` `S)` `S}`: to surround a word in these common wrappers in visual mode
 * `ci'`, `ci"`, `ci]`, `ci)`: (`Alt` Linux) changes content inside those surrounding marks. You don't have to be inside them
 * `,.`: to go to last edit location (same as `'.`) because the apostrophe is hard on the pinky
 * `,ci`: to change inside any set of quotes/brackets/etc
@@ -357,6 +358,10 @@ The following script installs the [Awesome window manager](https://awesomewm.org
 NOTE: All applications start in tag mode and will not accept keyboard input until they are put into client with the `i` key.  Use `Super` to exit the client mode.
 
 WARNING: There is a bug in the awful.keygrabber library of the stable release (4.3 too long) that causes awesome to exit in Luancher mode when hitting the backspace key.  I'd encourage people to compile awesome directily from the [repo](https://github.com/awesomeWM/awesome.git).  On Fedora I would suggest this [copr](https://copr.fedorainfracloud.org/coprs/jcrd/awesome-luajit-nightly/) by James R.
+
+Requirements: any flavor of [Fedora 33](https://getfedora.org)
+
+[Return to top](#yadrlite)
 
 ### Awesome Workstation Installation
 ```bash
