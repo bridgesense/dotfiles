@@ -13,7 +13,7 @@ index: [Emacs](#emacs), [Tmux](#tmux), [Vim](#vim), [Alacritty](#alacritty), and
 Requirements: [git](https://git-scm.com/downloads), [Homebrew](https://brew.sh)(for MacOS)
 
 ```bash
-bash -c "`curl -H 'Cache-Control: no-cache' -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
+bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
 ```
 
 #### Update:
