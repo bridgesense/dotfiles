@@ -46,10 +46,10 @@ Shortcuts have been pulled over from YADR, so those working with YADR should fee
 
 As with YADR, most of the key mapping not mentioned below can be found in the settings directory for reference.  This package is ready for deployment on most Linux distros and MacOS.
 
-__Vim / Tmux__
+__Vim / Tmux__\
 ![screenshot](https://www.bridgesense.com/images/dotfiles/vim-style.jpg)
 
-__Emacs__
+__Emacs__\
 ![screenshot](https://www.bridgesense.com/images/dotfiles/emacs-style.jpg)
 
 # Emacs
