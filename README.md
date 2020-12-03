@@ -220,15 +220,15 @@ Vim Shortcuts
 * `,c`: closes window only (`Ctrl-w,c`)
 * `,qo`: open quickfix window (this is where output from Grep goes)
 * `,qc`: close quickfix
-* `CMD-[Up,Down,Left,Right]`: increase hight, decrease height, contract window and expand window
+* `Cmd-[Up,Down,Left,Right]`: (`Alt-[Up,Down,Left,Right]`) increase hight, decrease height, contract window and expand window
 * `=`: make all windows equal size
 
 #### Tab Navigation
-* `CMD-c`: (`Alt-c`) create new tab
-* `CMD-q`: (`Alt-q`) close tab and hide buffers
-* `CMD-z`: (`Alt-z`) go to previous tab
-* `CMD-x`: (`Alt-x`) go to next tab
-* `CMD-[1-9]`: (`Alt-[1-9]`) select tab by number
+* `Cmd-c`: (`Alt-c`) create new tab
+* `Cmd-q`: (`Alt-q`) close tab and hide buffers
+* `Cmd-z`: (`Alt-z`) go to previous tab
+* `Cmd-x`: (`Alt-x`) go to next tab
+* `Cmd-[1-9]`: (`Alt-[1-9]`) select tab by number
 
 #### Buffer/File Navigation:
 * `,z`: cycle back through previously opened buffers
