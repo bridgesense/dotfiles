@@ -78,11 +78,11 @@ log "installing RPM Fusion"
 dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
 dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
-# Install Window Manager 
+# Install Window Manager
 # # # # # # # # # # # # # # #
 log "installing supporting applications"
-install group "Fedora Workstation" 
-install package gnome-tweaks fontawesome-fonts xautolock i3lock lxappearance 
+install group "Fedora Workstation"
+install package gnome-tweaks fontawesome-fonts xautolock i3lock lxappearance
 install package gdouros-symbola-fonts gucharmap
 install package copr-cli dnf-plugins-core
 install pacakge xbacklight feh arc-theme redshift-gtk
@@ -93,7 +93,7 @@ install package arandr zenity flameshot
 pip3 install autorandr
 install package gnome-keyring
 install package gnome-control-center
-install package NetworkManager-tui NetworkManager-wifi 
+install package NetworkManager-tui NetworkManager-wifi
 install package NetworkManager-openvpn-gnome NetworkManager-openconnect-gnome
 install package net-tools
 install package ftp telnet
@@ -139,11 +139,11 @@ su -c 'mkdir -p ~/.config/awesome' $USER
 su -c 'rsync -azhLP ~/.yadrlite/awesome/setup/ ~/.config/awesome' $USER
 su -c 'git clone https://github.com/lcpz/awesome-freedesktop.git ~/.config/awesome/freedesktop' $USER
 su -c 'git clone https://github.com/potamides/modalawesome.git ~/.config/modalawesome' $USER
-echo "[User]" > /var/lib/AccountsService/users/$USER 
-echo "Language=" >> /var/lib/AccountsService/users/$USER 
-echo "XSession=awesome" >> /var/lib/AccountsService/users/$USER 
-echo "Icon=/home/$USER/.face" >> /var/lib/AccountsService/users/$USER 
-echo "SystemAccount=false" >> /var/lib/AccountsService/users/$USER 
+echo "[User]" > /var/lib/AccountsService/users/$USER
+echo "Language=" >> /var/lib/AccountsService/users/$USER
+echo "XSession=awesome" >> /var/lib/AccountsService/users/$USER
+echo "Icon=/home/$USER/.face" >> /var/lib/AccountsService/users/$USER
+echo "SystemAccount=false" >> /var/lib/AccountsService/users/$USER
 # powerline font patch
 su -c 'mkdir -p ~/.local/share/fonts/' $USER
 su -c 'cd ~/.local/share/fonts && svn checkout https://github.com/powerline/fonts/trunk/DejaVuSansMono' $USER
@@ -151,7 +151,7 @@ fc-cache
 # freedesktop repo implementation
 su -c "git clone https://github.com/lcpz/awesome-freedesktop.git /home/$USER/.config/awesome/freedesktop" $USER
 git clone https://github.com/lcpz/awesome-freedesktop.git ~/.config/awesome/freedesktop
-git clone https://github.com/potamides/modalawesome.git ~/.config/awesome/modalawesome 
+git clone https://github.com/potamides/modalawesome.git ~/.config/awesome/modalawesome
 # set shell to zsh
 usermod -s $(which zsh) $USER
 
@@ -168,7 +168,7 @@ log "installing xbanish"
 install package libXt-devel libXfixes-devel libXi-devel
 su -c 'git clone https://github.com/jcs/xbanish.git ~/lab/xbanish' $USER
 su -c 'make -C ~/lab/xbanish' $USER
-cd /home/$USER/lab/xbanish 
+cd /home/$USER/lab/xbanish
 make install
 sleep 1
 make clean
@@ -264,7 +264,7 @@ dnf groupupdate core -y
 dnf groupupdate multimedia -y
 dnf groupupdate sound-and-video -y
 dnf update --best --allowerasing -y
-install package alsa-ucm alsa-firmware 
+install package alsa-ucm alsa-firmware
 install package alsa-sof-firmware alsa-tools
 dnf install -y \*-firmware
 
@@ -278,7 +278,7 @@ install package php
 log "installing requried php modules for boris and phpctags"
 install package php-json php-process
 npm install -g npm@latest
-npm install -g grunt-cli coffee-jshint eslint js-yaml csslint js2cofee
+npm install -g grunt-cli coffee-jshint eslint js-yaml csslint js2coffee gulp
 su -c 'git clone https://github.com/xcwen/phpctags.git ~/lab/phpctags' $USER
 su -c 'make -C ~/lab/phpctags' $USER
 cp /home/$USER/lab/phpcstags/build/phpctags.phar /usr/local/bin
@@ -359,8 +359,9 @@ install package flatpak
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y flathub com.spotify.Client
 flatpak install -y flathub org.signal.Signal
-flatpak install -y flathub us.zoom.Zoom 
+flatpak install -y flathub us.zoom.Zoom
 flatpak install -y flathub org.musescore.MuseScore
+flatpak instlal -y flathub com.nextcloud
 
 # Install Browsers
 log "installing browsers"
@@ -452,7 +453,7 @@ su -c 'touch ~/.local/share/applications/mpvbd.desktop' $USER
 printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/mpvbd.desktop
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/mpvbd.desktop
 printf 'Name=mpv Media Player Bluray\n' >> /home/$USER/.local/share/applications/mpvbd.desktop
-printf "Exec=mpv --bluray-device=/dev/sr0 bd://\n" >> /home/$USER/.local/share/applications/mpvbd.desktop 
+printf "Exec=mpv --bluray-device=/dev/sr0 bd://\n" >> /home/$USER/.local/share/applications/mpvbd.desktop
 su -c 'touch ~/.local/share/applications/tor.desktop' $USER
 printf '[Desktop Entry] \n' >> /home/$USER/.local/share/applications/tor.desktop
 printf 'Type=Application\n' >> /home/$USER/.local/share/applications/tor.desktop
@@ -485,11 +486,11 @@ su -c 'cd ~/lab && tar xpf makemkv-bin-1.15.3.tar.gz' $USER
 su -c 'make -C ~/lab/makemkv-bin-1.15.3' $USER
 cd /home/$USER/lab/makemkv-bin-1.15.3 && make install
 
-# TROUBLESHOOTING 
+# TROUBLESHOOTING
 # # # # # # # # # # # # # # #
 
-# RE: freezing issue on newer intel graphics when monitor idles 
-# ref: https://linuxreviews.org/Intel_graphics  
+# RE: freezing issue on newer intel graphics when monitor idles
+# ref: https://linuxreviews.org/Intel_graphics
 # I found that none of the grub commands were successful with comet lake.  If you have a newer intel gpu, it might be time to use the override feature and work with i965 or iris.
 # vi /etc/systemd/system.conf
 # DefaultEnvironment=MESA_LOADER_DRIVER_OVERRIDE=i965
