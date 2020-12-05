@@ -41,7 +41,7 @@ inoremap <expr> <c-x><c-k> fzf#vim#complete('cat /usr/share/dict/words')
 
 " FZFTags 
 " override the default jump-to-tag binding 
-nmap <C-]> <Plug>(fzf_tags)
-nmap ,gt :FZFTags <C-r><C-w><CR>
-nmap ,gi :tag<CR>
-nmap ,go :pop<CR>
+" nmap <C-]> <Plug>(fzf_tags)
+" nmap ,gt :FZFTags <C-r><C-w><CR>
+" nmap ,gi :tag<CR>
+" nmap ,go :pop<CR>

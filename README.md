@@ -206,7 +206,7 @@ This configuration uses [Vim-Plug](https://github.com/junegunn/vim-plug).  To in
 
 Requirements: [Vim w/ Lua support](https://www.vim.org)
 
-Plugin Requirements: [Composer](https://getcomposer.org/), [neovim](https://neovim.io/), [nodejs](https://nodejs.org/), [Python 3+](https://www.python.org), [Pynvim](https://github.com/neovim/pynvim), [Silver Searcher](https://github.com/ggreer/the_silver_searcher) 
+Plugin Requirements: [Composer](https://getcomposer.org/), [neovim](https://neovim.io/), [nodejs](https://nodejs.org/), [Python 3+](https://www.python.org), [Pynvim](https://github.com/neovim/pynvim), [Silver Searcher](https://github.com/ggreer/the_silver_searcher)
 
 [Return to top](#yadrlite)
 
@@ -252,10 +252,9 @@ Vim Shortcuts
 * `,ad`: search for term in directory of current file
 * `,aw`: Search the current word under the cursor
 * `,hl`: toggle search highlight on and off
-* `Ctrl-x Ctrl-o`: vim omnicompletion 
+* `Ctrl-x Ctrl-o`: vim omnicompletion
 * `//`: clear the search
 * `,mc`: mark this word for MultiCursor (like sublime). Use `Ctrl-n`: (next), `Ctrl-p`: (prev), `Ctrl-x`(skip) to add more cursors, then do normal vim things like edit the word.
-* `Ctrl-K`: Opens php documentation on website for word under the cursor.
 * `,jx`: EasyMotion Jump to character x
 * Spacebar Sneak type two characters to move there in a line. Kind of like vim's `f`: but more accurate.
 * `:Gsearch foo`: global search, then do your normal `%s/search/replace/g` and follow up with `:Greplace` to replace across all files. When done use `:wall`: to write all the files.
@@ -267,11 +266,28 @@ Vim Shortcuts
 * `:Gpush/pull`: repo management
 * `]c`, `[c`: jump to next/previous modification
 
-#### Tag Management:
+#### Ctag Management:
 * `:MakeTags`: build tag library for project
 * `,gt`: search for tag under cursor and bring up file
 * `,gi`: go to next tag in history
 * `,go`: go back one tag in history
+
+#### Conquer of Completion:
+* `gd`: go to tag definition
+* `gy`: go to type definition
+* `gi`: go to next implementation of tag
+* `gr`: pull up reference preview of tag
+* `,rn`: symbol renaming 
+* `,f`: format selected code
+* `:Format`: format code in current buffer
+* `:Fold`: fold code in current buffer
+* `:OR`: organizes imports of current buffer
+* `:Ctrl-f`: scroll up in popup window `:Ctrl-b`: scroll down in popup window
+* `,e`: pull up diagnostic window
+* `[g`,`]g`: navigate up/down diagnostic window
+* `:qf`: autocorrect line error
+* `K`: pull up documentation for item under cursor
+* `Ctrl-Space`: Trigger autocompletion
 
 #### Asynchronous Recorder:
 * `q <letter>`: start recording all activity

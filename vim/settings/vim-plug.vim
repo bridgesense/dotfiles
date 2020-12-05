@@ -30,7 +30,6 @@ Plug 'vim-vdebug/vdebug'
 Plug 'bridgesense/vim-hsftp'
 Plug 'airblade/vim-gitgutter'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'alvan/vim-php-manual'
 Plug 'tpope/vim-repeat'
 Plug 'inkarkat/vim-SyntaxRange'
 Plug 'morhetz/gruvbox'
@@ -39,3 +38,9 @@ Plug 'vim-scripts/YankRing.vim'
 
 " Initialize plugin system
 call plug#end()
+
+" Install missing plugins on Vim startup
+autocmd VimEnter *
+  \  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  \|   PlugInstall --sync | q
+  \| endif
