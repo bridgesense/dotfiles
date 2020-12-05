@@ -2,10 +2,11 @@
 let g:coc_global_extensions = [
     \ 'coc-css',
     \ 'coc-cssmodules',
-    \ 'coc-html', 
-    \ 'coc-eslint', 
-    \ 'coc-java', 
-    \ 'coc-json', 
+    \ 'coc-html',
+    \ 'coc-eslint',
+    \ 'coc-explorer',
+    \ 'coc-java',
+    \ 'coc-json',
     \ 'coc-markdownlint',
     \ 'coc-phpls',
     \ 'coc-pyright',
@@ -21,7 +22,7 @@ let g:coc_global_extensions = [
 set hidden
 
 " Some servers have issues with backup files, see #649.
-set nobackup 
+set nobackup
 set nowritebackup
 
 " Give more space for displaying messages.

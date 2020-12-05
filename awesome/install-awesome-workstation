@@ -146,7 +146,7 @@ echo "Icon=/home/$USER/.face" >> /var/lib/AccountsService/users/$USER
 echo "SystemAccount=false" >> /var/lib/AccountsService/users/$USER
 # powerline font patch
 su -c 'mkdir -p ~/.local/share/fonts/' $USER
-su -c 'cd ~/.local/share/fonts && svn checkout https://github.com/powerline/fonts/trunk/DejaVuSansMono' $USER
+su -c 'cd ~/.local/share/fonts && svn checkout https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts/DejaVuSansMono' $USER
 fc-cache
 # freedesktop repo implementation
 su -c "git clone https://github.com/lcpz/awesome-freedesktop.git /home/$USER/.config/awesome/freedesktop" $USER
@@ -329,8 +329,8 @@ pip2.7 install pynvim
 su -c "gem install neovim" $USER
 su -c "gem environment" $USER
 npm install -g neovim
-su -c "mkdir ~/.config/nvim && cp ~/.yadrlite/awesome/nvim/init.vim ~/.config/nvim" $USER
-mkdir ~/.config/nvim && cp ~/.yadrlite/awesome/nvim/init.vim ~/.config/nvim
+su -c "mkdir -p ~/.config/nvim && cp ~/.yadrlite/awesome/nvim/* ~/.config/nvim" $USER
+mkdir -p ~/.config/nvim && cp ~/.yadrlite/awesome/nvim/* ~/.config/nvim
 
 # compiles emacs 27
 # for much better speed and compatibitily
