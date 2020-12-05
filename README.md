@@ -277,7 +277,7 @@ Vim Shortcuts
 * `gy`: go to type definition
 * `gi`: go to next implementation of tag
 * `gr`: pull up reference preview of tag
-* `,rn`: symbol renaming 
+* `,rn`: symbol renaming
 * `,f`: format selected code
 * `:Format`: format code in current buffer
 * `:Fold`: fold code in current buffer
@@ -285,7 +285,7 @@ Vim Shortcuts
 * `:Ctrl-f`: scroll up in popup window `:Ctrl-b`: scroll down in popup window
 * `,e`: pull up diagnostic window
 * `[g`,`]g`: navigate up/down diagnostic window
-* `:qf`: autocorrect line error
+* `,qf`: autocorrect line error
 * `K`: pull up documentation for item under cursor
 * `Ctrl-Space`: Trigger autocompletion
 
