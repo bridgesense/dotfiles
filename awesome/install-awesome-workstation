@@ -280,7 +280,7 @@ install package php
 log "installing requried php modules for boris and phpctags"
 install package php-json php-process
 npm install -g npm@latest
-npm install -g grunt-cli coffee-jshint coffeelint  eslint js-yaml csslint gulp yarn typescript
+npm install -g grunt-cli coffeelint  eslint csslint gulp yarn typescript
 su -c 'git clone https://github.com/xcwen/phpctags.git ~/lab/phpctags' $USER
 su -c 'make -C ~/lab/phpctags' $USER
 cp /home/$USER/lab/phpcstags/build/phpctags.phar /usr/local/bin
