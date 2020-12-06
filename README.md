@@ -189,14 +189,17 @@ The leader key Ctrl-a can be followed by the next key concurrently without holdi
 * `Ctrl-a k`: Focus on window below the current one
 * `Ctrl-a l`: Focus on window right of the current one
 * `Ctrl-a x`: Kill current window pane
-* `Ctrl+H`: Shift current window pane left
-* `Ctrl+J`: Shift current window pane up
-* `Ctrl+K`: Shift current window pane down
-* `Ctrl+L`: Shift current window pane right
+* `Ctrl-a H`: Shift current window pane left
+* `Ctrl-a J`: Shift current window pane up
+* `Ctrl-a K`: Shift current window pane down
+* `Ctrl-a L`: Shift current window pane right
 * `Ctrl-a s`: Create new window horizontally below current one
 * `Ctrl-a v`: Create new window vertically to right of current one
 * `Ctrl-a [`: Enter Vim-like normal mode
 * `Ctrl-a Ctrl-s`, `Ctrl-r`: Saves and Restores Tmux Session
+* `Ctrl-a s`: Save current window state
+* `Ctrl-a r`: Restore previously saved window state
+
 In visual mode use `h,j,k,l` to move, `v` to change to visual mode and `y` to yank selection.  Press `Enter` to exit mode.
 
 
