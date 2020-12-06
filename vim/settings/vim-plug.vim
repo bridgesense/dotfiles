@@ -35,6 +35,7 @@ Plug 'inkarkat/vim-SyntaxRange'
 Plug 'morhetz/gruvbox'
 Plug 'gorodinskiy/vim-coloresque'
 Plug 'vim-scripts/YankRing.vim'
+Plug 'kchmck/vim-coffee-script'
 
 " Initialize plugin system
 call plug#end()
