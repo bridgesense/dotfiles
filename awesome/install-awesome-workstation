@@ -192,7 +192,9 @@ pip3 install bpytop --upgrade
 pip3 install ueberzug
 install package caca-utils ffmpegthumbnailer unrar python3-bidict ranger
 su -c "cp -r ~/.yadrlite/awesome/ranger ~/.config" $USER
+su -c "git clone https://github.com/alexanderjeurissen/ranger_devicons ~/.config/ranger/plugins/ranger_devicons" $USER
 cp -r ~/.yadrlite/awesome/ranger ~/.config
+git clone https://github.com/alexanderjeurissen/ranger_devicons ~/.config/ranger/plugins/ranger_devicons
 
 # backlight fix for i915 GPU's
 # to work with cbacklight script
