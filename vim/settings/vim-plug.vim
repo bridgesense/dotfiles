@@ -37,6 +37,8 @@ Plug 'vim-scripts/YankRing.vim'
 Plug 'kchmck/vim-coffee-script'
 if has('nvim-0.3.2')
     Plug 'neoclide/coc.nvim', {'branch': 'release' }
+else
+    Plug 'vim-syntastic/syntastic'
 endif
 
 " Initialize plugin system
