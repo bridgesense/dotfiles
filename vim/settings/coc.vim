@@ -1,54 +1,54 @@
 " disables startup warning
 let g:coc_disable_startup_warning = 1
 
+" load extensions
+let g:coc_global_extensions = [
+    \ 'coc-css',
+    \ 'coc-cssmodules',
+    \ 'coc-html',
+    \ 'coc-eslint',
+    \ 'coc-explorer',
+    \ 'coc-java',
+    \ 'coc-json',
+    \ 'coc-markdownlint',
+    \ 'coc-phpls',
+    \ 'coc-pyright',
+    \ 'coc-sh',
+    \ 'coc-sql',
+    \ 'coc-svg',
+    \ 'coc-tsserver',
+    \ 'coc-yaml',
+    \ 'coc-xml'
+    \ ]
+
+" TextEdit might fail if hidden is not set.
+set hidden
+
+" Some servers have issues with backup files, see #649.
+set nobackup
+set nowritebackup
+
+" Give more space for displaying messages.
+set cmdheight=2
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
+
+" Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+if has("patch-8.1.1564")
+  " Recently vim can merge signcolumn and number column into one
+  set signcolumn=number
+else
+  set signcolumn=yes
+endif
+
 if exists('g:did_coc_loaded')
-
-    " load extensions
-    let g:coc_global_extensions = [
-        \ 'coc-css',
-        \ 'coc-cssmodules',
-        \ 'coc-html',
-        \ 'coc-eslint',
-        \ 'coc-explorer',
-        \ 'coc-java',
-        \ 'coc-json',
-        \ 'coc-markdownlint',
-        \ 'coc-phpls',
-        \ 'coc-pyright',
-        \ 'coc-sh',
-        \ 'coc-sql',
-        \ 'coc-svg',
-        \ 'coc-tsserver',
-        \ 'coc-yaml',
-        \ 'coc-xml'
-        \ ]
-
-    " TextEdit might fail if hidden is not set.
-    set hidden
-
-    " Some servers have issues with backup files, see #649.
-    set nobackup
-    set nowritebackup
-
-    " Give more space for displaying messages.
-    set cmdheight=2
-
-    " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
-    " delays and poor user experience.
-    set updatetime=300
-
-    " Don't pass messages to |ins-completion-menu|.
-    set shortmess+=c
-
-    " Always show the signcolumn, otherwise it would shift the text each time
-    " diagnostics appear/become resolved.
-    if has("patch-8.1.1564")
-      " Recently vim can merge signcolumn and number column into one
-      set signcolumn=number
-    else
-      set signcolumn=yes
-    endif
-
+    
     " Use tab for trigger completion with characters ahead and navigate.
     " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
     " other plugin before putting this into your config.
