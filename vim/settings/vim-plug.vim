@@ -16,7 +16,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'zackhsi/fzf-tags'
-Plug 'neoclide/coc.nvim', {'branch': 'release' }
 Plug 'andymass/vim-matchup'
 Plug 'vim-scripts/MultipleSearch'
 Plug 'preservim/nerdtree'
@@ -36,6 +35,9 @@ Plug 'morhetz/gruvbox'
 Plug 'gorodinskiy/vim-coloresque'
 Plug 'vim-scripts/YankRing.vim'
 Plug 'kchmck/vim-coffee-script'
+if has('nvim-0.3.2')
+    Plug 'neoclide/coc.nvim', {'branch': 'release' }
+endif
 
 " Initialize plugin system
 call plug#end()

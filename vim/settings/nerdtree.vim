@@ -1,4 +1,4 @@
-if ! has('nvim')
+if ! has('nvim-0.3.2')
     let NERDTreeMinimalUI = 1
     let NERDTreeDirArrows = 1
     let g:NERDTreeWinSize = 30
