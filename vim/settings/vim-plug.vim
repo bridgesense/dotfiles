@@ -8,36 +8,36 @@ endif
 " Specify a directory for plugins
 call plug#begin('~/.vim/plugged')
 
-Plug 'jiangmiao/auto-pairs'
+Plug 'airblade/vim-gitgutter'
+Plug 'alvan/vim-php-manual'
+Plug 'andymass/vim-matchup'
 Plug 'bridgesense/vim-bufsurf'
-Plug 'itchyny/lightline.vim'
+Plug 'bridgesense/vim-hsftp'
+Plug 'christoomey/vim-tmux-navigator'
 Plug 'easymotion/vim-easymotion'
-Plug 'tpope/vim-fugitive'
+Plug 'gorodinskiy/vim-coloresque'
+Plug 'inkarkat/vim-SyntaxRange'
+Plug 'itchyny/lightline.vim'
+Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'zackhsi/fzf-tags'
-Plug 'andymass/vim-matchup'
-Plug 'vim-scripts/MultipleSearch'
-Plug 'preservim/nerdtree'
-Plug 'PhilRunninger/nerdtree-visual-selection'
+Plug 'morhetz/gruvbox'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-surround'
 Plug 'tomtom/tcomment_vim'
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'vim-vdebug/vdebug'
-Plug 'bridgesense/vim-hsftp'
-Plug 'airblade/vim-gitgutter'
 Plug 'terryma/vim-multiple-cursors'
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
-Plug 'inkarkat/vim-SyntaxRange'
-Plug 'morhetz/gruvbox'
-Plug 'gorodinskiy/vim-coloresque'
+Plug 'vim-scripts/MultipleSearch'
 Plug 'vim-scripts/YankRing.vim'
-Plug 'kchmck/vim-coffee-script'
-Plug 'alvan/vim-php-manual'
+Plug 'vim-vdebug/vdebug'
+Plug 'zackhsi/fzf-tags'
 if has('nvim-0.3.2')
+    Plug 'kchmck/vim-coffee-script'
     Plug 'neoclide/coc.nvim', {'branch': 'release' }
 else
+    Plug 'PhilRunninger/nerdtree-visual-selection'
+    Plug 'preservim/nerdtree'
     Plug 'vim-syntastic/syntastic'
 endif
 
