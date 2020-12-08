@@ -34,6 +34,7 @@ Plug 'morhetz/gruvbox'
 Plug 'gorodinskiy/vim-coloresque'
 Plug 'vim-scripts/YankRing.vim'
 Plug 'kchmck/vim-coffee-script'
+Plug 'alvan/vim-php-manual'
 if has('nvim-0.3.2')
     Plug 'neoclide/coc.nvim', {'branch': 'release' }
 else

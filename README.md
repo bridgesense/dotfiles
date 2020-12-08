@@ -289,7 +289,8 @@ Vim Shortcuts
 * `,e`: pull up diagnostic window
 * `[g`,`]g`: navigate up/down diagnostic window
 * `,qf`: autocorrect line error
-* `K`: pull up documentation for item under cursor
+* `H`,`K` : pull up documentation for item under cursor
+* `Ctrl-h`: pull up online PHP documentation for item under cursor
 * `Ctrl-Space`: Trigger autocompletion
 
 #### Asynchronous Recorder:
