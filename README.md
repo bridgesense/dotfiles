@@ -240,8 +240,8 @@ Vim Shortcuts
 * `,t`: CtrlP fuzzy file selector
 * `,b`: CtrlP buffer selector great for jumping to a file you already have open
 * `,,b`: opens buffer selector containing recently opened files
-* `,n`: Toggles NERDTree
-* `,m`: show current file in NERDTree
+* `,n`: show current file in file explorer
+* `,m`: opens file explorer in directory vim was started in
 * `,q`: closes buffer without skving (`:bd!`)
 * `,Q`: completely closes Vim without saving any buffers (`:qa!`)
 * `,Z`: completely closes Vim saving all buffers (`:xa`)

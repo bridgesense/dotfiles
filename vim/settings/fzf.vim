@@ -1,5 +1,11 @@
+" Enables history file
+" let g:fzf_history_dir = '~/.fzf_history'
+
 " Always enable preview window on the right with 60% width
-let g:fzf_preview_window = 'right:40%'
+let g:fzf_preview_window = 'right:50%'
+
+" force layout window at the bottom
+let g:fzf_layout = { 'down': '~100%' }
 
 " [Buffers] Jump to the existing window if possible
 let g:fzf_buffers_jump = 1
