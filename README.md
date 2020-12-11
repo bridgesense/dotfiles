@@ -292,6 +292,13 @@ Vim Shortcuts
 * `H`,`K` : pull up documentation for item under cursor
 * `Ctrl-Space`: Trigger autocompletion
 
+### Snippets:
+* `C-l`: Trigger snippet expand
+* `C-j`: Expand or Jump to next placeholder
+* `C-k`: Jump to previous placeholder
+* `,x`: Convert visual selected code to a snippet
+* `<tab>`: triggers completion, confirmation, expand and jump
+
 #### Asynchronous Recorder:
 * `q <letter>`: start recording all activity
 * `q`: stop recording

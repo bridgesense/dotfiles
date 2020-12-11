@@ -14,6 +14,7 @@ let g:coc_global_extensions = [
     \ 'coc-phpls',
     \ 'coc-pyright',
     \ 'coc-sh',
+    \ 'coc-snippets',
     \ 'coc-sql',
     \ 'coc-svg',
     \ 'coc-tsserver',
