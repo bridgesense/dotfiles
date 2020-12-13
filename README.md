@@ -190,8 +190,8 @@ The leader key Ctrl-a can be followed by the next key concurrently without holdi
 * `Ctrl-a l`: Focus on window right of the current one
 * `Ctrl-a x`: Kill current window pane
 * `Ctrl-a H`: Shift current window pane left
-* `Ctrl-a J`: Shift current window pane up
-* `Ctrl-a K`: Shift current window pane down
+* `Ctrl-a J`: Shift current window pane down 
+* `Ctrl-a K`: Shift current window pane up 
 * `Ctrl-a L`: Shift current window pane right
 * `Ctrl-a s`: Create new window horizontally below current one
 * `Ctrl-a v`: Create new window vertically to right of current one

@@ -64,7 +64,7 @@ function install {
 # # # # # # # # # # # # # # #
 log "installing commandline tools"
 dnf update -y
-install package autoconf automake git rsync htop zsh composer nodejs golang ruby-devel
+install package autoconf automake git rsync htop zsh nodejs golang ruby-devel
 install group development-tools rpm-development-tools c-development
 npm install -g npm
 $SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
@@ -285,12 +285,19 @@ dnf install -y \*-firmware
 log "installing php"
 install package php
 
+# install composer
+# # # # # # # # # # # # # # #
+cd /root && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" 
+php composer-setup.php
+php -r "unlink('composer-setup.php');"
+mv composer.phar /usr/local/bin/composer
+
 # required modules for boris and phpctags
 # # # # # # # # # # # # # # #
 log "installing requried php modules for boris and phpctags"
 install package php-json php-process
 npm install -g npm@latest
-npm install -g grunt-cli coffeelint  eslint csslint gulp yarn typescript
+npm install -g grunt-cli coffeelint eslint csslint gulp yarn typescript
 su -c 'git clone https://github.com/xcwen/phpctags.git ~/lab/phpctags' $USER
 su -c 'make -C ~/lab/phpctags' $USER
 cp /home/$USER/lab/phpcstags/build/phpctags.phar /usr/local/bin
