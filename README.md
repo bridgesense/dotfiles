@@ -197,8 +197,6 @@ The leader key Ctrl-a can be followed by the next key concurrently without holdi
 * `Ctrl-a v`: Create new window vertically to right of current one
 * `Ctrl-a [`: Enter Vim-like normal mode
 * `Ctrl-a Ctrl-s`, `Ctrl-r`: Saves and Restores Tmux Session
-* `Ctrl-a s`: Save current window state
-* `Ctrl-a r`: Restore previously saved window state
 
 In visual mode use `h,j,k,l` to move, `v` to change to visual mode and `y` to yank selection.  Press `Enter` to exit mode.
 
