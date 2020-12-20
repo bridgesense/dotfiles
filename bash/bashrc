@@ -6,8 +6,8 @@ export LS_COLORS=
 export TERM=xterm-256color
 
 # default to nvim if installed
-if [[ -n $SSH_CONNECTION || ! -x "$(command -v nvim)" ]]; then
-  export EDITOR='vim'
+if [ ! -x "$(command -v nvim)" ]; then
+  export EDITOR='vi'
 else
   alias vi="$(which nvim)"
   alias vim="$(which nvim)"
