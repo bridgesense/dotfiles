@@ -34,13 +34,13 @@ if has('nvim')
     \ }
 
     " Use preset argument to open it
-    nmap <leader>n :CocCommand explorer
+    nmap <silent> <leader>n :CocCommand explorer
     \ --toggle
     \ --open-action-strategy sourceWindow
     \ --quit-on-open
     \ --sources=buffer+,file+<CR>
 
-    nmap <leader>m :CocCommand explorer
+    nmap <silent> <leader>m :CocCommand explorer
     \ --toggle
     \ --open-action-strategy sourceWindow
     \ --quit-on-open
