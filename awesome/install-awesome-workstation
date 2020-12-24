@@ -494,16 +494,16 @@ su -c "cp -r ~/.yadrlite/awesome/mpv ~/.config" $USER
 # Bluray Playback
 # # # # # # # # # # # # # # #
 log "installing bluray playback"
-install package ffmpeg-devel openssl-devel
-su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-oss-1.15.3.tar.gz' $USER
-su -c 'cd ~/lab && tar xpf makemkv-oss-1.15.3.tar.gz' $USER
-su -c 'cd ~/lab/makemkv-oss-1.15.3 && ./configure' $USER
-su -c 'make -C ~/lab/makemkv-oss-1.15.3' $USER
-cd /home/$USER/lab/makemkv-oss-1.15.3 && make install
-su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-bin-1.15.3.tar.gz' $USER
-su -c 'cd ~/lab && tar xpf makemkv-bin-1.15.3.tar.gz' $USER
-su -c 'make -C ~/lab/makemkv-bin-1.15.3' $USER
-cd /home/$USER/lab/makemkv-bin-1.15.3 && make install
+install package ffmpeg-devel openssl-devel expat-devel mesa-libGL-devel qt5-qtbase-devel
+su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-oss-1.15.4.tar.gz' $USER
+su -c 'cd ~/lab && tar xpf makemkv-oss-1.15.4.tar.gz' $USER
+su -c 'cd ~/lab/makemkv-oss-1.15.4 && ./configure' $USER
+su -c 'make -C ~/lab/makemkv-oss-1.15.4' $USER
+cd /home/$USER/lab/makemkv-oss-1.15.4 && make install
+su -c 'cd ~/lab && wget http://www.makemkv.com/download/makemkv-bin-1.15.4.tar.gz' $USER
+su -c 'cd ~/lab && tar xpf makemkv-bin-1.15.4.tar.gz' $USER
+su -c 'make -C ~/lab/makemkv-bin-1.15.4' $USER
+cd /home/$USER/lab/makemkv-bin-1.15.4 && make install
 
 # TROUBLESHOOTING
 # # # # # # # # # # # # # # #
