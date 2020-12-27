@@ -8,9 +8,9 @@ function shell.screenInit()
     -- connects blutooth device
     awful.spawn.with_shell("echo -e \"connect A4:E9:75:F0:EF:87 \nquit\" | bluetoothctl") 
     -- handle monitor changes
-    awful.spawn("autorandr --change")
+    awful.spawn.with_shell("autorandr --change")
     -- repaint backgrounds
-    awful.spawn.with_shell("feh --randomize --bg-scale " .. os.getenv("HOME") .. "/Nextcloud/backgrounds/*")
+    awful.spawn.with_shell("sleep 2 && feh --randomize --bg-scale " .. os.getenv("HOME") .. "/Nextcloud/ultrawide/*")
 end
 
 function shell.startupAwesome()
