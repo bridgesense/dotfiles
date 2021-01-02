@@ -62,23 +62,23 @@ function install {
 # Run as root
 # Commandline Tools
 # # # # # # # # # # # # # # #
-log "installing commandline tools"
-dnf update -y
-dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
-install package autoconf automake git rsync htop zsh nodejs golang ruby-devel
-install group "Development Tools" 
-install group "RPM Development Tools"
-npm install -g npm
-$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
-su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
-echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
-echo "pgrep 'tmux|start' >/dev/null || startx" >> /home/$USER/.zshrc
+# log "installing commandline tools"
+# dnf update -y
+# dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+# install package autoconf automake git rsync htop zsh nodejs golang ruby-devel
+# install group "Development Tools" 
+# install group "RPM Development Tools"
+# npm install -g npm
+# $SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
+# su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
+# echo "pgrep 'tmux|start' || startx" >> /home/$USER/.bash_profile
+# echo "pgrep 'tmux|start' >/dev/null || startx" >> /home/$USER/.zshrc
 
 # Install RPM Fusion
 # # # # # # # # # # # # # # #
-# log "installing RPM Fusion"
-dnf install -y https://download1.rpmfusion.oig/free/fedora/rpmfusion-free-release-$(cat /etc/redhat-release | awk '{print int($6)}').noarch.rpm
-dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(cat /etc/redhat-release | awk '{print int($6)}').noarch.rpm
+log "installing RPM Fusion"
+dnf install -y https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-$(cat /etc/redhat-release | awk '{print int($6)}').noarch.rpm
+dnf install -y https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-$(cat /etc/redhat-release | awk '{print int($6)}').noarch.rpm
 
 # Install Window Manager
 # # # # # # # # # # # # # # #
