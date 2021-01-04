@@ -85,12 +85,11 @@ install group "Fedora Workstation"
 install package gnome-tweaks fontawesome-fonts xautolock i3lock lxappearance
 install package gdouros-symbola-fonts gucharmap
 install package copr-cli dnf-plugins-core
-install pacakge xbacklight feh arc-theme redshift-gtk
+install package xbacklight feh arc-theme redshift-gtk
 install package gtk-murrine-engine compton
 install package pulseeffects pavucontrol
 install package xclip vim-common
 install package arandr zenity flameshot
-pip3 install autorandr
 install package gnome-keyring
 install package gnome-control-center
 install package NetworkManager-tui NetworkManager-wifi
@@ -122,8 +121,24 @@ install package brasero
 # v4.3 stable has a pretty bad bug in the keygrabber
 # that doesn't work well with this theme
 # # # # # # # # # # # # # # #
+
+# copr option
 dnf copr enable -y jcrd/awesome-luajit-nightly
 install package awesome
+
+# compile from source
+# install package cairo lua  gobject-introspection
+# install package lua-devel luarocks lua-lgi
+# install package xcb-util-devel xcb-util-cursor-devel xcb-util-keysyms-devel 
+# install package xcb-util-xrm-devel xcb-util-wm-devel 
+# install package ImageMagick libxkbcommon-x11-devel startup-notification-devel
+# install package libxdg-basedir-devel
+# su -c 'mkdir ~/lab' $USER
+# su -c 'git clone https://github.com/awesomeWM/awesome.git' $USER
+# su -c 'make -C ~/lab/awesome' $USER
+# cd /home/$USER/lab/awesome && make install
+# sleep 1
+# make clean
 
 # copy over system start resources
 # # # # # # # # # # # # # # #
@@ -380,7 +395,7 @@ flatpak install -y flathub com.spotify.Client
 flatpak install -y flathub org.signal.Signal
 flatpak install -y flathub us.zoom.Zoom
 flatpak install -y flathub org.musescore.MuseScore
-flatpak instlal -y flathub com.nextcloud
+flatpak install -y flathub com.nextcloud
 
 # Install Browsers
 log "installing browsers"
