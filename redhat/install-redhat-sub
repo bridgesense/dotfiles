@@ -1,0 +1,207 @@
+#!/usr/bin/env bash
+# This script is just a personal snapshot of my rhel workstation.
+# subscription-manager repos --enable "codeready-builder-for-rhel-8-$(arch)-rpms"
+# $SHELL install-redhat-sup <username>
+# # # # # # # # # # # # # # #
+
+# Options
+# # # # # # # # # # # # # # #
+USER="${1:francis}"
+LOGFILE='/root/workstation-installation.log'
+
+# Functions
+# # # # # # # # # # # # # # #
+function log {
+    if [ -f "$LOGFILE" ]; then
+        echo $1 >> $LOGFILE
+    else
+        echo $1 > $LOGFILE
+    fi
+}
+
+function install {
+    arr=("$@")
+    _type=
+    if [[ "$(declare -p arr)" =~ "declare -a" ]]; then
+        for package in "${arr[@]}"; do
+            if [[ $package == "package" ]]; then
+                _type=$package
+                continue
+            fi
+            if [[ $package == "group" ]]; then
+                _type=$package
+                continue
+            fi
+            if [[ $package == "module" ]]; then
+                _type=$package
+                continue
+            fi
+            cnt=3
+            while [ $cnt -gt 0 ]; do
+                if dnf list installed $package > /dev/null 2>&1; then
+                    break;
+                else
+                    if [[ $_type == "group" ]]; then
+                        dnf group install -y $package
+                        break;
+                    elif [[ $_type == "module" ]]; then
+                        dnf module install -y $package
+                        break;
+                    else
+                        dnf install -y $package
+                    fi
+                fi
+                let "cnt-=1"
+            done
+            if ! dnf list installed $package > /dev/null 2>&1 && [[ $_type != "group" ]]; then
+                log "There was a problem installing ${package}.  Please make sure this package exists."
+            fi
+        done
+    else
+        log "Warning! Passed variable is not an array".
+    fi
+}
+
+# Run as root
+# Enable Repos
+# # # # # # # # # # # # # # #
+log "Enable Repos"
+dnf update -y
+dnf upgrade -y
+dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
+
+# Run as root
+# Commandline Tools
+# # # # # # # # # # # # # # #
+log "installing commandline tools"
+install group "Development Tools"
+install package ack the_silver_searcher
+install package git nodejs
+install module python36
+install package yarn golang ruby-devel
+npm install -g npm@latest
+npm install -g grunt-cli coffeelint eslint csslint gulp typescript
+$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
+su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
+npm install -g neovim
+su -c 'gem update' $USER
+su -c 'gem install compass' $USER
+
+# install composer
+# # # # # # # # # # # # # # #
+install module php:7.4
+cd /root && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php composer-setup.php
+php -r "unlink('composer-setup.php');"
+mv composer.phar /usr/local/bin/composer
+
+# install coding tools
+install package freetype-devel fontconfig-devel libxcb-devel cargo
+cargo install alacritty
+ln /root/.cargo/bin/alacritty /usr/local/bin/alacritty
+update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/local/bin/alacritty 50
+gsettings set org.gnome.desktop.default-applications.terminal exec alacritty
+dnf install -y neovim tmux emacs
+pip3 install neovim
+pip3 install ranger-fm
+
+# install supplementary packages
+install package gnome-tweaks
+install package NetworkManager-openvpn-gnome NetworkManager-openconnect-gnome
+install package aspell-en texlive-latex
+install package texlive-collection-latex
+install package redshift-gtk
+install package clamav clamav-update
+install package brasero
+install pacakge youtube-dl
+install package w3m w3m-img
+install package ftp telnet
+install package hplip hplip-gui
+
+yum install gstreamer gstreamer-plugins-base gstreamer-plugins-good gstreamer-plugins-bad-free
+
+# swap escape with caps lock
+replace /etc/X11/xorg.conf.d/00-keyboard.conf with:
+printf "\
+Section \"InputClass\"\n\
+        Identifier      \"system-keyboard\"\n\
+        MatchIsKeyboard     \"on\"\n\
+        Option          \"XkbLayout\" \"us\"\n\
+        Option          \"XkbModel\"  \"pc104\"\n\
+        Option          \"XkbOptions\" \"caps:swapescape\"\n\
+EndSection\n
+" > /etc/X11/xorg.conf.d/00-keyboard.conf
+
+
+# fix flathub repo
+flatpak remote-delete flathub
+flatpak remote-add flathub https://flathub.org/repo.flathub.flatpakrepo
+
+# flatpaks
+flatpak install -y com.nextcloud
+flatpak install -y us.zoom.Zoom
+flatpak install -y com.spotify.Client
+flatpak install -y org.signal.Signal
+flatpak install -y com.github.maoschanz.DynamicWallpaperEditor
+flatpak install -y org.videolan.VLC
+flatpak install -y com.makemkv.MakeMKV
+flatpak install -y org.videolan.VLC.Plugin.makemkv
+flatpak install -y net.sourceforge.Chessx
+flatpak install -y flathub org.musescore.MuseScore
+flatpak install -y org.libreoffice.LibreOffice
+flatpak install -y org.flameshot.Flameshot
+flatpak install -y org.ksnip.ksnip
+
+# install firefox with all needed codecs and dependencies
+dnf remove -y firefox
+flatpak install -y org.mozilla.firefox
+
+# Rambox
+# # # # # # # # # # # # # # #
+log "installing Rambox"
+dnf install -y  https://github.com/ramboxapp/community-edition/releases/download/0.7.7/Rambox-0.7.7-linux-x86_64.rpm
+
+# Vagrant and Virtualbox
+# # # # # # # # # # # # # # #
+log "installing Vagrant and Virtualbox"
+dnf install akmods
+dnf install https://releases.hashicorp.com/vagrant/2.2.14/vagrant_2.2.14_x86_64.rpm
+dnf install -y https://download.virtualbox.org/virtualbox/6.1.16/VirtualBox-6.1-6.1.16_140961_el8-1.x86_64.rpm
+# custom xdebug port
+firewall-cmd --permanent --zone=public --add-port=9041/tcp
+semanage port -a -t http_port_t -p tcp 9041
+usermod -aG vboxusers $USER
+
+# add desktop applications
+log "add application entries"
+su -c 'mkdir -p ~/.local/share/applications' $USER
+su -c 'touch ~/.local/share/applications/alacritty.desktop' $USER
+printf "[Desktop Entry] \n\
+Type=Application\n\
+Name=Alacritty\n\
+Exec=/usr/local/bin/alacritty\n\
+" >> /home/$USER/.local/share/applications/alacritty.desktop
+su -c 'touch ~/.local/share/applications/ranger.desktop' $USER
+printf "[Desktop Entry] \n\
+Type=Application\n\
+Name=Ranger\n\
+Exec=/usr/local/bin/alacritty -e ranger\n\
+" >> /home/$USER/.local/share/applications/ranger.desktop
+
+# Installing configuration
+# # # # # # # # # # # # # # #
+log "installing custom configuration"
+$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
+su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
+su -c "cp -r ~/.yadrlite/redhat/alacritty ~/.config" $USER
+su -c "cp -r ~/.yadrlite/redhat/nvim ~/.config" $USER
+cp -r ~/.yadrlite/redhat/nvim ~/.config
+su -c "cp -r ~/.yadrlite/redhat/ranger ~/.config" $USER
+cp -r ~/.yadrlite/redhat/ranger ~/.config
+find /home/$USER/.config -type d -exec chmod 0755 {} \;
+find /home/$USER/.config -type f -exec chmod 0644 {} \;
+
+log "Installation complete.  Please reboot your system."
+printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
+printf "ALL DONE.  PLEASE REBOOT YOUR SYSTEM."

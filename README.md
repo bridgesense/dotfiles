@@ -6,7 +6,7 @@ This dotfile repo is heavily based on [YADR](https://github.com/skwp/dotfiles) w
 
 Check out the original repo, [YADR](https://github.com/skwp/dotfiles) especially if you work in Python or Ruby.
 
-index: [Emacs](#emacs), [Tmux](#tmux), [Vim](#vim), [Alacritty](#alacritty), and [AwesomeWM  Workstation](#awesomewm-workstation)
+index: [Emacs](#emacs), [Tmux](#tmux), [Vim](#vim), and [Alacritty](#alacritty)
 
 # Dotfiles Installation
 
@@ -370,89 +370,3 @@ Alacritty Shortcuts
 * `Ctrl+Equals`: Inscrease Font Size
 * `Ctrl+Slash`: Decrease Font Size
 
-
-# AwesomeWM Workstation
-
-The following script installs the [Awesome window manager](https://awesomewm.org/) with theme and tweaks by [Jonas Belouadi](https://github.com/potamides/dotfiles/tree/master/.config/awesome).  The [modalawesome](https://github.com/potamides/modalawesome) library introduces some very nice vi-like, sequential keybindings.  This concept modalizes the windows into four states similar in manner to Vim and Emacs Evil.
-
-NOTE: All applications start in tag mode and will not accept keyboard input until they are put into client with the `i` key.  Use `Super` to exit the client mode.
-
-WARNING: There is a bug in the awful.keygrabber library of the stable release (4.3 too long) that causes awesome to exit in Luancher mode when hitting the backspace key.  I'd encourage people to compile awesome directily from the [repo](https://github.com/awesomeWM/awesome.git).  On Fedora I would suggest this [copr](https://copr.fedorainfracloud.org/coprs/jcrd/awesome-luajit-nightly/) by James R.
-
-Requirements: any flavor of [Fedora 33](https://getfedora.org)
-
-[Return to top](#yadrlite)
-
-#### Awesome Workstation Installation
-```bash
-# run as root on any Fedora 33 installation
-curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/awesome/install-awesome-workstation > custom-fedora-setup
-# The workstation user must already be set up
-bash custom-fedora-setup <workstation_username>
-```
-
-AwesomeWM Workstation Shortcuts
----
-#### Modes:
-* `Super`: puts the window into tag mode which turns off keyboard input and allows windows to be shuffled around
-* `i`: puts the window into the client mode which accepts keyboard input
-* `r`: puts the window into launcher mode
-* `w`: puts the selected window into layout mode
-
-#### Tag Mode:
-* `,.`: focus window by index
-* `HJKL`: swap window by direction
-* `hjkl`: focus window by direction
-* `eq`: focus monitor by index
-* `1-9 gfb`: focus desktop by index
-* `A`: jump to window on any screen
-* `C`: closes the window in focus
-* `F`: toggle full screen
-* `M`: toggle maximized view
-* `N`: hide all visible windows
-* `O`: toggle keep on top
-* `S`: toggle sticky
-* `V`: toggle floating
-* `Z`: go back in client history
-* `1-9 gfb`: shift focus to next/previous screen
-* `m 1-9 gfb`: move window to next/previous screen
-* `n`: minimize window
-* `t 1-9 gfb`: toggle tag
-* `u`: restore minimized windows
-* `x`: jump to urgent window
-* `y`: move to master screen
-* `z`: go back in tag history
-
-#### Layout Mode:
-* `1-9 fb`: change layout
-* `hl`: expand/contract width of window
-* `jk`: expand/contract height of window
-* `c 1-9 fb`: change number of columns
-* `g 1-9 fb`: change useless gap
-* `m 1-9 fb`: change number of master clients
-
-#### Launcher Mode:
-* `F1`: lower volume
-* `F2`: raise volume
-* `F3`: toggle volume mute
-* `F4`: toggle mic mute
-* `F5`: decrease backlight
-* `F6`: increase backlight
-* `F7`: engage autorandr --change
-* `H`: hibernate
-* `N`: launch nemo
-* `n`: launch ranger
-* `Q`: restart awesome with lua changes
-* `R`: restart machine
-* `S`: take a screenshot with flameshot
-* `X`: shut down machine
-* `b`: launch browser
-* `d`: execute duckduckgo search
-* `g`: execute google search
-* `h`: show help screen
-* `m`: caffeinates monitors
-* `p`: launch bpytop
-* `r`: application launcher
-* `s`: run prompt
-* `t`: open terminal
-* `x`: lua prompt
