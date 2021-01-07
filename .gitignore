@@ -9,6 +9,7 @@ emacs.d/*
 tmux.conf
 tags
 tmux/plugin
+vim/.*
 vim/autoload/*
 vim/bundle
 vim/plugged
@@ -20,4 +21,3 @@ zshrc
 !vim/autoload/plug.vim
 !vim/vimrc.after
 !vim/vimrc
-
