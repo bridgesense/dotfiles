@@ -145,6 +145,7 @@ flatpak remote-delete flathub
 flatpak remote-add flathub https://flathub.org/repo.flathub.flatpakrepo
 
 # flatpaks
+flatpak install -y org.gnu.emacs
 flatpak install -y com.nextcloud
 flatpak install -y us.zoom.Zoom
 flatpak install -y com.spotify.Client
