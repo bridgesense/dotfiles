@@ -26,6 +26,10 @@
  version-control t)       ; use versioned backups
 
 
+;; Disable cl warning
+(setq byte-compile-warnings '(cl-functions))
+
+
 ;; Remember your place
 ;; # # # # # # # # # # #
 (save-place-mode 1)
