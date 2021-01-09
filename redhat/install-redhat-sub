@@ -145,22 +145,24 @@ flatpak remote-delete flathub
 flatpak remote-add flathub https://flathub.org/repo.flathub.flatpakrepo
 
 # flatpaks
-flatpak install -y org.gnu.emacs
-flatpak install -y com.nextcloud
-flatpak install -y us.zoom.Zoom
-flatpak install -y com.spotify.Client
-flatpak install -y org.signal.Signal
-flatpak install -y com.github.maoschanz.DynamicWallpaperEditor
-flatpak install -y org.videolan.VLC
-flatpak install -y com.makemkv.MakeMKV
-flatpak install -y org.videolan.VLC.Plugin.makemkv
-flatpak install -y net.sourceforge.Chessx
-flatpak install -y flathub org.musescore.MuseScore
-flatpak install -y org.libreoffice.LibreOffice
-flatpak install -y org.flameshot.Flameshot
-flatpak install -y org.ksnip.ksnip
+flatpak install -y app/org.gnu.emacs/x86_64/stable
+flatpak install -y app/com.nextcloud.desktopclient.nextcloud/x86_64/stable
+flatpak install -y app/us.zoom.Zoom/x86_64/stable 
+flatpak install -y app/com.spotify.Client/x86_64/stable  
+flatpak install -y app/org.signal.Signal/x86_64/stable
+flatpak install -y app/com.github.maoschanz.DynamicWallpaperEditor/x86_64/stable
+flatpak install -y app/net.sourceforge.Chessx/x86_64/stable
+flatpak install -y app/org.musescore.MuseScore/x86_64/stable
+flatpak install -y app/org.libreoffice.LibreOffice/x86_64/stable
+flatpak install -y app/org.ksnip.ksnip/x86_64/stable
 
-# install firefox with all needed codecs and dependencies
+# install video and audio codecs
+flatpak install -y app/org.videolan.VLC/x86_64/stable
+flatpak install -y app/com.makemkv.MakeMKV/x86_64/stable
+flatpak install -y org.videolan.VLC.Plugin.makemkv/x86_64/3-20.08
+flatpak install -y org.freedesktop.Platform.ffmpeg-full/x86_64/19.08
+
+# install firefox with codecs
 dnf remove -y firefox
 flatpak install -y org.mozilla.firefox
 
@@ -217,6 +219,9 @@ find /home/$USER/.config -type f -exec chmod 0644 {} \;
 # Adds Nerdfonts DejaVuSansMono
 su -c 'mkdir -p ~/.local/share/fonts/' $USER
 su -c 'cd ~/.local/share/fonts && svn checkout https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts/DejaVuSansMono' $USER
+
+# misc sanity improvements 
+git config --global core.askpass ""
 
 log "Installation complete.  Please reboot your system."
 printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
