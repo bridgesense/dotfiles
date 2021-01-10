@@ -376,9 +376,6 @@ Kitty Shortcuts
 * `ctrl+shift+[`: Last window
 * `ctrl+shift+l`: Cycle through layout
 
-#### Vim Mode:
-* `Ctrl+Shift+Space`: Toggles the Vim mode which provides the standard Vim positional and copy commands.
-
 #### Display Options:
 * `Ctrl+Shift+Equal`: Inscrease Font Size
 * `Ctrl+Shift+minus`: Decrease Font Size
