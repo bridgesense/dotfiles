@@ -348,7 +348,7 @@ See more about setting up the [.vimrc.local](https://gitlab.com/bridgesense/lamp
 * `,vr`: (Vim Reload) source current file as a vim file
 
 
-# Alacritty
+# Kitty
 
 Kitty is a full featured GPU-accelerated terminal.  It's faster.
 
