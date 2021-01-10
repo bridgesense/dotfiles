@@ -76,9 +76,8 @@ curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yu
 # # # # # # # # # # # # # # #
 log "installing commandline tools"
 install group "Development Tools"
-install package ack the_silver_searcher
-install package git nodejs
-install module python36
+install package git ack the_silver_searcher
+install module nodejs:14 python36 ruby:2.7
 install package yarn golang ruby-devel
 npm install -g npm@latest
 npm install -g grunt-cli coffeelint eslint csslint gulp typescript
@@ -97,6 +96,7 @@ php -r "unlink('composer-setup.php');"
 mv composer.phar /usr/local/bin/composer
 
 # install coding tools
+install module container-tools
 install package freetype-devel fontconfig-devel libxcb-devel cargo
 cargo install alacritty
 ln /root/.cargo/bin/alacritty /usr/local/bin/alacritty
@@ -171,13 +171,23 @@ flatpak install -y org.mozilla.firefox
 log "installing Rambox"
 dnf install -y  https://github.com/ramboxapp/community-edition/releases/download/0.7.7/Rambox-0.7.7-linux-x86_64.rpm
 
+# firewall zone update
+firewall-cmd --new-zone=webserver --permanent
+firewall-cmd --reload
+for i in $(firewall-cmd --zone public --list-interfaces); do  firewall-cmd --zone webserver --change-interface=$i --permanent; done
+for i in $(firewall-cmd --zone public --list-interfaces); do  firewall-cmd --zone public --remove-interface=$i --permanent; done
+for i in $(firewall-cmd --zone public --list-services); do  firewall-cmd --zone webserver --add-service $i --permanent; done
+for i in $(firewall-cmd --zone public --list-services); do  firewall-cmd --zone public --remove-service=$i --permanent; done
+sed -i  's/^AllowZoneDrifting\=yes/AllowZoneDrifting\=no/g' /etc/firewalld/firewalld.conf
+firewall-cmd --reload
+
 # Vagrant and Virtualbox
 # # # # # # # # # # # # # # #
 log "installing Vagrant and Virtualbox"
 dnf install -y https://releases.hashicorp.com/vagrant/2.2.14/vagrant_2.2.14_x86_64.rpm
 dnf install -y https://download.virtualbox.org/virtualbox/6.1.16/VirtualBox-6.1-6.1.16_140961_el8-1.x86_64.rpm
 # custom xdebug port
-firewall-cmd --permanent --zone=public --add-port=9041/tcp
+firewall-cmd --permanent --zone=webserver --add-port=9041/tcp
 semanage port -a -t http_port_t -p tcp 9041
 usermod -aG vboxusers $USER
 
