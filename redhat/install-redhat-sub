@@ -78,6 +78,7 @@ log "installing commandline tools"
 install group "Development Tools"
 install package git ack the_silver_searcher
 install module nodejs:14 python36 ruby:2.7
+install module perl:5.26
 install package yarn golang ruby-devel
 npm install -g npm@latest
 npm install -g grunt-cli coffeelint eslint csslint gulp typescript
@@ -97,14 +98,16 @@ mv composer.phar /usr/local/bin/composer
 
 # install coding tools
 install module container-tools
-install package freetype-devel fontconfig-devel libxcb-devel cargo
-cargo install alacritty
-ln /root/.cargo/bin/alacritty /usr/local/bin/alacritty
-update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/local/bin/alacritty 50
-gsettings set org.gnome.desktop.default-applications.terminal exec alacritty
+install package freetype-devel fontconfig-devel libxcb-devel kitty
+update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /bin/kitty 50
+su -c "gsettings set org.gnome.desktop.default-applications.terminal exec kitty" $USER
 dnf install -y neovim tmux emacs
 pip3 install neovim
 pip3 install ranger-fm
+
+# ueberzug plugin
+install package platform-python-devel libX11-devel libXext-devel perl-Image-ExifTool
+pip3 install ueberzug
 
 # install supplementary packages
 install package gnome-tweaks
@@ -117,7 +120,7 @@ install package brasero
 install pacakge youtube-dl
 install package w3m w3m-img
 install package ftp telnet
-install package hplip hplip-gui
+install package hplip hplip-gui simple-scan
 install package lm-sensors
 
 # swap escape with caps lock
@@ -156,6 +159,16 @@ flatpak install -y app/org.musescore.MuseScore/x86_64/stable
 flatpak install -y app/org.libreoffice.LibreOffice/x86_64/stable
 flatpak install -y app/org.ksnip.ksnip/x86_64/stable
 
+# gimp
+flatpak install -y org.gimp.GIMP
+flatpak install -y org.gimp.GIMP.Plugin.LiquidRescale
+flatpak install -y org.gimp.GIMP.Plugin.GMic
+flatpak install -y org.gimp.GIMP.Plugin.FocusBlur
+flatpak install -y org.gimp.GIMP.Plugin.Resynthesizer
+flatpak install -y org.gimp.GIMP.Plugin.Lensfun
+flatpak install -y org.gimp.GIMP.Plugin.Fourier
+flatpak install -y org.gimp.GIMP.Plugin.BIMP
+
 # install video and audio codecs
 flatpak install -y app/org.videolan.VLC/x86_64/stable
 flatpak install -y app/com.makemkv.MakeMKV/x86_64/stable
@@ -192,19 +205,11 @@ semanage port -a -t http_port_t -p tcp 9041
 usermod -aG vboxusers $USER
 
 # add desktop applications
-log "add application entries"
-su -c 'mkdir -p ~/.local/share/applications' $USER
-su -c 'touch ~/.local/share/applications/alacritty.desktop' $USER
-printf "[Desktop Entry] \n\
-Type=Application\n\
-Name=Alacritty\n\
-Exec=/usr/local/bin/alacritty\n\
-" >> /home/$USER/.local/share/applications/alacritty.desktop
 su -c 'touch ~/.local/share/applications/ranger.desktop' $USER
 printf "[Desktop Entry] \n\
 Type=Application\n\
 Name=Ranger\n\
-Exec=/usr/local/bin/alacritty -e ranger\n\
+Exec=kitty -e ranger\n\
 " >> /home/$USER/.local/share/applications/ranger.desktop
 
 # documentation
@@ -218,13 +223,14 @@ $SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/ma
 su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
 su -c 'cp -f ~/.yadrlite/redhat/Xresources ~/.Xresources' $USER
 cp -f ~/.yadrlite/redhat/Xresources ~/.Xresources
-su -c "cp -r ~/.yadrlite/redhat/alacritty ~/.config" $USER
+su -c "cp -r ~/.yadrlite/redhat/kitty ~/.config" $USER
 su -c "cp -r ~/.yadrlite/redhat/nvim ~/.config" $USER
 cp -r ~/.yadrlite/redhat/nvim ~/.config
 su -c "cp -r ~/.yadrlite/redhat/ranger ~/.config" $USER
 cp -r ~/.yadrlite/redhat/ranger ~/.config
 find /home/$USER/.config -type d -exec chmod 0755 {} \;
 find /home/$USER/.config -type f -exec chmod 0644 {} \;
+find /home/$USER/.config -name "*.sh" -execdir chmod u+x {} +
 
 # Adds Nerdfonts DejaVuSansMono
 su -c 'mkdir -p ~/.local/share/fonts/' $USER

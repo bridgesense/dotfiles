@@ -6,7 +6,7 @@ This dotfile repo is heavily based on [YADR](https://github.com/skwp/dotfiles) w
 
 Check out the original repo, [YADR](https://github.com/skwp/dotfiles) especially if you work in Python or Ruby.
 
-index: [Emacs](#emacs), [Tmux](#tmux), [Vim](#vim), and [Alacritty](#alacritty)
+index: [Emacs](#emacs), [Tmux](#tmux), [Vim](#vim), and [Kitty](#kitty)
 
 # Dotfiles Installation
 
@@ -190,8 +190,8 @@ The leader key Ctrl-a can be followed by the next key concurrently without holdi
 * `Ctrl-a l`: Focus on window right of the current one
 * `Ctrl-a x`: Kill current window pane
 * `Ctrl-a H`: Shift current window pane left
-* `Ctrl-a J`: Shift current window pane down 
-* `Ctrl-a K`: Shift current window pane up 
+* `Ctrl-a J`: Shift current window pane down
+* `Ctrl-a K`: Shift current window pane up
 * `Ctrl-a L`: Shift current window pane right
 * `Ctrl-a s`: Create new window horizontally below current one
 * `Ctrl-a v`: Create new window vertically to right of current one
@@ -350,23 +350,36 @@ See more about setting up the [.vimrc.local](https://gitlab.com/bridgesense/lamp
 
 # Alacritty
 
-Alacritty is a full featured GPU-accelerated terminal.  It's fast.
+Kitty is a full featured GPU-accelerated terminal.  It's faster.
 
-Requirements: [Alacritty](https://github.com/alacritty/alacritty)
+Requirements: [Kitty](https://sw.kovidgoyal.net/kitty/)
 
 [Return to top](#yadrlite)
 
-Alacritty Shortcuts
+Kitty Shortcuts
 ---
 #### History:
-* `Shift+PageUP`: Pages up through terminal history
-* `Shift+PageDown`: Pages down terminal history
+* `Ctrl+Shift+h` Enter history
+
+#### Tabs:
+* `ctrl+shift+t`: Creates new tab
+* `ctrl+shift+q`: Closes tab
+* `ctrl+shift+right`: Next tab
+* `ctrl+shift+left`: Last tab
+* `ctrl+shift+.`: Move tab forward
+* `ctrl+shift+,`: Move tab backward
+
+#### Windows:
+* `ctrl+shift+enter`: New window
+* `ctrl+shift+w`: Close window
+* `ctrl+shift+]`: Next window
+* `ctrl+shift+[`: Last window
+* `ctrl+shift+l`: Cycle through layout
 
 #### Vim Mode:
 * `Ctrl+Shift+Space`: Toggles the Vim mode which provides the standard Vim positional and copy commands.
 
 #### Display Options:
-* `Ctrl+Shift+t`: Toggle Dark/Light Theme
-* `Ctrl+Equals`: Inscrease Font Size
-* `Ctrl+Slash`: Decrease Font Size
-
+* `Ctrl+Shift+Equal`: Inscrease Font Size
+* `Ctrl+Shift+minus`: Decrease Font Size
+* `Ctrl+Shift+backspace`: Restore Font Size
