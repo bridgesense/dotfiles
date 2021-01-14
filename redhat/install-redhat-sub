@@ -70,15 +70,16 @@ dnf update -y
 dnf upgrade -y
 dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
+dnf update -y
 
 # Run as root
 # Commandline Tools
 # # # # # # # # # # # # # # #
 log "installing commandline tools"
-install group "Development Tools"
-install package git ack the_silver_searcher
-install module nodejs:14 python36 ruby:2.7
-install module perl:5.26
+install group 'Development Tools'
+install package git ack 'the_silver_searcher'
+install module nodejs python36 ruby
+install module 'perl:5.26'
 install package yarn golang ruby-devel
 npm install -g npm@latest
 npm install -g grunt-cli coffeelint eslint csslint gulp typescript
@@ -90,7 +91,7 @@ su -c 'gem install compass' $USER
 
 # install composer
 # # # # # # # # # # # # # # #
-install module php:7.4
+install module 'php:7.4'
 cd /root && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php composer-setup.php
 php -r "unlink('composer-setup.php');"
@@ -149,7 +150,8 @@ EndSection\n\
 
 # fix flathub repo
 flatpak remote-delete flathub
-flatpak remote-add flathub https://flathub.org/repo.flathub.flatpakrepo
+flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak update
 
 # flatpaks
 flatpak install -y app/org.gnu.emacs/x86_64/stable
