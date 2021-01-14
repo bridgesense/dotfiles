@@ -114,7 +114,6 @@ install package gnome-tweaks
 install package NetworkManager-openvpn-gnome NetworkManager-openconnect-gnome
 install package aspell-en texlive-latex
 install package texlive-collection-latex
-install package redshift-gtk
 install package clamav clamav-update
 install package brasero
 install pacakge youtube-dl
@@ -133,6 +132,11 @@ Section \"InputClass\"\n\
         Option          \"XkbOptions\" \"caps:swapescape\"\n\
 EndSection\n\
 " > /etc/X11/xorg.conf.d/00-keyboard.conf
+
+# exfat
+dnf -v --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro
+dnf -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
+install package xfat-utils fuse-exfat
 
 # work around to prevent conflict with some Intel CPU's
 # and monitors with Engery Star
@@ -154,7 +158,6 @@ flatpak install -y app/us.zoom.Zoom/x86_64/stable
 flatpak install -y app/com.spotify.Client/x86_64/stable  
 flatpak install -y app/org.signal.Signal/x86_64/stable
 flatpak install -y app/com.github.maoschanz.DynamicWallpaperEditor/x86_64/stable
-flatpak install -y app/net.sourceforge.Chessx/x86_64/stable
 flatpak install -y app/org.musescore.MuseScore/x86_64/stable
 flatpak install -y app/org.libreoffice.LibreOffice/x86_64/stable
 flatpak install -y app/org.ksnip.ksnip/x86_64/stable
