@@ -136,7 +136,7 @@ EndSection\n\
 
 # exfat
 dnf -v --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro
-dnf -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
+dnf -Uvh "http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm"
 install package xfat-utils fuse-exfat
 
 # work around to prevent conflict with some Intel CPU's
@@ -149,9 +149,11 @@ EndSection\n\
 " > /etc/X11/xorg.conf.d/01-monitor.conf
 
 # fix flathub repo
+log "installing flatpaks" 
 flatpak remote-delete flathub
 flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak update
+sleep 2
 
 # flatpaks
 flatpak install -y app/org.gnu.emacs/x86_64/stable
@@ -165,6 +167,7 @@ flatpak install -y app/org.libreoffice.LibreOffice/x86_64/stable
 flatpak install -y app/org.ksnip.ksnip/x86_64/stable
 
 # gimp
+log "installing gimp and plugins" 
 flatpak install -y org.gimp.GIMP
 flatpak install -y org.gimp.GIMP.Plugin.LiquidRescale
 flatpak install -y org.gimp.GIMP.Plugin.GMic
@@ -175,19 +178,17 @@ flatpak install -y org.gimp.GIMP.Plugin.Fourier
 flatpak install -y org.gimp.GIMP.Plugin.BIMP
 
 # install video and audio codecs
+log "installing codecs and players" 
 flatpak install -y app/org.videolan.VLC/x86_64/stable
 flatpak install -y app/com.makemkv.MakeMKV/x86_64/stable
 flatpak install -y org.videolan.VLC.Plugin.makemkv/x86_64/3-20.08
 flatpak install -y org.freedesktop.Platform.ffmpeg-full/x86_64/19.08
 
-# install firefox with codecs
+# install web browsers 
+log "installing browsers"
 dnf remove -y firefox
 flatpak install -y org.mozilla.firefox
-
-# Rambox
-# # # # # # # # # # # # # # #
-log "installing Rambox"
-dnf install -y  https://github.com/ramboxapp/community-edition/releases/download/0.7.7/Rambox-0.7.7-linux-x86_64.rpm
+dnf install -y "https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm"
 
 # firewall zone update
 firewall-cmd --new-zone=webserver --permanent
