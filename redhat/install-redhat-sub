@@ -85,9 +85,7 @@ npm install -g npm@latest
 npm install -g grunt-cli coffeelint eslint csslint gulp typescript
 $SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
 su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
-npm install -g neovim
 su -c 'gem update' $USER
-su -c 'gem install compass' $USER
 
 # install composer
 # # # # # # # # # # # # # # #
@@ -98,13 +96,20 @@ php -r "unlink('composer-setup.php');"
 mv composer.phar /usr/local/bin/composer
 
 # install coding tools
-install module container-tools
-install package freetype-devel fontconfig-devel libxcb-devel kitty
+install package freetype-devel fontconfig-devel libxcb-devel kitty tmux
 update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /bin/kitty 50
 su -c "gsettings set org.gnome.desktop.default-applications.terminal exec kitty" $USER
-dnf install -y neovim tmux emacs
-pip3 install neovim
+su -c "makedir -p ~/lab" $USER
+install package cmake
+su -c 'git clone https://github.com/neovim/neovim.git ~/lab/nvim' $USER
+cd /hom/$USER/lab/nvim
+make CMAKE_BUILD_TYPE=RelWithDebInfo
+make install && make clean
+npm install -g neovim
+install module container-tools
+install package install -y neovim tmux
 pip3 install ranger-fm
+su -c 'gem install neovim' $USER
 
 # ueberzug plugin
 install package platform-python-devel libX11-devel libXext-devel perl-Image-ExifTool
@@ -113,8 +118,7 @@ pip3 install ueberzug
 # install supplementary packages
 install package gnome-tweaks
 install package NetworkManager-openvpn-gnome NetworkManager-openconnect-gnome
-install package aspell-en texlive-latex
-install package texlive-collection-latex
+install package aspell-en 'texlive*'
 install package clamav clamav-update
 install package brasero
 install pacakge youtube-dl
@@ -148,6 +152,21 @@ Section \"Monitor\"\n\
 EndSection\n\
 " > /etc/X11/xorg.conf.d/01-monitor.conf
 
+# compiles emacs 27
+# for much better speed and compatibitily
+# WARNING: emacs X11 will crash with pacakge: google-noto-emoji-color-fonts
+# # # # # # # # # # # # # # #
+log "compiling emacs 27"
+install package gnutls-utils gtk3-devel gtk2-devel libXpm-devel libpng-devel giflib-devel libtiff-devel libjpeg-devel ncurses-devel gpm-devel dbus-devel dbus-glib-devel python3-dbus GConf2-devel pkgconfig libXft-devel 
+su -c 'git clone -b master git://git.sv.gnu.org/emacs.git ~/lab/emacs' $USER
+# locks emacs into March 27th, 2020 release (stable)
+su -c 'cd ~/lab/emacs && git checkout 66756df286bea6efd3f9a8290e38e8d77bdf0264' $USER
+sleep 1.5s
+su -c 'cd ~/lab/emacs && ./autogen.sh' $USER
+su -c 'cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils' $USER
+su -c 'make -C ~/lab/emacs' $USER
+cd /home/$USER/lab/emacs && make install && make clean
+
 # fix flathub repo
 log "installing flatpaks" 
 flatpak remote-delete flathub
@@ -156,7 +175,6 @@ flatpak update
 sleep 2
 
 # flatpaks
-flatpak install -y app/org.gnu.emacs/x86_64/stable
 flatpak install -y app/com.nextcloud.desktopclient.nextcloud/x86_64/stable
 flatpak install -y app/us.zoom.Zoom/x86_64/stable 
 flatpak install -y app/com.spotify.Client/x86_64/stable  
@@ -165,6 +183,7 @@ flatpak install -y app/com.github.maoschanz.DynamicWallpaperEditor/x86_64/stable
 flatpak install -y app/org.musescore.MuseScore/x86_64/stable
 flatpak install -y app/org.libreoffice.LibreOffice/x86_64/stable
 flatpak install -y app/org.ksnip.ksnip/x86_64/stable
+flatpak install -y com.obsproject.Studio
 
 # gimp
 log "installing gimp and plugins" 
