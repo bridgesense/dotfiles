@@ -142,7 +142,7 @@ install package xfat-utils fuse-exfat
 
 # work around to prevent conflict with some Intel CPU's
 # and monitors with Engery Star
-# https://bugzilla.redhat.com/show_bug.cgi?id=1506339 
+# https://bugzilla.redhat.com/show_bug.cgi?id=1506339
 printf "\
 Section \"Monitor\"\n\
         Option \"DPMS\" \"false\"\n\
@@ -154,7 +154,7 @@ EndSection\n\
 # WARNING: emacs X11 will crash with pacakge: google-noto-emoji-color-fonts
 # # # # # # # # # # # # # # #
 log "compiling emacs 27"
-install package gnutls-utils gtk3-devel gtk2-devel libXpm-devel libpng-devel giflib-devel libtiff-devel libjpeg-devel ncurses-devel gpm-devel dbus-devel dbus-glib-devel python3-dbus GConf2-devel pkgconfig libXft-devel 
+install package gnutls-utils gtk3-devel gtk2-devel libXpm-devel libpng-devel giflib-devel libtiff-devel libjpeg-devel ncurses-devel gpm-devel dbus-devel dbus-glib-devel python3-dbus GConf2-devel pkgconfig libXft-devel
 su -c 'git clone -b master git://git.sv.gnu.org/emacs.git ~/lab/emacs' $USER
 # locks emacs into March 27th, 2020 release (stable)
 su -c 'cd ~/lab/emacs && git checkout 66756df286bea6efd3f9a8290e38e8d77bdf0264' $USER
@@ -165,7 +165,7 @@ su -c 'make -C ~/lab/emacs' $USER
 cd /home/$USER/lab/emacs && make install && make clean
 
 # fix flathub repo
-log "installing flatpaks" 
+log "installing flatpaks"
 flatpak remote-delete flathub
 flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak update
@@ -173,17 +173,18 @@ sleep 2
 
 # flatpaks
 flatpak install -y app/com.nextcloud.desktopclient.nextcloud/x86_64/stable
-flatpak install -y app/us.zoom.Zoom/x86_64/stable 
-flatpak install -y app/com.spotify.Client/x86_64/stable  
+flatpak install -y app/us.zoom.Zoom/x86_64/stable
+flatpak install -y app/com.spotify.Client/x86_64/stable
 flatpak install -y app/org.signal.Signal/x86_64/stable
 flatpak install -y app/com.github.maoschanz.DynamicWallpaperEditor/x86_64/stable
 flatpak install -y app/org.musescore.MuseScore/x86_64/stable
 flatpak install -y app/org.libreoffice.LibreOffice/x86_64/stable
 flatpak install -y app/org.ksnip.ksnip/x86_64/stable
 flatpak install -y com.obsproject.Studio
+flatpak install -y nl.hjdskes.gcolor3
 
 # gimp
-log "installing gimp and plugins" 
+log "installing gimp and plugins"
 flatpak install -y org.gimp.GIMP
 flatpak install -y org.gimp.GIMP.Plugin.LiquidRescale
 flatpak install -y org.gimp.GIMP.Plugin.GMic
@@ -194,13 +195,13 @@ flatpak install -y org.gimp.GIMP.Plugin.Fourier
 flatpak install -y org.gimp.GIMP.Plugin.BIMP
 
 # install video and audio codecs
-log "installing codecs and players" 
+log "installing codecs and players"
 flatpak install -y app/org.videolan.VLC/x86_64/stable
 flatpak install -y app/com.makemkv.MakeMKV/x86_64/stable
 flatpak install -y org.videolan.VLC.Plugin.makemkv/x86_64/3-20.08
 flatpak install -y org.freedesktop.Platform.ffmpeg-full/x86_64/19.08
 
-# install web browsers 
+# install web browsers
 log "installing browsers"
 dnf remove -y firefox
 flatpak install -y org.mozilla.firefox
@@ -258,7 +259,7 @@ find /home/$USER/.config -name "*.sh" -execdir chmod u+x {} +
 su -c 'mkdir -p ~/.local/share/fonts/' $USER
 su -c 'cd ~/.local/share/fonts && svn checkout https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts/DejaVuSansMono' $USER
 
-# misc sanity improvements 
+# misc sanity improvements
 git config --global core.askpass ""
 
 log "Installation complete.  Please reboot your system."
