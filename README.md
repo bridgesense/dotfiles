@@ -360,6 +360,7 @@ Kitty Shortcuts
 ---
 #### History:
 * `Ctrl+Shift+h` Enter history
+* `Ctrl+Shift+p, v` Enter history in VIM mode
 
 #### Tabs:
 * `ctrl+shift+t`: Creates new tab
