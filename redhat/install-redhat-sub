@@ -89,14 +89,11 @@ su -c 'gem update' $USER
 
 # install composer
 # # # # # # # # # # # # # # #
-install module 'php:7.4'
-cd /root && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-php composer-setup.php
-php -r "unlink('composer-setup.php');"
-mv composer.phar /usr/local/bin/composer
+curl https://getcomposer.org/composer-stable.phar >> /usr/local/bin/composer
+chmod +x /usr/local/bin/composer
 
 # install coding tools
-install package freetype-devel fontconfig-devel libxcb-devel kitty tmux
+install package freetype-devel fontconfig-devel libxcb-devel kitty tmux xclip
 update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /bin/kitty 50
 su -c "gsettings set org.gnome.desktop.default-applications.terminal exec kitty" $USER
 su -c "makedir -p ~/lab" $USER
