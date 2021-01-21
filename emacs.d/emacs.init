@@ -26,14 +26,12 @@
  version-control t)       ; use versioned backups
 
 
-;; Disable cl warning
-(setq byte-compile-warnings '(cl-functions))
-
-
 ;; Remember your place
 ;; # # # # # # # # # # #
 (save-place-mode 1)
 
+;; Disable cl warning
+(setq byte-compile-warnings '(cl-functions))
 
 ;; Default Font and Transparency
 ;; # # # # # # # # # # #
@@ -261,6 +259,8 @@
 (require 'epa-file)
 (if (not window-system) 
   (epa-file-enable))
+;; startup folded
+(setq org-startup-folded t)
 ;;(setq epa-file-select-keys nil)
 ;; Theme Conventions for Org Mode
 ;; Hide emphasis marks
@@ -392,6 +392,7 @@
   (add-hook 'web-mode-hook
             (lambda ()
               (local-set-key '[backtab] 'indent-relative)
+              (rainbow-mode 1)
               (setq indent-tabs-mode nil)
               (setq web-mode-enable-auto-pairing t)
               (setq web-mode-enable-comment-interpolation t)
@@ -923,6 +924,7 @@
    "l"  '(nil :which-key "Line Manipulation")
    "la" '(toggle-artist-mode :which-key "Draw With Cursor [Emacs Mode]")
    "lb" '(beautify-code :which-key "Beautify Code")
+   "lc" '(rainbow-mode :which-key "Toggle Color Codes")
    "le" '(epa-encrypt-region :which-key "Encrypt Selection")
    "ld" '(epa-decrypt-region :which-key "Decrypt Selection")
    "li" '(agressive-indent-mode :which-key "Toggle Aggressive Indenting")
