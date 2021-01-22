@@ -70,6 +70,7 @@ dnf update -y
 dnf upgrade -y
 dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
+dnf config-manager --add-repo https://copr.fedorainfracloud.org/coprs/flatcap/neomutt/repo/epel-8/flatcap-neomutt-epel-8.repo
 dnf update -y
 
 # Run as root
@@ -78,7 +79,7 @@ dnf update -y
 log "installing commandline tools"
 install group 'Development Tools'
 install package git ack 'the_silver_searcher'
-install module nodejs python36 ruby
+install module nodejs python36 ruby neomutt isync msmtp pass
 install module 'perl:5.26'
 install package yarn golang ruby-devel
 npm install -g npm@latest
@@ -228,6 +229,12 @@ semanage port -a -t http_port_t -p tcp 9041
 usermod -aG vboxusers $USER
 
 # add desktop applications
+su -c 'touch ~/.local/share/applications/neomutt.desktop' $USER
+printf "[Desktop Entry] \n\
+Type=Application\n\
+Name=Neomutt\n\
+Exec=kitty -e neomutt\n\
+" >> /home/$USER/.local/share/applications/neomutt.desktop
 su -c 'touch ~/.local/share/applications/ranger.desktop' $USER
 printf "[Desktop Entry] \n\
 Type=Application\n\
