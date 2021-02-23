@@ -79,7 +79,7 @@ dnf update -y
 log "installing commandline tools"
 install group 'Development Tools'
 install package git ack 'the_silver_searcher'
-install module nodejs python36 ruby neomutt isync msmtp pass
+install module nodejs python36 ruby neomutt isync msmtp pass ctags-etags
 install module 'perl:5.26'
 install package yarn golang ruby-devel
 npm install -g npm@latest
@@ -217,6 +217,15 @@ for i in $(firewall-cmd --zone public --list-services); do  firewall-cmd --zone 
 for i in $(firewall-cmd --zone public --list-services); do  firewall-cmd --zone public --remove-service=$i --permanent; done
 sed -i  's/^AllowZoneDrifting\=yes/AllowZoneDrifting\=no/g' /etc/firewalld/firewalld.conf
 firewall-cmd --reload
+
+# install ffmpeg
+install package nasm
+su -c 'git clone https://git.ffmpeg.org/ffmpeg.git ~/lab/ffmpeg' $USER
+su -c 'cd ~/lab/ffmpeg && ./configure' $USER
+su -c 'cd ~/lab/ffmpeg && make' $USER
+cd /home/$USER/lab/ffmpeg
+make install
+make clean
 
 # Vagrant and Virtualbox
 # # # # # # # # # # # # # # #
