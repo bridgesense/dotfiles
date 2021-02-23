@@ -237,6 +237,11 @@ firewall-cmd --permanent --zone=webserver --add-port=9041/tcp
 semanage port -a -t http_port_t -p tcp 9041
 usermod -aG vboxusers $USER
 
+# Displayport Support 
+# # # # # # # # # # # # # # #
+log "installing displayport support"
+dnf install -y https://github.com/displaylink-rpm/displaylink-rpm/releases/download/v5.3.1-1/centos-8-displaylink-1.7.2-1.x86_64.rpm
+
 # add desktop applications
 su -c 'touch ~/.local/share/applications/neomutt.desktop' $USER
 printf "[Desktop Entry] \n\
