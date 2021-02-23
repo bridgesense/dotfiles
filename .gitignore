@@ -14,6 +14,7 @@ vim/autoload/*
 vim/bundle
 vim/plugged
 vim/Session.vim
+vim/spell/*
 vimrc.after
 vimrc
 zshrc

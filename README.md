@@ -272,6 +272,12 @@ Vim Shortcuts
 * `,gi`: go to next tag in history
 * `,go`: go back one tag in history
 
+### Spell Check:
+* `,W`: Toggle spell checker
+* `]s`,`[s`: jump to next/previous spelling error
+* `z=`: get spelling suggestion
+* `zg`, `zug`: add/remove word from spellfile 
+
 #### Conquer of Completion:
 * `gd`: go to tag definition
 * `gy`: go to type definition
