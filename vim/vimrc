@@ -32,7 +32,7 @@ let g:session_autoload = 'no'
 let g:loaded_matchit = 1
 
 " Create the 'tags' file (dep: ctags)
-let g:maketags_arg = "ag -l | ctags -f tags --exclude={*.css,*.js} --links=no -L-"
+let g:maketags_arg = "ag -l | etags.ctags -f tags --exclude={*.css,*.js} --links=no -L-"
 command! MakeTags execute ' !' . g:maketags_arg
 
 " This makes vim act like all other editors, buffers can
