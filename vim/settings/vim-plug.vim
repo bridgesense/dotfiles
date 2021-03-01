@@ -33,12 +33,13 @@ Plug 'vim-scripts/MultipleSearch'
 Plug 'vim-scripts/YankRing.vim'
 Plug 'vim-vdebug/vdebug'
 Plug 'zackhsi/fzf-tags'
+Plug 'preservim/nerdtree'
+Plug 'PhilRunninger/nerdtree-visual-selection'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 if has('nvim-0.3.2')
     Plug 'kchmck/vim-coffee-script'
     Plug 'neoclide/coc.nvim', {'branch': 'release' }
 else
-    Plug 'PhilRunninger/nerdtree-visual-selection'
-    Plug 'preservim/nerdtree'
     Plug 'vim-syntastic/syntastic'
 endif
 

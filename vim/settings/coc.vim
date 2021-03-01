@@ -7,7 +7,6 @@ let g:coc_global_extensions = [
     \ 'coc-cssmodules',
     \ 'coc-html',
     \ 'coc-eslint',
-    \ 'coc-explorer',
     \ 'coc-java',
     \ 'coc-json',
     \ 'coc-markdownlint',
