@@ -27,7 +27,6 @@ Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-surround'
 Plug 'tomtom/tcomment_vim'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'vim-scripts/MultipleSearch'
 Plug 'vim-scripts/YankRing.vim'
@@ -36,6 +35,12 @@ Plug 'zackhsi/fzf-tags'
 Plug 'preservim/nerdtree'
 Plug 'PhilRunninger/nerdtree-visual-selection'
 Plug 'Xuyuanp/nerdtree-git-plugin'
+
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
+Plug 'tommcdo/vim-fubitive'
+Plug 'shumphrey/fugitive-gitlab.vim'
+
 if has('nvim-0.3.2')
     Plug 'kchmck/vim-coffee-script'
     Plug 'neoclide/coc.nvim', {'branch': 'release' }
