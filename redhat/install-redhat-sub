@@ -71,7 +71,9 @@ dnf upgrade -y
 dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
 dnf config-manager --add-repo https://copr.fedorainfracloud.org/coprs/flatcap/neomutt/repo/epel-8/flatcap-neomutt-epel-8.repo
-dnf update -y
+dnf install -y https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-8.noarch.rpm 
+dnf install -y https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-8.noarch.rpm
+dnf update
 
 # Run as root
 # Commandline Tools
@@ -137,8 +139,6 @@ EndSection\n\
 " > /etc/X11/xorg.conf.d/00-keyboard.conf
 
 # exfat
-dnf -v --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro
-dnf -Uvh "http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm"
 install package xfat-utils fuse-exfat
 
 # work around to prevent conflict with some Intel CPU's
@@ -181,7 +181,6 @@ flatpak install -y app/com.github.maoschanz.DynamicWallpaperEditor/x86_64/stable
 flatpak install -y app/org.musescore.MuseScore/x86_64/stable
 flatpak install -y app/org.libreoffice.LibreOffice/x86_64/stable
 flatpak install -y app/org.ksnip.ksnip/x86_64/stable
-flatpak install -y com.obsproject.Studio
 flatpak install -y nl.hjdskes.gcolor3
 
 # gimp
@@ -201,11 +200,12 @@ flatpak install -y app/org.videolan.VLC/x86_64/stable
 flatpak install -y app/com.makemkv.MakeMKV/x86_64/stable
 flatpak install -y org.videolan.VLC.Plugin.makemkv/x86_64/3-20.08
 flatpak install -y org.freedesktop.Platform.ffmpeg-full/x86_64/19.08
+install package gstreamer1-plugins-base gstreamer1-plugins-good gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free 
+install package gstreamer1-plugins-bad-freeworld gstreamer1-libav ffmpeg
+install package obs-studio
 
 # install web browsers
 log "installing browsers"
-dnf remove -y firefox
-flatpak install -y org.mozilla.firefox
 dnf install -y "https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm"
 
 # firewall zone update
@@ -218,28 +218,19 @@ for i in $(firewall-cmd --zone public --list-services); do  firewall-cmd --zone 
 sed -i  's/^AllowZoneDrifting\=yes/AllowZoneDrifting\=no/g' /etc/firewalld/firewalld.conf
 firewall-cmd --reload
 
-# install ffmpeg
-install package nasm
-su -c 'git clone https://git.ffmpeg.org/ffmpeg.git ~/lab/ffmpeg' $USER
-su -c 'cd ~/lab/ffmpeg && ./configure' $USER
-su -c 'cd ~/lab/ffmpeg && make' $USER
-cd /home/$USER/lab/ffmpeg
-make install
-make clean
-
 # Vagrant and Virtualbox
 # # # # # # # # # # # # # # #
 log "installing Vagrant and Virtualbox"
 dnf install -y https://releases.hashicorp.com/vagrant/2.2.14/vagrant_2.2.14_x86_64.rpm
 dnf install -y https://download.virtualbox.org/virtualbox/6.1.16/VirtualBox-6.1-6.1.16_140961_el8-1.x86_64.rpm
 # custom xdebug port
-firewall-cmd --permanent --zone=webserver --add-port=9041/tcp
-semanage port -a -t http_port_t -p tcp 9041
+firewall-cmd --permanent --zone=webserver --add-port=9003/tcp
+semanage port -a -t http_port_t -p tcp 9003
 usermod -aG vboxusers $USER
 
-# Displayport Support 
+# Displaylink Support 
 # # # # # # # # # # # # # # #
-log "installing displayport support"
+log "installing alpha displaylink support"
 dnf install -y https://github.com/displaylink-rpm/displaylink-rpm/releases/download/v5.3.1-1/centos-8-displaylink-1.7.2-1.x86_64.rpm
 
 # add desktop applications
