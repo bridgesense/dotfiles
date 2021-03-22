@@ -126,6 +126,7 @@ install package w3m w3m-img
 install package ftp telnet
 install package hplip hplip-gui simple-scan
 install package lm-sensors
+install package libcaca
 
 # workaround for system tray bug
 # open gnome tweak > Extensions > Kstatusnotifieritem/appindicator support
@@ -223,10 +224,11 @@ sed -i  's/^AllowZoneDrifting\=yes/AllowZoneDrifting\=no/g' /etc/firewalld/firew
 firewall-cmd --reload
 
 # Vagrant and Virtualbox
+# download extensions at: http://download.virtualbox.org/virtualbox/ 
 # # # # # # # # # # # # # # #
 log "installing Vagrant and Virtualbox"
+dnf install -y https://download.virtualbox.org/virtualbox/6.1.18/VirtualBox-6.1-6.1.18_142142_el8-1.x86_64.rpm
 dnf install -y https://releases.hashicorp.com/vagrant/2.2.14/vagrant_2.2.14_x86_64.rpm
-dnf install -y https://download.virtualbox.org/virtualbox/6.1.16/VirtualBox-6.1-6.1.16_140961_el8-1.x86_64.rpm
 # custom xdebug port
 firewall-cmd --permanent --zone=webserver --add-port=9003/tcp
 semanage port -a -t http_port_t -p tcp 9003
