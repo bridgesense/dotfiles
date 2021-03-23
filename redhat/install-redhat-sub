@@ -81,7 +81,9 @@ dnf update
 log "installing commandline tools"
 install group 'Development Tools'
 install package git ack 'the_silver_searcher'
-install module nodejs python36 ruby neomutt isync msmtp pass ctags-etags
+install package isync msmtp pass ctags-etags
+install module nodejs python36 ruby
+install module 'php:7.4'
 install module 'perl:5.26'
 install package yarn golang ruby-devel
 npm install -g npm@latest
@@ -109,6 +111,8 @@ npm install -g neovim
 install module container-tools
 install package install -y neovim tmux
 pip3 install ranger-fm
+pip3 install pynvim
+pip3 install neovim
 su -c 'gem install neovim' $USER
 
 # ueberzug plugin
@@ -270,7 +274,7 @@ find /home/$USER/.config -name "*.sh" -execdir chmod u+x {} +
 
 # Adds Nerdfonts DejaVuSansMono
 su -c 'mkdir -p ~/.local/share/fonts/' $USER
-su -c 'cd ~/.local/share/fonts && svn checkout https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts/DejaVuSansMono' $USER
+su -c 'cd ~/.local/share/fonts && svn checkout --non-interactive https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts/DejaVuSansMono' $USER
 
 # misc sanity improvements
 git config --global core.askpass ""
