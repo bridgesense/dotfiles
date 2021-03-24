@@ -15,7 +15,6 @@ Plug 'bridgesense/vim-bufsurf'
 Plug 'bridgesense/vim-hsftp'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'easymotion/vim-easymotion'
-Plug 'chrisbra/Colorizer'
 Plug 'honza/vim-snippets'
 Plug 'inkarkat/vim-SyntaxRange'
 Plug 'itchyny/lightline.vim'
@@ -35,10 +34,10 @@ Plug 'zackhsi/fzf-tags'
 Plug 'preservim/nerdtree'
 Plug 'PhilRunninger/nerdtree-visual-selection'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'tommcdo/vim-fubitive'
+Plug 'leafgarland/typescript-vim'
 Plug 'shumphrey/fugitive-gitlab.vim'
 
 if has('nvim-0.3.2')
@@ -46,6 +45,7 @@ if has('nvim-0.3.2')
     Plug 'neoclide/coc.nvim', {'branch': 'release' }
 else
     Plug 'vim-syntastic/syntastic'
+    Plug 'chrisbra/Colorizer'
 endif
 
 " Initialize plugin system

@@ -231,18 +231,20 @@ firewall-cmd --reload
 # download extensions at: http://download.virtualbox.org/virtualbox/ 
 # # # # # # # # # # # # # # #
 log "installing Vagrant and Virtualbox"
+install package binutils kernel-devel kernel-headers libgomp make patch gcc glibc-headers glibc-devel dkms
 dnf install -y https://download.virtualbox.org/virtualbox/6.1.18/VirtualBox-6.1-6.1.18_142142_el8-1.x86_64.rpm
 dnf install -y https://releases.hashicorp.com/vagrant/2.2.14/vagrant_2.2.14_x86_64.rpm
 # custom xdebug port
 firewall-cmd --permanent --zone=webserver --add-port=9003/tcp
 semanage port -a -t http_port_t -p tcp 9003
 usermod -aG vboxusers $USER
+/usr/lib/virtualbox/vboxdrv.sh setup
 
 # add desktop applications
 su -c 'touch ~/.local/share/applications/neomutt.desktop' $USER
 printf "[Desktop Entry] \n\
 Type=Application\n\
-Name=Neomutt\n\
+Name=Mail\n\
 Exec=kitty -e neomutt\n\
 " >> /home/$USER/.local/share/applications/neomutt.desktop
 su -c 'touch ~/.local/share/applications/ranger.desktop' $USER
@@ -278,6 +280,10 @@ su -c 'cd ~/.local/share/fonts && svn checkout --non-interactive https://github.
 
 # misc sanity improvements
 git config --global core.askpass ""
+
+# selinux
+ausearch -c 'rtkit-daemon' --raw | audit2allow -M my-rtkitdaemon
+semodule -X 300 -i my-rtkitdaemon.pp
 
 log "Installation complete.  Please reboot your system."
 printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
