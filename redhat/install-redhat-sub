@@ -102,7 +102,7 @@ install package freetype-devel fontconfig-devel libxcb-devel kitty tmux xclip
 update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /bin/kitty 50
 su -c "gsettings set org.gnome.desktop.default-applications.terminal exec kitty" $USER
 su -c "makedir -p ~/lab" $USER
-install package cmake
+install package cmake gcc-c++ libtool
 su -c 'git clone https://github.com/neovim/neovim.git ~/lab/nvim' $USER
 cd /hom/$USER/lab/nvim
 make CMAKE_BUILD_TYPE=RelWithDebInfo
@@ -280,10 +280,6 @@ su -c 'cd ~/.local/share/fonts && svn checkout --non-interactive https://github.
 
 # misc sanity improvements
 git config --global core.askpass ""
-
-# selinux
-ausearch -c 'rtkit-daemon' --raw | audit2allow -M my-rtkitdaemon
-semodule -X 300 -i my-rtkitdaemon.pp
 
 log "Installation complete.  Please reboot your system."
 printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
