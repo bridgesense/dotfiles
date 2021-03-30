@@ -2,15 +2,21 @@
 
 Credit:
 ---
-This dotfile repo is heavily based on [YADR](https://github.com/skwp/dotfiles) which is a solid dotfile package created by Yan Pritzker and worked on by several others.  This is not intended to be a fork of YADR.  At the same time, I take no credit here either.  This is just a personal collection of settings from YADR trimmed down considerably for the sake of speed and portability.
+This dotfile repo is heavily based on [YADR](https://github.com/skwp/dotfiles)
+which is a solid dotfile package created by Yan Pritzker and worked on by
+several others.  This is not intended to be a fork of YADR.  At the same time,
+I take no credit here either.  This is just a personal collection of settings
+from YADR trimmed down considerably for the sake of speed and portability.
 
-Check out the original repo, [YADR](https://github.com/skwp/dotfiles) especially if you work in Python or Ruby.
+Check out the original repo, [YADR](https://github.com/skwp/dotfiles) especially
+if you work in Python or Ruby.
 
 index: [Emacs](#emacs), [Tmux](#tmux), [Vim](#vim), and [Kitty](#kitty)
 
 # Dotfiles Installation
 
-Requirements: [git](https://git-scm.com/downloads), [Homebrew](https://brew.sh)(for MacOS)
+Requirements: [git](https://git-scm.com/downloads),
+[Homebrew](https://brew.sh)(for MacOS)
 
 ```bash
 bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
@@ -34,7 +40,8 @@ bash ~/.yadrlite/setup remove
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/emacs.init > ~/.emacs
 ```
 
-#### On MacOS [Homebrew](https://brew.sh) has a nice [Cask](https://emacsformacosx.com) package for a GUI version of Emacs
+#### On MacOS [Homebrew](https://brew.sh) has a nice
+[Cask](https://emacsformacosx.com) package for a GUI version of Emacs
 
 ```bash
 brew cask install emacs
@@ -42,9 +49,16 @@ brew cask install emacs
 
 What's Included:
 ---
-Shortcuts have been pulled over from YADR, so those working with YADR should feel right at home.  There are a few minor changes and additions.  A LOT may be missing.  This package is geared towards PHP development on local staging environments and setting up shop on web servers for emergencies where there may be limited permissions.  The idea is here that the package should be easy to remove while restoring the system to prior user configurations.
+Shortcuts have been pulled over from YADR, so those working with YADR should
+feel right at home.  There are a few minor changes and additions.  A LOT may
+be missing.  This package is geared towards PHP development on local staging
+environments and setting up shop on web servers for emergencies where there may
+be limited permissions.  The idea is here that the package should be easy to
+remove while restoring the system to prior user configurations.
 
-As with YADR, most of the key mapping not mentioned below can be found in the settings directory for reference.  This package is ready for deployment on most Linux distros and MacOS.
+As with YADR, most of the key mapping not mentioned below can be found in the
+settings directory for reference.  This package is ready for deployment on most
+Linux distros and MacOS.
 
 __Vim / Tmux__\
 ![screenshot](https://www.bridgesense.com/images/dotfiles/vim-style.jpg)
@@ -58,13 +72,23 @@ Requirements: [Emacs 24.4+ w/ Lua support](https://www.gnu.org/software/emacs/)
 
 Suggested: [Silver Searcher](https://github.com/ggreer/the_silver_searcher)
 
-Emacs has a huge performance advantage over Vi.  This configuration includes the [Evil](https://www.emacswiki.org/emacs/Evil) package which emulates Vim's modal functionality.  In Evil mode Emacs shares keybindings familiar to the YADR package.  Switching between Emacs and Evil mode is done by C-z. There is inline documentation with live hints for ease of discovery.  After entering Emacs just hit the leader key (,) to get started.  Hit the leader key twice for a fuzzy command search.
+Emacs has a huge performance advantage over Vi.  This configuration includes
+the [Evil](https://www.emacswiki.org/emacs/Evil) package which emulates Vim's
+modal functionality.  In Evil mode Emacs shares keybindings familiar to the YADR
+package.  Switching between Emacs and Evil mode is done by C-z. There is inline
+documentation with live hints for ease of discovery.  After entering Emacs just
+hit the leader key (,) to get started.  Hit the leader key twice for a fuzzy
+command search.
 
 [Return to top](#yadrlite)
 
 Emacs Shortcuts
 ---
-The [General](https://github.com/noctuid/general.el) plugin has been included with this Emacs configuration. There is no need to hold the comma down (the leader key borrowed from YADR) before pressing the next key. The following shortcuts can be typed concurrantly in the order presented which is a nice alternative to the Emacs Pinky.
+The [General](https://github.com/noctuid/general.el) plugin has been included
+with this Emacs configuration. There is no need to hold the comma down (the
+leader key borrowed from YADR) before pressing the next key. The following
+shortcuts can be typed concurrantly in the order presented which is a nice
+alternative to the Emacs Pinky.
 
 #### Single Key Shortcuts:
 * `,,`: Search for a command, M-X equivalent
@@ -180,10 +204,14 @@ Requirements: [Tmux](https://github.com/tmux/tmux/wiki/Installing)
 
 Tmux Shortcuts
 ---
-The leader key Ctrl-a can be followed by the next key concurrently without holding them all down at once.  Use `tmux ls`to list the current open sessions and `tmux a -t <session_no>` to join them.  Use `tmux kill-session -t <session_no>`: to remove one.
+The leader key Ctrl-a can be followed by the next key concurrently without
+holding them all down at once.  Use `tmux ls`to list the current open sessions
+and `tmux a -t <session_no>` to join them.  Use
+`tmux kill-session -t <session_no>`: to remove one.
 
 #### General Shortcuts:
-* `Ctrl-a d`: Detach from current session and close Tmux.  Run `tmux attach`: to resume later.
+* `Ctrl-a d`: Detach from current session and close Tmux.  Run `tmux attach`:
+to resume later.
 * `Ctrl-a h`: Focus on window left of the current one
 * `Ctrl-a j`: Focus on window above the current one
 * `Ctrl-a k`: Focus on window below the current one
@@ -198,31 +226,40 @@ The leader key Ctrl-a can be followed by the next key concurrently without holdi
 * `Ctrl-a [`: Enter Vim-like normal mode
 * `Ctrl-a Ctrl-s`, `Ctrl-r`: Saves and Restores Tmux Session
 
-In visual mode use `h,j,k,l` to move, `v` to change to visual mode and `y` to yank selection.  Press `Enter` to exit mode.
+In visual mode use `h,j,k,l` to move, `v` to change to visual mode and `y` to
+yank selection.  Press `Enter` to exit mode.
 
 
 # Vim
 
-This configuration uses [Vim-Plug](https://github.com/junegunn/vim-plug).  To initialize the plugins, enter Normal mode and type `:PlugInstall`.  Similarly, you use `:PlugUpdate` to update your plugins.
+This configuration uses [Vim-Plug](https://github.com/junegunn/vim-plug).  To
+initialize the plugins, enter Normal mode and type `:PlugInstall`.  Similarly,
+you use `:PlugUpdate` to update your plugins.
 
 Requirements: [Vim w/ Lua support](https://www.vim.org)
 
-Plugin Requirements: [Composer](https://getcomposer.org/), [neovim](https://neovim.io/), [nodejs](https://nodejs.org/), [Python 3+](https://www.python.org), [Pynvim](https://github.com/neovim/pynvim), [Silver Searcher](https://github.com/ggreer/the_silver_searcher)
+Plugin Requirements: [Composer](https://getcomposer.org/),
+[neovim](https://neovim.io/), [nodejs](https://nodejs.org/),
+[Python 3+](https://www.python.org), [Pynvim](https://github.com/neovim/pynvim),
+[Silver Searcher](https://github.com/ggreer/the_silver_searcher)
 
 [Return to top](#yadrlite)
 
 Vim Shortcuts
 ---
 #### Window Navigation:
-* `Cmd-[1-]`: (`Alt-[1-9]`) switches to a specific tab number (like iTerm and Chrome) and tabs have been set up to show numbers
-* `Ctrl-h,l,j,k`: to move left, right, down, up between splits. This also works between vim and tmux splits thanks to `vim-tmux-navigator`.
+* `Cmd-[1-]`: (`Alt-[1-9]`) switches to a specific tab number (like iTerm and
+Chrome) and tabs have been set up to show numbers
+* `Ctrl-h,l,j,k`: to move left, right, down, up between splits. This also works
+between vim and tmux splits thanks to `vim-tmux-navigator`.
 * `Ctrl-w r`: rotate windows around
 * `vv`: vertical split (`Ctrl-w,v`)
 * `ss`: horizontal split (`Ctrl-w,s`)
 * `,c`: closes window only (`Ctrl-w,c`)
 * `,qo`: open quickfix window (this is where output from Grep goes)
 * `,qc`: close quickfix
-* `Cmd-[Up,Down,Left,Right]`: (`Alt-[Up,Down,Left,Right]`) increase hight, decrease height, contract window and expand window
+* `Cmd-[Up,Down,Left,Right]`: (`Alt-[Up,Down,Left,Right]`) increase hight,
+decrease height, contract window and expand window
 * `=`: make all windows equal size
 
 #### Tab Navigation
@@ -246,7 +283,8 @@ Vim Shortcuts
 * `,S`: saves all buffers (`:wa`)
 
 #### Code/Search Navigation:
-* `Ctrl-o`: Old cursor position this is a standard mapping but very useful, so included here
+* `Ctrl-o`: Old cursor position this is a standard mapping but very useful, so
+included here
 * `Ctrl-i`: opposite of Ctrl-O (again, this is standard)
 * `,gf`: same as vim normal gf (go to file)
 * `,ag`: Grep command line using Silver Searcher and Fzf
@@ -255,10 +293,15 @@ Vim Shortcuts
 * `,hl`: toggle search highlight on and off
 * `Ctrl-x Ctrl-o`: vim omnicompletion
 * `//`: clear the search
-* `,mc`: mark this word for MultiCursor (like sublime). Use `Ctrl-n`: (next), `Ctrl-p`: (prev), `Ctrl-x`(skip) to add more cursors, then do normal vim things like edit the word.
+* `,mc`: mark this word for MultiCursor (like sublime). Use `Ctrl-n`: (next),
+`Ctrl-p`: (prev), `Ctrl-x`(skip) to add more cursors, then do normal vim things
+like edit the word.
 * `,jx`: EasyMotion Jump to character x
-* Spacebar Sneak type two characters to move there in a line. Kind of like vim's `f`: but more accurate.
-* `:Gsearch foo`: global search, then do your normal `%s/search/replace/g` and follow up with `:Greplace` to replace across all files. When done use `:wall`: to write all the files.
+* Spacebar Sneak type two characters to move there in a line. Kind of like vim's
+`f`: but more accurate.
+* `:Gsearch foo`: global search, then do your normal `%s/search/replace/g` and
+follow up with `:Greplace` to replace across all files. When done use `:wall`:
+to write all the files.
 
 #### Git Plugin:
 * `:GStatus`: Git status with [Fugitive](https://github.com/tpope/vim-fugitive)
@@ -277,7 +320,7 @@ Vim Shortcuts
 * `,W`: Toggle spell checker
 * `]s`,`[s`: jump to next/previous spelling error
 * `z=`: get spelling suggestion
-* `zg`, `zug`: add/remove word from spellfile 
+* `zg`, `zug`: add/remove word from spellfile
 
 #### Conquer of Completion:
 * `gd`: go to tag definition
@@ -314,7 +357,8 @@ Vim Shortcuts
 * `Ctrl-x Ctrl-o`: omnicompletion
 
 #### Xdebug
-See more about setting up the [.vimrc.local](https://gitlab.com/bridgesense/lampready#vim-vdebug-settings) file.
+See more about setting up the
+[.vimrc.local](https://gitlab.com/bridgesense/lampready#vim-vdebug-settings) file.
 * `<F5>`: start/run (to next breakpoint/end of script)
 * `<F2>`: step over
 * `<F3>`: step into
@@ -332,26 +376,37 @@ See more about setting up the [.vimrc.local](https://gitlab.com/bridgesense/lamp
   result
 
 #### Better keystrokes for common editing commands:
-* `S#` `S"` `S'` `S]` `S)` `S}`: to surround a visual selection with these common wrappers
-* `ci'`, `ci"`, `ci]`, `ci)`: (`Alt` Linux) changes content inside those surrounding marks. You don't have to be inside them
-* `,.`: to go to last edit location (same as `'.`) because the apostrophe is hard on the pinky
+* `S#` `S"` `S'` `S]` `S)` `S}`: to surround a visual selection with these
+common wrappers
+* `ci'`, `ci"`, `ci]`, `ci)`: (`Alt` Linux) changes content inside those
+surrounding marks. You don't have to be inside them
+* `,.`: to go to last edit location (same as `'.`) because the apostrophe is
+hard on the pinky
 * `,ci`: to change inside any set of quotes/brackets/etc
 
 #### Misc:
 * `,,c`: search for and execute commands
-* `Ctrl-p`: after pasting Use `p`: to paste and `Ctrl-p`: to cycle through previous pastes.
-* `,yw`: yank a word from anywhere within the word (so you don't have to go to the beginning of it)
-* `,ow`: overwrite a word with whatever is in your yank buffer you can be anywhere on the word. saves having to visually select it
+* `Ctrl-p`: after pasting Use `p`: to paste and `Ctrl-p`: to cycle through
+previous pastes.
+* `,yw`: yank a word from anywhere within the word (so you don't have to go to
+the beginning of it)
+* `,ow`: overwrite a word with whatever is in your yank buffer you can be
+anywhere on the word. saves having to visually select it
 * `,w`: strip trailing whitespaces
-* `,hi`: show current Highlight group. if you don't like the color of something, use this, then use `hi! link [groupname] [anothergroupname]`: in your vimrc.after to remap the color. You can see available colors using `:hi`
+* `,hi`: show current Highlight group. if you don't like the color of something,
+use this, then use `hi! link [groupname] [anothergroupname]`: in your
+vimrc.after to remap the color. You can see available colors using `:hi`
 * `:Wrap`: wrap long lines (e.g. when editing markdown files)
 * `,;;`, `gcc`: un/comment selected lines in visual mode thanks to [tComment](https://github.com/tomtom/tcomment_vim)
 * `,o`,`,p`: start a new or restore an existing Vim session thanks to [obsession](https://github.com/tpope/vim-obsession)
-* `zf`,`zo`,`zc`,`za`,`zr`,`zm`,`zd`: creates, opens, closes, toggles, toggles all, collapses all and deletes code folds
-* `,W`,`z=`,`]s`,`[s`: toggle spell check, word suggestion and jump forward/backward to next misspelled word
+* `zf`,`zo`,`zc`,`za`,`zr`,`zm`,`zd`: creates, opens, closes, toggles, toggles
+all, collapses all and deletes code folds
+* `,W`,`z=`,`]s`,`[s`: toggle spell check, word suggestion and jump
+forward/backward to next misspelled word
 
 #### Vim Dev:
-* `,vc`: (Vim Command) copies the command under your cursor and executes it in vim. Great for testing single line changes to vimrc.
+* `,vc`: (Vim Command) copies the command under your cursor and executes it in
+vim. Great for testing single line changes to vimrc.
 * `,vr`: (Vim Reload) source current file as a vim file
 
 
@@ -380,9 +435,13 @@ Kitty Shortcuts
 #### Windows:
 * `ctrl+shift+enter`: New window
 * `ctrl+shift+w`: Close window
+* `ctrl+shift+n`: Create new OS window
 * `ctrl+shift+]`: Next window
 * `ctrl+shift+[`: Last window
 * `ctrl+shift+l`: Cycle through layout
+* `ctrl+shift+f`: Shift window to prominent spot
+* `ctrl+shift+b`: Shift window to least prominent spot
+* `ctrl+shift+F2`: Create a new iteration of the last edited window
 
 #### Display Options:
 * `Ctrl+Shift+Equal`: Inscrease Font Size
