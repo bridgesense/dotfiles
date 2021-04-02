@@ -108,7 +108,7 @@ cd /hom/$USER/lab/nvim
 make CMAKE_BUILD_TYPE=RelWithDebInfo
 make install && make clean
 npm install -g neovim
-install module "container-tools:2.0"
+install module container-tools
 install package install -y neovim tmux
 pip3 install ranger-fm
 pip3 install pynvim
