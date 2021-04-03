@@ -114,6 +114,7 @@ pip3 install ranger-fm
 pip3 install pynvim
 pip3 install neovim
 su -c 'gem install neovim' $USER
+su -c 'gem install compass' $USER
 
 # addtiional python tools
 python3 -m pip install --upgrade pip
