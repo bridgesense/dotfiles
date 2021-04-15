@@ -90,6 +90,8 @@
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 (package-initialize)
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+;; quelpa handler
+(use-package quelpa-use-package :ensure t)
 
 ;; Misc
 ;; # # # # # # # # # # #
@@ -304,10 +306,19 @@
     (artist-mode)))
 ;; export to epub
 (use-package ox-epub :ensure t)
+;; better agenda view
+(use-package helm-org-ql
+  :quelpa (helm-org-ql :fetcher github :repo "alphapapa/org-ql"
+                       :files ("helm-org-ql.el")))
+(defun better-agenda-view ()
+  "View All Agenda todo items plus past and current deadlines."
+  (interactive)
+  (org-ql-search (org-agenda-files)
+      '(and (todo "TODO"))))
 
 ;; Fix the terminal
 ;; # # # # # # # # # # #
-(setq multi-term-program "/usr/bin/bash")
+(setq multi-term-program "/bin/bash")
 (use-package multi-term :ensure t
   :config
   (add-hook 'term-mode-hook
@@ -705,11 +716,11 @@
 
 ;; Magit a Git handler
 ;; # # # # # # # # # # #
-(use-package magit :ensure t
-  :diminish magit-mode)
+;; (use-package magit :ensure t
+;;  :diminish magit-mode)
 ;; helm-ls-git
-(use-package helm-ls-git :ensure t)
-(use-package evil-magit :ensure t)
+;; (use-package helm-ls-git :ensure t)
+;;(use-package evil-magit :ensure t)
 
 
 ;; bbdb configurations
@@ -953,7 +964,7 @@
    :states '(normal visual motion insert emacs)
    :keymaps 'override
    "o"  '(nil :which-key "Org-Mode Scheduler")
-   "oo" '(org-agenda :which-key "Agenda View")
+   "oo" '(org-agenda :which-key "Agenda Controls")
    "oa" '(org-ctrl-c-ctrl-c :which-key "Activate (C-c)")
    "od" '(org-deadline :which-key "Schedule Deadline")
    "oc" '(org-evaluate-time-range :which-key "Recompute Clock")
@@ -962,7 +973,7 @@
    "ol" '(org-clock-display :which-key "Display Clocks")
    "oj" '(org-clock-goto :which-key "Jump to Running Task")
    "ot" '(org-clock-in :which-key "Start Task")
-   "or" '(org-clock-report :which-key "Show Report")
+   "or" '(better-agenda-view :which-key "Agenda Report")
    "os" '(org-clock-out :which-key "Stop Task")
    "ox" '(org-clock-cancel :which-key "Cancel Clock"))
 

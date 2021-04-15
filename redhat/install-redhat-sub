@@ -82,9 +82,10 @@ log "installing commandline tools"
 install group 'Development Tools'
 install package git ack 'the_silver_searcher'
 install package isync msmtp pass ctags-etags
-install module nodejs python36 ruby
+install module nodejs python36 ruby java-1.8.0-openjdk java-1.8.0-openjdk-devel
 install module 'php:7.4'
 install module 'perl:5.26'
+install module 'maven'
 install package yarn golang ruby-devel
 npm install -g npm@latest
 npm install -g grunt-cli coffeelint eslint csslint gulp typescript

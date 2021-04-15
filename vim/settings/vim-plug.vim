@@ -5,6 +5,9 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+set nocompatible
+filetype off
+
 " Specify a directory for plugins
 call plug#begin('~/.vim/plugged')
 
@@ -21,6 +24,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'kchmck/vim-coffee-script'
 Plug 'morhetz/gruvbox'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-surround'
@@ -50,6 +54,9 @@ endif
 
 " Initialize plugin system
 call plug#end()
+
+syntax enable
+filetype plugin indent on
 
 " Install missing plugins on Vim startup
 autocmd VimEnter *
