@@ -9,11 +9,9 @@ USEREPO=yes
 dir=~/.yadrlite
 dotfiles_old=backup
 action="${1:-install}"
-declare -a files=('vim vimrc tmux.conf profile bash_profile bashrc vimrc.after emacs emacs.d oh-my-zsh zshrc')
+declare -a files=('vim vimrc tmux.conf profile bash_profile bashrc vimrc.after emacs emacs.d')
 declare -a tmuxplugins=('https://github.com/tmux-plugins/tmux-resurrect.git' \
     'https://github.com/tmux-plugins/tmux-continuum.git')
-declare -a zshplugins=('https://github.com/zdharma/fast-syntax-highlighting.git' \
-    'https://github.com/zsh-users/zsh-completions.git')
 
 # # Routines
 # # # # # # # # # # # # # # #
@@ -67,9 +65,6 @@ if [ "$action" == "update" ]; then
         cd $dir
         git pull --rebase
         update $dir/tmux/plugin
-        if [ -d "$dir/../.oh-my-zsh" ]; then
-            update ~/.oh-my-zsh/custom/plugins
-        fi
         echo "The update is finished."
     fi
 fi
@@ -193,27 +188,12 @@ if [ "$action" == "install" ]; then
     sed -i "s@.*\..*/etc/bashrc@    source /etc/bashrc@g" $dir/bashrc
     sed -i "s@.*\..*~\.bashrc@    source ~/.bashrc@g" $dir/bash_profile
 
-    # installing oh my zsh
-    if [ -x "$(command -v zsh)" ]; then
-        unset ZSH
-        crashandburn | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"/echo "moving on..."
-        rm -f ~/.zshrc
-        cat $dir/zsh/zshrc >> $dir/zshrc 2>/dev/null
-        cd ~/.oh-my-zsh/custom/plugins
-        for zplug in "${zshplugins[@]}"; do
-            echo "git clone $zplug"
-            git clone $zplug
-        done
-    fi
-
     echo "# # Building Symbolic Links"
     echo "# # # # # # # # # # # # # # # # # # # # # #"
     cd $dir
     mkdir -p $dotfiles_old 2>/dev/null
     for cfile in ${files[@]}; do
-        if [[ $cfile != "oh-my-zsh" ]]; then
-            ln -s $dir/$cfile ~/.$cfile
-        fi
+        ln -s $dir/$cfile ~/.$cfile
     done
 
     if [[ "$(uname)" != "Darwin" ]]; then

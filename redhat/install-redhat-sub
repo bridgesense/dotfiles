@@ -105,13 +105,12 @@ su -c "gsettings set org.gnome.desktop.default-applications.terminal exec kitty"
 su -c "makedir -p ~/lab" $USER
 install package cmake gcc-c++ libtool
 su -c 'git clone https://github.com/neovim/neovim.git ~/lab/nvim' $USER
-cd /hom/$USER/lab/nvim
+cd /home/$USER/lab/nvim
 make CMAKE_BUILD_TYPE=RelWithDebInfo
 make install && make clean
 npm install -g neovim
 install module container-tools
 install package install -y neovim tmux
-pip3 install ranger-fm
 pip3 install pynvim
 pip3 install neovim
 su -c 'gem install neovim' $USER
@@ -124,6 +123,16 @@ pip3 install virtualenv
 # ueberzug plugin
 install package platform-python-devel libX11-devel libXext-devel perl-Image-ExifTool
 pip3 install ueberzug
+
+# nnn
+install package ncurses-devel readline-devel tree mediainfo
+cd /home/$USER/lab
+su 'git clone git@github.com:jarun/nnn.git ~/lab/nnn' $USER
+cd /home/$USER/lab/nnn
+make O_NERD=1
+cp nnn /usr/bin
+su 'mkdir -p ~/.config/nnn/plugins' $USER
+su -c 'cd ~/.config/nnn/plugins && $SHELL -c "`curl -Ls https://raw.githubusercontent.com/jarun/nnn/master/plugins/getplugs`"' $USER
 
 # install supplementary packages
 install package gnome-tweaks
@@ -253,12 +262,12 @@ Type=Application\n\
 Name=Mail\n\
 Exec=kitty -e neomutt\n\
 " >> /home/$USER/.local/share/applications/neomutt.desktop
-su -c 'touch ~/.local/share/applications/ranger.desktop' $USER
+su -c 'touch ~/.local/share/applications/nnn.desktop' $USER
 printf "[Desktop Entry] \n\
 Type=Application\n\
-Name=Ranger\n\
-Exec=kitty -e ranger\n\
-" >> /home/$USER/.local/share/applications/ranger.desktop
+Name=nnn\n\
+Exec=kitty -e nnn\n\
+" >> /home/$USER/.local/share/applications/nnn.desktop
 
 # documentation
 # # # # # # # # # # # # # # #
@@ -274,8 +283,6 @@ cp -f ~/.yadrlite/redhat/Xresources ~/.Xresources
 su -c "cp -r ~/.yadrlite/redhat/kitty ~/.config" $USER
 su -c "cp -r ~/.yadrlite/redhat/nvim ~/.config" $USER
 cp -r ~/.yadrlite/redhat/nvim ~/.config
-su -c "cp -r ~/.yadrlite/redhat/ranger ~/.config" $USER
-cp -r ~/.yadrlite/redhat/ranger ~/.config
 find /home/$USER/.config -type d -exec chmod 0755 {} \;
 find /home/$USER/.config -type f -exec chmod 0644 {} \;
 find /home/$USER/.config -name "*.sh" -execdir chmod u+x {} +
