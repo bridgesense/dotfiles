@@ -241,10 +241,10 @@
 
 ;; Autopair Mode
 ;; # # # # # # # # # # #
-(use-package autopair :ensure t
-  :diminish autopair-mode
+(use-package phi-autopair :ensure t
+  :diminish phi-autopair-mode
   :config
-  (autopair-global-mode 1))
+  (phi-autopair-global-mode 1))
 
 
 ;; Org Mode
@@ -327,7 +327,7 @@
               (setq term-buffer-maximum-size 25000)
               (setq show-trailing-whitespace nil)
               (prefer-coding-system 'utf-8)
-              (autopair-mode -1)
+              (phi-autopair-mode -1)
               (define-key term-raw-map (kbd "C-v") 'term-paste)
               (define-key term-raw-map (kbd "<prior>") 'scroll-down)
               (define-key term-raw-map (kbd "<next>") 'scroll-up)
