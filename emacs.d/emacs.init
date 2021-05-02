@@ -90,8 +90,6 @@
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 (package-initialize)
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
-;; quelpa handler
-(use-package quelpa-use-package :ensure t)
 
 ;; Misc
 ;; # # # # # # # # # # #
@@ -142,6 +140,8 @@
 (eval-when-compile
   (require 'use-package))
 
+;; quelpa handler
+(use-package quelpa-use-package :ensure t)
 
 ;; For Diminishing TMI stuff on the mode line
 ;; # # # # # # # # # # #
