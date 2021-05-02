@@ -19,10 +19,10 @@ else
 fi
 
 # nnn
-export nnn_fifo=/tmp/nnn.fifo
-export nnn_plug='p:preview-tui-ext'
-export nnn_colors='#0a1b2c3d;1234'
-export nnn_fcolors='c1e2272e006033f7c6d6abc4'
+export NNN_FIFO=/tmp/nnn.fifo
+export NNN_PLUG='p:preview-tui-ext'
+export NNN_COLORS='#0a1b2c3d;1234'
+export NNN_FCOLORS='c1e2272e006033f7c6d6abc4'
 
 # Default Prompt
 export PS1="\[\033[0;31m\]\u \[\033[0;36m\]\w\[\033[0;0m\] "
