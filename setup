@@ -137,12 +137,7 @@ if [ "$action" == "install" ]; then
         fi
 
         if [[ "$(installed 'brew info')" == "yes" ]]; then
-            if [[ $(vim --version) != *"+lua"* ]]; then
-                brew remove vim 2>/dev/null
-                brew install vim --with-override-system-vi
-            fi
-
-            brew install tmux reattach-to-user-namespace the_silver_searcher ack openssl boris
+            brew install vim tmux reattach-to-user-namespace the_silver_searcher ack openssl boris neovim pynvim
             # next line fixes bug with newest changes to MacOS security
             ln -s `brew --prefix openssl`/bin/openssl /usr/local/bin/openssl 2>/dev/null
             brew install aspell
@@ -150,7 +145,7 @@ if [ "$action" == "install" ]; then
             defaults write org.gnu.Emacs AppleFontSmoothing -int 0
             brew cask install gpg-suite
             brew cask install emacs
-            brew tap caskroom/fonts && brew cask install font-dejavu-sans
+            brew tap caskroom/fonts && brew cask install font-dejavu-sans-mono-nerd-font
         fi
 
         echo '# tmux status options'>> $dir/tmux.conf
