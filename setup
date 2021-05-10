@@ -137,15 +137,13 @@ if [ "$action" == "install" ]; then
         fi
 
         if [[ "$(installed 'brew info')" == "yes" ]]; then
-            brew install vim tmux reattach-to-user-namespace the_silver_searcher ack openssl boris neovim pynvim
+            brew install vim tmux reattach-to-user-namespace the_silver_searcher ack openssl neovim nnn w3m nodejs aspell freeglut
             # next line fixes bug with newest changes to MacOS security
             ln -s `brew --prefix openssl`/bin/openssl /usr/local/bin/openssl 2>/dev/null
-            brew install aspell
             # fixes the cruddy looking font in Emacs on MacOS
             defaults write org.gnu.Emacs AppleFontSmoothing -int 0
-            brew cask install gpg-suite
-            brew cask install emacs
-            brew tap caskroom/fonts && brew cask install font-dejavu-sans-mono-nerd-font
+            brew tap homebrew/cask-fonts 
+            brew install --cask cmake gpg-suite emacs font-dejavu-sans-mono-nerd-font
         fi
 
         echo '# tmux status options'>> $dir/tmux.conf
