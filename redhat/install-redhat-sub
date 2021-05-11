@@ -127,7 +127,7 @@ pip3 install ueberzug
 # nnn
 install package ncurses-devel readline-devel tree mediainfo
 cd /home/$USER/lab
-su 'git clone git@github.com:jarun/nnn.git ~/lab/nnn' $USER
+su 'git clone https://github.com/jarun/nnn.git ~/lab/nnn' $USER
 cd /home/$USER/lab/nnn
 make O_NERD=1
 cp nnn /usr/bin
@@ -180,7 +180,7 @@ install package xfat-utils fuse-exfat
 # # # # # # # # # # # # # # #
 log "compiling emacs 27"
 install package gnutls-utils gtk3-devel gtk2-devel libXpm-devel libpng-devel giflib-devel libtiff-devel libjpeg-devel ncurses-devel gpm-devel dbus-devel dbus-glib-devel python3-dbus GConf2-devel pkgconfig libXft-devel
-su -c 'git clone -b master git://git.sv.gnu.org/emacs.git ~/lab/emacs' $USER
+su -c 'git clone https://git.savannah.gnu.org/git/emacs.git  ~/lab/emacs' $USER
 # locks emacs into March 27th, 2020 release (stable)
 su -c 'cd ~/lab/emacs && git checkout 66756df286bea6efd3f9a8290e38e8d77bdf0264' $USER
 sleep 1.5s
