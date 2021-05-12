@@ -88,6 +88,7 @@ install module 'perl:5.26'
 install module 'maven'
 install package yarn golang ruby-devel
 npm install -g npm@latest
+npm install -g npm
 npm install -g grunt-cli coffeelint eslint csslint gulp typescript
 $SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
 su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
@@ -179,10 +180,10 @@ install package xfat-utils fuse-exfat
 # WARNING: emacs X11 will crash with pacakge: google-noto-emoji-color-fonts
 # # # # # # # # # # # # # # #
 log "compiling emacs 27"
-install package gnutls-utils gtk3-devel gtk2-devel libXpm-devel libpng-devel giflib-devel libtiff-devel libjpeg-devel ncurses-devel gpm-devel dbus-devel dbus-glib-devel python3-dbus GConf2-devel pkgconfig libXft-devel
+install package gnutls-utils gtk3-devel gtk2-devel libXpm-devel libpng-devel giflib-devel libtiff-devel libjpeg-devel ncurses-devel gpm-devel dbus-devel dbus-glib-devel python3-dbus GConf2-devel pkgconfig libXft-devel texinfo
 su -c 'git clone https://git.savannah.gnu.org/git/emacs.git  ~/lab/emacs' $USER
 # locks emacs into March 27th, 2020 release (stable)
-su -c 'cd ~/lab/emacs && git checkout 66756df286bea6efd3f9a8290e38e8d77bdf0264' $USER
+su -c 'cd ~/lab/emacs && git checkout 63df3372be19dd8686631260714112a4b0c1099f' $USER
 sleep 1.5s
 su -c 'cd ~/lab/emacs && ./autogen.sh' $USER
 su -c 'cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils' $USER

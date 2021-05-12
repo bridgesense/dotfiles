@@ -30,9 +30,6 @@
 ;; # # # # # # # # # # #
 (save-place-mode 1)
 
-;; Disable cl warning
-(setq byte-compile-warnings '(cl-functions))
-
 ;; Default Font and Transparency
 ;; # # # # # # # # # # #
 (custom-set-faces
@@ -259,7 +256,7 @@
 (setq auto-save-default nil)
 ;; Symmetric File Encryption
 (require 'epa-file)
-(if (not window-system) 
+(if (not window-system)
   (epa-file-enable))
 ;; startup folded
 (setq org-startup-folded t)
