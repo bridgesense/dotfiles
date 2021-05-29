@@ -141,7 +141,7 @@ install package NetworkManager-openvpn-gnome NetworkManager-openconnect-gnome
 install package aspell-en 'texlive*'
 install package clamav clamav-update
 install package brasero
-install pacakge youtube-dl
+install package youtube-dl
 install package w3m w3m-img
 install package ftp telnet
 install package hplip hplip-gui simple-scan
