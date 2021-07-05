@@ -135,6 +135,9 @@ cp nnn /usr/bin
 su 'mkdir -p ~/.config/nnn/plugins' $USER
 su -c 'cd ~/.config/nnn/plugins && $SHELL -c "`curl -Ls https://raw.githubusercontent.com/jarun/nnn/master/plugins/getplugs`"' $USER
 
+# zoom conferencing
+dnf install -y https://zoom.us/client/latest/zoom_x86_64.rpm 
+
 # install supplementary packages
 install package gnome-tweaks
 install package NetworkManager-openvpn-gnome NetworkManager-openconnect-gnome
@@ -199,7 +202,6 @@ sleep 2
 
 # flatpaks
 flatpak install -y app/com.nextcloud.desktopclient.nextcloud/x86_64/stable
-flatpak install -y app/us.zoom.Zoom/x86_64/stable
 flatpak install -y app/com.spotify.Client/x86_64/stable
 flatpak install -y app/org.signal.Signal/x86_64/stable
 flatpak install -y app/com.github.maoschanz.DynamicWallpaperEditor/x86_64/stable
