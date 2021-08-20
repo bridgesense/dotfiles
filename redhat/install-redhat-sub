@@ -220,6 +220,7 @@ flatpak install -y org.gimp.GIMP.Plugin.Resynthesizer
 flatpak install -y org.gimp.GIMP.Plugin.Lensfun
 flatpak install -y org.gimp.GIMP.Plugin.Fourier
 flatpak install -y org.gimp.GIMP.Plugin.BIMP
+flatpak install -y org.gimp.GIMP.Plugin.GMic
 
 # install video and audio codecs
 log "installing codecs and players"
