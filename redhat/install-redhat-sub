@@ -150,6 +150,7 @@ install package ftp telnet
 install package hplip hplip-gui simple-scan
 install package lm-sensors
 install package libcaca
+install package flameshot
 
 # workaround for system tray bug
 # open gnome tweak > Extensions > Kstatusnotifieritem/appindicator support
@@ -207,7 +208,6 @@ flatpak install -y app/org.signal.Signal/x86_64/stable
 flatpak install -y app/com.github.maoschanz.DynamicWallpaperEditor/x86_64/stable
 flatpak install -y app/org.musescore.MuseScore/x86_64/stable
 flatpak install -y app/org.libreoffice.LibreOffice/x86_64/stable
-flatpak install -y app/org.ksnip.ksnip/x86_64/stable
 flatpak install -y nl.hjdskes.gcolor3
 
 # gimp
@@ -265,13 +265,22 @@ printf "[Desktop Entry] \n\
 Type=Application\n\
 Name=Mail\n\
 Exec=kitty -e neomutt\n\
+Icon=/usr/share/icons/hicolor/256x256/apps/evolution.png\n\
 " >> /home/$USER/.local/share/applications/neomutt.desktop
 su -c 'touch ~/.local/share/applications/nnn.desktop' $USER
 printf "[Desktop Entry] \n\
 Type=Application\n\
 Name=nnn\n\
 Exec=kitty -e nnn\n\
+Icon=/usr/local/share/icons/hicolor/scalable/apps/nnn.svg\n\
 " >> /home/$USER/.local/share/applications/nnn.desktop
+su -c 'touch ~/.local/share/applications/flameshot.desktop' $USER
+printf "[Desktop Entry] \n\
+Type=Application\n\
+Name=Flameshot Screenshot\n\
+Exec=flameshot gui\n\
+Icon=/usr/share/icons/hicolor/scalable/apps/flameshot.svg\n\
+" >> /home/$USER/.local/share/applications/flameshoot.desktop
 
 # documentation
 # # # # # # # # # # # # # # #
