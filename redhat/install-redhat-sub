@@ -278,7 +278,7 @@ su -c 'touch ~/.local/share/applications/flameshot.desktop' $USER
 printf "[Desktop Entry] \n\
 Type=Application\n\
 Name=Flameshot Screenshot\n\
-Exec=flameshot gui\n\
+Exec=flameshot gui --raw\n\
 Icon=/usr/share/icons/hicolor/scalable/apps/flameshot.svg\n\
 " >> /home/$USER/.local/share/applications/flameshoot.desktop
 
