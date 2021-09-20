@@ -301,6 +301,27 @@ su -c 'cd ~/.local/share/fonts && svn checkout --non-interactive https://github.
 # misc sanity improvements
 git config --global core.askpass ""
 
+# improve sound
+su -c 'touch ~/.config/pulse/daemon.conf' $USER
+printf "high-priority = yes\n\
+realtime-scheduling = yes\n\
+realtime-priority = 9\n\
+nice-level = -11\n\
+\n\
+resample-method = speex-float-10\n\
+default-sample-format = s24-32le\n\
+default-sample-rate = 192000\n\
+alternate-sample-rate = 176000\n\
+exit-idle-time = -1\n\
+\n\
+default-fragments = 5\n\
+default-fragment-size-msec = 2\n\
+\n\
+enable-lfe-remixing = yes\n\
+\n\
+deferred-volume-safety-margin-usec = 1\n\
+" >> /home/$USER/.config/pulse/daemon.conf
+
 log "Installation complete.  Please reboot your system."
 printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
 printf "ALL DONE.  PLEASE REBOOT YOUR SYSTEM."
