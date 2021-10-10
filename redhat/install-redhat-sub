@@ -297,6 +297,8 @@ find /home/$USER/.config -name "*.sh" -execdir chmod u+x {} +
 # Adds Nerdfonts DejaVuSansMono
 su -c 'mkdir -p ~/.local/share/fonts/' $USER
 su -c 'cd ~/.local/share/fonts && svn checkout --non-interactive https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts/DejaVuSansMono' $USER
+su -c 'cd ~/.local/share/fonts && svn checkout --non-interactive https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts/Inconsolata' $USER
+su -c 'cd ~/.local/share/fonts && svn checkout --non-interactive https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts/FiraCode' $USER
 
 # misc sanity improvements
 git config --global core.askpass ""

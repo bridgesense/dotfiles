@@ -37,7 +37,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:height 105 :family "DejavuSansMono Nerd Font Mono" "Monaco"))))
+ '(default ((t (:height 115 :family "FiraCode Nerd Font" "DejavuSansMono Nerd Font Mono" "Monaco"))))
  '(diff-added ((t (:foreground "#cc241d" :background "#282828"))))
  '(diff-changed ((t (:foreground "#d79921" :background "#282828"))))
  '(diff-context ((t (:inherit default foreground "#ebdbb2" :background "#282828"))))
