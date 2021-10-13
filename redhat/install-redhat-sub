@@ -187,7 +187,7 @@ log "compiling emacs 27"
 install package gnutls-utils gtk3-devel gtk2-devel libXpm-devel libpng-devel giflib-devel libtiff-devel libjpeg-devel ncurses-devel gpm-devel dbus-devel dbus-glib-devel python3-dbus GConf2-devel pkgconfig libXft-devel texinfo
 su -c 'git clone https://git.savannah.gnu.org/git/emacs.git  ~/lab/emacs' $USER
 # locks emacs into March 27th, 2020 release (stable)
-su -c 'cd ~/lab/emacs && git checkout 63df3372be19dd8686631260714112a4b0c1099f' $USER
+# su -c 'cd ~/lab/emacs && git checkout 63df3372be19dd8686631260714112a4b0c1099f' $USER
 sleep 1.5s
 su -c 'cd ~/lab/emacs && ./autogen.sh' $USER
 su -c 'cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils' $USER
@@ -251,8 +251,8 @@ firewall-cmd --reload
 # # # # # # # # # # # # # # #
 log "installing Vagrant and Virtualbox"
 install package binutils kernel-devel kernel-headers libgomp make patch gcc glibc-headers glibc-devel dkms
-dnf install -y https://download.virtualbox.org/virtualbox/6.1.18/VirtualBox-6.1-6.1.18_142142_el8-1.x86_64.rpm
-dnf install -y https://releases.hashicorp.com/vagrant/2.2.14/vagrant_2.2.14_x86_64.rpm
+dnf install -y https://download.virtualbox.org/virtualbox/6.1.26/VirtualBox-6.1-6.1.26_145957_el8-1.x86_64.rpm
+dnf install -y https://releases.hashicorp.com/vagrant/2.2.18/vagrant_2.2.18_x86_64.rpm 
 # custom xdebug port
 firewall-cmd --permanent --zone=webserver --add-port=9003/tcp
 semanage port -a -t http_port_t -p tcp 9003
