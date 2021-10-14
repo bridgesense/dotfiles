@@ -99,7 +99,7 @@ npm install -g n grunt-cli coffeelint eslint csslint gulp typescript
 
 $SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
 su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
-su -c 'gem update' $USER
+gem update --no-user-install
 
 # install composer
 # # # # # # # # # # # # # # #
@@ -121,8 +121,8 @@ npm install -g neovim
 install module container-tools
 pip3 install pynvim
 pip3 install neovim
-su -c 'gem install neovim' $USER
-su -c 'gem install compass' $USER
+gem install --no-user-install neovim
+gem install --no-user-install compass
 
 # addtiional python tools
 python3 -m pip install --upgrade pip
