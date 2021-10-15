@@ -199,7 +199,7 @@ install package xfat-utils fuse-exfat
 log "compiling emacs 27"
 install package gnutls-utils gtk3-devel gtk2-devel libXpm-devel libpng-devel giflib-devel libtiff-devel libjpeg-devel ncurses-devel gpm-devel dbus-devel dbus-glib-devel python3-dbus GConf2-devel pkgconfig libXft-devel texinfo
 su -c 'git clone https://git.savannah.gnu.org/git/emacs.git  ~/lab/emacs' $USER
-# locks emacs into March 27th, 2020 release (stable)
+# locks emacs into Oct 13th, 2021 release (stable)
 su -c 'cd ~/lab/emacs && git checkout aed4aec6bb6509234d1e9f2590d8f6b082885be1' $USER
 sleep 1.5s
 su -c 'cd ~/lab/emacs && ./autogen.sh' $USER
