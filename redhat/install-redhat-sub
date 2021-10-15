@@ -163,7 +163,8 @@ install package libcaca
 install package flameshot
 install package nextcloud-client
 install package neomutt
-install pacakge SDL2-devel SDL2-static
+install package SDL2-devel SDL2-static
+install package wine winetricks
 
 # workaround for system tray bug
 # open gnome tweak > Extensions > Kstatusnotifieritem/appindicator support
