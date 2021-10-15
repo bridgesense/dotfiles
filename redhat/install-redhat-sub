@@ -336,6 +336,17 @@ enable-lfe-remixing = yes\n\
 deferred-volume-safety-margin-usec = 1\n\
 " >> /home/$USER/.config/pulse/daemon.conf
 
+# keyboard changes
+gsettings set org.gnome.settings-daemon.plugins.media-keys volume-mute '[]'
+gsettings set org.gnome.settings-daemon.plugins.media-keys screenshot '[]'
+gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/','/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/']"
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ name 'master mute'
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ command 'amixer -D pulse sset Master toggle'
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ binding 'AudioMute'
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/ name 'flameshot'
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/ command '/usr/bin/flameshot gui'
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/ binding 'Print'
+
 log "Installation complete.  Please reboot your system."
 printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
 printf "ALL DONE.  PLEASE REBOOT YOUR SYSTEM."
