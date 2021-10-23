@@ -304,10 +304,9 @@ follow up with `:Greplace` to replace across all files. When done use `:wall`:
 to write all the files.
 
 #### Git Plugin:
-* `:GStatus`: Git status with [Fugitive](https://github.com/tpope/vim-fugitive)
-* `:GLog`,`:Glog -- %`,`:0Glog`: view logs or load previous versions of same file
+* `:Git`: Git status with [Fugitive](https://github.com/tpope/vim-fugitive)
+* `:Gclog`: view logs or load previous versions of same file
 * `:Git push/pull`: repo management
-* `:Gpush/pull`: repo management
 * `]c`, `[c`: jump to next/previous modification
 
 #### Ctag Management:
