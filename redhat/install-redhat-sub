@@ -146,12 +146,12 @@ su -c 'cd ~/.config/nnn/plugins && $SHELL -c "`curl -Ls https://raw.githubuserco
 su -c 'bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)' $USER
 source /home/$USER/.gvm/scripts/gvm
 su -c 'gvm install go1.17' $USER 
+printf 'gvm use go1.17 > /dev/null 2>&1' >> /home/$USER/.bashrc
 
 # hugo
 cd /home/$USER/lab
 su -c 'git clone https://github.com/gohugoio/hugo.git' $USER
 # run as user
-# gvm use go1.17
 # cd ~/lab/hugo
 # CGO_ENABLED=1 go install --tags extended
 
