@@ -87,7 +87,7 @@ install module 'php:7.4'
 install module 'perl:5.26'
 install module 'maven'
 install module 'subversion:1.14'
-install package yarn golang ruby-devel
+install package yarn golang bison ruby-devel
 # setting up nodejs
 npm install -g n
 /usr/local/bin/n stable 
@@ -135,12 +135,25 @@ pip3 install ueberzug
 # nnn
 install package ncurses-devel readline-devel tree mediainfo
 cd /home/$USER/lab
-su 'git clone https://github.com/jarun/nnn.git ~/lab/nnn' $USER
+su -c 'git clone https://github.com/jarun/nnn.git ~/lab/nnn' $USER
 cd /home/$USER/lab/nnn
 make O_NERD=1
 cp nnn /usr/bin
-su 'mkdir -p ~/.config/nnn/plugins' $USER
+su -c 'mkdir -p ~/.config/nnn/plugins' $USER
 su -c 'cd ~/.config/nnn/plugins && $SHELL -c "`curl -Ls https://raw.githubusercontent.com/jarun/nnn/master/plugins/getplugs`"' $USER
+
+# go
+su -c 'bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)' $USER
+source /home/$USER/.gvm/scripts/gvm
+su -c 'gvm install go1.17' $USER 
+
+# hugo
+cd /home/$USER/lab
+su -c 'git clone https://github.com/gohugoio/hugo.git' $USER
+# run as user
+# gvm use go1.17
+# cd ~/lab/hugo
+# CGO_ENABLED=1 go install --tags extended
 
 # zoom conferencing
 dnf install -y https://zoom.us/client/latest/zoom_x86_64.rpm 
@@ -283,7 +296,7 @@ printf "[Desktop Entry] \n\
 Type=Application\n\
 Name=nnn\n\
 Exec=kitty -e nnn\n\
-Icon=/usr/local/share/icons/hicolor/scalable/apps/nnn.svg\n\
+Icon=/home/$USER/lab/nnn/misc/logo/logo.svg\n\
 " >> /home/$USER/.local/share/applications/nnn.desktop
 su -c 'touch ~/.local/share/applications/flameshot.desktop' $USER
 
