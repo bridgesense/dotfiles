@@ -143,7 +143,7 @@ su -c 'mkdir -p ~/.config/nnn/plugins' $USER
 su -c 'cd ~/.config/nnn/plugins && $SHELL -c "`curl -Ls https://raw.githubusercontent.com/jarun/nnn/master/plugins/getplugs`"' $USER
 
 # go
-su -c 'curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer' $USER
+su -c '$SHELL -c "`curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer`"' $USER
 source /home/$USER/.gvm/scripts/gvm
 su -c 'gvm install go1.17' $USER 
 printf 'gvm use go1.17 > /dev/null 2>&1' >> /home/$USER/.bashrc
