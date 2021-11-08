@@ -70,7 +70,6 @@ dnf update -y
 dnf upgrade -y
 dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
-dnf config-manager --add-repo https://copr.fedorainfracloud.org/coprs/flatcap/neomutt/repo/epel-8/flatcap-neomutt-epel-8.repo
 dnf install -y https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-8.noarch.rpm 
 dnf install -y https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-8.noarch.rpm
 dnf update
@@ -175,7 +174,6 @@ install package lm-sensors
 install package libcaca
 install package flameshot
 install package nextcloud-client
-install package neomutt
 install package SDL2-devel SDL2-static
 
 # workaround for system tray bug
@@ -219,6 +217,16 @@ su -c 'cd ~/lab/emacs && ./autogen.sh' $USER
 su -c 'cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils' $USER
 su -c 'make -C ~/lab/emacs' $USER
 cd /home/$USER/lab/emacs && make install && make clean
+
+log "compiling neomutt"
+install package gcc gettext-devel libidn-devel ncurses-devel slang-devel tcl
+install package docbook-dtds docbook-style-xsl libxslt lynx
+install package gnutls-devel cyrus-sasl-devel gpgme-devel krb5-devel
+install package tokyocabinet-devel
+su -c 'git clone https://github.com/neomutt/neomutt.git ~/lab/neomutt' $USER
+su -c 'cd ~/lab/neomutt && ./configure --with-ssl=/usr/bin' $USER
+su -c 'make -C ~/lab/neomutt' $USER
+cd /home/$USER/lab/neomutt && make install && make clean
 
 # fix flathub repo
 log "installing flatpaks"
