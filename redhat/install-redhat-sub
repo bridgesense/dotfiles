@@ -173,7 +173,6 @@ install package hplip hplip-gui simple-scan
 install package lm-sensors
 install package libcaca
 install package flameshot
-install package nextcloud-client
 install package SDL2-devel SDL2-static
 
 # workaround for system tray bug
@@ -241,6 +240,9 @@ flatpak install -y app/com.github.maoschanz.DynamicWallpaperEditor/x86_64/stable
 flatpak install -y app/org.musescore.MuseScore/x86_64/stable
 flatpak install -y app/org.libreoffice.LibreOffice/x86_64/stable
 flatpak install -y nl.hjdskes.gcolor3
+flatpak install -y com.nextcloud.desktopclient.nextcloud
+flatpak install -y com.obsproject.Studio 
+flatpak install -y com.usebottles.bottles 
 
 # gimp
 log "installing gimp and plugins"
@@ -262,7 +264,6 @@ flatpak install -y org.videolan.VLC.Plugin.makemkv/x86_64/3-20.08
 flatpak install -y org.freedesktop.Platform.ffmpeg-full/x86_64/19.08
 install package gstreamer1-plugins-base gstreamer1-plugins-good gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free 
 install package gstreamer1-plugins-bad-freeworld gstreamer1-libav ffmpeg libdvdcss
-install package obs-studio
 
 # install web browsers
 log "installing browsers"
