@@ -258,7 +258,6 @@ log "installing codecs and players"
 flatpak install -y app/org.videolan.VLC/x86_64/stable
 flatpak install -y app/com.makemkv.MakeMKV/x86_64/stable
 flatpak install -y org.videolan.VLC.Plugin.makemkv/x86_64/3-20.08
-flatpak install -y org.freedesktop.Platform.ffmpeg-full/x86_64/19.08
 install package gstreamer1-plugins-base gstreamer1-plugins-good gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free 
 install package gstreamer1-plugins-bad-freeworld gstreamer1-libav ffmpeg libdvdcss
 
