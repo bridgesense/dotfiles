@@ -339,18 +339,13 @@ realtime-scheduling = yes\n\
 realtime-priority = 9\n\
 nice-level = -11\n\
 \n\
-resample-method = speex-float-10\n\
-default-sample-format = s24-32le\n\
-default-sample-rate = 192000\n\
-alternate-sample-rate = 176000\n\
-exit-idle-time = -1\n\
+default-sample-format = float32le\n\
+default-sample-rate = 48000\n\
+resample-method = soxr-vhq\n\
 \n\
-default-fragments = 5\n\
-default-fragment-size-msec = 2\n\
-\n\
-enable-lfe-remixing = yes\n\
-\n\
-deferred-volume-safety-margin-usec = 1\n\
+default-sample-channels = 2\n\
+remixing-produce-lfe = no\n\
+remixing-consume-lfe = yes\n\
 " >> /home/$USER/.config/pulse/daemon.conf
 
 # keyboard changes
