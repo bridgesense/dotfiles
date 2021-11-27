@@ -279,14 +279,13 @@ firewall-cmd --reload
 # download extensions at: http://download.virtualbox.org/virtualbox/ 
 # # # # # # # # # # # # # # #
 log "installing Vagrant and Virtualbox"
-install package binutils kernel-devel kernel-headers libgomp make patch gcc glibc-headers glibc-devel dkms
-dnf install -y https://download.virtualbox.org/virtualbox/6.1.26/VirtualBox-6.1-6.1.26_145957_el8-1.x86_64.rpm
-dnf install -y https://releases.hashicorp.com/vagrant/2.2.18/vagrant_2.2.18_x86_64.rpm 
+install package binutils kernel-devel kernel-headers libgomp make patch gcc glibc-headers glibc-devel dkms VirtualBox
+dnf install akmod-VirtualBox kernel-devel-$(uname -r)
 # custom xdebug port
 firewall-cmd --permanent --zone=webserver --add-port=9003/tcp
 semanage port -a -t http_port_t -p tcp 9003
 usermod -aG vboxusers $USER
-/usr/lib/virtualbox/vboxdrv.sh setup
+akmods; systemctl restart vboxdrv.service
 
 # add desktop applications
 su -c 'touch ~/.local/share/applications/neomutt.desktop' $USER
