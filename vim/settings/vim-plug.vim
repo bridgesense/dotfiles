@@ -43,6 +43,7 @@ Plug 'tpope/vim-rhubarb'
 Plug 'tommcdo/vim-fubitive'
 Plug 'leafgarland/typescript-vim'
 Plug 'shumphrey/fugitive-gitlab.vim'
+Plug 'maksimr/vim-jsbeautify'
 
 if has('nvim-0.3.2')
     Plug 'kchmck/vim-coffee-script'
