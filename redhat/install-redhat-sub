@@ -223,6 +223,7 @@ install package gcc gettext-devel libidn-devel ncurses-devel slang-devel tcl
 install package docbook-dtds docbook-style-xsl libxslt lynx
 install package gnutls-devel cyrus-sasl-devel gpgme-devel krb5-devel
 install package tokyocabinet-devel
+install package urlview
 su -c 'git clone https://github.com/neomutt/neomutt.git ~/lab/neomutt' $USER
 su -c 'cd ~/lab/neomutt && ./configure --with-sasl=/usr/bin --with-ssl=/usr/bin --with-gpgme=/bin --with-gnutls=/bin' $USER
 su -c 'make -k -C ~/lab/neomutt' $USER
