@@ -87,6 +87,9 @@ install module 'perl:5.26'
 install module 'maven'
 install module 'subversion:1.14'
 install package yarn golang bison ruby-devel rpmfusion-free-release-tainted
+install package php-pear
+pear channel-update doc.php.net
+
 # setting up nodejs
 npm install -g n
 /usr/local/bin/n stable 
@@ -174,7 +177,11 @@ install package lm-sensors
 install package libcaca
 install package flameshot
 install package SDL2-devel SDL2-static
-install package obs-studio
+install package mutt
+# install package obs-studio
+
+# installs tidalwm window manager extension
+su -c 'git clone --depth=1 https://github.com/rustysec/tidalwm  ~/.local/share/gnome-shell/extensions/tidalwm@rustysec.github.io' $USER
 
 # workaround for system tray bug
 # open gnome tweak > Extensions > Kstatusnotifieritem/appindicator support
@@ -217,17 +224,6 @@ su -c 'cd ~/lab/emacs && ./autogen.sh' $USER
 su -c 'cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils' $USER
 su -c 'make -C ~/lab/emacs' $USER
 cd /home/$USER/lab/emacs && make install && make clean
-
-log "compiling neomutt"
-install package gcc gettext-devel libidn-devel ncurses-devel slang-devel tcl
-install package docbook-dtds docbook-style-xsl libxslt lynx
-install package gnutls-devel cyrus-sasl-devel gpgme-devel krb5-devel
-install package tokyocabinet-devel
-install package urlview
-su -c 'git clone https://github.com/neomutt/neomutt.git ~/lab/neomutt' $USER
-su -c 'cd ~/lab/neomutt && ./configure --with-sasl=/usr/bin --with-ssl=/usr/bin --with-gpgme=/bin --with-gnutls=/bin' $USER
-su -c 'make -k -C ~/lab/neomutt' $USER
-cd /home/$USER/lab/neomutt && make install && make clean
 
 # fix flathub repo
 log "installing flatpaks"
