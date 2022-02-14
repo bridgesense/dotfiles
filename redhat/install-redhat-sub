@@ -180,8 +180,9 @@ install package SDL2-devel SDL2-static
 install package mutt
 # install package obs-studio
 
-# installs tidalwm window manager extension
-su -c 'git clone --depth=1 https://github.com/rustysec/tidalwm  ~/.local/share/gnome-shell/extensions/tidalwm@rustysec.github.io' $USER
+# installs tidalwm - an i3-like window manager extension for Gnome
+# I'd rather be working than resizing windows...
+su -c 'git clone --depth=1 https://github.com/bridgesense/tidalwm ~/.local/share/gnome-shell/extensions/tidalwm@rustysec.github.io' $USER
 
 # workaround for system tray bug
 # open gnome tweak > Extensions > Kstatusnotifieritem/appindicator support
