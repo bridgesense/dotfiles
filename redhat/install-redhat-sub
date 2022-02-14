@@ -183,6 +183,17 @@ install package mutt
 # installs tidalwm - an i3-like window manager extension for Gnome
 # I'd rather be working than resizing windows...
 su -c 'git clone --depth=1 https://github.com/rustysec/tidalwm ~/.local/share/gnome-shell/extensions/tidalwm@rustysec.github.io' $USER
+# non-conflicting settings
+# Float Window: <Ctrl><Super>f
+# Rotate Windows: <Ctrl><Super>r
+# Increase Horizontal Split: <Ctrl><Super>Right
+# Decreased Horizontal Split: <Ctrl><Super>Left
+# Increase Vertical Split: <Ctrl><Super>Up
+# Decrease Vertical Split: <Ctrl><Super>Down
+# Select Window Above: <Ctrl><Super>k
+# Select Window Below: <Ctrl><Super>j
+# Select Window Left: <Ctrl><Super>h
+# Select Window Right: <Ctrl><Super>l
 
 # workaround for system tray bug
 # open gnome tweak > Extensions > Kstatusnotifieritem/appindicator support
