@@ -23,7 +23,8 @@
  delete-old-versions t
  kept-new-versions 6
  kept-old-versions 2
- version-control t)       ; use versioned backups
+ version-control t
+ undo-limit (* 1024 1024))       ; use versioned backups
 
 
 ;; Remember your place
@@ -713,11 +714,11 @@
 
 ;; Magit a Git handler
 ;; # # # # # # # # # # #
-;; (use-package magit :ensure t
-;;  :diminish magit-mode)
+(use-package magit :ensure t
+  :diminish magit-mode)
 ;; helm-ls-git
-;; (use-package helm-ls-git :ensure t)
-;;(use-package evil-magit :ensure t)
+(use-package helm-ls-git :ensure t)
+;; (use-package evil-magit :ensure t)
 
 
 ;; bbdb configurations
@@ -743,69 +744,82 @@
 
   ;; AutoComplete Settings
   ;; (comment out to use Company autocompletion below)
-  (use-package ac-php :ensure t)
-  (use-package auto-complete :ensure t
-    :init
-    (progn
-      (ac-config-default)
-      (global-auto-complete-mode t))
-    :config
-    (add-hook 'php-mode-hook
-              '(lambda ()
-                 (auto-complete-mode t)
-                 (require 'ac-php)
-                 (setq ac-sources '(ac-source-php))
-                 (yas-global-mode 1)
-                 (define-key php-mode-map (kbd "C-]")
-                   'ac-php-find-symbol-at-point)
-                 (define-key php-mode-map (kbd "C-t")
-                   'ac-php-location-stack-back))))
-  (use-package ac-html-bootstrap :ensure t)
-  (add-to-list 'web-mode-ac-sources-alist
-               '("html" . (ac-source-html-tag
-                           ac-source-html-attr
-                           ac-source-html-attrv)))
-  (use-package counsel-bbdb :ensure t)
-  (add-hook 'message-mode-hook
-            '(lambda ()
-               (flyspell-mode t)
-               (toggle-truncate-lines)
-               (local-set-key (kbd "TAB") 'counsel-bbdb-complete-mail))))
+  ; (use-package ac-php :ensure t)
+  ; (use-package auto-complete :ensure t
+  ;   :init
+  ;   (progn
+  ;     (ac-config-default)
+  ;     (global-auto-complete-mode t))
+  ;   :config
+  ;   (add-hook 'php-mode-hook
+  ;             '(lambda ()
+  ;                (auto-complete-mode t)
+  ;                (require 'ac-php)
+  ;                (setq ac-sources '(ac-source-php))
+  ;                (yas-global-mode 1)
+  ;                (define-key php-mode-map (kbd "C-]")
+  ;                  'ac-php-find-symbol-at-point)
+  ;                (define-key php-mode-map (kbd "C-t")
+  ;                  'ac-php-location-stack-back))))
+  ; (use-package ac-html-bootstrap :ensure t)
+  ; (add-to-list 'web-mode-ac-sources-alist
+  ;              '("html" . (ac-source-html-tag
+  ;                          ac-source-html-attr
+  ;                          ac-source-html-attrv)))
+  ; (use-package counsel-bbdb :ensure t)
+  ; (add-hook 'message-mode-hook
+  ;           '(lambda ()
+  ;              (flyspell-mode t)
+  ;              (toggle-truncate-lines)
+  ;              (local-set-key (kbd "TAB") 'counsel-bbdb-complete-mail))))
 
 
 ;; Auto Completion with Company
 ;; uncomment to use Company autocompletion
-;(use-package company-php :ensure t)
-;(use-package ac-php :ensure t
-;  :config
-;    (ac-php-core-eldoc-setup))
-;(use-package company-web :ensure t)
-;(use-package company-quickhelp :ensure t)
-;(use-package company :ensure t
-;  :diminish company-mode
-;  :config
-;  (add-hook 'after-init-hook 'global-company-mode)
-;  (add-to-list 'company-backends 'company-web)
-;  (add-to-list 'company-backends 'company-quickhelp)
-;  (add-to-list 'company-backends 'company-php)
-;  (add-to-list 'company-backends 'company-ac-php-backend)
-;  (add-to-list 'company-backends 'php-extras-company)
-;  (add-to-list 'company-backends 'company-Yasnippet)
-;  (add-to-list 'company-backends 'company-dabbrev)
-;  (add-to-list 'company-backends 'company-capf)
-;  (add-to-list 'company-backends 'company-files)
-;  (setq company-tooltip-limit 20)
-;  (setq company-tooltip-align-annotations 't)
-;  (setq company-idle-delay .3)
-;  (setq company-minimum-prefix-length 1)
-;  (setq company-begin-commands '(self-insert-command)))
-; auto-complete emacs address using bbdb UI
-;(add-hook 'message-mode-hook
+(use-package company-php :ensure t)
+(use-package ac-php :ensure t
+ :config
+   (ac-php-core-eldoc-setup))
+(use-package company-web :ensure t)
+(use-package company-quickhelp :ensure t)
+(use-package company :ensure t
+ :diminish company-mode
+ :config
+ (add-hook 'after-init-hook 'global-company-mode)
+ (add-to-list 'company-backends 'company-web)
+ (add-to-list 'company-backends 'company-quickhelp)
+ (add-to-list 'company-backends 'company-php)
+ (add-to-list 'company-backends 'company-ac-php-backend)
+ (add-to-list 'company-backends 'php-extras-company)
+ (add-to-list 'company-backends 'company-Yasnippet)
+ (add-to-list 'company-backends 'company-dabbrev)
+ (add-to-list 'company-backends 'company-capf)
+ (add-to-list 'company-backends 'company-files)
+ (setq company-tooltip-limit 20)
+ (setq company-tooltip-align-annotations 't)
+ (setq company-idle-delay .3)
+ (setq company-minimum-prefix-length 1)
+ (setq company-begin-commands '(self-insert-command))))
+;; auto-complete emacs address using bbdb UI
+; (add-hook 'message-mode-hook
 ;          '(lambda ()
 ;             (flyspell-mode t)
 ;             (toggle-truncate-lines)
 ;             (local-set-key (kbd "TAB") 'bbdb-complete-name))))
 
+;; neotree
+(use-package neotree :ensure t)
+;; (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+(setq neo-smart-open t)
+(evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
+(evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
+(evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
+(evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
+(evil-define-key 'normal neotree-mode-map (kbd "g") 'neotree-refresh)
+(evil-define-key 'normal neotree-mode-map (kbd "n") 'neotree-next-line)
+(evil-define-key 'normal neotree-mode-map (kbd "p") 'neotree-previous-line)
+(evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
+(evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)
 
 ;; leader key operation
 ;; # # # # # # # # # # #
@@ -832,7 +846,8 @@
    "d" '(ranger :which-key "File Ranger")
    "e" '(flycheck-list-errors-toggle :which-key "Toggle Error List")
    "j" '(ace-jump-char-mode :which-key "Jump to Character")
-   "n" '(deer :which-key "Browse Current Directory")
+   "m" '(deer :which-key "Browse Current Directory")
+   "n" '(neotree-toggle :which-key "Browse Project Directory")
    "q" '(kill-this-buffer :which-key "Kill Buffer")
    "Q" '(kill-emacs :which-key "Quit Emacs")
    "r" '(bbdb :which-key "Search Rolodex")
