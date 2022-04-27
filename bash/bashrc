@@ -3,7 +3,11 @@ alias ls='ls --color=auto'
 export LS_COLORS=
 
 # offers the widest compatibility on remote access
-export TERM='xterm-256color'
+if [[ -n "$INSIDE_EMACS" ]]; then
+    export TERM='eterm-color'
+else
+    export TERM='xterm-256color'
+fi
 
 # make sure we have a tmp dir for CoC
 export TMPDIR="/tmp"
