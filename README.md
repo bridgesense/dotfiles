@@ -196,6 +196,10 @@ alternative to the Emacs Pinky.
 * `,Wt`: See synonyms (thesaurus) of word under cursor
 * `,Wa`: See antonyms of word under cursor
 
+#### Other Shortcuts:
+* `<ctrl>-z`: Toggles Emacs/Vim Mode
+* `<ctrl>-x t`: Tab Controls    
+    
 # Tmux
 
 Requirements: [Tmux](https://github.com/tmux/tmux/wiki/Installing)

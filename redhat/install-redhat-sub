@@ -97,7 +97,7 @@ npm install -g npm@latest
 npm install -g npm
 nvm install 14.18.1
 nvm use 14.18.1
-npm install -g n grunt-cli coffeelint eslint csslint gulp typescript
+npm install -g n grunt-cli eslint csslint gulp typescript typescript-language-server intelephense
 
 $SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
 su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER

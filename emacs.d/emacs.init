@@ -415,8 +415,8 @@
   :diminish php-mode)
 ;;(defun php-syntax-propertize-function (start end)
 ;;  "This may break PHP syntax highlighting for increased performance.")
-(use-package coffee-mode :ensure t
-  :diminish coffee-mode)
+(use-package typescript-mode :ensure t
+  :diminish typescript-mode)
 (use-package sass-mode :ensure t
   :diminish sass-mode)
 (use-package json-mode :ensure t
@@ -738,74 +738,46 @@
   (bbdb-mua-auto-update-init 'message)
   (setq bbdb-mua-auto-update-p 'query)
                                         ; turn off auto carraige return after 70 chars
-  (add-hook 'message-mode-hook 'turn-off-auto-fill)
+  (add-hook 'message-mode-hook 'turn-off-auto-fill))
   ;; (use-package bbdb-vcard :ensure t)
-
-
-  ;; AutoComplete Settings
-  ;; (comment out to use Company autocompletion below)
-  ; (use-package ac-php :ensure t)
-  ; (use-package auto-complete :ensure t
-  ;   :init
-  ;   (progn
-  ;     (ac-config-default)
-  ;     (global-auto-complete-mode t))
-  ;   :config
-  ;   (add-hook 'php-mode-hook
-  ;             '(lambda ()
-  ;                (auto-complete-mode t)
-  ;                (require 'ac-php)
-  ;                (setq ac-sources '(ac-source-php))
-  ;                (yas-global-mode 1)
-  ;                (define-key php-mode-map (kbd "C-]")
-  ;                  'ac-php-find-symbol-at-point)
-  ;                (define-key php-mode-map (kbd "C-t")
-  ;                  'ac-php-location-stack-back))))
-  ; (use-package ac-html-bootstrap :ensure t)
-  ; (add-to-list 'web-mode-ac-sources-alist
-  ;              '("html" . (ac-source-html-tag
-  ;                          ac-source-html-attr
-  ;                          ac-source-html-attrv)))
-  ; (use-package counsel-bbdb :ensure t)
-  ; (add-hook 'message-mode-hook
-  ;           '(lambda ()
-  ;              (flyspell-mode t)
-  ;              (toggle-truncate-lines)
-  ;              (local-set-key (kbd "TAB") 'counsel-bbdb-complete-mail))))
-
 
 ;; Auto Completion with Company
 ;; uncomment to use Company autocompletion
-(use-package company-php :ensure t)
-(use-package ac-php :ensure t
+(setq lsp-intelephense-licence-key (expand-file-name "~/.config/intelephense/licence.txt"))
+(use-package company
+ :ensure t
  :config
-   (ac-php-core-eldoc-setup))
-(use-package company-web :ensure t)
-(use-package company-quickhelp :ensure t)
-(use-package company :ensure t
- :diminish company-mode
+ (setq company-idle-delay 0.3)
+ (global-company-mode 1)
+ (global-set-key (kbd "C-<tab>") 'company-complete))
+(use-package flycheck :ensure t)
+(use-package lsp-mode
+ :ensure t
  :config
- (add-hook 'after-init-hook 'global-company-mode)
- (add-to-list 'company-backends 'company-web)
- (add-to-list 'company-backends 'company-quickhelp)
- (add-to-list 'company-backends 'company-php)
- (add-to-list 'company-backends 'company-ac-php-backend)
- (add-to-list 'company-backends 'php-extras-company)
- (add-to-list 'company-backends 'company-Yasnippet)
- (add-to-list 'company-backends 'company-dabbrev)
- (add-to-list 'company-backends 'company-capf)
- (add-to-list 'company-backends 'company-files)
- (setq company-tooltip-limit 20)
- (setq company-tooltip-align-annotations 't)
- (setq company-idle-delay .3)
- (setq company-minimum-prefix-length 1)
- (setq company-begin-commands '(self-insert-command))))
-;; auto-complete emacs address using bbdb UI
-; (add-hook 'message-mode-hook
-;          '(lambda ()
-;             (flyspell-mode t)
-;             (toggle-truncate-lines)
-;             (local-set-key (kbd "TAB") 'bbdb-complete-name))))
+ (setq lsp-prefer-flymake nil)
+ :hook ((php-mode . lsp)
+        (sass-mode . lsp)
+        (typescript-mode . lsp)
+        (web-mode . lsp)
+        (lsp-mode . lsp-enable-which-key-integration))
+ :commands lsp)
+(use-package lsp-ui
+ :ensure t
+ :requires lsp-mode flycheck
+ :config
+ (setq lsp-ui-doc-enable t
+ lsp-ui-doc-use-childframe t
+ lsp-ui-doc-position ‘top
+ lsp-ui-doc-include-signature t
+ lsp-ui-sideline-enable nil
+ lsp-ui-flycheck-enable t
+ lsp-ui-flycheck-list-position ‘right
+ lsp-ui-flycheck-live-reporting t
+ lsp-ui-peek-enable t
+ lsp-ui-peek-list-width 60
+ lsp-ui-peek-peek-height 25
+ lsp-ui-sideline-enable nil)
+(add-hook 'lsp-mode-hook 'lsp-ui-mode))
 
 ;; neotree
 (use-package neotree :ensure t)
