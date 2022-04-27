@@ -115,7 +115,7 @@ alternative to the Emacs Pinky.
 * `,br`: Refresh buffer
 
 #### Window Shortcuts:
-* `,wd`: Dem/settings lete windown
+* `,wd`: Delete current window
 * `,wc`: Delete all other windows except current window
 * `,wf`: Toggle Emacs full screen
 * `,wh`: Focus on window to left of current one
