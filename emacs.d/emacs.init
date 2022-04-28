@@ -38,7 +38,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:height 115 :family "FiraCode Nerd Font" "DejavuSansMono Nerd Font Mono" "Monaco"))))
+ '(default ((t (:height 115 :family "FiraCode Nerd Font Mono" "DejavuSansMono Nerd Font Mono" "Monaco"))))
  '(diff-added ((t (:foreground "#cc241d" :background "#282828"))))
  '(diff-changed ((t (:foreground "#d79921" :background "#282828"))))
  '(diff-context ((t (:inherit default foreground "#ebdbb2" :background "#282828"))))
@@ -106,6 +106,7 @@
 ;; set the default encoding system
 (prefer-coding-system 'utf-8)
 (setq default-file-name-coding-system 'utf-8)
+(set-language-environment 'utf-8)
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
@@ -149,6 +150,12 @@
 ;; CSV Mode
 ;; (use-package csv-mode :ensure t)
 
+;; ligatures
+(use-package fira-code-mode
+  :ensure t
+  :config (global-fira-code-mode))
+;; install fira code symbols manually for ligatures to work
+;; m-x fira-code-mode-install-fonts
 
 ;; clipboard sharing
 ;; # # # # # # # # # # #
@@ -573,13 +580,10 @@
 
 ;; Spruce Up line numbers
 ;; # # # # # # # # # # #
-;; Line numbering on by default
-;; (global-linum-mode 1)
-;; Highlight current line number
-;; (use-package hlinum :ensure t
-;;  :config
-;;  (hlinum-activate))
-
+(defun my-display-numbers-hook ()
+  (display-line-numbers-mode t)
+  )
+(add-hook 'prog-mode-hook 'my-display-numbers-hook)
 
 ;; Add relative line numbering option
 (use-package linum-relative :ensure t
@@ -755,6 +759,8 @@
  :ensure t
  :config
  (setq lsp-prefer-flymake nil)
+ (setq lsp-enable-file-watchers t)
+ (setq lsp-file-watch-threshold nil)
  :hook ((php-mode . lsp)
         (sass-mode . lsp)
         (typescript-mode . lsp)
@@ -780,7 +786,30 @@
 (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 
 ;; neotree
-(use-package neotree :ensure t)
+(use-package neotree 
+ :ensure t
+ :config
+ (add-hook
+ 'neotree-mode-hook
+ (lambda ()
+   (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter-hide))))
+(defun neo-open-file-hide (full-path &optional arg)
+  "Open a file node and hides tree."
+  (neo-global--select-mru-window arg)
+  (find-file full-path)
+  (neotree-hide))
+(defun neotree-enter-hide (&optional arg)
+  "Enters file and hides neotree directly"
+  (interactive "P")
+  (neo-buffer--execute arg 'neo-open-file-hide 'neo-open-dir))
+(custom-set-variables
+ '(neo-theme (quote classic))
+ '(neo-smart-open t)
+ '(neo-vc-integration (quote (face)))
+ '(neo-fit-to-contents t)
+ '(neo-cwd-line-style 'text)
+ '(neo-window-position 'left))
+
 ;; (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 (setq neo-smart-open t)
 (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
@@ -814,7 +843,6 @@
    "]" '(enlarge-window-horizontally :which-key "Expand Window")
    "-" '(shrink-window :which-key "Shrink Window")
    "=" '(enlarge-window :which-key "Grow Window")
-   "a" '(helm-do-ag-project-root :which-key "Search Project")
    "d" '(ranger :which-key "File Ranger")
    "e" '(flycheck-list-errors-toggle :which-key "Toggle Error List")
    "j" '(ace-jump-char-mode :which-key "Jump to Character")
@@ -910,6 +938,19 @@
    "gx" '(geben-end :which-key "Stop Geben"))
 
 
+  ;; Language Server Functions
+  (general-define-key
+   :prefix gleader
+   :non-normal-prefix gleader-non
+   :states '(normal visual motion insert emacs)
+   :keymaps 'override
+   "c"  '(nil :which-key "Language Server")
+   "cf" '(lsp-ui-doc-show :which-key "Find Documentation")
+   "cr" '(lsp-ui-peek-find-references :which-key "Find References")
+   "cd" '(lsp-ui-peek-find-definitions :which-key "Find Definition of Function")
+   "cm" '(lsp-ui-imenu :which-key "Language Menu"))
+
+
   ;; Line Functions
   (general-define-key
    :prefix gleader
@@ -969,6 +1010,8 @@
    :states '(normal visual motion insert emacs)
    :keymaps 'override
    "p"  '(nil :which-key "Project Commands")
+   "p]" '(git-gutter:previous-hunk :which-key "Go to previous modification")
+   "p[" '(git-gutter:next-hunk :which-key "Go to next modification")
    "pd" '(helm-do-ag :which-key "Search in Directory")
    "ph" '(magit-log-buffer-file :which-key "History of Buffer")
    "pf" '(helm-projectile-find-file :which-key "Fuzzy File (CtrlP)")
@@ -994,3 +1037,4 @@
   )
 
 ;; Warning!  Any lines modified below this point may be overwritten.
+(custom-set-variables

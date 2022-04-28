@@ -97,7 +97,6 @@ alternative to the Emacs Pinky.
 * `,]`: Expand vertically split Window
 * `,-`: Shrink horizontally split window
 * `,=`: Grow hoizontally split window
-* `,a`: Search project
 * `,d`: Open directory browser, Ranger equivalent
 * `,e`: Toggle Error List
 * `,jx`: Jump to character x
@@ -113,6 +112,12 @@ alternative to the Emacs Pinky.
 * `,bs`: Save buffer
 * `:w`: Save buffer, VIM equivalent
 * `,br`: Refresh buffer
+
+#### Code Shortcuts:
+* `,cf`: Find hovered function in Documentation 
+* `,cr`: Find References to hovered function
+* `,cd`: Find Definitions to hovered function
+* `,cm`: Show quick menu of file definitions 
 
 #### Window Shortcuts:
 * `,wd`: Delete current window
@@ -188,6 +193,8 @@ alternative to the Emacs Pinky.
 * `,ps`: Search in current project
 * `,pm`: Git status with Magit
 * `,pw`: Swoop
+* `,p[`: Go to next change in file 
+* `,p]`: Go to previous change in file 
 
 #### Word Shortcuts:
 * `,Ws`: View spelling errors
