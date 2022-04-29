@@ -237,6 +237,13 @@ su -c 'cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls=ifavailabl
 su -c 'make -C ~/lab/emacs' $USER
 cd /home/$USER/lab/emacs && make install && make clean
 
+# snapd
+dnf install snapd
+systemctl enable --now snapd.socket
+ln -s /var/lib/snapd/snap /snap
+snap install maildir-utils
+dnf reinstall -y coreutils
+
 # fix flathub repo
 log "installing flatpaks"
 flatpak remote-delete flathub

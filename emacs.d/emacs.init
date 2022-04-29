@@ -539,20 +539,20 @@
 ;; # # # # # # # # # # #
 (use-package gruvbox-theme :ensure t
   :config
-  (setq active-theme 'gruvbox-dark-soft)
+  (setq active-theme 'gruvbox-dark-medium)
   (load-theme active-theme t))
 (defun toggle-light-dark-theme ()
   "Toggle Light and Dark themes"
   (interactive)
-  (if (eq active-theme 'gruvbox-light-soft)
-      (setq active-theme 'gruvbox-dark-soft)
-    (setq active-theme 'gruvbox-light-soft))
+  (if (eq active-theme 'gruvbox-light-medium)
+      (setq active-theme 'gruvbox-dark-medium)
+    (setq active-theme 'gruvbox-light-medium))
   (load-theme active-theme t)
   (gruvbox-modeline-reset)
   (powerline-reset))
 (defun gruvbox-modeline-reset ()
   "Dark Mode Line"
-  (if (eq active-theme 'gruvbox-light-soft)
+  (if (eq active-theme 'gruvbox-light-medium)
       (progn
         (set-face-attribute 'mode-line nil
                             :foreground "#282828"
@@ -746,6 +746,123 @@
 ;; (use-package evil-magit :ensure t)
 
 
+;; mu4e
+(add-to-list 'load-path "/snap/maildir-utils/current/share/emacs/site-lisp/mu4e/")
+(require 'mu4e)
+
+;; setup
+; cd ~/.emacs.d
+; echo 'password' > .mbsyncpass
+; gpg2 --output .mbsyncpass.gpg --symmetric .mbsyncpass
+; rm .mbsyncpass
+; cd ~/ 
+; echo "machine smtp.example.com login myname port 587 password mypassword" > .authinfo
+; gpg2 --output ~/.authinfo.gpg --symmetric ~/.authinfo
+; rm ~/.authinfo
+; vi ~/.emacs.d/.mbsyncrc
+
+; IMAPAccount nameaccount
+; Host your.imap.server
+; User yourname
+; PassCmd "gpg2 -q --for-your-eyes-only --no-tty -d ~/.emacs.d/.mbsyncpass.gpg"
+; Port 993
+; SSLType IMAPS
+; AuthMechs *
+; CertificateFile /etc/ssl/certs/ca-bundle.crt
+;
+; IMAPStore nameaccount-remote
+; Account nameaccount
+;
+; MaildirStore nameaccount-local
+; Path ~/email/mbsyncmail/
+; Inbox ~/email/mbsyncmail/INBOX
+; SubFolders Verbatim
+;
+; Channel nameaccount
+; Master :nameaccount-remote:
+; Slave :nameaccount-local:
+; Patterns *
+; Create Slave
+; Sync All
+; Expunge None
+; SyncState *
+
+; mbsync --config ~/.emacs.d/.mbsyncrc nameaccount
+; mu init --my-address="your-email@domain.com" --maildir=~/email/mbsyncmail/
+; mu index
+
+;; use mu4e for e-mail in emacs
+(setq mail-user-agent 'mu4e-user-agent)
+
+;; SMTP settings:
+(setq user-mail-address "your-email@domain.com")
+(setq user-full-name "your anme")
+(setq send-mail-function 'smtpmail-send-it)    ; should not be modified
+(setq smtpmail-default-smtp-server "mail.domain.com") ; host running SMTP server
+(setq smtpmail-smtp-server "mail.domain.com") ; host running SMTP server
+(setq smtpmail-local-domain "domain.com")
+(setq smtpmail-sendto-domain "domain.com")
+(setq smtpmail-smtp-service 465)               ; SMTP service port number
+(setq smtpmail-stream-type 'ssl)          ; type of SMTP connections to use
+
+;; allow for updating mail using 'U' in the main view:
+(setq mu4e-get-mail-command "offlineimap")
+
+;; don't keep message buffers around
+(setq message-kill-buffer-on-exit t)
+
+;; Mail folders:
+(setq mu4e-inbox-folder "/INBOX")
+(setq mu4e-drafts-folder "/Drafts")
+(setq mu4e-sent-folder   "/Sent")
+(setq mu4e-trash-folder  "/Trash")
+
+;; The command used to get your emails (adapt this line, see section 2.3):
+(setq mu4e-get-mail-command "mbsync --config ~/.emacs.d/.mbsyncrc nameaccount")
+;; Further customization:
+(setq mu4e-html2text-command "w3m -T text/html" ; how to handle html-formatted emails
+      mu4e-update-interval 300                  ; seconds between each mail retrieval
+      mu4e-headers-auto-update t                ; avoid to type `g' to update
+      mu4e-view-show-images t                   ; show images in the view buffer
+      mu4e-compose-signature-auto-include nil   ; I don't want a message signature
+      mu4e-use-fancy-chars t)                   ; allow fancy icons for mail threads
+
+;; Configure desktop notifs for incoming emails:
+(use-package mu4e-alert
+  :ensure t
+  :init
+  (defun perso--mu4e-notif ()
+    "Display both mode line and desktop alerts for incoming new emails."
+    (interactive)
+    (mu4e-update-mail-and-index 1)        ; getting new emails is ran in the background
+    (mu4e-alert-enable-mode-line-display) ; display new emails in mode-line
+    (mu4e-alert-enable-notifications))    ; enable desktop notifications for new emails
+  (defun perso--mu4e-refresh ()
+    "Refresh emails every 300 seconds and display desktop alerts."
+    (interactive)
+    (mu4e t)                            ; start silently mu4e (mandatory for mu>=1.3.8)
+    (run-with-timer 0 300 'perso--mu4e-notif))
+  :after mu4e
+  :bind ("<f2>" . perso--mu4e-refresh)  ; F2 turns Emacs into a mail client
+  :config
+  ;; Mode line alerts:
+  (add-hook 'after-init-hook #'mu4e-alert-enable-mode-line-display)
+  ;; Desktop alerts:
+  (mu4e-alert-set-default-style 'libnotify)
+  (add-hook 'after-init-hook #'mu4e-alert-enable-notifications)
+  ;; Only notify for "interesting" (non-trashed) new emails:
+  (setq mu4e-alert-interesting-mail-query
+        (concat
+         "flag:unread maildir:/INBOX"
+         " AND NOT flag:trashed")))
+
+;; w3m viewer for html email
+(use-package w3m 
+ :ensure t
+ :config
+    (setq w3m-default-display-inline-images t))
+
+
 ;; bbdb configurations
 (use-package bbdb :ensure t
   :config
@@ -842,6 +959,7 @@
  '(neo-theme 'classic)
  '(neo-vc-integration '(face))
  '(neo-window-position 'left)
+ '(neo-show-hidden-files t)
  '(package-selected-packages
    '(sane-term general counsel-bbdb ac-html-bootstrap ac-php bbdb ranger geben dashboard page-break-lines helm-ag helm-projectile projectile spaceline fancy-battery synosaurus define-word helm-flyspell ace-jump-mode linum-relative helm-tramp helm-swoop gruvbox-theme git-gutter-fringe git-gutter fringe-helper which-key web-beautify php-scratch yasnippet flycheck-color-mode-line json-mode sass-mode coffee-mode php-mode web-mode aggressive-indent smooth-scrolling exec-path-from-shell multi-term helm-org-ql org-ql transient ov org-super-agenda ts ht f helm-org s ox-epub flycheck-plantuml plantuml-mode org-bullets phi-autopair swiper helm evil-commentary evil-tutor evil-surround evil-matchit evil diminish quelpa-use-package use-package)))
 
@@ -936,9 +1054,9 @@
    "ah" '(info-emacs-manual :which-key "Read the Emacs Manual")
    "ai" '(erc :which-key "IRC")
    "at" '(multi-term :which-key "Terminal")
-   "am" '(gnus :which-key "News/Mail")
+   "am" '(mu4e :which-key "News/Mail")
    "ap" '(php-scratch :which-key "PHP Scratch Pad")
-   "aw" '(browse-web :which-key "Browse Web"))
+   "aw" '(w3m-browse-url :which-key "Browse Web"))
 
 
   ;; File Functions
