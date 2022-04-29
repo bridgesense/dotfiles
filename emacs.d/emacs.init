@@ -401,10 +401,20 @@
   (add-to-list 'auto-mode-alist '("\\.htm[l]?\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
+  (add-to-list 'auto-mode-alist '("\\.tpl\\'" . php-mode))
+  (add-to-list 'auto-mode-alist '("\\.inc\\'" . php-mode))
   (add-to-list 'auto-mode-alist '("\\.phtml\\'" . php-mode))
   (add-to-list 'auto-mode-alist '("\\.css\\'" . css-mode))
   (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
   (add-to-list 'auto-mode-alist '("\\.tpl\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
+  (add-to-list 'auto-mode-alist '("\\.toml\\'" . toml-mode))
+  (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
+  (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+  (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+  (add-to-list 'auto-mode-alist '("\\.coffee\\'" . coffee-mode))
+  (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
   (add-hook 'web-mode-hook
             (lambda ()
               (local-set-key '[backtab] 'indent-relative)
@@ -428,9 +438,20 @@
   :diminish sass-mode)
 (use-package json-mode :ensure t
   :diminish json-mode)
+(use-package toml-mode :ensure t
+  :diminish toml-mode)
+(use-package markdown-mode :ensure t
+  :diminish markdown-mode)
+(use-package yaml-mode :ensure t
+  :diminish yaml-mode)
+(use-package coffee-mode :ensure t
+  :diminish coffee-mode)
+(use-package go-mode :ensure t
+  :diminish go-mode)
 (use-package flycheck :ensure t
   :diminish flycheck-mode
   :config
+  (setq flycheck-checker-error-threshold nil)
   (global-flycheck-mode)
   (flycheck-add-mode 'html-tidy 'web-mode)
   (add-to-list 'display-buffer-alist
@@ -763,8 +784,14 @@
  (setq lsp-file-watch-threshold nil)
  :hook ((php-mode . lsp)
         (sass-mode . lsp)
+        (css-mode . lsp)
         (typescript-mode . lsp)
         (web-mode . lsp)
+        (toml-mode . lsp)
+        (json-mode . lsp)
+        (markdown-mode . lsp)
+        (yaml-mode . lsp)
+        (go-mode . lsp)
         (lsp-mode . lsp-enable-which-key-integration))
  :commands lsp)
 (use-package lsp-ui
@@ -786,7 +813,7 @@
 (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 
 ;; neotree
-(use-package neotree 
+(use-package neotree
  :ensure t
  :config
  (add-hook
@@ -803,12 +830,20 @@
   (interactive "P")
   (neo-buffer--execute arg 'neo-open-file-hide 'neo-open-dir))
 (custom-set-variables
- '(neo-theme (quote classic))
- '(neo-smart-open t)
- '(neo-vc-integration (quote (face)))
- '(neo-fit-to-contents t)
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(geben-path-mappings '(("/home/francis/www/tickettomato.com/" "/var/www/")))
+ '(helm-ag-base-command "ack --nocolor --nogroup")
  '(neo-cwd-line-style 'text)
- '(neo-window-position 'left))
+ '(neo-fit-to-contents t)
+ '(neo-smart-open t)
+ '(neo-theme 'classic)
+ '(neo-vc-integration '(face))
+ '(neo-window-position 'left)
+ '(package-selected-packages
+   '(sane-term general counsel-bbdb ac-html-bootstrap ac-php bbdb ranger geben dashboard page-break-lines helm-ag helm-projectile projectile spaceline fancy-battery synosaurus define-word helm-flyspell ace-jump-mode linum-relative helm-tramp helm-swoop gruvbox-theme git-gutter-fringe git-gutter fringe-helper which-key web-beautify php-scratch yasnippet flycheck-color-mode-line json-mode sass-mode coffee-mode php-mode web-mode aggressive-indent smooth-scrolling exec-path-from-shell multi-term helm-org-ql org-ql transient ov org-super-agenda ts ht f helm-org s ox-epub flycheck-plantuml plantuml-mode org-bullets phi-autopair swiper helm evil-commentary evil-tutor evil-surround evil-matchit evil diminish quelpa-use-package use-package)))
 
 ;; (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 (setq neo-smart-open t)
@@ -1037,4 +1072,3 @@
   )
 
 ;; Warning!  Any lines modified below this point may be overwritten.
-(custom-set-variables
