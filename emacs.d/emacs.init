@@ -712,7 +712,7 @@
 (use-package geben :ensure t
   :diminish geben-mode
   :config
-  (setq geben-dbgp-default-port 9041))
+  (setq geben-dbgp-default-port 9003))
 
 
 ;; Rangerlike File Browser
@@ -935,23 +935,6 @@
   "Enters file and hides neotree directly"
   (interactive "P")
   (neo-buffer--execute arg 'neo-open-file-hide 'neo-open-dir))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(geben-path-mappings '(("/home/francis/www/tickettomato.com/" "/var/www/")))
- '(helm-ag-base-command "ack --nocolor --nogroup")
- '(helm-minibuffer-history-key "M-p")
- '(neo-cwd-line-style 'text)
- '(neo-fit-to-contents t)
- '(neo-show-hidden-files t)
- '(neo-smart-open t)
- '(neo-theme 'classic)
- '(neo-vc-integration '(face))
- '(neo-window-position 'left)
- '(package-selected-packages
-   '(evil-collection w3m sane-term general counsel-bbdb ac-html-bootstrap ac-php bbdb ranger geben dashboard page-break-lines helm-ag helm-projectile projectile spaceline fancy-battery synosaurus define-word helm-flyspell ace-jump-mode linum-relative helm-tramp helm-swoop gruvbox-theme git-gutter-fringe git-gutter fringe-helper which-key web-beautify php-scratch yasnippet flycheck-color-mode-line json-mode sass-mode coffee-mode php-mode web-mode aggressive-indent smooth-scrolling exec-path-from-shell multi-term helm-org-ql org-ql transient ov org-super-agenda ts ht f helm-org s ox-epub flycheck-plantuml plantuml-mode org-bullets phi-autopair swiper helm evil-commentary evil-tutor evil-surround evil-matchit evil diminish quelpa-use-package use-package)))
 
 ;; (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 (setq neo-smart-open t)
@@ -1187,3 +1170,18 @@
   )
 
 ;; Warning!  Any lines modified below this point may be overwritten.
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(helm-ag-base-command "ack --nocolor --nogroup")
+ '(helm-minibuffer-history-key "M-p")
+ '(neo-cwd-line-style 'text)
+ '(neo-fit-to-contents t)
+ '(neo-show-hidden-files t)
+ '(neo-smart-open t)
+ '(neo-theme 'classic)
+ '(neo-vc-integration '(face))
+ '(neo-window-position 'left)
+)
