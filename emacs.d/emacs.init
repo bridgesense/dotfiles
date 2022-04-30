@@ -756,7 +756,7 @@
 ; echo 'password' > .mbsyncpass
 ; gpg2 --output .mbsyncpass.gpg --symmetric .mbsyncpass
 ; rm .mbsyncpass
-; cd ~/ 
+; cd ~/
 ; echo "machine smtp.example.com login myname port 587 password mypassword" > .authinfo
 ; gpg2 --output ~/.authinfo.gpg --symmetric ~/.authinfo
 ; rm ~/.authinfo
@@ -789,20 +789,20 @@
 ; SyncState *
 
 ; mbsync --config ~/.emacs.d/.mbsyncrc nameaccount
-; mu init --my-address="francis@bridgesense.com" --maildir=~/email/mbsyncmail/
+; mu init --my-address="your-name@domain.com" --maildir=~/email/mbsyncmail/
 ; mu index
 
 ;; use mu4e for e-mail in emacs
 (setq mail-user-agent 'mu4e-user-agent)
 
 ;; SMTP settings:
-(setq user-mail-address "francis@bridgesense.com")
-(setq user-full-name "Francis Meetze")
+(setq user-mail-address "your-name@domain.com")
+(setq user-full-name "Your Name")
 (setq send-mail-function 'smtpmail-send-it)    ; should not be modified
-(setq smtpmail-default-smtp-server "mail.bridgesense.com") ; host running SMTP server
-(setq smtpmail-smtp-server "mail.bridgesense.com") ; host running SMTP server
-(setq smtpmail-local-domain "bridgesense.com")
-(setq smtpmail-sendto-domain "bridgesense.com")
+(setq smtpmail-default-smtp-server "mail.domain.com") ; host running SMTP server
+(setq smtpmail-smtp-server "mail.domain.com") ; host running SMTP server
+(setq smtpmail-local-domain "domain.com")
+(setq smtpmail-sendto-domain "domain.com")
 (setq smtpmail-smtp-service 465)               ; SMTP service port number
 (setq smtpmail-stream-type 'ssl)          ; type of SMTP connections to use
 
@@ -942,6 +942,7 @@
  ;; If there is more than one, they won't work right.
  '(geben-path-mappings '(("/home/francis/www/tickettomato.com/" "/var/www/")))
  '(helm-ag-base-command "ack --nocolor --nogroup")
+ '(helm-minibuffer-history-key "M-p")
  '(neo-cwd-line-style 'text)
  '(neo-fit-to-contents t)
  '(neo-show-hidden-files t)
@@ -950,7 +951,7 @@
  '(neo-vc-integration '(face))
  '(neo-window-position 'left)
  '(package-selected-packages
-   '(w3m sane-term general counsel-bbdb ac-html-bootstrap ac-php bbdb ranger geben dashboard page-break-lines helm-ag helm-projectile projectile spaceline fancy-battery synosaurus define-word helm-flyspell ace-jump-mode linum-relative helm-tramp helm-swoop gruvbox-theme git-gutter-fringe git-gutter fringe-helper which-key web-beautify php-scratch yasnippet flycheck-color-mode-line json-mode sass-mode coffee-mode php-mode web-mode aggressive-indent smooth-scrolling exec-path-from-shell multi-term helm-org-ql org-ql transient ov org-super-agenda ts ht f helm-org s ox-epub flycheck-plantuml plantuml-mode org-bullets phi-autopair swiper helm evil-commentary evil-tutor evil-surround evil-matchit evil diminish quelpa-use-package use-package)))
+   '(evil-collection w3m sane-term general counsel-bbdb ac-html-bootstrap ac-php bbdb ranger geben dashboard page-break-lines helm-ag helm-projectile projectile spaceline fancy-battery synosaurus define-word helm-flyspell ace-jump-mode linum-relative helm-tramp helm-swoop gruvbox-theme git-gutter-fringe git-gutter fringe-helper which-key web-beautify php-scratch yasnippet flycheck-color-mode-line json-mode sass-mode coffee-mode php-mode web-mode aggressive-indent smooth-scrolling exec-path-from-shell multi-term helm-org-ql org-ql transient ov org-super-agenda ts ht f helm-org s ox-epub flycheck-plantuml plantuml-mode org-bullets phi-autopair swiper helm evil-commentary evil-tutor evil-surround evil-matchit evil diminish quelpa-use-package use-package)))
 
 ;; (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 (setq neo-smart-open t)
@@ -963,6 +964,13 @@
 (evil-define-key 'normal neotree-mode-map (kbd "p") 'neotree-previous-line)
 (evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
 (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)
+
+;; Evil Collection
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :config
+  (evil-collection-init))
 
 ;; leader key operation
 ;; # # # # # # # # # # #
