@@ -24,8 +24,8 @@ function install {
     _type=
     if [[ "$(declare -p arr)" =~ "declare -a" ]]; then
         for package in "${arr[@]}"; do
-            if [[ $package == "package" ]]; then 
-                _type=$package 
+            if [[ $package == "package" ]]; then
+                _type=$package
                 continue
             fi
             if [[ $package == "group" ]]; then
@@ -70,7 +70,7 @@ dnf update -y
 dnf upgrade -y
 dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
-dnf install -y https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-8.noarch.rpm 
+dnf install -y https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-8.noarch.rpm
 dnf install -y https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-8.noarch.rpm
 dnf update
 
@@ -92,7 +92,7 @@ pear channel-update doc.php.net
 
 # setting up nodejs
 npm install -g n
-/usr/local/bin/n stable 
+/usr/local/bin/n stable
 npm install -g npm@latest
 npm install -g npm
 nvm install 14.18.1
@@ -147,7 +147,7 @@ su -c 'cd ~/.config/nnn/plugins && $SHELL -c "`curl -Ls https://raw.githubuserco
 # go
 su -c '$SHELL -c "`curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer`"' $USER
 source /home/$USER/.gvm/scripts/gvm
-su -c 'gvm install go1.17' $USER 
+su -c 'gvm install go1.17' $USER
 printf 'gvm use go1.17 > /dev/null 2>&1' >> /home/$USER/.bashrc
 
 # hugo
@@ -158,7 +158,7 @@ su -c 'git clone https://github.com/gohugoio/hugo.git' $USER
 # CGO_ENABLED=1 go install --tags extended
 
 # zoom conferencing
-dnf install -y https://zoom.us/client/latest/zoom_x86_64.rpm 
+dnf install -y https://zoom.us/client/latest/zoom_x86_64.rpm
 
 # dmg2img for mac vm
 dnf install -y "https://archives.fedoraproject.org/pub/archive/epel/6/x86_64/Packages/d/dmg2img-1.6.2-2.el6.x86_64.rpm"
@@ -222,27 +222,14 @@ install package xfat-utils fuse-exfat
 
 # Keep awake!, quicker than digging into settings to keep screen awake
 
-# compiles emacs 27
-# for much better speed and compatibitily
-# WARNING: emacs X11 will crash with pacakge: google-noto-emoji-color-fonts
-# # # # # # # # # # # # # # #
-log "compiling emacs 27"
-install package gnutls-utils gtk3-devel gtk2-devel libXpm-devel libpng-devel giflib-devel libtiff-devel libjpeg-devel ncurses-devel gpm-devel dbus-devel dbus-glib-devel python3-dbus GConf2-devel pkgconfig libXft-devel texinfo
-su -c 'git clone https://git.savannah.gnu.org/git/emacs.git  ~/lab/emacs' $USER
-# locks emacs into Oct 13th, 2021 release (stable)
-su -c 'cd ~/lab/emacs && git checkout aed4aec6bb6509234d1e9f2590d8f6b082885be1' $USER
-sleep 1.5s
-su -c 'cd ~/lab/emacs && ./autogen.sh' $USER
-su -c 'cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils' $USER
-su -c 'make -C ~/lab/emacs' $USER
-cd /home/$USER/lab/emacs && make install && make clean
-
 # snapd
+install package gnutls-utils
 dnf install snapd
 systemctl enable --now snapd.socket
 ln -s /var/lib/snapd/snap /snap
 snap install maildir-utils
 dnf reinstall -y coreutils
+snap install emacs --classic
 
 # fix flathub repo
 log "installing flatpaks"
@@ -275,7 +262,7 @@ log "installing codecs and players"
 flatpak install -y app/org.videolan.VLC/x86_64/stable
 flatpak install -y app/com.makemkv.MakeMKV/x86_64/stable
 flatpak install -y org.videolan.VLC.Plugin.makemkv/x86_64/3-20.08
-install package gstreamer1-plugins-base gstreamer1-plugins-good gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free 
+install package gstreamer1-plugins-base gstreamer1-plugins-good gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free
 install package gstreamer1-plugins-bad-freeworld gstreamer1-libav ffmpeg libdvdcss
 
 # install web browsers
@@ -293,7 +280,7 @@ sed -i  's/^AllowZoneDrifting\=yes/AllowZoneDrifting\=no/g' /etc/firewalld/firew
 firewall-cmd --reload
 
 # Vagrant and Virtualbox
-# download extensions at: http://download.virtualbox.org/virtualbox/ 
+# download extensions at: http://download.virtualbox.org/virtualbox/
 # # # # # # # # # # # # # # #
 log "installing Vagrant and Virtualbox"
 install package binutils kernel-devel kernel-headers libgomp make patch gcc glibc-headers glibc-devel dkms VirtualBox
