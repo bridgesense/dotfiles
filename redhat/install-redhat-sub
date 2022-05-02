@@ -81,7 +81,7 @@ log "installing commandline tools"
 install group 'Development Tools'
 install package git ack 'the_silver_searcher'
 install package isync msmtp pass ctags-etags
-install module nodejs python36 ruby java-1.8.0-openjdk java-1.8.0-openjdk-devel
+install module nodejs python39 ruby java-1.8.0-openjdk java-1.8.0-openjdk-devel
 install module 'php:7.4'
 install module 'perl:5.26'
 install module 'maven'
@@ -121,18 +121,18 @@ make install && make clean
 ln -s /usr/local/bin/nvim /usr/bin/nvim
 npm install -g neovim
 install module container-tools
-pip3 install pynvim
-pip3 install neovim
+pip3.9 install pynvim
+pip3.9 install neovim
 gem install --no-user-install neovim
 gem install --no-user-install compass
 
 # addtiional python tools
 python3 -m pip install --upgrade pip
-pip3 install virtualenv
+pip3.9 install virtualenv
 
 # ueberzug plugin
 install package platform-python-devel libX11-devel libXext-devel perl-Image-ExifTool
-pip3 install ueberzug
+pip3.9 install ueberzug
 
 # nnn
 install package ncurses-devel readline-devel tree mediainfo
@@ -156,9 +156,6 @@ su -c 'git clone https://github.com/gohugoio/hugo.git' $USER
 # run as user
 # cd ~/lab/hugo
 # CGO_ENABLED=1 go install --tags extended
-
-# zoom conferencing
-dnf install -y https://zoom.us/client/latest/zoom_x86_64.rpm
 
 # dmg2img for mac vm
 dnf install -y "https://archives.fedoraproject.org/pub/archive/epel/6/x86_64/Packages/d/dmg2img-1.6.2-2.el6.x86_64.rpm"
@@ -222,6 +219,20 @@ install package xfat-utils fuse-exfat
 
 # Keep awake!, quicker than digging into settings to keep screen awake
 
+# compiles emacs 28
+# for much better speed and compatibitily
+# WARNING: emacs X11 will crash with pacakge: google-noto-emoji-color-fonts
+# # # # # # # # # # # # # # #
+log "compiling emacs 28"
+install package liblockfile libotf emacs-common gnutls-utils gnutls-devel gtk3-devel gtk2-devel libXpm-devel libpng-devel giflib-devel libtiff-devel libjpeg-devel ncurses-devel gpm-devel dbus-devel dbus-glib-devel python3-dbus GConf2-devel pkgconfig libXft-devel texinfo wxGTK3-devel ImageMagick-devel Xaw3d-devel librsvg2-devel GConf2-devel libxml2-devel libtiff-devel liblockfile-devel
+su -c 'git clone https://git.savannah.gnu.org/git/emacs.git  ~/lab/emacs' $USER
+su -c 'cd ~/lab/emacs && git checkout emacs-28' $USER
+sleep 1.5s
+su -c 'cd ~/lab/emacs && ./autogen.sh' $USER
+su -c 'cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls --with-mailutils' $USER
+su -c 'make -C ~/lab/emacs' $USER
+cd /home/$USER/lab/emacs && make install && make clean
+
 # snapd
 install package gnutls-utils
 dnf install snapd
@@ -229,7 +240,6 @@ systemctl enable --now snapd.socket
 ln -s /var/lib/snapd/snap /snap
 snap install maildir-utils
 dnf reinstall -y coreutils
-snap install emacs --classic
 
 # fix flathub repo
 log "installing flatpaks"
@@ -244,6 +254,7 @@ flatpak install -y app/com.github.maoschanz.DynamicWallpaperEditor/x86_64/stable
 flatpak install -y app/org.musescore.MuseScore/x86_64/stable
 flatpak install -y app/org.libreoffice.LibreOffice/x86_64/stable
 flatpak install -y nl.hjdskes.gcolor3
+flatpak install -y us.zoom.Zoom
 
 # gimp
 log "installing gimp and plugins"
