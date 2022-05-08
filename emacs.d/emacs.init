@@ -87,7 +87,7 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 (package-initialize)
-(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+;; (setq gnutls-algorithm-priority "SECURE128:+SECURE192:-VERS-ALL:+VERS-TLS1.2:+VERS-TLS1.3")
 
 ;; Misc
 ;; # # # # # # # # # # #
@@ -115,7 +115,7 @@
 ;; GPUPG Fix
 (setf epa-pinentry-mode 'loopback)
 ;; supress warnings
-(setq warning-minimum-level :emergency)
+(setq warning-minimum-level :debug)
 
 ;; File Managementa
 ;; # # # # # # # # # # #
@@ -172,6 +172,7 @@
 
 ;; Evil Vim & Plugins
 ;; # # # # # # # # # # #
+(setq evil-want-keybinding nil)
 (use-package evil :ensure t :diminish evil-mode
   :config
   (evil-mode 1))
@@ -705,16 +706,6 @@
   (dashboard-setup-startup-hook))
 
 
-;; Geben for Xdebug
-;; # # # # # # # # # # #
-;; reset geben strategy at startup
-(shell-command "rm -f ~/.emacs.d/geben/.storage")
-(use-package geben :ensure t
-  :diminish geben-mode
-  :config
-  (setq geben-dbgp-default-port 9003))
-
-
 ;; Rangerlike File Browser
 ;; # # # # # # # # # # #
 (use-package ranger :ensure t
@@ -789,20 +780,20 @@
 ; SyncState *
 
 ; mbsync --config ~/.emacs.d/.mbsyncrc nameaccount
-; mu init --my-address="your-name@domain.com" --maildir=~/email/mbsyncmail/
+; mu init --my-address="your@email.com" --maildir=~/email/mbsyncmail/
 ; mu index
 
 ;; use mu4e for e-mail in emacs
 (setq mail-user-agent 'mu4e-user-agent)
 
 ;; SMTP settings:
-(setq user-mail-address "your-name@domain.com")
+(setq user-mail-address "your@email.com")
 (setq user-full-name "Your Name")
 (setq send-mail-function 'smtpmail-send-it)    ; should not be modified
-(setq smtpmail-default-smtp-server "mail.domain.com") ; host running SMTP server
-(setq smtpmail-smtp-server "mail.domain.com") ; host running SMTP server
-(setq smtpmail-local-domain "domain.com")
-(setq smtpmail-sendto-domain "domain.com")
+(setq smtpmail-default-smtp-server "mail.email.com") ; host running SMTP server
+(setq smtpmail-smtp-server "mail.email.com") ; host running SMTP server
+(setq smtpmail-local-domain "email.com")
+(setq smtpmail-sendto-domain "bemail.com")
 (setq smtpmail-smtp-service 465)               ; SMTP service port number
 (setq smtpmail-stream-type 'ssl)          ; type of SMTP connections to use
 
@@ -906,17 +897,34 @@
  :config
  (setq lsp-ui-doc-enable t
  lsp-ui-doc-use-childframe t
- lsp-ui-doc-position ‘top
+ lsp-ui-doc-position 'top
  lsp-ui-doc-include-signature t
  lsp-ui-sideline-enable nil
  lsp-ui-flycheck-enable t
- lsp-ui-flycheck-list-position ‘right
+ lsp-ui-flycheck-list-position 'right
  lsp-ui-flycheck-live-reporting t
  lsp-ui-peek-enable t
  lsp-ui-peek-list-width 60
  lsp-ui-peek-peek-height 25
  lsp-ui-sideline-enable nil)
 (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+
+
+;; Scratch
+(use-package scratch
+ :ensure t
+ :diminish scratch-mode)
+
+
+;; dap mode for php and Xdebug
+(use-package dash :ensure t)
+(use-package dap-mode 
+ :ensure t
+ :diminish dap-mode
+ :config
+ (require 'dap-php)
+ )
+
 
 ;; neotree
 (use-package neotree
@@ -935,6 +943,16 @@
   "Enters file and hides neotree directly"
   (interactive "P")
   (neo-buffer--execute arg 'neo-open-file-hide 'neo-open-dir))
+(setq
+ neo-cwd-line-style 'text
+ neo-fit-to-contents t
+ neo-show-hidden-files t
+ neo-smart-open t
+ neo-theme 'classic
+ neo-vc-integration '(face)
+ neo-window-position 'left
+)
+
 
 ;; (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 (setq neo-smart-open t)
@@ -1061,14 +1079,16 @@
    :non-normal-prefix gleader-non
    :states '(normal visual motion insert emacs)
    :keymaps 'override
-   "g"  '(nil :which-key "Geben (DBGp)")
-   "gb" '(geben-add-current-line-to-predefined-breakpoints :which-key "Add Breakpoint")
-   "gc" '(geben-clear-predefined-breakpoints :which-key "Clear Breakpoints")
-   "gm" '((lambda () (interactive) (customize-variable 'geben-path-mappings)) :which-key "Set Path Mapping")
-   "go" '(geben :which-key "Start Geben")
-   "gr" '(geben-run :which-key "Continue to Breakpoint")
-   "gv" '(geben-display-context :which-key "View Context")
-   "gx" '(geben-end :which-key "Stop Geben"))
+   "d"  '(nil :which-key "Dap-Mode (DBGp)")
+   "db" '(dap-breakpoint-toggle :which-key "Toggle Breakpoint")
+   "dd" '(dap-debug :which-key "Start Dap-Mode")
+   "dl" '(dap-ui-breakpoints :which-key "List all Breakpoints")
+   "di" '(dap-php-setup :which-key "Install vscode-php-debug plugin")
+   "do" '(dap-step-out :which-key "Step out")
+   "dr" '(dap-continue :which-key "Continue to Breakpoint")
+   "ds" '(dap-step-in :which-key "Step into")
+   "dv" '(dap-ui-locals :which-key "View Context")
+   "dx" '(dap-disconnect :which-key "Stop Geben"))
 
 
   ;; Language Server Functions
@@ -1082,6 +1102,25 @@
    "cr" '(lsp-ui-peek-find-references :which-key "Find References")
    "cd" '(lsp-ui-peek-find-definitions :which-key "Find Definition of Function")
    "cm" '(lsp-ui-imenu :which-key "Language Menu"))
+
+
+  ;; Lisp Debug Functions
+  (general-define-key
+   :prefix gleader
+   :non-normal-prefix gleader-non
+   :states '(normal visual motion insert emacs)
+   :keymaps 'override
+   "s"  '(nil :which-key "Lisp Debugging")
+   "sa" '(eval-last-sexp :which-key "Evaluate Statement")
+   "sb" '(eval-buffer :which-key "Evaluate Buffer")
+   "sc" '(eval-defun :which-key "Evaluate Function")
+   "se" '(eval-print-last-sexp :which-key "Evaluate and Print Statement")
+   "sf" '(debug-on-entry :which-key "Debug Function")
+   "sp" '(byte-compile-file :which-key "Compile File")
+   "ss" '(scratch :which-key "Open Scratch Pad")
+   "sv" '(debug-on-variable-change :which-key "Debug Variable")
+   "sw" '(cancel-debug-on-variable-change :which-key "Cancel Variable Debugging")
+   "sx" '(cancel-debug-on-entry :which-key "Cancel Function Debugging"))
 
 
   ;; Line Functions
@@ -1170,18 +1209,3 @@
   )
 
 ;; Warning!  Any lines modified below this point may be overwritten.
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(helm-ag-base-command "ack --nocolor --nogroup")
- '(helm-minibuffer-history-key "M-p")
- '(neo-cwd-line-style 'text)
- '(neo-fit-to-contents t)
- '(neo-show-hidden-files t)
- '(neo-smart-open t)
- '(neo-theme 'classic)
- '(neo-vc-integration '(face))
- '(neo-window-position 'left)
-)

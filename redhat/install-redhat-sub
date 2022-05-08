@@ -111,6 +111,7 @@ chmod +x /usr/local/bin/composer
 # install coding tools
 install package freetype-devel fontconfig-devel libxcb-devel kitty tmux xclip
 update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /bin/kitty 50
+dnf builddep neovim --skip-unavailable -y
 su -c "gsettings set org.gnome.desktop.default-applications.terminal exec kitty" $USER
 su -c "makedir -p ~/lab" $USER
 install package cmake gcc-c++ libtool
@@ -219,17 +220,17 @@ install package xfat-utils fuse-exfat
 
 # Keep awake!, quicker than digging into settings to keep screen awake
 
-# compiles emacs 28
-# for much better speed and compatibitily
-# WARNING: emacs X11 will crash with pacakge: google-noto-emoji-color-fonts
+# compiles emacs 27
 # # # # # # # # # # # # # # #
 log "compiling emacs 28"
+dnf install cvs
+dnf builddep emacs --skip-unavailable -y
 install package liblockfile libotf emacs-common gnutls-utils gnutls-devel gtk3-devel gtk2-devel libXpm-devel libpng-devel giflib-devel libtiff-devel libjpeg-devel ncurses-devel gpm-devel dbus-devel dbus-glib-devel python3-dbus GConf2-devel pkgconfig libXft-devel texinfo wxGTK3-devel ImageMagick-devel Xaw3d-devel librsvg2-devel GConf2-devel libxml2-devel libtiff-devel liblockfile-devel
 su -c 'git clone https://git.savannah.gnu.org/git/emacs.git  ~/lab/emacs' $USER
 su -c 'cd ~/lab/emacs && git checkout emacs-28' $USER
 sleep 1.5s
 su -c 'cd ~/lab/emacs && ./autogen.sh' $USER
-su -c 'cd ~/lab/emacs && ./configure --without-makeinfo --with-gnutls --with-mailutils' $USER
+su -c 'cd ~/lab/emacs && ./configure --with-gnutls=yes --with-mailutils --with-cairo' $USER
 su -c 'make -C ~/lab/emacs' $USER
 cd /home/$USER/lab/emacs && make install && make clean
 

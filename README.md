@@ -145,14 +145,28 @@ alternative to the Emacs Pinky.
 * `,ap`: Open a PHP scratch pad or interactive shell, requires Boris
 * `,aw`: Browse the web from Emacs
 
-#### Geben (Xdebug) Shortcuts:
-* `,gb`: Add Breakpoint to current line
-* `,gc`: Clear all breakpoints
-* `,gm`: Setup path mapping ([see explanation](https://gitlab.com/bridgesense/lampready#emacs-geben-settings))
-* `,go`: Start Geben
-* `,gr`: Continue to breakpoint
-* `,gv`: View context
-* `,gx`: Stop Geben
+#### Dap-Mode Shortcuts:
+* `,db`: Toggles breakpoint on current line
+* `,dd`: Start debugger 
+* `,dl`: List all breakpoints 
+* `,di`: Install vscode-php-debug plugin 
+* `,do`: Step out 
+* `,dr`: Continue to breakpoint
+* `,ds`: Step into 
+* `,dv`: View context
+* `,dx`: Stop Debugger 
+
+#### Lisp Debugging Shortcuts:
+* `,sa`: Evaluate statement 
+* `,sb`: Evaluate buffer 
+* `,sc`: Evaluate function 
+* `,se`: Evaluate and print statement 
+* `,sf`: Set breakpoint on function 
+* `,sp`: Compile File 
+* `,ss`: Open Lisp scratch pad 
+* `,sv`: Set breakpoint on variable 
+* `,sw`: Remove breakpoint from a variable 
+* `,sx`: Remove breakpoint from a function 
 
 #### Line Shortcuts:
 * `,la`: Artist mode, draw on screen with cursor
