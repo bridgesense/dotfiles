@@ -790,12 +790,15 @@
 (setq user-mail-address "your@email.com")
 (setq user-full-name "Your Name")
 (setq send-mail-function 'smtpmail-send-it)    ; should not be modified
-(setq smtpmail-default-smtp-server "mail.email.com") ; host running SMTP server
-(setq smtpmail-smtp-server "mail.email.com") ; host running SMTP server
-(setq smtpmail-local-domain "email.com")
-(setq smtpmail-sendto-domain "bemail.com")
+(setq smtpmail-default-smtp-server "mail.domain.com") ; host running SMTP server
+(setq smtpmail-smtp-server "mail.domain.com") ; host running SMTP server
+(setq smtpmail-local-domain "domain.com")
+(setq smtpmail-sendto-domain "domain.com")
 (setq smtpmail-smtp-service 465)               ; SMTP service port number
 (setq smtpmail-stream-type 'ssl)          ; type of SMTP connections to use
+
+;; fixes duplicate UID errors
+(setq mu4e-change-filenames-when-moving t)
 
 ;; allow for updating mail using 'U' in the main view:
 (setq mu4e-get-mail-command "offlineimap")
@@ -1116,7 +1119,6 @@
    "sc" '(eval-defun :which-key "Evaluate Function")
    "se" '(eval-print-last-sexp :which-key "Evaluate and Print Statement")
    "sf" '(debug-on-entry :which-key "Debug Function")
-   "sp" '(byte-compile-file :which-key "Compile File")
    "ss" '(scratch :which-key "Open Scratch Pad")
    "sv" '(debug-on-variable-change :which-key "Debug Variable")
    "sw" '(cancel-debug-on-variable-change :which-key "Cancel Variable Debugging")
@@ -1184,7 +1186,7 @@
    "p"  '(nil :which-key "Project Commands")
    "p]" '(git-gutter:previous-hunk :which-key "Go to previous modification")
    "p[" '(git-gutter:next-hunk :which-key "Go to next modification")
-   "pd" '(helm-do-ag :which-key "Search in Directory")
+   "pd" '(helm-do-grep-ag :which-key "Search in Directory")
    "ph" '(magit-log-buffer-file :which-key "History of Buffer")
    "pf" '(helm-projectile-find-file :which-key "Fuzzy File (CtrlP)")
    "pF" '(helm-projectile-recentf :which-key "Open Recent Project File")

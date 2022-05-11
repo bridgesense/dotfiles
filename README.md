@@ -103,7 +103,6 @@ alternative to the Emacs Pinky.
 * `,n`: Browse current directory, Nerdtree equivalent
 * `,q`: Kill current buffer
 * `:q`: or `:q!` Kill current buffer, Note: all standard VIM controls apply
-* `,Q`: Quit Emacs
 * `,x`: Cycle to next buffer
 * `,z`: Cycle to previous buffer
 
@@ -114,10 +113,10 @@ alternative to the Emacs Pinky.
 * `,br`: Refresh buffer
 
 #### Code Shortcuts:
-* `,cf`: Find hovered function in Documentation 
+* `,cf`: Find hovered function in Documentation
 * `,cr`: Find References to hovered function
 * `,cd`: Find Definitions to hovered function
-* `,cm`: Show quick menu of file definitions 
+* `,cm`: Show quick menu of file definitions
 
 #### Window Shortcuts:
 * `,wd`: Delete current window
@@ -147,26 +146,26 @@ alternative to the Emacs Pinky.
 
 #### Dap-Mode Shortcuts:
 * `,db`: Toggles breakpoint on current line
-* `,dd`: Start debugger 
-* `,dl`: List all breakpoints 
-* `,di`: Install vscode-php-debug plugin 
-* `,do`: Step out 
+* `,dd`: Start debugger
+* `,dl`: List all breakpoints
+* `,di`: Install vscode-php-debug plugin
+* `,do`: Step out
 * `,dr`: Continue to breakpoint
-* `,ds`: Step into 
+* `,ds`: Step into
 * `,dv`: View context
-* `,dx`: Stop Debugger 
+* `,dx`: Stop Debugger
 
 #### Lisp Debugging Shortcuts:
-* `,sa`: Evaluate statement 
-* `,sb`: Evaluate buffer 
-* `,sc`: Evaluate function 
-* `,se`: Evaluate and print statement 
-* `,sf`: Set breakpoint on function 
-* `,sp`: Compile File 
-* `,ss`: Open Lisp scratch pad 
-* `,sv`: Set breakpoint on variable 
-* `,sw`: Remove breakpoint from a variable 
-* `,sx`: Remove breakpoint from a function 
+* `,sa`: Evaluate statement
+* `,sb`: Evaluate buffer
+* `,sc`: Evaluate function
+* `,se`: Evaluate and print statement
+* `,sf`: Set breakpoint on function
+* `,sp`: Compile File
+* `,ss`: Open Lisp scratch pad
+* `,sv`: Set breakpoint on variable
+* `,sw`: Remove breakpoint from a variable
+* `,sx`: Remove breakpoint from a function
 
 #### Line Shortcuts:
 * `,la`: Artist mode, draw on screen with cursor
@@ -207,8 +206,8 @@ alternative to the Emacs Pinky.
 * `,ps`: Search in current project
 * `,pm`: Git status with Magit
 * `,pw`: Swoop
-* `,p[`: Go to next change in file 
-* `,p]`: Go to previous change in file 
+* `,p[`: Go to next change in file
+* `,p]`: Go to previous change in file
 
 #### Word Shortcuts:
 * `,Ws`: View spelling errors
@@ -219,8 +218,8 @@ alternative to the Emacs Pinky.
 
 #### Other Shortcuts:
 * `<ctrl>-z`: Toggles Emacs/Vim Mode
-* `<ctrl>-x t`: Tab Controls    
-    
+* `<ctrl>-x t`: Tab Controls
+
 # Tmux
 
 Requirements: [Tmux](https://github.com/tmux/tmux/wiki/Installing)
