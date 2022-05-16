@@ -114,7 +114,7 @@ install package freetype-devel fontconfig-devel libxcb-devel kitty tmux xclip
 update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /bin/kitty 50
 dnf builddep neovim --skip-unavailable -y
 su -c "gsettings set org.gnome.desktop.default-applications.terminal exec kitty" $USER
-su -c "makedir -p ~/lab" $USER
+su -c "mkdir -p ~/lab" $USER
 install package cmake gcc-c++ libtool
 su -c 'git clone https://github.com/neovim/neovim.git ~/lab/nvim' $USER
 cd /home/$USER/lab/nvim
