@@ -1,0 +1,293 @@
+#!/usr/bin/env bash
+# This script is just a personal snapshot of my fedora 36 workstation.
+# curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/redhat/fedora-36 > ~/install
+# bash install <username>
+# # # # # # # # # # # # # # #
+
+# Options
+# # # # # # # # # # # # # # #
+USER="${1:francis}"
+LOGFILE='/root/workstation-installation.log'
+
+# Functions
+# # # # # # # # # # # # # # #
+function log {
+    if [ -f "$LOGFILE" ]; then
+        echo $1 >> $LOGFILE
+    else
+        echo $1 > $LOGFILE
+    fi
+}
+
+function install {
+    arr=("$@")
+    _type=
+    if [[ "$(declare -p arr)" =~ "declare -a" ]]; then
+        for package in "${arr[@]}"; do
+            if [[ $package == "package" ]]; then
+                _type=$package
+                continue
+            fi
+            if [[ $package == "group" ]]; then
+                _type=$package
+                continue
+            fi
+            if [[ $package == "module" ]]; then
+                _type=$package
+                continue
+            fi
+            cnt=3
+            while [ $cnt -gt 0 ]; do
+                if dnf list installed $package > /dev/null 2>&1; then
+                    break;
+                else
+                    if [[ $_type == "group" ]]; then
+                        dnf group install -y $package
+                        break;
+                    elif [[ $_type == "module" ]]; then
+                        dnf module install -y $package
+                        break;
+                    else
+                        dnf install -y $package
+                    fi
+                fi
+                let "cnt-=1"
+            done
+            if ! dnf list installed $package > /dev/null 2>&1 && [[ $_type != "group" ]]; then
+                log "There was a problem installing ${package}.  Please make sure this package exists."
+            fi
+        done
+    else
+        log "Warning! Passed variable is not an array".
+    fi
+}
+
+# Run as root
+# Enable Repos
+# # # # # # # # # # # # # # #
+log "Enable Repos"
+dnf update -y
+dnf upgrade -y
+curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
+dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-36.noarch.rpm
+dnf install -y https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-36.noarch.rpm
+dnf update
+install package rpmfusion-free-release-tainted
+
+# Run as root
+# Commandline Tools
+# # # # # # # # # # # # # # #
+log "installing commandline tools"
+install group 'Development Tools'
+install package ack 'the_silver_searcher'
+install package isync msmtp pass ctags
+install package nodejs python3 python3-pip ruby ruby-devel java-1.8.0-openjdk java-1.8.0-openjdk-devel
+install package php perl maven
+install package yarn golang bison rpmfusion-nonfree-release-tainted php-pear
+pear channel-update doc.php.net
+
+# setting up nodejs
+npm install -g n
+/usr/local/bin/n stable
+npm install -g npm@latest
+npm install -g npm
+npm install -g grunt-cli eslint csslint gulp typescript typescript-language-server intelephense coffeelint yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint
+
+$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
+su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
+gem update --no-user-install
+
+# install composer
+# # # # # # # # # # # # # # #
+curl https://getcomposer.org/composer-stable.phar >> /usr/local/bin/composer
+chmod +x /usr/local/bin/composer
+
+# install coding tools
+install package freetype-devel fontconfig-devel libxcb-devel kitty tmux xclip
+update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /bin/kitty 50
+su -c "gsettings set org.gnome.desktop.default-applications.terminal exec kitty" $USER
+su -c "mkdir -p ~/lab" $USER
+npm install -g neovim
+python3 -m pip install --upgrade pip
+su -c "pip3 install pynvim" $USER
+su -c "pip3 install neovim" $USER
+gem install --no-user-install neovim
+gem install --no-user-install compass
+
+# addtiional python tools
+su -c "pip3 install virtualenv" $USER
+
+# nnn
+install package nnn tree mediainfo
+su -c 'mkdir -p ~/.config/nnn/plugins' $USER
+su -c 'cd ~/.config/nnn/plugins && $SHELL -c "`curl -s -S -L https://raw.githubusercontent.com/jarun/nnn/master/plugins/getplugs`"' $USER
+
+# go
+su -c '$SHELL -c "`curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer`"' $USER
+source /home/$USER/.gvm/scripts/gvm
+su -c 'gvm install go1.17' $USER
+printf 'gvm use go1.17 > /dev/null 2>&1' >> /home/$USER/.bashrc
+
+# hugo
+cd /home/$USER/lab
+su -c 'git clone https://github.com/gohugoio/hugo.git' $USER
+# run as user
+# cd ~/lab/hugo
+# CGO_ENABLED=1 go install --tags extended
+
+# dmg2img for mac vm
+install package dmg2img
+dnf install -y "https://archives.fedoraproject.org/pub/archive/epel/6/x86_64/Packages/d/dmg2img-1.6.2-2.el6.x86_64.rpm"
+
+# install supplementary packages
+install package gnome-tweaks gnome-extensions-app gnome-shell-extension-appindicator NetworkManager-openvpn-gnome NetworkManager-openconnect-gnome
+install package aspell-en 'texlive-*'
+install package clamav clamav-update brasero youtube-dl w3m w3m-img
+install package ftp telnet hplip hplip-gui simple-scan
+install package nextcloud-client 
+install package SDL2-devel SDL2-static
+install package emacs gnutls-utils maildir-utils
+install package buildah conmon container-selinux containernetworking-plugins containers-common criu crun fuse-overlayfs libslirp podman python3-podman runc skopeo slirp4netns toolbox udica
+install package podman-docker podman-plugins podman-tui podman-remote
+install package ncurses-compat-libs SDL_image SDL_ttf libGLEW mesa-libGLU sdl12-compat
+
+# gnome dark mode
+su -c "settings set org.gnome.desktop.interface color-scheme 'prefer-dark'" $USER
+su -c "gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark" $USER
+
+# install gnome extensions 
+# material shell
+# caffeinate
+# workaround for system tray bug
+# open Extensions > Kstatusnotifieritem/appindicator support
+# install package gnome-shell-extension-appindicator
+
+# swap escape with caps lock
+printf "\
+Section \"InputClass\"\n\
+        Identifier      \"system-keyboard\"\n\
+        MatchIsKeyboard     \"on\"\n\
+        Option          \"XkbLayout\" \"us\"\n\
+        Option          \"XkbModel\"  \"pc104\"\n\
+        Option          \"XkbOptions\" \"caps:swapescape\"\n\
+EndSection\n\
+" > /etc/X11/xorg.conf.d/00-keyboard.conf
+
+# fix flathub repo
+log "installing flatpaks"
+flatpak remote-delete flathub
+flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak update
+sleep 2
+
+# flatpaks
+flatpak install -y app/org.signal.Signal/x86_64/stable
+flatpak install -y app/com.github.maoschanz.DynamicWallpaperEditor/x86_64/stable
+flatpak install -y app/org.musescore.MuseScore/x86_64/stable
+flatpak install -y nl.hjdskes.gcolor3
+flatpak install -y us.zoom.Zoom
+
+# gimp
+log "installing gimp and plugins"
+flatpak install -y flathub org.gimp.GIMP
+flatpak install -y org.gimp.GIMP.Plugin.LiquidRescale/x86_64/2-40
+flatpak install -y org.gimp.GIMP.Plugin.GMic/x86_64/2-40
+flatpak install -y org.gimp.GIMP.Plugin.FocusBlur/x86_64/2-40
+flatpak install -y org.gimp.GIMP.Plugin.Resynthesizer/x86_64/2-40
+flatpak install -y org.gimp.GIMP.Plugin.Lensfun/x86_64/2-40
+flatpak install -y org.gimp.GIMP.Plugin.Fourier/x86_64/2-40
+flatpak install -y org.gimp.GIMP.Plugin.BIMP/x86_64/2-40
+
+# install video and audio codecs
+log "installing codecs and players"
+flatpak install -y app/org.videolan.VLC/x86_64/stable
+flatpak install -y app/com.makemkv.MakeMKV/x86_64/stable
+flatpak install -y org.videolan.VLC.Plugin.makemkv/x86_64/3-21.08
+install package gstreamer1-plugins-base gstreamer1-plugins-good gstreamer1-plugins-ugly gstreamer0-plugins-bad-free gstreamer1-plugins-bad-free
+install package gstreamer1-plugins-bad-freeworld gstreamer1-libav ffmpeg-libs blibdvdcss
+
+# install web browsers
+log "installing browsers"
+dnf install -y "https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm"
+
+# firewall zone update
+firewall-cmd --new-zone=webserver --permanent
+firewall-cmd --reload
+for i in $(firewall-cmd --zone public --list-interfaces); do  firewall-cmd --zone webserver --change-interface=$i --permanent; done
+for i in $(firewall-cmd --zone public --list-interfaces); do  firewall-cmd --zone public --remove-interface=$i --permanent; done
+for i in $(firewall-cmd --zone public --list-services); do  firewall-cmd --zone webserver --add-service $i --permanent; done
+for i in $(firewall-cmd --zone public --list-services); do  firewall-cmd --zone public --remove-service=$i --permanent; done
+sed -i  's/^AllowZoneDrifting\=yes/AllowZoneDrifting\=no/g' /etc/firewalld/firewalld.conf
+firewall-cmd --reload
+
+# custom xdebug port
+# # # # # # # # # # # # # # #
+firewall-cmd --permanent --zone=webserver --add-port=9003/tcp
+semanage port -a -t http_port_t -p tcp 9003
+
+# add desktop applications
+# # # # # # # # # # # # # # #
+su -c 'touch ~/.local/share/applications/nnn.desktop' $USER
+printf "[Desktop Entry] \n\
+Type=Application\n\
+Name=nnn\n\
+Exec=kitty -e nnn\n\
+Icon=/home/$USER/lab/nnn/misc/logo/logo.svg\n\
+" >> /home/$USER/.local/share/applications/nnn.desktop
+
+# documentation
+# # # # # # # # # # # # # # #
+install package rsyslog-doc
+
+# Installing configuration
+# # # # # # # # # # # # # # #
+log "installing custom configuration"
+$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
+su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
+su -c 'cp -f ~/.yadrlite/redhat/Xresources ~/.Xresources' $USER
+cp -f ~/.yadrlite/redhat/Xresources ~/.Xresources
+su -c "cp -r ~/.yadrlite/redhat/kitty ~/.config" $USER
+cp -r ~/.yadrlite/redhat/kitty ~/.config
+su -c "cp -r ~/.yadrlite/redhat/nvim ~/.config" $USER
+cp -r ~/.yadrlite/redhat/nvim ~/.config
+find /home/$USER/.config -type d -exec chmod 0755 {} \;
+find /home/$USER/.config -type f -exec chmod 0644 {} \;
+find /home/$USER/.config -name "*.sh" -execdir chmod u+x {} +
+
+# Adds Nerdfonts DejaVuSansMono
+su -c 'mkdir -p ~/.local/share/fonts/' $USER
+su -c 'cd ~/.local/share/fonts && svn checkout --non-interactive https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts/DejaVuSansMono' $USER
+su -c 'cd ~/.local/share/fonts && svn checkout --non-interactive https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts/Inconsolata' $USER
+su -c 'cd ~/.local/share/fonts && svn checkout --non-interactive https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts/FiraCode' $USER
+
+# misc sanity improvements
+git config --global core.askpass ""
+
+# improve sound
+su -c 'touch ~/.config/pulse/daemon.conf' $USER
+printf "high-priority = yes\n\
+realtime-scheduling = yes\n\
+realtime-priority = 9\n\
+nice-level = -11\n\
+\n\
+default-sample-format = s32le\n\
+default-sample-rate = 192000\n\
+resample-method = speex-float-5\n\
+\n\
+default-sample-channels = 2\n\
+remixing-produce-lfe = no\n\
+remixing-consume-lfe = yes\n\
+\n\
+avoid-resampling = no\n\
+" >> /home/$USER/.config/pulse/daemon.conf
+
+# keyboard changes
+# delete take a screenshot interactively
+# add new custom
+# name 'flameshot'
+# command '/usr/bin/flameshot gui'
+# binding 'Print'
+
+log "Installation complete.  Please reboot your system."
+printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
+printf "ALL DONE.  PLEASE REBOOT YOUR SYSTEM."
