@@ -325,7 +325,7 @@
 
 ;; Fix the terminal
 ;; # # # # # # # # # # #
-(setq multi-term-program "/bin/bash")
+(setq multi-term-program "/usr/bin/bash")
 (use-package multi-term :ensure t
   :config
   (add-hook 'term-mode-hook
@@ -373,11 +373,9 @@
 
 ;; smooth scrolling
 ;; # # # # # # # # # # #
-(use-package smooth-scrolling :ensure t
-  :diminish smooth-scrolling-mod
-  :config
-  (smooth-scrolling-mode 1))
-
+(pixel-scroll-mode 1)
+(setq pixel-scroll-precision-large-scroll-height 40.0)
+(setq pixel-scroll-precision-interpolation-factor 30)
 
 ;; aggressive indentation
 ;; # # # # # # # # # # #
@@ -739,7 +737,7 @@
 
 
 ;; mu4e
-(add-to-list 'load-path "/snap/maildir-utils/current/share/emacs/site-lisp/mu4e/")
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e/")
 (require 'mu4e)
 
 ;; setup
@@ -779,6 +777,7 @@
 ; Expunge None
 ; SyncState *
 
+; mkdir -p ~/email/mbsyncmail
 ; mbsync --config ~/.emacs.d/.mbsyncrc nameaccount
 ; mu init --my-address="your@email.com" --maildir=~/email/mbsyncmail/
 ; mu index
@@ -790,10 +789,10 @@
 (setq user-mail-address "your@email.com")
 (setq user-full-name "Your Name")
 (setq send-mail-function 'smtpmail-send-it)    ; should not be modified
-(setq smtpmail-default-smtp-server "mail.domain.com") ; host running SMTP server
-(setq smtpmail-smtp-server "mail.domain.com") ; host running SMTP server
-(setq smtpmail-local-domain "domain.com")
-(setq smtpmail-sendto-domain "domain.com")
+(setq smtpmail-default-smtp-server "mail.email.com") ; host running SMTP server
+(setq smtpmail-smtp-server "mail.email.com") ; host running SMTP server
+(setq smtpmail-local-domain "email.com")
+(setq smtpmail-sendto-domain "email.com")
 (setq smtpmail-smtp-service 465)               ; SMTP service port number
 (setq smtpmail-stream-type 'ssl)          ; type of SMTP connections to use
 
@@ -822,7 +821,7 @@
       mu4e-use-fancy-chars nil)                 ; allow fancy icons for mail threads
 
 ;; prettier mu4e
-(setq browse-url-browser-function 'browse-url-chrome)
+(setq browse-url-browser-function 'browse-url-firefox)
 (setq
  message-signature-file nil)
  mu4e-attachment-dir "/tmp"
@@ -1003,7 +1002,6 @@
    "m" '(deer :which-key "Browse Current Directory")
    "n" '(neotree-toggle :which-key "Browse Project Directory")
    "q" '(kill-this-buffer :which-key "Kill Buffer")
-   "Q" '(kill-emacs :which-key "Quit Emacs")
    "r" '(bbdb :which-key "Search Rolodex")
    "x" '(next-buffer :which-key "Next Buffer")
    "z" '(previous-buffer :which-key "Previous Buffer"))
