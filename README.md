@@ -97,7 +97,6 @@ alternative to the Emacs Pinky.
 * `,]`: Expand vertically split Window
 * `,-`: Shrink horizontally split window
 * `,=`: Grow hoizontally split window
-* `,d`: Open directory browser, Ranger equivalent
 * `,e`: Toggle Error List
 * `,jx`: Jump to character x
 * `,n`: Browse current directory, Nerdtree equivalent
@@ -149,6 +148,7 @@ alternative to the Emacs Pinky.
 * `,dd`: Start debugger
 * `,dl`: List all breakpoints
 * `,di`: Install vscode-php-debug plugin
+* `,dn`: Next line 
 * `,do`: Step out
 * `,dr`: Continue to breakpoint
 * `,ds`: Step into
