@@ -118,6 +118,7 @@
 
 ;; File Managementa
 ;; # # # # # # # # # # #
+(use-package ranger :ensure t)
 (defun my-put-file-name-on-clipboard ()
   "Put the current file name on the clipboard"
   (interactive)
