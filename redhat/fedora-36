@@ -139,23 +139,23 @@ su -c 'git clone https://github.com/gohugoio/hugo.git' $USER
 install package dmg2img
 dnf install -y "https://archives.fedoraproject.org/pub/archive/epel/6/x86_64/Packages/d/dmg2img-1.6.2-2.el6.x86_64.rpm"
 
-# install supplementary packages
 install package gnome-tweaks gnome-extensions-app gnome-shell-extension-appindicator NetworkManager-openvpn-gnome NetworkManager-openconnect-gnome
 install package aspell-en 'texlive-*'
 install package clamav clamav-update brasero youtube-dl w3m w3m-img
 install package ftp telnet hplip hplip-gui simple-scan
-install package nextcloud-client 
+install package nextcloud-client
+install package emacs gnutls-utils maildir-utils ImageMagick
 install package SDL2-devel SDL2-static
-install package emacs gnutls-utils maildir-utils
 install package buildah conmon container-selinux containernetworking-plugins containers-common criu crun fuse-overlayfs libslirp podman python3-podman runc skopeo slirp4netns toolbox udica
 install package podman-docker podman-plugins podman-tui podman-remote
-install package ncurses-compat-libs SDL_image SDL_ttf libGLEW mesa-libGLU sdl12-compat
+install package ncurses-compat-libs SDL_image SDL_ttf libGLEW mesa-libGLU sdl12-compat cvs
+# install supplementary packages
 
 # gnome dark mode
 su -c "settings set org.gnome.desktop.interface color-scheme 'prefer-dark'" $USER
 su -c "gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark" $USER
 
-# install gnome extensions 
+# install gnome extensions
 # material shell
 # caffeinate
 # workaround for system tray bug

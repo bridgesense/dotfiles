@@ -116,6 +116,14 @@
 ;; supress warnings
 (setq warning-minimum-level :debug)
 
+;; Package Management
+;; # # # # # # # # # # #
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(eval-when-compile
+  (require 'use-package))
+
 ;; File Managementa
 ;; # # # # # # # # # # #
 (use-package ranger :ensure t)
@@ -131,15 +139,6 @@
         (clipboard-kill-region (point-min) (point-max)))
       (message filename))))
 
-
-;; Package Management
-;; # # # # # # # # # # #
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-(eval-when-compile
-  (require 'use-package))
-
 ;; quelpa handler
 (use-package quelpa-use-package :ensure t)
 
@@ -154,9 +153,12 @@
 ;; ligatures
 (use-package fira-code-mode
   :ensure t
-  :config (global-fira-code-mode))
-;; install fira code symbols manually for ligatures to work
-;; m-x fira-code-mode-install-fonts
+  :custom (fira-code-mode-disabled-ligatures '("[]" "#{" "#(" "#_" "#_(" "x")) ;; List of ligatures to turn off
+  :hook prog-mode 
+  )
+; warning! Don't use global-fira-code-mode or it breaks image-mode 
+; install fira code symbols manually for ligatures to work
+; m-x fira-code-mode-install-fonts
 
 ;; clipboard sharing
 ;; # # # # # # # # # # #
@@ -296,7 +298,9 @@
             (define-key evil-normal-state-map "J" 'org-shiftdown)
             (define-key evil-normal-state-map "L" 'org-shiftright)
             (define-key evil-normal-state-map (kbd "TAB") 'org-cycle)))
-;; Plantuml
+
+
+; Plantuml
 ;; http://eschulte.github.io/babel-dev/DONE-integrate-plantuml-support.html
 (use-package plantuml-mode :ensure t)
 (use-package flycheck-plantuml :ensure t)
@@ -691,17 +695,33 @@
    '(helm-ag-base-command "ack --nocolor --nogroup")))
 
 
-;; Dashboard
-;; # # # # # # # # # # #
+; image display compatibility 
+; (setq image-use-external-converter 'convert)
+
+; Dashboard
+; # # # # # # # # # # #
 (use-package page-break-lines :ensure t
-  :diminish page-break-lines-mode)
-(setq dashboard-banner-logo-title "Welcome to YADRLite")
-(setq dashboard-items '((recents  . 15)
-                        (bookmarks . 5)
-                        (projects . 5)))
+      :diminish page-break-lines-mode)
+(use-package all-the-icons :ensure t)
+(setq dashboard-week-agenda t)
 (use-package dashboard :ensure t
   :config
-  (dashboard-setup-startup-hook))
+    (setq dashboard-startup-banner 'official)
+    (setq dashboard-center-content t)
+    (setq dashboard-set-heading-icons t)
+    (setq dashboard-set-file-icons t)
+    (setq dashboard-set-navigator t)
+    (setq dashboard-set-init-info t)
+    (setq initial-buffer-choice (lambda() (get-buffer "*dashboard*")))
+    (setq dashboard-banner-logo-title "Welcome to YADRLite")
+    (setq dashboard-items '((recents   . 10)
+              (bookmarks . 5)
+              (projects  . 10)
+              ; (agenda    . 10)
+              ; (registers . 5)
+              ))
+    (dashboard-modify-heading-icons '((bookmarks . "book"))) 
+    (dashboard-setup-startup-hook))
 
 
 ;; Refresh Buffer
@@ -801,6 +821,7 @@
 (setq mu4e-html2text-command "w3m -T text/html" ; html render
       mu4e-update-interval 300                  ; seconds between each mail retrieval
       mu4e-headers-auto-update t                ; avoid to type `g' to update
+      mu4e-use-fancy-chars t 
       mu4e-view-show-images t                   ; show images in the view buffer
       mu4e-compose-signature-auto-include nil   ; I don't want a message signature
       mu4e-use-fancy-chars nil)                 ; allow fancy icons for mail threads
@@ -1036,8 +1057,6 @@ and then increment it."
  neo-vc-integration '(face)
  neo-window-position 'left
 )
-
-
 ;; (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 (setq neo-smart-open t)
 (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
@@ -1049,6 +1068,7 @@ and then increment it."
 (evil-define-key 'normal neotree-mode-map (kbd "p") 'neotree-previous-line)
 (evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
 (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)
+
 
 ;; Evil Collection
 (use-package evil-collection

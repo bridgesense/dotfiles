@@ -221,7 +221,7 @@ install package xfat-utils fuse-exfat
 
 # Keep awake!, quicker than digging into settings to keep screen awake
 
-# compiles emacs 27
+# compiles emacs 28
 # # # # # # # # # # # # # # #
 log "compiling emacs 28"
 dnf install cvs
