@@ -321,11 +321,11 @@ install package rsyslog-doc
 log "installing custom configuration"
 $SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
 su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
-su -c 'cp -f ~/.yadrlite/redhat/Xresources ~/.Xresources' $USER
-cp -f ~/.yadrlite/redhat/Xresources ~/.Xresources
-su -c "cp -r ~/.yadrlite/redhat/kitty ~/.config" $USER
-su -c "cp -r ~/.yadrlite/redhat/nvim ~/.config" $USER
-cp -r ~/.yadrlite/redhat/nvim ~/.config
+su -c 'cp -f ~/.yadrlite/workstation/Xresources ~/.Xresources' $USER
+cp -f ~/.yadrlite/workstation/Xresources ~/.Xresources
+su -c "cp -r ~/.yadrlite/workstation/kitty ~/.config" $USER
+su -c "cp -r ~/.yadrlite/workstation/nvim ~/.config" $USER
+cp -r ~/.yadrlite/workstation/nvim ~/.config
 find /home/$USER/.config -type d -exec chmod 0755 {} \;
 find /home/$USER/.config -type f -exec chmod 0644 {} \;
 find /home/$USER/.config -name "*.sh" -execdir chmod u+x {} +

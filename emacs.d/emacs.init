@@ -37,7 +37,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:height 115 :family "FiraCode Nerd Font Mono" "DejavuSansMono Nerd Font Mono" "Monaco"))))
+ '(default ((t (:height 115 :family "Fira Code" "Fira Code Symbol" "DejavuSans Mono" "Monaco"))))
  '(diff-added ((t (:foreground "#cc241d" :background "#282828"))))
  '(diff-changed ((t (:foreground "#d79921" :background "#282828"))))
  '(diff-context ((t (:inherit default foreground "#ebdbb2" :background "#282828"))))
@@ -140,7 +140,7 @@
       (message filename))))
 
 ;; quelpa handler
-(use-package quelpa-use-package :ensure t)
+;; (use-package quelpa-use-package :ensure t)
 
 ;; For Diminishing TMI stuff on the mode line
 ;; # # # # # # # # # # #
@@ -155,10 +155,13 @@
   :ensure t
   :custom (fira-code-mode-disabled-ligatures '("[]" "#{" "#(" "#_" "#_(" "x")) ;; List of ligatures to turn off
   :hook prog-mode 
-  )
+  :config
+  (fira-code-mode-set-font))
 ; warning! Don't use global-fira-code-mode or it breaks image-mode 
 ; install fira code symbols manually for ligatures to work
 ; m-x fira-code-mode-install-fonts
+; m-x all-the-icons-install-fonts
+
 
 ;; clipboard sharing
 ;; # # # # # # # # # # #
@@ -318,9 +321,9 @@
 ;; export to epub
 (use-package ox-epub :ensure t)
 ;; better agenda view
-(use-package helm-org-ql
-  :quelpa (helm-org-ql :fetcher github :repo "alphapapa/org-ql"
-                       :files ("helm-org-ql.el")))
+; (use-package helm-org-ql
+;   :quelpa (helm-org-ql :fetcher github :repo "alphapapa/org-ql"
+;                        :files ("helm-org-ql.el")))
 (defun better-agenda-view ()
   "View All Agenda todo items plus past and current deadlines."
   (interactive)
@@ -782,7 +785,7 @@
 ; Expunge None
 ; SyncState *
 
-; mkdir -p ~/email/mbsyncmail
+; mkdir -p ~/email/mbsyncmail/INBOX
 ; mbsync --config ~/.emacs.d/.mbsyncrc nameaccount
 ; mu init --my-address="your@email.com" --maildir=~/email/mbsyncmail/
 ; mu index
@@ -791,8 +794,8 @@
 (setq mail-user-agent 'mu4e-user-agent)
 
 ;; SMTP settings:
-(setq user-mail-address "your@email.com")
-(setq user-full-name "Your Name")
+(setq user-mail-address "user@domain.com")
+(setq user-full-name "your name")
 (setq send-mail-function 'smtpmail-send-it)    ; should not be modified
 (setq smtpmail-default-smtp-server "mail.domain.com") ; host running SMTP server
 (setq smtpmail-smtp-server "mail.domain.com") ; host running SMTP server
@@ -827,7 +830,7 @@
       mu4e-use-fancy-chars nil)                 ; allow fancy icons for mail threads
 
 ;; prettier mu4e
-(setq browse-url-browser-function 'browse-url-firefox)
+(setq browse-url-browser-function 'browse-url-chrome)
 (setq
  message-signature-file nil
  mu4e-attachment-dir "~/Downloads"

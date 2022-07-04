@@ -1,0 +1,221 @@
+#!/usr/bin/env bash
+# This script is just a personal snapshot of my ubuntu-mate workstation.
+# curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/ubuntu-mate > ~/install
+# bash install <username>
+# # # # # # # # # # # # # # #
+
+# Options
+# # # # # # # # # # # # # # #
+USER="${1:francis}"
+LOGFILE='/root/workstation-installation.log'
+
+# Functions
+# # # # # # # # # # # # # # #
+function log {
+    if [ -f "$LOGFILE" ]; then
+        echo $1 >> $LOGFILE
+    else
+        echo $1 > $LOGFILE
+    fi
+}
+
+function install {
+    arr=("$@")
+    _type=
+    if [[ "$(declare -p arr)" =~ "declare -a" ]]; then
+        for package in "${arr[@]}"; do
+            if [[ $package == "package" ]]; then
+                _type=$package
+                continue
+            fi
+            if [[ $package == "snap" ]]; then
+                _type=$package
+                continue
+            fi
+	    cnt=3
+            while [ $cnt -gt 0 ]; do
+		if dpkg --get-selections | grep $package; then
+                    break;
+                else
+                    if [[ $_type == "snap" ]]; then
+                        snap install $package
+                        break;
+		    else
+                        apt-get install -y $package
+                    fi
+                fi
+                let "cnt-=1"
+            done
+            if dpkg --get-selections | grep $package && [[ $_type != "snap" ]]; then
+                log "There was a problem installing ${package}.  Please make sure this package exists."
+            fi
+        done
+    else
+        log "Warning! Passed variable is not an array".
+    fi
+}
+
+# Run as root
+# Commandline Tools
+# # # # # # # # # # # # # # #
+log "installing commandline tools"
+apt-get update
+install package git subversion curl
+install package build-essential
+install package ack silversearcher-ag
+install package isync msmtp pass universal-ctags
+install package nodejs python3 python3-pip ruby-full openjdk-18-jre-headless
+install package php perl maven
+install package yarn golang bison php-pear composer npm
+pear channel-update doc.php.net
+
+# mate system modifications
+# removes meta-l lock shortkey
+$SHELL -c "gsettings set org.mate.Marco.global-keybindings run-command-1 ''" $USER
+
+# fixes bluetooth pairing
+$SHELL -c "gsettings set org.blueman.general notification-daemon false" $USER
+
+# exchanges the esc and caps keys
+# See Keyboard Preferences > Caps Lock behavoir > Swap Esc and Caps Lock
+
+# to install hp setup
+# tap the wifi icon on the printer and obtain the printer's ip address
+# use the ip address in the following command
+# sudo hp-setup -a <ip_address>
+
+# setting up nodejs
+npm install -g n
+n stable
+npm install -g npm@latest
+npm install -g npm
+npm install -g grunt-cli eslint csslint sass gulp-sass typescript typescript-language-server intelephense coffeelint yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+npm install -g yarn
+ln -s /usr/local/bin/yarn /usr/bin/yarn
+
+$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
+su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
+gem update --no-user-install
+
+# install coding tools
+install package libfreetype-dev libfontconfig-dev libxcb1-dev tmux xclip
+python3 -m pip install --upgrade pip
+su -c "pip3 install pynvim" $USER
+su -c "pip3 install neovim" $USER
+gem install --no-user-install neovim
+gem install --no-user-install compass
+
+# addtiional python tools
+su -c "pip3 install virtualenv" $USER
+
+# nnn
+install package nnn tree mediainfo
+su -c 'mkdir -p /home/$USER/.config/nnn/plugins' $USER
+su -c 'cd /home/$USER/.config/nnn/plugins && $SHELL -c "`curl -s -S -L https://raw.githubusercontent.com/jarun/nnn/master/plugins/getplugs`"' $USER
+
+# go
+install package golang-go
+
+# hugo
+install package hugo
+
+# dmg2img for mac vm
+install package dmg2img
+
+# install supplementary packages
+install package network-manager-openvpn network-manager-openconnect
+install package aspell-en textlive-full papirus-icon-theme
+install package clamav clamav-update brasero youtube-dl w3m w3m-img
+install package ftp telnet hplip hplip-gui simple-scan
+install package neovim emacs-gtk gnutls-bin maildir-utils imagemagick mu4e gnupg2
+install package gcolor3 flameshot transmission
+install package podman buildah gnome-boxes gnome-disk-utility
+install package stacer timeshift
+
+# snaps
+install snap nextcloud-desktop-client
+install snap zoom-client
+install snap signal-desktop
+
+# gimp
+log "installing gimp and plugins"
+install package gimp gimp-data-extras gimp-plugin-registry gimp-gluas gimp-gmic
+
+# install video, audio codecs and tools
+log "installing codecs and players"
+install package ubuntu-restricted-extras
+install package vlc libaacs0 libbluray-bdj libbluray2
+install musescore obs-studio
+install package libdvd-pkg
+dpkg-reconfigure libdvd-pkg
+su -c 'mkdir -p /home/$USER/.config/aacs' $USER
+su -c 'cd /home/$USER/.config/aacs/ && wget http://vlc-bluray.whoknowsmy.name/files/KEYDB.cfg' $USER
+
+# firewall
+ufw enable
+ufw allow 9003/tcp
+
+# documentation
+# # # # # # # # # # # # # # #
+install package rsyslog-doc
+
+# add desktop applications
+# # # # # # # # # # # # # # #
+su -c 'touch ~/.local/share/applications/nnn.desktop' $USER
+printf "[Desktop Entry]\n\
+Type=Application\n\
+Name=nnn\n\
+Exec=mate-terminal -e nnn\n\
+" >> /home/$USER/.local/share/applications/nnn.desktop
+
+su -c 'touch ~/.local/share/applications/shutdown.desktop' $USER
+printf "[Desktop Entry]\n\
+Type=Application\n\
+Name=Shutdown\n\
+Exec=mate-session-save --shutdown-dialog\n\
+" >> /home/$USER/.local/share/applications/shutdown.desktop
+
+# Installing configuration
+# # # # # # # # # # # # # # #
+log "installing custom configuration"
+$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
+su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
+su -c 'cp -f /home/$USER/.yadrlite/workstation/Xresources /home/$USER/.Xresources' $USER
+cp -f ~/.yadrlite/workstation/Xresources ~/.Xresources
+su -c "cp -r /home/$USER/.yadrlite/workstation/nvim /home/$USER/.config" $USER
+cp -r ~/.yadrlite/workstation/nvim ~/.config
+find /home/$USER/.config -type d -exec chmod 0755 {} \;
+find /home/$USER/.config -type f -exec chmod 0644 {} \;
+find /home/$USER/.config -name "*.sh" -execdir chmod u+x {} +
+
+# Adds Nerdfonts DejaVuSansMono
+su -c 'mkdir -p ~/.local/share/fonts/' $USER
+su -c 'cd /home/$USER/.local/share/fonts && svn checkout --non-interactive https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts/DejaVuSansMono' $USER
+su -c 'cd /home/$USER/.local/share/fonts && svn checkout --non-interactive https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts/Inconsolata' $USER
+su -c 'cd /home/$USER/.local/share/fonts && svn checkout --non-interactive https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts/FiraCode' $USER
+
+# misc sanity improvements
+git config --global core.askpass ""
+
+# improve sound
+su -c 'touch ~/.config/pulse/daemon.conf' $USER
+printf "high-priority = yes\n\
+realtime-scheduling = yes\n\
+realtime-priority = 9\n\
+nice-level = -11\n\
+\n\
+default-sample-format = s32le\n\
+default-sample-rate = 192000\n\
+resample-method = speex-float-5\n\
+\n\
+default-sample-channels = 2\n\
+remixing-produce-lfe = no\n\
+remixing-consume-lfe = yes\n\
+\n\
+avoid-resampling = no\n\
+" >> /home/$USER/.config/pulse/daemon.conf
+
+log "Installation complete.  Please reboot your system."
+printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
+printf "ALL DONE.  PLEASE REBOOT YOUR SYSTEM."
