@@ -37,8 +37,8 @@ function install {
 		if dpkg --get-selections | grep $package; then
                     break;
                 else
-                    if [[ $_type == "snap" ]]; then
-                        snap install $package
+                    if [[ $_type == "flatpak" ]]; then
+                        flatpak install flathub --noninteractive -y $package
                         break;
 		    else
                         apt-get install -y $package
@@ -46,7 +46,7 @@ function install {
                 fi
                 let "cnt-=1"
             done
-            if dpkg --get-selections | grep $package && [[ $_type != "snap" ]]; then
+            if dpkg --get-selections | grep $package && [[ $_type != "flatpak" ]]; then
                 log "There was a problem installing ${package}.  Please make sure this package exists."
             fi
         done
@@ -133,11 +133,6 @@ install package gcolor3 flameshot transmission
 install package podman buildah gnome-boxes gnome-disk-utility
 install package stacer timeshift
 
-# snaps
-install snap nextcloud-desktop-client
-install snap zoom-client
-install snap signal-desktop
-
 # gimp
 log "installing gimp and plugins"
 install package gimp gimp-data-extras gimp-plugin-registry gimp-gluas gimp-gmic
@@ -215,6 +210,13 @@ remixing-consume-lfe = yes\n\
 \n\
 avoid-resampling = no\n\
 " >> /home/$USER/.config/pulse/daemon.conf
+
+# swap snapd for flatpak
+snap remove --purge firefox
+install package flatpak
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+install flatpak us.zoom.Zoom org.stellarium.Stellarium org.mozilla.firefox
+apt-get remove snapd
 
 log "Installation complete.  Please reboot your system."
 printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
