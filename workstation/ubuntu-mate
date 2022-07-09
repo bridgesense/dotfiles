@@ -2,7 +2,7 @@
 # This script is just a personal snapshot of my ubuntu-mate workstation.
 # curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/ubuntu-mate > ~/install
 # bash install <username>
-# # # # # # # # # # # # # # #
+# # # # # #Shutdown # # # # # # # # #
 
 # Options
 # # # # # # # # # # # # # # #
@@ -28,7 +28,7 @@ function install {
                 _type=$package
                 continue
             fi
-            if [[ $package == "snap" ]]; then
+            if [[ $package == "flatpak" ]]; then
                 _type=$package
                 continue
             fi
@@ -71,10 +71,10 @@ pear channel-update doc.php.net
 
 # mate system modifications
 # removes meta-l lock shortkey
-$SHELL -c "gsettings set org.mate.Marco.global-keybindings run-command-1 ''" $USER
+# gsettings set org.mate.Marco.global-keybindings run-command-1 ''
 
 # fixes bluetooth pairing
-$SHELL -c "gsettings set org.blueman.general notification-daemon false" $USER
+# gsettings set org.blueman.general notification-daemon false
 
 # exchanges the esc and caps keys
 # See Keyboard Preferences > Caps Lock behavoir > Swap Esc and Caps Lock
@@ -96,6 +96,7 @@ ln -s /usr/local/bin/yarn /usr/bin/yarn
 
 $SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
 su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
+gem install bundler --pre 
 gem update --no-user-install
 
 # install coding tools
@@ -132,6 +133,8 @@ install package neovim emacs-gtk gnutls-bin maildir-utils imagemagick mu4e gnupg
 install package gcolor3 flameshot transmission
 install package podman buildah gnome-boxes gnome-disk-utility
 install package stacer timeshift
+install package google-chrome-stable gnome-software gnome-software-plugin-flatpak
+install package nextcloud-desktop
 
 # gimp
 log "installing gimp and plugins"
@@ -170,6 +173,13 @@ Type=Application\n\
 Name=Shutdown\n\
 Exec=mate-session-save --shutdown-dialog\n\
 " >> /home/$USER/.local/share/applications/shutdown.desktop
+
+su -c 'touch ~/.local/share/applications/logout.desktop' $USER
+printf "[Desktop Entry]\n\
+Type=Application\n\
+Name=Logout\n\
+Exec=mate-session-save --logout-dialog\n\
+" >> /home/$USER/.local/share/applications/logout.desktop
 
 # Installing configuration
 # # # # # # # # # # # # # # #
@@ -216,7 +226,7 @@ snap remove --purge firefox
 install package flatpak
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 install flatpak us.zoom.Zoom org.stellarium.Stellarium org.mozilla.firefox
-apt-get remove snapd
+apt-get remove -y --purge snapd gnome-software-plugin-snap
 
 log "Installation complete.  Please reboot your system."
 printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
