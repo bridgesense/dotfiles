@@ -64,9 +64,9 @@ install package git subversion curl
 install package build-essential
 install package ack silversearcher-ag
 install package isync msmtp pass universal-ctags
-install package nodejs python3 python3-pip ruby-full openjdk-18-jre-headless
-install package php perl maven
-install package yarn golang bison php-pear composer npm
+install package python3 python3-pip ruby-full openjdk-18-jre-headless
+install package php-cli perl maven
+install package golang bison php-pear composer
 pear channel-update doc.php.net
 
 # mate system modifications
@@ -85,14 +85,19 @@ pear channel-update doc.php.net
 # sudo hp-setup -a <ip_address>
 
 # setting up nodejs
+curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
+apt-get update
+install package nodejs gnupg2 gnupg wget
 npm install -g n
 n stable
 npm install -g npm@latest
 npm install -g npm
-npm install -g grunt-cli eslint csslint sass gulp-sass typescript typescript-language-server intelephense coffeelint yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin
+npm install -g grunt-cli eslint csslint gulp-sass typescript typescript-language-server intelephense coffeelint yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 npm install -g yarn
-ln -s /usr/local/bin/yarn /usr/bin/yarn
+ln -s /usr/local/lib/node_modules/yarn/bin/yarn /usr/bin/yarn
+npm install -g gulp gulp-cli gulp-util --save-dev
+npm audio fix --force
 
 $SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
 su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
