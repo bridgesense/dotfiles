@@ -69,12 +69,11 @@ install package php-cli perl maven
 install package golang bison php-pear composer
 pear channel-update doc.php.net
 
-# mate system modifications
-# removes meta-l lock shortkey
-# gsettings set org.mate.Marco.global-keybindings run-command-1 ''
-
 # fixes bluetooth pairing
-# gsettings set org.blueman.general notification-daemon false
+systemctl enable bluetooth.service
+sed -i  's@#AutoEnable.*@AutoEnable\=true@g' /etc/bluetooth/main.conf
+sed -i  's@#ReconnectAttempts.*@ReconnectAttempts\=7@g' /etc/bluetooth/main.conf
+sed -i  's@#FastConnectable.*@FastConnectable\=true@g' /etc/bluetooth/main.conf
 
 # exchanges the esc and caps keys
 # See Keyboard Preferences > Caps Lock behavoir > Swap Esc and Caps Lock
