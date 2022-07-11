@@ -1081,6 +1081,15 @@ and then increment it."
   :config
   (evil-collection-init))
 
+
+;; misc functions and overrides
+(defun kill-this-buffer ()  ; for the menu bar
+  "Force kill the current buffer."
+  (interactive)
+   (kill-buffer (current-buffer))
+   )
+
+     
 ;; leader key operation
 ;; # # # # # # # # # # #
 (setq gleader ",")
