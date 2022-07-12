@@ -87,16 +87,17 @@ sed -i  's@#FastConnectable.*@FastConnectable\=true@g' /etc/bluetooth/main.conf
 curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
 apt-get update
 install package nodejs gnupg2 gnupg wget
-npm install -g n
+npm install --location=global n
 n stable
-npm install -g npm@latest
-npm install -g npm
-npm install -g grunt-cli eslint csslint gulp-sass typescript typescript-language-server intelephense coffeelint yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin
+npm install --location=global npm@latest
+npm install --location=global npm
+npm install --location=global grunt-cli eslint csslint gulp-sass typescript typescript-language-server intelephense coffeelint yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-npm install -g yarn
+npm install --location=global yarn
 ln -s /usr/local/lib/node_modules/yarn/bin/yarn /usr/bin/yarn
-npm install -g gulp gulp-cli gulp-util --save-dev
-npm audio fix --force
+npm install --location=global gulp gulp-cli gulp-util --save-dev
+npm i --package-lock-only
+npm audit fix --force
 
 $SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
 su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
