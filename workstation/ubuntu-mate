@@ -91,7 +91,7 @@ npm install --location=global n
 n stable
 npm install --location=global npm@latest
 npm install --location=global npm
-npm install --location=global grunt-cli eslint csslint gulp-sass typescript typescript-language-server intelephense coffeelint yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin
+npm install --location=global grunt-cli eslint csslint gulp-sass typescript typescript-language-server intelephense coffeelint yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 npm install --location=global yarn
 ln -s /usr/local/lib/node_modules/yarn/bin/yarn /usr/bin/yarn

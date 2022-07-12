@@ -426,6 +426,7 @@ vimrc.after to remap the color. You can see available colors using `:hi`
 all, collapses all and deletes code folds
 * `,W`,`z=`,`]s`,`[s`: toggle spell check, word suggestion and jump
 forward/backward to next misspelled word
+* `:%!js-beautify`: run external comands on file within Vim, like js-beautify
 
 #### Vim Dev:
 * `,vc`: (Vim Command) copies the command under your cursor and executes it in
