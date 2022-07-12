@@ -245,10 +245,12 @@ to resume later.
 * `Ctrl-a J`: Shift current window pane down
 * `Ctrl-a K`: Shift current window pane up
 * `Ctrl-a L`: Shift current window pane right
+* `Ctrl-a Space`: Toggle all windows horizontally/vertically equally
 * `Ctrl-a s`: Create new window horizontally below current one
 * `Ctrl-a v`: Create new window vertically to right of current one
 * `Ctrl-a [`: Enter Vim-like normal mode
 * `Ctrl-a Ctrl-s`, `Ctrl-r`: Saves and Restores Tmux Session
+
 
 In visual mode use `h,j,k,l` to move, `v` to change to visual mode and `y` to
 yank selection.  Press `Enter` to exit mode.
