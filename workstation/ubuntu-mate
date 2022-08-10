@@ -137,7 +137,7 @@ install package dmg2img
 
 # install supplementary packages
 install package network-manager-openvpn network-manager-openconnect
-install package aspell-en textlive-full papirus-icon-theme
+install package aspell-en texlive-full papirus-icon-theme
 install package clamav clamav-update brasero youtube-dl w3m w3m-img
 install package ftp telnet hplip hplip-gui simple-scan
 install package neovim emacs-gtk gnutls-bin maildir-utils imagemagick mu4e gnupg2

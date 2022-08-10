@@ -745,9 +745,9 @@
 
 
 ;; mu4e
-;; uncomment the next two lines to activate mu4e
+;; uncomment next line for mu4e support
 ;; (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e/")
-;; (require 'mu4e)
+;;(require 'mu4e)
 
 ;; setup
 ; cd ~/.emacs.d
@@ -767,7 +767,7 @@
 ; Port 993
 ; SSLType IMAPS
 ; AuthMechs *
-; CertificateFile /etc/ssl/certs/ca-certificates.crt
+; CertificateFile /etc/ssl/certs/ca-certficates.crt
 ;
 ; IMAPStore nameaccount-remote
 ; Account nameaccount
@@ -795,13 +795,13 @@
 (setq mail-user-agent 'mu4e-user-agent)
 
 ;; SMTP settings:
-(setq user-mail-address "user@domain.com")
-(setq user-full-name "your name")
+(setq user-mail-address "your-email@your-domain.com")
+(setq user-full-name "First Last")
 (setq send-mail-function 'smtpmail-send-it)    ; should not be modified
-(setq smtpmail-default-smtp-server "mail.domain.com") ; host running SMTP server
-(setq smtpmail-smtp-server "mail.domain.com") ; host running SMTP server
-(setq smtpmail-local-domain "domain.com")
-(setq smtpmail-sendto-domain "domain.com")
+(setq smtpmail-default-smtp-server "mail.your-domain.com") ; host running SMTP server
+(setq smtpmail-smtp-server "mail.your-domain.com") ; host running SMTP server
+(setq smtpmail-local-domain "your-domain.com")
+(setq smtpmail-sendto-domain "your-domain.com")
 (setq smtpmail-smtp-service 465)               ; SMTP service port number
 (setq smtpmail-stream-type 'ssl)          ; type of SMTP connections to use
 
@@ -988,6 +988,8 @@ and then increment it."
  (setq lsp-prefer-flymake nil)
  (setq lsp-enable-file-watchers t)
  (setq lsp-file-watch-threshold nil)
+ (setq lsp-modeline-code-actions-mode t)
+ (setq lsp-modeline-diagnostics-scope :workspace)
  :hook ((php-mode . lsp)
         (sass-mode . lsp)
         (css-mode . lsp)
@@ -1016,8 +1018,12 @@ and then increment it."
  lsp-ui-peek-list-width 60
  lsp-ui-peek-peek-height 25
  lsp-ui-sideline-enable nil)
-(add-hook 'lsp-mode-hook 'lsp-ui-mode))
-
+ (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+(use-package lsp-treemacs
+  :ensure t
+  :config
+  (setq lsp-treemacs-sync-mode 1))
+(use-package helm-lsp :ensure t)
 
 ;; Scratch
 (use-package scratch
@@ -1031,6 +1037,8 @@ and then increment it."
  :ensure t
  :diminish dap-mode
  :config
+ (setq dap-auto-configure-features '(locals controls tooltip))
+ (setq dap-ui-variable-length 10000)
  (require 'dap-php)
  )
 
@@ -1081,7 +1089,6 @@ and then increment it."
   :config
   (evil-collection-init))
 
-
 ;; misc functions and overrides
 (defun kill-this-buffer ()  ; for the menu bar
   "Force kill the current buffer."
@@ -1089,7 +1096,6 @@ and then increment it."
    (kill-buffer (current-buffer))
    )
 
-     
 ;; leader key operation
 ;; # # # # # # # # # # #
 (setq gleader ",")
@@ -1115,7 +1121,7 @@ and then increment it."
    "j" '(ace-jump-char-mode :which-key "Jump to Character")
    "m" '(deer :which-key "Browse Current Directory")
    "n" '(neotree-toggle :which-key "Browse Project Directory")
-   "q" '(kill-this-buffer :which-key "Kill Buffer")
+   "q" '(kill-this-buffer() :which-key "Kill Buffer")
    "r" '(bbdb :which-key "Search Rolodex")
    "x" '(next-buffer :which-key "Next Buffer")
    "z" '(previous-buffer :which-key "Previous Buffer"))
@@ -1131,6 +1137,172 @@ and then increment it."
    "bs" '(save-buffer :which-key "Save Buffer")
    "br" '(revert-buffer-no-confirm :which-key "Refresh Buffer"))
 
+
+  ;; Applicaitons
+  (general-define-key
+   :prefix gleader
+   :non-normal-prefix gleader-non
+   :states '(normal visual motion insert emacs)
+   :keymaps 'override
+   "a"  '(nil :which-key "Application Shortcuts")
+   "ah" '(info-emacs-manual :which-key "Read the Emacs Manual")
+   "ai" '(erc :which-key "IRC")
+   "at" '(multi-term :which-key "Terminal")
+   "am" '(mu4e :which-key "News/Mail")
+   "ap" '(php-scratch :which-key "PHP Scratch Pad")
+   "aw" '(w3m-browse-url :which-key "Browse Web"))
+
+  
+  ;; Language Server Functions
+  (general-define-key
+   :prefix gleader
+   :non-normal-prefix gleader-non
+   :states '(normal visual motion insert emacs)
+   :keymaps 'override
+   "c"  '(nil :which-key "Language Server")
+   "cf" '(lsp-ui-doc-show :which-key "Find Documentation")
+   "cr" '(lsp-ui-peek-find-references :which-key "Find References")
+   "cd" '(lsp-ui-peek-find-definitions :which-key "Find Definition of Function")
+   "cm" '(lsp-ui-imenu :which-key "Language Menu"))
+
+
+   ;; Geben Functions
+  (general-define-key
+   :prefix gleader
+   :non-normal-prefix gleader-non
+   :states '(normal visual motion insert emacs)
+   :keymaps 'override
+   "d"  '(nil :which-key "Dap-Mode (DBGp)")
+   "da" '(dap-breakpoint-delete-all :which-key "Delete all Breakpoints")
+   "db" '(dap-breakpoint-toggle :which-key "Toggle Breakpoint")
+   "dd" '(dap-debug :which-key "Start Dap-Mode")
+   "dl" '(dap-ui-breakpoints :which-key "List all Breakpoints")
+   "di" '(dap-php-setup :which-key "Install vscode-php-debug plugin")
+   "dn" '(dap-next :which-key "Next Line")
+   "do" '(dap-step-out :which-key "Step out")
+   "dr" '(dap-continue :which-key "Continue to Breakpoint")
+   "ds" '(dap-step-in :which-key "Step into")
+   "dv" '(dap-ui-locals :which-key "View Context")
+   "dx" '(dap-disconnect :which-key "Stop Dap-Mode"))
+
+
+   ;; File Functions
+  (general-define-key
+   :prefix gleader
+   :non-normal-prefix gleader-non
+   :states '(normal visual motion insert emacs)
+   :keymaps 'override
+   "f"  '(nil :which-key "File Operations")
+   "fc" '(my-put-file-name-on-clipboard :which-key "Copy File Path")
+   "fe" '(eval-buffer :which-key "Evaluate Elisp Changes")
+   "ff" '(helm-find-files :which-key "Open File")
+   "fl" '(load-file :which-key "load e-lisp file")
+   "fn" '(evil-buffer-new :which-key "Create New Buffer")
+   "fr" '(revert-buffer :which-key "Revert to Prior State")
+   "fp" '(helm-projectile-find-file :which-key "Find File"))
+
+
+   ;; LSP Mode Navigation
+  (general-define-key
+   :prefix gleader
+   :non-normal-prefix gleader-non
+   :states '(normal visual motion insert emacs)
+   :keymaps 'override
+   "g"  '(nil :which-key "LSP-Mode Navigation")
+   "gd" '(lsp-find-definition :which-key "Find Definition")
+   "gr" '(lsp-find-references :which-key "Find Reference"))
+
+  
+ ;; Line Functions
+  (general-define-key
+   :prefix gleader
+   :non-normal-prefix gleader-non
+   :states '(normal visual motion insert emacs)
+   :keymaps 'override
+   "l"  '(nil :which-key "Line Manipulation")
+   "la" '(toggle-artist-mode :which-key "Draw With Cursor [Emacs Mode]")
+   "lb" '(beautify-code :which-key "Beautify Code")
+   "lc" '(rainbow-mode :which-key "Toggle Color Codes")
+   "le" '(epa-encrypt-region :which-key "Encrypt Selection")
+   "ld" '(epa-decrypt-region :which-key "Decrypt Selection")
+   "li" '(agressive-indent-mode :which-key "Toggle Aggressive Indenting")
+   "ln" '(display-line-numbers-mode :which-key "View Line Numbers")
+   "lm" '(term-toggle-mode :which-key "(Terminal Only) Toggle Line/Character Mode")
+   "lr" '(linum-relative-toggle :which-key "Toggle Relative Numbers")
+   "ls" '(delete-trailing-whitespace :which-key "Delete Trailing Whitespaces")
+   "lt" '(toggle-php-flavor-mode :which-key "Toggle PHP/Web Mode Highlighting")
+   "lw" '(toggle-truncate-lines :which-key "Toggle Line Wrapping"))
+
+
+  ;; Org Mode Controls
+  (general-define-key
+   :prefix gleader
+   :non-normal-prefix gleader-non
+   :states '(normal visual motion insert emacs)
+   :keymaps 'override
+   "o"  '(nil :which-key "Org-Mode Scheduler")
+   "oo" '(org-agenda :which-key "Agenda Controls")
+   "oa" '(org-ctrl-c-ctrl-c :which-key "Activate (C-c)")
+   "od" '(org-deadline :which-key "Schedule Deadline")
+   "oc" '(org-evaluate-time-range :which-key "Recompute Clock")
+   "ok" '(org-schedule :which-key "Schedule Task")
+   "og" '(org-set-tags-command :which-key "Set Tag")
+   "ol" '(org-clock-display :which-key "Display Clocks")
+   "oj" '(org-clock-goto :which-key "Jump to Running Task")
+   "ot" '(org-clock-in :which-key "Start Task")
+   "or" '(better-agenda-view :which-key "Agenda Report")
+   "os" '(org-clock-out :which-key "Stop Task")
+   "ox" '(org-clock-cancel :which-key "Cancel Clock"))
+
+  
+  ;; Options
+  (general-define-key
+   :prefix gleader
+   :non-normal-prefix gleader-non
+   :states '(normal visual motion insert emacs)
+   :keymaps 'override
+   "O"  '(nil :which-key "Options")
+   "Ot" '(toggle-light-dark-theme :which-key "Toggle Dark/Light Theme"))
+
+
+  ;; Project Functions
+  (general-define-key
+   :prefix gleader
+   :non-normal-prefix gleader-non
+   :states '(normal visual motion insert emacs)
+   :keymaps 'override
+   "p"  '(nil :which-key "Project Commands")
+   "p]" '(git-gutter:previous-hunk :which-key "Go to previous modification")
+   "p[" '(git-gutter:next-hunk :which-key "Go to next modification")
+   "pd" '(helm-do-grep-ag :which-key "Search in Directory")
+   "ph" '(magit-log-buffer-file :which-key "History of Buffer")
+   "pf" '(helm-projectile-find-file :which-key "Fuzzy File (CtrlP)")
+   "pF" '(helm-projectile-recentf :which-key "Open Recent Project File")
+   "pP" '(helm-projectile :which-key "Open Recent Project")
+   "pp" '(helm-resume :which-key "Helm Resume")
+   "ps" '(helm-do-ag-project-root :which-key "Search in Project")
+   "pm" '(magit-status :which-key "Git Status")
+   "pw" '(helm-swoop :which-key "Helm Swoop"))
+
+  
+ ;; Lisp Debug Functions
+  (general-define-key
+   :prefix gleader
+   :non-normal-prefix gleader-non
+   :states '(normal visual motion insert emacs)
+   :keymaps 'override
+   "s"  '(nil :which-key "Lisp Debugging")
+   "sa" '(eval-last-sexp :which-key "Evaluate Statement")
+   "sb" '(eval-buffer :which-key "Evaluate Buffer")
+   "sc" '(eval-defun :which-key "Evaluate Function")
+   "se" '(eval-print-last-sexp :which-key "Evaluate and Print Statement")
+   "sf" '(debug-on-entry :which-key "Debug Function")
+   "ss" '(scratch :which-key "Open Scratch Pad")
+   "sv" '(debug-on-variable-change :which-key "Debug Variable")
+   "sw" '(cancel-debug-on-variable-change :which-key "Cancel Variable Debugging")
+   "sx" '(cancel-debug-on-entry :which-key "Cancel Function Debugging"))
+
+  
   ;; Window Functions
   (general-define-key
    :prefix gleader
@@ -1156,160 +1328,6 @@ and then increment it."
    "ws" '(split-window-below :which-key "Horizontal Split")
    "wv" '(split-window-right :which-key "Vertical Split")
    "wx" '(delete-frame :which-key "Close Screen"))
-
-
-  ;; Applicaitons
-  (general-define-key
-   :prefix gleader
-   :non-normal-prefix gleader-non
-   :states '(normal visual motion insert emacs)
-   :keymaps 'override
-   "a"  '(nil :which-key "Application Shortcuts")
-   "ah" '(info-emacs-manual :which-key "Read the Emacs Manual")
-   "ai" '(erc :which-key "IRC")
-   "at" '(multi-term :which-key "Terminal")
-   "am" '(mu4e :which-key "News/Mail")
-   "ap" '(php-scratch :which-key "PHP Scratch Pad")
-   "aw" '(w3m-browse-url :which-key "Browse Web"))
-
-
-  ;; File Functions
-  (general-define-key
-   :prefix gleader
-   :non-normal-prefix gleader-non
-   :states '(normal visual motion insert emacs)
-   :keymaps 'override
-   "f"  '(nil :which-key "File Operations")
-   "fc" '(my-put-file-name-on-clipboard :which-key "Copy File Path")'
-   "fe" '(eval-buffer :which-key "Evaluate Elisp Changes")
-   "ff" '(helm-find-files :which-key "Open File")
-   "fl" '(load-file :which-key "load e-lisp file")
-   "fn" '(evil-buffer-new :which-key "Create New Buffer")
-   "fr" '(revert-buffer :which-key "Revert to Prior State")
-   "fp" '(helm-projectile-find-file :which-key "Find File"))
-
-
-  ;; Geben Functions
-  (general-define-key
-   :prefix gleader
-   :non-normal-prefix gleader-non
-   :states '(normal visual motion insert emacs)
-   :keymaps 'override
-   "d"  '(nil :which-key "Dap-Mode (DBGp)")
-   "db" '(dap-breakpoint-toggle :which-key "Toggle Breakpoint")
-   "dd" '(dap-debug :which-key "Start Dap-Mode")
-   "dl" '(dap-ui-breakpoints :which-key "List all Breakpoints")
-   "di" '(dap-php-setup :which-key "Install vscode-php-debug plugin")
-   "dn" '(dap-next :which-key "Next Line")
-   "do" '(dap-step-out :which-key "Step out")
-   "dr" '(dap-continue :which-key "Continue to Breakpoint")
-   "ds" '(dap-step-in :which-key "Step into")
-   "dv" '(dap-ui-locals :which-key "View Context")
-   "dx" '(dap-disconnect :which-key "Stop Geben"))
-
-
-  ;; Language Server Functions
-  (general-define-key
-   :prefix gleader
-   :non-normal-prefix gleader-non
-   :states '(normal visual motion insert emacs)
-   :keymaps 'override
-   "c"  '(nil :which-key "Language Server")
-   "cf" '(lsp-ui-doc-show :which-key "Find Documentation")
-   "cr" '(lsp-ui-peek-find-references :which-key "Find References")
-   "cd" '(lsp-ui-peek-find-definitions :which-key "Find Definition of Function")
-   "cm" '(lsp-ui-imenu :which-key "Language Menu"))
-
-
-  ;; Lisp Debug Functions
-  (general-define-key
-   :prefix gleader
-   :non-normal-prefix gleader-non
-   :states '(normal visual motion insert emacs)
-   :keymaps 'override
-   "s"  '(nil :which-key "Lisp Debugging")
-   "sa" '(eval-last-sexp :which-key "Evaluate Statement")
-   "sb" '(eval-buffer :which-key "Evaluate Buffer")
-   "sc" '(eval-defun :which-key "Evaluate Function")
-   "se" '(eval-print-last-sexp :which-key "Evaluate and Print Statement")
-   "sf" '(debug-on-entry :which-key "Debug Function")
-   "ss" '(scratch :which-key "Open Scratch Pad")
-   "sv" '(debug-on-variable-change :which-key "Debug Variable")
-   "sw" '(cancel-debug-on-variable-change :which-key "Cancel Variable Debugging")
-   "sx" '(cancel-debug-on-entry :which-key "Cancel Function Debugging"))
-
-
-  ;; Line Functions
-  (general-define-key
-   :prefix gleader
-   :non-normal-prefix gleader-non
-   :states '(normal visual motion insert emacs)
-   :keymaps 'override
-   "l"  '(nil :which-key "Line Manipulation")
-   "la" '(toggle-artist-mode :which-key "Draw With Cursor [Emacs Mode]")
-   "lb" '(beautify-code :which-key "Beautify Code")
-   "lc" '(rainbow-mode :which-key "Toggle Color Codes")
-   "le" '(epa-encrypt-region :which-key "Encrypt Selection")
-   "ld" '(epa-decrypt-region :which-key "Decrypt Selection")
-   "li" '(agressive-indent-mode :which-key "Toggle Aggressive Indenting")
-   "ln" '(display-line-numbers-mode :which-key "View Line Numbers")
-   "lm" '(term-toggle-mode :which-key "(Terminal Only) Toggle Line/Character Mode")
-   "lr" '(linum-relative-toggle :which-key "Toggle Relative Numbers")
-   "ls" '(delete-trailing-whitespace :which-key "Delete Trailing Whitespaces")
-   "lt" '(toggle-php-flavor-mode :which-key "Toggle PHP/Web Mode Highlighting")
-   "lw" '(toggle-truncate-lines :which-key "Toggle Line Wrapping"))
-
-
-  ;; Options
-  (general-define-key
-   :prefix gleader
-   :non-normal-prefix gleader-non
-   :states '(normal visual motion insert emacs)
-   :keymaps 'override
-   "O"  '(nil :which-key "Options")
-   "Ot" '(toggle-light-dark-theme :which-key "Toggle Dark/Light Theme"))
-
-
-  ;; Org Mode Controls
-  (general-define-key
-   :prefix gleader
-   :non-normal-prefix gleader-non
-   :states '(normal visual motion insert emacs)
-   :keymaps 'override
-   "o"  '(nil :which-key "Org-Mode Scheduler")
-   "oo" '(org-agenda :which-key "Agenda Controls")
-   "oa" '(org-ctrl-c-ctrl-c :which-key "Activate (C-c)")
-   "od" '(org-deadline :which-key "Schedule Deadline")
-   "oc" '(org-evaluate-time-range :which-key "Recompute Clock")
-   "ok" '(org-schedule :which-key "Schedule Task")
-   "og" '(org-set-tags-command :which-key "Set Tag")
-   "ol" '(org-clock-display :which-key "Display Clocks")
-   "oj" '(org-clock-goto :which-key "Jump to Running Task")
-   "ot" '(org-clock-in :which-key "Start Task")
-   "or" '(better-agenda-view :which-key "Agenda Report")
-   "os" '(org-clock-out :which-key "Stop Task")
-   "ox" '(org-clock-cancel :which-key "Cancel Clock"))
-
-
-  ;; Project Functions
-  (general-define-key
-   :prefix gleader
-   :non-normal-prefix gleader-non
-   :states '(normal visual motion insert emacs)
-   :keymaps 'override
-   "p"  '(nil :which-key "Project Commands")
-   "p]" '(git-gutter:previous-hunk :which-key "Go to previous modification")
-   "p[" '(git-gutter:next-hunk :which-key "Go to next modification")
-   "pd" '(helm-do-grep-ag :which-key "Search in Directory")
-   "ph" '(magit-log-buffer-file :which-key "History of Buffer")
-   "pf" '(helm-projectile-find-file :which-key "Fuzzy File (CtrlP)")
-   "pF" '(helm-projectile-recentf :which-key "Open Recent Project File")
-   "pP" '(helm-projectile :which-key "Open Recent Project")
-   "pp" '(helm-resume :which-key "Helm Resume")
-   "ps" '(helm-do-ag-project-root :which-key "Search in Project")
-   "pm" '(magit-status :which-key "Git Status")
-   "pw" '(helm-swoop :which-key "Helm Swoop"))
-
 
   ;; Word Functions
   (general-define-key
