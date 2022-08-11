@@ -321,9 +321,7 @@
 ;; export to epub
 (use-package ox-epub :ensure t)
 ;; better agenda view
-; (use-package helm-org-ql
-;   :quelpa (helm-org-ql :fetcher github :repo "alphapapa/org-ql"
-;                        :files ("helm-org-ql.el")))
+(use-package helm-org-ql :ensure t)
 (defun better-agenda-view ()
   "View All Agenda todo items plus past and current deadlines."
   (interactive)
