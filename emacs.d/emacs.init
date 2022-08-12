@@ -326,7 +326,7 @@
   "View All Agenda todo items plus past and current deadlines."
   (interactive)
   (org-ql-search (org-agenda-files)
-      '(and (todo "TODO"))))
+      '(and (todo "EMERGENCY" "TODAY" "TODO" "WAITING"))))
 
 ;; Fix the terminal
 ;; # # # # # # # # # # #
