@@ -106,7 +106,7 @@ npm i --package-lock-only
 npm audit fix --force
 
 $SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
-su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
+su -c "$SHELL -c \"`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`\"" $USER
 gem install bundler --pre 
 gem update --no-user-install
 
@@ -123,8 +123,8 @@ su -c "pip3 install virtualenv" $USER
 
 # nnn
 install package nnn tree mediainfo
-su -c 'mkdir -p /home/$USER/.config/nnn/plugins' $USER
-su -c 'cd /home/$USER/.config/nnn/plugins && $SHELL -c "`curl -s -S -L https://raw.githubusercontent.com/jarun/nnn/master/plugins/getplugs`"' $USER
+su -c "mkdir -p /home/$USER/.config/nnn/plugins" $USER
+su -c "cd /home/$USER/.config/nnn/plugins && $SHELL -c \"`curl -s -S -L https://raw.githubusercontent.com/jarun/nnn/master/plugins/getplugs`\"" $USER
 
 # go
 install package golang-go
@@ -140,7 +140,7 @@ install package network-manager-openvpn network-manager-openconnect
 install package aspell-en texlive-full papirus-icon-theme
 install package clamav clamav-update brasero youtube-dl w3m w3m-img
 install package ftp telnet hplip hplip-gui simple-scan
-install package neovim emacs-gtk gnutls-bin maildir-utils imagemagick mu4e gnupg2
+install package neovim emacs-gtk gnutls-bin maildir-utils imagemagick gnupg2
 install package gcolor3 flameshot transmission
 install package podman buildah gnome-boxes gnome-disk-utility
 install package stacer timeshift
@@ -158,8 +158,15 @@ install package vlc libaacs0 libbluray-bdj libbluray2
 install musescore obs-studio
 install package libdvd-pkg
 dpkg-reconfigure libdvd-pkg
-su -c 'mkdir -p /home/$USER/.config/aacs' $USER
-su -c 'cd /home/$USER/.config/aacs/ && wget http://vlc-bluray.whoknowsmy.name/files/KEYDB.cfg' $USER
+su -c "mkdir -p /home/$USER/.config/aacs" $USER
+su -c "cd /home/$USER/.config/aacs/ && wget http://vlc-bluray.whoknowsmy.name/files/KEYDB.cfg" $USER
+
+# install mu4e
+install package libgmime-3.0-dev libxapian-dev meson
+su -c "mkdir -p /home/$USER/lab" $USER
+su -c "git clone https://github.com/djcb/mu.git" $USER
+su -c "cd /home/$USER/lab/mu && bash autogen.sh && make" $USER
+cd /home/$USER/lab/mu && make install
 
 # firewall
 ufw enable
@@ -239,8 +246,8 @@ Type=Application\n\
 # # # # # # # # # # # # # # #
 log "installing custom configuration"
 $SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
-su -c '$SHELL -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"' $USER
-su -c 'cp -f /home/$USER/.yadrlite/workstation/Xresources /home/$USER/.Xresources' $USER
+su -c "$SHELL -c \"`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`\"" $USER
+su -c "cp -f /home/$USER/.yadrlite/workstation/Xresources /home/$USER/.Xresources" $USER
 cp -f ~/.yadrlite/workstation/Xresources ~/.Xresources
 su -c "cp -r /home/$USER/.yadrlite/workstation/nvim /home/$USER/.config" $USER
 cp -r ~/.yadrlite/workstation/nvim ~/.config
@@ -249,10 +256,10 @@ find /home/$USER/.config -type f -exec chmod 0644 {} \;
 find /home/$USER/.config -name "*.sh" -execdir chmod u+x {} +
 
 # Adds Nerdfonts DejaVuSansMono
-su -c 'mkdir -p ~/.local/share/fonts/' $USER
-su -c 'cd /home/$USER/.local/share/fonts && svn checkout --non-interactive https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts/DejaVuSansMono' $USER
-su -c 'cd /home/$USER/.local/share/fonts && svn checkout --non-interactive https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts/Inconsolata' $USER
-su -c 'cd /home/$USER/.local/share/fonts && svn checkout --non-interactive https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts/FiraCode' $USER
+su -c "mkdir -p ~/.local/share/fonts/" $USER
+su -c "cd /home/$USER/.local/share/fonts && svn checkout --non-interactive https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts/DejaVuSansMono" $USER
+su -c "cd /home/$USER/.local/share/fonts && svn checkout --non-interactive https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts/Inconsolata" $USER
+su -c "cd /home/$USER/.local/share/fonts && svn checkout --non-interactive https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts/FiraCode" $USER
 
 # misc sanity improvements
 git config --global core.askpass ""

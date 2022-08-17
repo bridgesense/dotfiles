@@ -743,8 +743,8 @@
 
 
 ;; mu4e
-;; uncomment next line for mu4e support
-;; (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e/")
+;; uncomment the following lines when mu4e is installed
+;;(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
 ;;(require 'mu4e)
 
 ;; setup
@@ -794,7 +794,7 @@
 
 ;; SMTP settings:
 (setq user-mail-address "your-email@your-domain.com")
-(setq user-full-name "First Last")
+(setq user-full-name "Your Name")
 (setq send-mail-function 'smtpmail-send-it)    ; should not be modified
 (setq smtpmail-default-smtp-server "mail.your-domain.com") ; host running SMTP server
 (setq smtpmail-smtp-server "mail.your-domain.com") ; host running SMTP server
@@ -815,7 +815,7 @@
 ;; Mail folders:
 (setq mu4e-drafts-folder "/Drafts")
 (setq mu4e-sent-folder   "/Sent")
-(setq mu4e-trash-folder  "/Trash")
+(setq mu4e-trash-folder  "/Junk")
 
 ;; The command used to get your emails (adapt this line, see section 2.3):
 (setq mu4e-get-mail-command "mbsync --config ~/.emacs.d/.mbsyncrc nameaccount")
