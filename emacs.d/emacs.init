@@ -24,7 +24,11 @@
  kept-new-versions 6
  kept-old-versions 2
  version-control t
- undo-limit (* 1024 1024))       ; use versioned backups
+ undo-limit (* 1024 1024 1024))       ; use versioned backups
+
+;; compaile threshold adjustment
+(setq gc-cons-threshold (eval-when-compile (* 1024 1024 1024)))
+(run-with-idle-timer 2 t (lambda () (garbage-collect)))
 
 ;; Remember your place
 ;; # # # # # # # # # # #
@@ -687,7 +691,9 @@
   :diminish projectile-mode
   :config
   (projectile-global-mode))
-(use-package helm-projectile :ensure t)
+(use-package helm-projectile :ensure t
+  :config
+  (helm-projectile-on))
 (use-package helm-ag :ensure t
   :config
   (custom-set-variables
@@ -793,7 +799,7 @@
 (setq mail-user-agent 'mu4e-user-agent)
 
 ;; SMTP settings:
-(setq user-mail-address "your-email@your-domain.com")
+(setq user-mail-address "your-name@your-domain.com")
 (setq user-full-name "Your Name")
 (setq send-mail-function 'smtpmail-send-it)    ; should not be modified
 (setq smtpmail-default-smtp-server "mail.your-domain.com") ; host running SMTP server
@@ -981,25 +987,26 @@ and then increment it."
  (global-set-key (kbd "C-<tab>") 'company-complete))
 (use-package flycheck :ensure t)
 (use-package lsp-mode
- :ensure t
- :config
- (setq lsp-prefer-flymake nil)
- (setq lsp-enable-file-watchers t)
- (setq lsp-file-watch-threshold nil)
- (setq lsp-modeline-code-actions-mode t)
- (setq lsp-modeline-diagnostics-scope :workspace)
- :hook ((php-mode . lsp)
-        (sass-mode . lsp)
-        (css-mode . lsp)
-        (typescript-mode . lsp)
-        (web-mode . lsp)
-        (toml-mode . lsp)
-        (json-mode . lsp)
-        (markdown-mode . lsp)
-        (yaml-mode . lsp)
-        (go-mode . lsp)
-        (lsp-mode . lsp-enable-which-key-integration))
- :commands lsp)
+  :ensure t
+  :init (add-to-list 'company-backends 'company-capf)
+  :config
+    (setq lsp-prefer-flymake nil)
+    (setq lsp-enable-file-watchers t)
+    (setq lsp-file-watch-threshold nil)
+    (setq lsp-modeline-code-actions-mode t)
+    (setq lsp-modeline-diagnostics-scope :workspace)
+  :hook ((php-mode . lsp)
+    (sass-mode . lsp)
+    (css-mode . lsp)
+    (typescript-mode . lsp)
+    (web-mode . lsp)
+    (toml-mode . lsp)
+    (json-mode . lsp)
+    (markdown-mode . lsp)
+    (yaml-mode . lsp)
+    (go-mode . lsp)
+    (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp)
 (use-package lsp-ui
  :ensure t
  :requires lsp-mode flycheck
@@ -1067,18 +1074,8 @@ and then increment it."
  neo-vc-integration '(face)
  neo-window-position 'left
 )
-;; (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 (setq neo-smart-open t)
-(evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
-(evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
-(evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
-(evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
-(evil-define-key 'normal neotree-mode-map (kbd "g") 'neotree-refresh)
-(evil-define-key 'normal neotree-mode-map (kbd "n") 'neotree-next-line)
-(evil-define-key 'normal neotree-mode-map (kbd "p") 'neotree-previous-line)
-(evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
-(evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)
-
 
 ;; Evil Collection
 (use-package evil-collection
@@ -1093,6 +1090,11 @@ and then increment it."
   (interactive)
    (kill-buffer (current-buffer))
    )
+
+(defun package-reinstall-all-activated-packages ()
+  "Refresh and reinstall all activated packages."
+  (interactive)
+  (byte-recompile-directory package-user-dir nil 'force))
 
 ;; leader key operation
 ;; # # # # # # # # # # #
@@ -1122,7 +1124,8 @@ and then increment it."
    "q" '(kill-this-buffer() :which-key "Kill Buffer")
    "r" '(bbdb :which-key "Search Rolodex")
    "x" '(next-buffer :which-key "Next Buffer")
-   "z" '(previous-buffer :which-key "Previous Buffer"))
+   "z" '(previous-buffer :which-key "Previous Buffer")
+   "U" '(package-reinstall-all-activated-packages :which-key "Rebuild All Packages"))
 
   ;; Buffer Functions
   (general-define-key
