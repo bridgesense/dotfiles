@@ -158,10 +158,10 @@
 (use-package fira-code-mode
   :ensure t
   :custom (fira-code-mode-disabled-ligatures '("[]" "#{" "#(" "#_" "#_(" "x")) ;; List of ligatures to turn off
-  :hook prog-mode 
+  :hook prog-mode
   :config
   (fira-code-mode-set-font))
-; warning! Don't use global-fira-code-mode or it breaks image-mode 
+; warning! Don't use global-fira-code-mode or it breaks image-mode
 ; install fira code symbols manually for ligatures to work
 ; m-x fira-code-mode-install-fonts
 ; m-x all-the-icons-install-fonts
@@ -702,7 +702,7 @@
    '(helm-ag-base-command "ack --nocolor --nogroup")))
 
 
-; image display compatibility 
+; image display compatibility
 ; (setq image-use-external-converter 'convert)
 
 ; Dashboard
@@ -727,7 +727,7 @@
               ; (agenda    . 10)
               ; (registers . 5)
               ))
-    (dashboard-modify-heading-icons '((bookmarks . "book"))) 
+    (dashboard-modify-heading-icons '((bookmarks . "book")))
     (dashboard-setup-startup-hook))
 
 
@@ -764,6 +764,13 @@
 ; rm ~/.authinfo
 ; vi ~/.emacs.d/.mbsyncrc
 
+
+; CopyArrivalDate yes
+; Sync Pull
+; Create Near
+; Remove Near
+; Expunge Near
+
 ; IMAPAccount nameaccount
 ; Host your.imap.server
 ; User yourname
@@ -778,16 +785,13 @@
 ;
 ; MaildirStore nameaccount-local
 ; Path ~/email/mbsyncmail/
-; Inbox ~/email/mbsyncmail/INBOX
+; INBOX ~/email/mbsyncmail/INBOX
 ; SubFolders Verbatim
 ;
 ; Channel nameaccount
-; Master :nameaccount-remote:
-; Slave :nameaccount-local:
+; Far :nameaccount-remote:
+; Near :nameaccount-local:
 ; Patterns *
-; Create Slave
-; Sync All
-; Expunge None
 ; SyncState *
 
 ; mkdir -p ~/email/mbsyncmail/INBOX
@@ -798,16 +802,22 @@
 ;; use mu4e for e-mail in emacs
 (setq mail-user-agent 'mu4e-user-agent)
 
-;; SMTP settings:
-(setq user-mail-address "your-name@your-domain.com")
-(setq user-full-name "Your Name")
-(setq send-mail-function 'smtpmail-send-it)    ; should not be modified
-(setq smtpmail-default-smtp-server "mail.your-domain.com") ; host running SMTP server
-(setq smtpmail-smtp-server "mail.your-domain.com") ; host running SMTP server
-(setq smtpmail-local-domain "your-domain.com")
-(setq smtpmail-sendto-domain "your-domain.com")
-(setq smtpmail-smtp-service 465)               ; SMTP service port number
-(setq smtpmail-stream-type 'ssl)          ; type of SMTP connections to use
+;; default settings
+(setq mu4e-sent-folder "/bridgesense/Sent"
+      mu4e-drafts-folder "/bridgesense/Drafts"
+      mu4e-trash-folder  "/bridgesense/Junk"
+      ; mu4e-compose-signature (with-temp-buffer
+      ;                          (insert-file-contents "~/emacs.d/.bridge-sig")
+      ;                          (buffer-string)) 
+      ; message-signature-file "~/.signature"
+      user-mail-address "email@your-domain.com"
+      user-full-name "Your Name"
+      smtpmail-default-smtp-server "mail.your-domain.com"
+      smtpmail-smtp-server "mail.your-domain.com"
+      smtpmail-local-domain "your-domain.com"
+      smtpmail-sendto-domain "your-domain.com"
+      smtpmail-stream-type 'ssl
+      smtpmail-smtp-service 465)
 
 ;; fixes duplicate UID errors
 (setq mu4e-change-filenames-when-moving t)
@@ -824,12 +834,12 @@
 (setq mu4e-trash-folder  "/Junk")
 
 ;; The command used to get your emails (adapt this line, see section 2.3):
-(setq mu4e-get-mail-command "mbsync --config ~/.emacs.d/.mbsyncrc nameaccount")
+(setq mu4e-get-mail-command "mbsync --config ~/.emacs.d/.mbsyncrc bridgesense")
 ;; Further customization:
 (setq mu4e-html2text-command "w3m -T text/html" ; html render
       mu4e-update-interval 300                  ; seconds between each mail retrieval
       mu4e-headers-auto-update t                ; avoid to type `g' to update
-      mu4e-use-fancy-chars t 
+      mu4e-use-fancy-chars t
       mu4e-view-show-images t                   ; show images in the view buffer
       mu4e-compose-signature-auto-include nil   ; I don't want a message signature
       mu4e-use-fancy-chars nil)                 ; allow fancy icons for mail threads
@@ -916,7 +926,7 @@
          dir)
     (mkdir attachdir t)
     (dolist (part parts)
-      (let ((fname (or 
+      (let ((fname (or
 		    (cdr (assoc 'filename (assoc "attachment" (cdr part))))
                     (seq-find #'stringp
                               (mapcar (lambda (item) (cdr (assoc 'name item)))
@@ -990,11 +1000,15 @@ and then increment it."
   :ensure t
   :init (add-to-list 'company-backends 'company-capf)
   :config
+    (setq read-process-output-max (* 1024 1024))
+    (setq lsp-idle-delay 0.500)
+    (setq lsp-log-io nil) 
     (setq lsp-prefer-flymake nil)
     (setq lsp-enable-file-watchers t)
     (setq lsp-file-watch-threshold nil)
     (setq lsp-modeline-code-actions-mode t)
     (setq lsp-modeline-diagnostics-scope :workspace)
+    (advice-add 'lsp :before (lambda (&rest _args) (eval '(setf (lsp-session-server-id->folders (lsp-session)) (ht)))))
   :hook ((php-mode . lsp)
     (sass-mode . lsp)
     (css-mode . lsp)
@@ -1007,6 +1021,8 @@ and then increment it."
     (go-mode . lsp)
     (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp)
+(with-eval-after-load 'lsp-mode
+  (mapc #'lsp-flycheck-add-mode '(typescript-mode js-mode css-mode vue-html-mode)))
 (use-package lsp-ui
  :ensure t
  :requires lsp-mode flycheck
@@ -1038,13 +1054,23 @@ and then increment it."
 
 ;; dap mode for php and Xdebug
 (use-package dash :ensure t)
-(use-package dap-mode 
+(use-package dap-mode
  :ensure t
+ :after lsp-mode
+ :commands dap-debug
+ :hook ((python-mode . dap-ui-mode)
+        (python-mode . dap-mode))
  :diminish dap-mode
  :config
+ (eval-when-compile
+    (require 'cl-lib))
  (setq dap-auto-configure-features '(locals controls tooltip))
  (setq dap-ui-variable-length 10000)
  (require 'dap-php)
+ (require 'dap-python)
+ (require 'dap-lldb)
+ (defun dap-python--pyenv-executable-find (command)
+    (with-venv (executable-find "python")))
  )
 
 
@@ -1153,7 +1179,7 @@ and then increment it."
    "ap" '(php-scratch :which-key "PHP Scratch Pad")
    "aw" '(w3m-browse-url :which-key "Browse Web"))
 
-  
+
   ;; Language Server Functions
   (general-define-key
    :prefix gleader
@@ -1213,7 +1239,7 @@ and then increment it."
    "gd" '(lsp-find-definition :which-key "Find Definition")
    "gr" '(lsp-find-references :which-key "Find Reference"))
 
-  
+
  ;; Line Functions
   (general-define-key
    :prefix gleader
@@ -1255,7 +1281,7 @@ and then increment it."
    "os" '(org-clock-out :which-key "Stop Task")
    "ox" '(org-clock-cancel :which-key "Cancel Clock"))
 
-  
+
   ;; Options
   (general-define-key
    :prefix gleader
@@ -1285,7 +1311,7 @@ and then increment it."
    "pm" '(magit-status :which-key "Git Status")
    "pw" '(helm-swoop :which-key "Helm Swoop"))
 
-  
+
  ;; Lisp Debug Functions
   (general-define-key
    :prefix gleader
@@ -1303,7 +1329,7 @@ and then increment it."
    "sw" '(cancel-debug-on-variable-change :which-key "Cancel Variable Debugging")
    "sx" '(cancel-debug-on-entry :which-key "Cancel Function Debugging"))
 
-  
+
   ;; Window Functions
   (general-define-key
    :prefix gleader

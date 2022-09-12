@@ -110,6 +110,17 @@ su -c "$SHELL -c \"`curl -fsSL https://raw.githubusercontent.com/bridgesense/dot
 gem install bundler --pre 
 gem update --no-user-install
 
+# install fonts
+install package fonts-noto fontforge
+printf "<?xml version=\"1.0\"?>\n\
+<!DOCTYPE fontconfig SYSTEM \"fonts.dtd\">\n\
+<fontconfig>\n\
+  <dir>/usr/share/texlive/texmf-dist/fonts/opentype</dir>\n\
+</fontconfig>n\
+" >> /etc/fonts/conf.avail/65-texlive-fontconfig.conf
+ln -s /etc/fonts/conf.avail/65-texlive-fontconfig.conf /etc/fonts/conf.d/65-texlive-fontconfig.conf
+fc-cache -f -v
+
 # install coding tools
 install package libfreetype-dev libfontconfig-dev libxcb1-dev tmux xclip
 python3 -m pip install --upgrade pip
@@ -145,7 +156,9 @@ install package gcolor3 flameshot transmission
 install package podman buildah gnome-boxes gnome-disk-utility
 install package stacer timeshift
 install package google-chrome-stable gnome-software gnome-software-plugin-flatpak
-install package nextcloud-desktop
+install package nextcloud-desktop fontforge
+install package libreoffice
+install package science-electronics
 
 # gimp
 log "installing gimp and plugins"
