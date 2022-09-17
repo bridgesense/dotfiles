@@ -57,6 +57,7 @@ This function should only modify configuration layer settings."
      syntax-checking
      version-control
      treemacs
+     w3m
      (mu4e :variables
            mu4e-installation-path "/usr/local/share/emacs/site-lisp/mu4e"
            mu4e-enable-async-operations t
@@ -641,14 +642,14 @@ before packages are loaded."
         (define-key term-raw-map (kbd "<delete>") 'term-send-backspace)
         (define-key term-raw-map (kbd "<backspace>") 'term-send-backspace)))
 
-  ;; default mail settings
+  default mail settings
   (setq mu4e-sent-folder "/bridgesense/Sent"
         mu4e-drafts-folder "/bridgesense/Drafts"
         mu4e-trash-folder  "/bridgesense/Junk"
-        ; mu4e-compose-signature (with-temp-buffer
-        ;                          (insert-file-contents "~/emacs.d/.bridge-sig")
-        ;                          (buffer-string))
-        ; message-signature-file "~/.signature"
+                                        ; mu4e-compose-signature (with-temp-buffer
+                                        ;                          (insert-file-contents "~/emacs.d/.bridge-sig")
+                                        ;                          (buffer-string))
+                                        ; message-signature-file "~/.signature"
         user-mail-address "your@email.com"
         user-full-name "Your Name"
         smtpmail-default-smtp-server "mail.email.com"
@@ -756,23 +757,12 @@ before packages are loaded."
   (define-key evil-normal-state-map (kbd "SPC h h") 'helm-resume)
   (define-key evil-normal-state-map (kbd "SPC h h") 'helm-resume)
   (define-key evil-normal-state-map (kbd "SPC o j") 'avy-goto-char)
+  (define-key evil-normal-state-map (kbd "SPC a w w") 'w3m-browse-url)
   
   (with-eval-after-load 'org
-  (define-key org-mode-map (kbd ", g") 'better-agenda-view))
+  (evil-define-key 'normal org-mode-map (kbd ", g") 'better-agenda-view))
   )
 
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
-(defun dotspacemacs/emacs-custom-settings ()
-  "Emacs custom settings.
-This is an auto-generated function, do not modify its content directly, use
-Emacs customize menu instead.
-This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- 
-)

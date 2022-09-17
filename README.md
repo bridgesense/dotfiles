@@ -89,6 +89,133 @@ shortcuts [here](https://www.spacemacs.org/doc/DOCUMENTATION.html).  Pressing th
 space bar will open up a menu that will help with navigation.  There is no need to
 hold the space key down before pressing the next key.
 
+* `<spc>tnv`: Toggle Line/Character mode### Useful Window/Buffer Shortcuts:
+* `<spc><spc>`: Search for a command, M-X equivalent
+* `<spc>;`: Comment or uncomment code blocks
+* `CTRL-x {`: Contract vertically split Window
+* `CTRL-x }`: Expand vertically split Window
+* `<spc>w[-`: Shrink horizontally split window
+* `<spc>w]`: Grow hoizontally split window
+* `<spc>eL`: Toggle Error List
+* `<spc>oj`: Jump to character
+* `<spc>fj`: Browse current directory, Nerdtree equivalent
+* `<spc>bd`: Kill current buffer
+* `:q` OR `:q!` Kill current buffer, Note: all standard VIM controls apply
+* `<spc>bn`: Cycle to next buffer
+* `<spc>bp`: Cycle to previous buffer
+
+#### Buffer Shortcuts:
+* `<spc>bb`: List/Create buffers
+* `<spc>fs`: Save buffer
+* `:w`: Save buffer, VIM equivalent
+* `<spc>br`: Refresh buffer
+
+#### Code Shortcuts:
+* `,hh`: Find hovered function in Documentation
+* `,Gr`: Find References to hovered function
+* `,Gd`: Find Definitions to hovered function
+* `,gM`: Show quick menu of file definitions
+
+#### Window Shortcuts:
+* `<spc>Fd`: Delete current window
+* `<spc>FD`: Delete all other windows except current window
+* `<f11>`: Toggle Emacs full screen
+* `<spc>wh`: Focus on window to left of current one
+* `<spc>wj`: Focus on window above current one
+* `<spc>wk`: Focus on window below current one
+* `<spc>wl`: Focus on window to right of current one
+* `<spc>wH`: Move current window left
+* `<spc>wJ`: Move current window up
+* `<spc>wK`: Move current window down
+* `<spc>wL`: Move current window right
+* `<spc>wn`: Switch screens
+* `<spc>Fo`: Focus on next window
+* `<spc>Fn`: Pop out current window to new screen
+* `<spc>ws`: Split window horizontally
+* `<spc>wv`: Split window vertically
+* `<spc>wx`: Close screen
+
+#### Emacs Applications:
+* `<spc>ai`: Open IRC
+* `<spc>'`: Open a terminal
+* `<spc>aem`: Open mu4e for Email
+* `<spc>aww`: Browse the web from Emacs
+
+#### Dap-Mode Shortcuts:
+* `<spc>dbb`: Toggles breakpoint on current line
+* `<spc>dbd`: Delete breakpoint on current line
+* `<spc>dbA`: Delete all breakpoints
+* `<spc>ddd`: Start debugger
+* `<spc>dwb`: List all breakpoints
+* `<spc><spc> dap-php-setup`: Install vscode-php-debug plugin
+* `<spc>ds`: Step to next line
+* `<spc>di`: Step in
+* `<spc>do`: Step out
+* `<spc>dc`: Continue to breakpoint
+* `<spc>dwl`: View context
+* `<spc>da`: Stop Debugger
+
+#### Lisp Debugging Shortcuts:
+* `<spc>sa`: Evaluate statement
+* `<spc>sb`: Evaluate buffer
+* `<spc>sc`: Evaluate function
+* `<spc>se`: Evaluate and print statement
+* `<spc>sf`: Set breakpoint on function
+* `<spc>sp`: Compile File
+* `<spc>ss`: Open Lisp scratch pad
+* `<spc>sv`: Set breakpoint on variable
+* `<spc>sw`: Remove breakpoint from a variable
+* `<spc>sx`: Remove breakpoint from a function
+
+#### Line Shortcuts:
+* `<spc>tCd`: Toggle HTML color codes
+* `<spc>aYe`: Encrypt File
+* `<spc>aYd`: Decrypt File
+* `<spc>tI`: Toggle aggressive indentation
+* `<spc>tnn`: Toggle line numbers
+* `<spc>tnv`: Toggle Line/Character mode
+* `<spc>tnr`: Toggle relative line number display
+* `<spc>xdw`: Delete trailing whitespaces
+* `<spc>tl`: Toggle line wrapping
+
+#### Emacs Display Options:
+* `<spc>Tn`: Toggle Dark/Light Theme
+
+#### Org-Mode Shortcuts:
+* `,a`: Org Agenda
+* `,,`: Activate current line
+* `,dd`: Schedule deadline
+* `,,`: Recompute clock
+* `,ds`: Schedule task
+* `,it`: Set tag
+* `,Cd`: Display clocks
+* `,Cj`: Jump to running task
+* `,Ci`: Start task
+* `,g`: Show agenda report
+* `,Co`: Stop task
+* `,Cc`: Cancel clock
+
+#### Project Shortcuts:
+* `<spc>sd`: Search in directory
+* `<spc>gfl`: History of buffer
+* `<spc>pf`: Fuzzy file finder (CtrlP)
+* `<spc>pr`: Open recent project
+* `<spc>hh`: Resume previous search/filter
+* `<spc>/`: Search in current project
+* `<spc>gs`: Git status with Magit
+* `<spc>ss`: Swoop
+* `]h`: Go to next change in file
+* `[h`: Go to previous change in file
+
+#### Word Shortcuts:
+* `<spc>S.`: Spell check menu
+* `<spc>Ss`: Correct spelling of word under cursor
+* `<spc>xwd`: See definition of word under cursor
+
+#### Other Shortcuts:
+* `<ctrl>-z`: Toggles Emacs/Vim Mode
+* `<ctrl>-x t`: Tab Controls
+
 [Return to top](#yadrlite)
 
 # Tmux

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 # yadrlite
 # Optimized Dotfiles
 # # # # # # # # # # # # # # #
@@ -19,7 +20,7 @@ function installed {
     local inststatus=yes
     if [[ $($1 2>&1) =~ (not found) ]]; then
         local inststatus=no
-    fi 
+    fi
     echo "$inststatus"
 }
 
@@ -95,7 +96,7 @@ if [ "$action" == "install" ]; then
             cp -R . $dir
         fi
     fi
-    
+
     echo "# # Backing up current configurations"
     echo "# # # # # # # # # # # # # # # # # # # # # #"
     cd $dir
@@ -124,7 +125,7 @@ if [ "$action" == "install" ]; then
             else
                 mkdir -p ~/Library/Developer/Xcode/UserData/FontAndColorThemes/
                 cp -rf $dir/themes/gruvbox/xcode/Gruvbox.xccolortheme ~/Library/Developer/Xcode/UserData/FontAndColorThemes/
-	        echo ""        
+	        echo ""
 		echo "Do you want to install Homebrew?  If you have MacPorts"
                 echo "already installed, they may not play well together."
                 echo ""
@@ -142,7 +143,7 @@ if [ "$action" == "install" ]; then
             ln -s `brew --prefix openssl`/bin/openssl /usr/local/bin/openssl 2>/dev/null
             # fixes the cruddy looking font in Emacs on MacOS
             defaults write org.gnu.Emacs AppleFontSmoothing -int 0
-            brew tap homebrew/cask-fonts 
+            brew tap homebrew/cask-fonts
             brew install --cask cmake gpg-suite emacs font-dejavu-sans-mono-nerd-font
         fi
 
@@ -157,7 +158,7 @@ if [ "$action" == "install" ]; then
         echo "I'm sorry, but your OS isn't supported yet."
         exit
     fi
-    
+
     echo "# # Loading plugins"
     echo "# # # # # # # # # # # # # # # # # # # # # #"
     mkdir $dir/tmux/plugin 2>/dev/null
@@ -169,7 +170,7 @@ if [ "$action" == "install" ]; then
 
     # covers injection into most existing configurations
     if ! grep -q "~/.bashrc" $dir/bash_profile && ! grep -q "~/.bash_profile" $dir/bashrc; then
-        cat $dir/bash/bashrc >> $dir/bashrc 2>/dev/null 
+        cat $dir/bash/bashrc >> $dir/bashrc 2>/dev/null
         echo "source ~/.bashrc" >> $dir/bash_profile 2>/dev/null
     elif ! grep -q "~/.bashrc" $dir/bash_profile; then
         cat $dir/bash/bashrc >> $dir/bash_profile 2>/dev/null
@@ -192,15 +193,16 @@ if [ "$action" == "install" ]; then
     echo "# # Installing Spacemacs Base Configuration"
     echo "# # # # # # # # # # # # # # # # # # # # # #"
     git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
-
+    mkdir -p ~/.emacs.d/private
+    git clone https://github.com/venmos/w3m-layer.git ~/.emacs.d/private/w3m
 
     if [[ "$(uname)" != "Darwin" ]]; then
         echo ""
         echo "This script does not install ack, emacs, silversearcher, tmux or"
         echo "Vim with Lua support. That's something you might look into."
         echo ""
-        echo "It's also assumed that a PHP environment is already installed." 
-        echo "The Emacs configuration makes use of Boris, js-beautify and phpctags" 
+        echo "It's also assumed that a PHP environment is already installed."
+        echo "The Emacs configuration makes use of Boris, js-beautify and phpctags"
         echo "which might need to be installed."
 	echo ""
     fi
