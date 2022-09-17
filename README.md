@@ -74,151 +74,22 @@ Suggested: [Silver Searcher](https://github.com/ggreer/the_silver_searcher)
 
 Emacs has a huge performance advantage over Vi.  This configuration includes
 the [Evil](https://www.emacswiki.org/emacs/Evil) package which emulates Vim's
-modal functionality.  In Evil mode Emacs shares keybindings familiar to the YADR
-package.  Switching between Emacs and Evil mode is done by C-z. There is inline
+modal functionality.  In Evil mode Emacs shares keybindings familiar to Vim
+users.  Switching between Emacs and Evil mode is done by C-z. There is inline
 documentation with live hints for ease of discovery.  After entering Emacs just
-hit the leader key (,) to get started.  Hit the leader key twice for a fuzzy
+hit the leader key (Space) to get started.  Hit the leader key twice for a fuzzy
 command search.
 
 [Return to top](#yadrlite)
 
-Emacs Shortcuts
+(SpacE)macs Shortcuts
 ---
-The [General](https://github.com/noctuid/general.el) plugin has been included
-with this Emacs configuration. There is no need to hold the comma down (the
-leader key borrowed from YADR) before pressing the next key. The following
-shortcuts can be typed concurrantly in the order presented which is a nice
-alternative to the Emacs Pinky.
+Recently this package has migrate over to Spacemacs.  There is a complete list of all
+shortcuts [here](https://www.spacemacs.org/doc/DOCUMENTATION.html).  Pressing the
+space bar will open up a menu that will help with navigation.  There is no need to
+hold the space key down before pressing the next key.
 
-#### Single Key Shortcuts:
-* `,,`: Search for a command, M-X equivalent
-* `,;`: Comment or uncomment code blocks
-* `,[`: Contract vertically split Window
-* `,]`: Expand vertically split Window
-* `,-`: Shrink horizontally split window
-* `,=`: Grow hoizontally split window
-* `,e`: Toggle Error List
-* `,jx`: Jump to character x
-* `,n`: Browse current directory, Nerdtree equivalent
-* `,q`: Kill current buffer
-* `:q`: or `:q!` Kill current buffer, Note: all standard VIM controls apply
-* `,x`: Cycle to next buffer
-* `,z`: Cycle to previous buffer
-
-#### Buffer Shortcuts:
-* `,bb`: List/Create buffers
-* `,bs`: Save buffer
-* `:w`: Save buffer, VIM equivalent
-* `,br`: Refresh buffer
-
-#### Code Shortcuts:
-* `,cf`: Find hovered function in Documentation
-* `,cr`: Find References to hovered function
-* `,cd`: Find Definitions to hovered function
-* `,cm`: Show quick menu of file definitions
-
-#### Window Shortcuts:
-* `,wd`: Delete current window
-* `,wc`: Delete all other windows except current window
-* `,wf`: Toggle Emacs full screen
-* `,wh`: Focus on window to left of current one
-* `,wj`: Focus on window above current one
-* `,wk`: Focus on window below current one
-* `,wl`: Focus on window to right of current one
-* `,wH`: Move current window left
-* `,wJ`: Move current window up
-* `,wK`: Move current window down
-* `,wL`: Move current window right
-* `,wn`: Switch screens
-* `,wo`: Focus on next window
-* `,wp`: Pop out current window to new screen
-* `,ws`: Split window horizontally
-* `,wv`: Split window vertically
-* `,wx`: Close screen
-
-#### Emacs Applications:
-* `,ai`: Open IRC
-* `,at`: Open a terminal
-* `,am`: Open Gnus for News/Email
-* `,ap`: Open a PHP scratch pad or interactive shell, requires Boris
-* `,aw`: Browse the web from Emacs
-
-#### Dap-Mode Shortcuts:
-* `,db`: Toggles breakpoint on current line
-* `,dd`: Start debugger
-* `,dl`: List all breakpoints
-* `,di`: Install vscode-php-debug plugin
-* `,dn`: Next line 
-* `,do`: Step out
-* `,dr`: Continue to breakpoint
-* `,ds`: Step into
-* `,dv`: View context
-* `,dx`: Stop Debugger
-
-#### Lisp Debugging Shortcuts:
-* `,sa`: Evaluate statement
-* `,sb`: Evaluate buffer
-* `,sc`: Evaluate function
-* `,se`: Evaluate and print statement
-* `,sf`: Set breakpoint on function
-* `,sp`: Compile File
-* `,ss`: Open Lisp scratch pad
-* `,sv`: Set breakpoint on variable
-* `,sw`: Remove breakpoint from a variable
-* `,sx`: Remove breakpoint from a function
-
-#### Line Shortcuts:
-* `,la`: Artist mode, draw on screen with cursor
-* `,lc`: Toggle HTML color codes
-* `,le`: Encrypt selection
-* `,ld`: Decrypt selection
-* `,li`: Toggle aggressive indentation
-* `,ln`: Toggle line numbers
-* `,lm`: Toggle Line/Character mode
-* `,lr`: Toggle relative line number display
-* `,ls`: Delete trailing whitespaces
-* `,lt`: Toggle PHP/Web mode highlighting
-* `,lw`: Toggle line wrapping
-
-#### Emacs Display Options:
-* `,Ot`: Toggle Dark/Light Theme
-
-#### Org-Mode Shortcuts:
-* `,oo`: Agenda View, be sure to adjust position wth org-agenda-file-to-front
-* `,oa`: Activate current line
-* `,od`: Schedule deadline
-* `,oc`: Recompute clock
-* `,ok`: Schedule task
-* `,og`: Set tag
-* `,ol`: Display clocks
-* `,oj`: Jump to running task
-* `,ot`: Start task
-* `,or`: Show report
-* `,os`: Stop task
-* `,ox`: Cancel clock
-
-#### Project Shortcuts:
-* `,pd`: Search in directory
-* `,ph`: History of buffer
-* `,pf`: Fuzzy file finder (CtrlP)
-* `,pP`: Open recent project
-* `,pp`: Resume previous search/filter
-* `,ps`: Search in current project
-* `,pm`: Git status with Magit
-* `,pw`: Swoop
-* `,p[`: Go to next change in file
-* `,p]`: Go to previous change in file
-
-#### Word Shortcuts:
-* `,Ws`: View spelling errors
-* `,Wc`: Correct spelling of word under cursor
-* `,Wd`: See definition of word under cursor
-* `,Wt`: See synonyms (thesaurus) of word under cursor
-* `,Wa`: See antonyms of word under cursor
-
-#### Other Shortcuts:
-* `<ctrl>-z`: Toggles Emacs/Vim Mode
-* `<ctrl>-x t`: Tab Controls
+[Return to top](#yadrlite)
 
 # Tmux
 

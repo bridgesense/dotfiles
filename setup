@@ -9,7 +9,7 @@ USEREPO=yes
 dir=~/.yadrlite
 dotfiles_old=backup
 action="${1:-install}"
-declare -a files=('vim vimrc tmux.conf profile bash_profile bashrc vimrc.after emacs emacs.d')
+declare -a files=('vim vimrc tmux.conf profile bash_profile bashrc vimrc.after spacemacs')
 declare -a tmuxplugins=('https://github.com/tmux-plugins/tmux-resurrect.git' \
     'https://github.com/tmux-plugins/tmux-continuum.git')
 
@@ -110,7 +110,7 @@ if [ "$action" == "install" ]; then
     echo "# # # # # # # # # # # # # # # # # # # # # #"
     cat $dir/vim/vimrc >> $dir/vimrc 2>/dev/null
     cat $dir/vim/vimrc.after >> $dir/vimrc.after 2>/dev/null
-    cp $dir/emacs.d/emacs.init $dir/emacs
+    cp $dir/emacs.d/spacemacs $dir/spacemacs
     sed -i "s@multi-term-program.*@multi-term-program \"$(which bash)\")@" $dir/emacs 2>/dev/null
     cat $dir/tmux/tmux.conf > $dir/tmux.conf
     echo "set-option -g default-shell \$SHELL" >> $dir/tmux.conf
@@ -188,6 +188,11 @@ if [ "$action" == "install" ]; then
     for cfile in ${files[@]}; do
         ln -s $dir/$cfile ~/.$cfile
     done
+
+    echo "# # Installing Spacemacs Base Configuration"
+    echo "# # # # # # # # # # # # # # # # # # # # # #"
+    git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
+
 
     if [[ "$(uname)" != "Darwin" ]]; then
         echo ""
