@@ -37,7 +37,7 @@ bash ~/.yadrlite/setup remove
 #### To install this Emacs configuration without the rest of YADRLite:
 
 ```bash
-curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/spacemacs/spacemacs > ~/.emacs
+curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/spacemacs/spacemacs > ~/.spacemacs
 git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
 ```
 
