@@ -32,7 +32,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(php
+   '(javascript
+     php
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -51,6 +52,7 @@ This function should only modify configuration layer settings."
      multiple-cursors
      org
      (shell :variables
+            shell-default-shell 'multi-term
             shell-default-height 40
             shell-default-position 'bottom)
      spell-checking
@@ -250,8 +252,8 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(gruvbox-dark-soft
-                         gruvbox-light-soft)
+   dotspacemacs-themes '(gruvbox-dark-medium
+                         gruvbox-light-medium)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
@@ -590,12 +592,14 @@ before packages are loaded."
 
   ;; file handling
   (setq backup-by-copying t) ; don't clobber symlinks
+
   ;; don't litter my fs tree
   (setq backup-directory-alist '((".*" . "~/.emacs.d/.emacs-saves")))
   (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/.emacs-saves" t)))
 
   ;; treemacs
   (setq treemacs-default-visit-action 'treemacs-visit-node-close-treemacs)
+  (setq treemacs-width 55)
   (treemacs-project-follow-mode t)
 
   ;; lsp
@@ -607,7 +611,7 @@ before packages are loaded."
   ;; dap
   (setq dap-auto-configure-features '(locals controls tooltips))
   (setq dap-ui-variable-length 10000)
-  (setq dap-ui-variable-length 500)
+  (setq dap-ui-default-fetch-count 500)
 
   ;; GPUPG Fix
   (setf epa-pinentry-mode 'loopback)
@@ -621,12 +625,26 @@ before packages are loaded."
   ;; org-mode
   ;; startup folded
   (setq org-startup-folded t)
+  ;; Org Mode Timing Drawer
+  (setq spaceline-org-clock-p t)
   ;; agenda view
   (defun better-agenda-view ()
     "View All Agenda todo items plus past and current deadlines."
     (interactive)
     (org-ql-search (org-agenda-files)
                    '(and (todo "EMERGENCY" "TODAY" "TODO" "WAITING"))))
+  ;; Org Mode Evil compatiblity workaround for terminal
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (define-key evil-normal-state-map (kbd "C-h") 'org-metaleft)
+              (define-key evil-normal-state-map (kbd "C-k") 'org-metaup)
+              (define-key evil-normal-state-map (kbd "C-j") 'org-metadown)
+              (define-key evil-normal-state-map (kbd "C-l") 'org-metaright)
+              (define-key evil-normal-state-map "H" 'org-shiftleft)
+              (define-key evil-normal-state-map "K" 'org-shiftup)
+              (define-key evil-normal-state-map "J" 'org-shiftdown)
+              (define-key evil-normal-state-map "L" 'org-shiftright)
+              (define-key evil-normal-state-map (kbd "TAB") 'org-cycle)))
 
   ;; Fix the Terminal
   (add-hook 'term-mode-hook
@@ -705,6 +723,89 @@ before packages are loaded."
                   :signature :decryption
                   :mailing-list :message-id))
 
+  ;; adds easy download option for email
+  (add-hook 'mu4e-view-mode-hook
+            (lambda ()
+              (add-to-list 'mu4e-view-actions '("Download All Attachments" . mu4e-view-save-all-attachments) t)))
+
+  (defvar bulk-saved-attachments-dir mu4e-attachment-dir)
+
+  (defun cleanse-subject (sub)
+    (replace-regexp-in-string
+     "[^A-Z0-9]+"
+     "-"
+     (downcase sub)))
+
+  (defun mu4e-view-save-all-attachments (&optional arg)
+    "Save all MIME parts from current mu4e gnus view buffer."
+    ;; Copied from mu4e-view-save-attachments
+    (interactive "P")
+    (cl-assert (and (eq major-mode 'mu4e-view-mode)
+                    (derived-mode-p 'gnus-article-mode)))
+    (let* ((msg (mu4e-message-at-point))
+          (id (cleanse-subject (mu4e-message-field msg :subject)))
+          (attachdir (concat bulk-saved-attachments-dir "/" id))
+    (parts (mu4e~view-gather-mime-parts))
+          (handles '())
+          (files '())
+          dir)
+      (mkdir attachdir t)
+      (dolist (part parts)
+        (let ((fname (or
+          (cdr (assoc 'filename (assoc "attachment" (cdr part))))
+                      (seq-find #'stringp
+                                (mapcar (lambda (item) (cdr (assoc 'name item)))
+                                        (seq-filter 'listp (cdr part)))))))
+          (when fname
+            (push `(,fname . ,(cdr part)) handles)
+            (push fname files))))
+      (if files
+          (progn
+            (setq dir
+      (if arg (read-directory-name "Save to directory: ")
+        attachdir))
+            (cl-loop for (f . h) in handles
+                    when (member f files)
+                    do (mm-save-part-to-file h
+                (sje-next-free
+                (expand-file-name f dir)))))
+        (mu4e-message "No attached files found"))))
+
+  (defun sje-next-free (file)
+    "Return name of next unique 'free' FILE.
+  If /tmp/foo.txt and /tmp/foo-1.txt exist, when this is called
+  with /tmp/foo.txt, return /tmp/foo-2.txt.  See
+  `sje-test-next-free' for a test case.  This is not very efficient
+  if there are a large number of files already in the directory
+  with the same base name, as it simply starts searching from 1
+  each time until it finds a gap.  An alternative might be to do a
+  wildcard search for all the filenames, extract the highest number
+  and then increment it."
+    ;; base case is easy; does file exist already?
+    (if (not  (file-exists-p file))
+        file
+      ;; othwerwise need to iterate through f-1.pdf
+      ;; f-2.pdf, f-3.pdf ... until we no longer find a file.
+      (let ((prefix (file-name-sans-extension file))
+      (suffix (file-name-extension file))
+      (looking t)
+      (n 0)
+      (f)
+      )
+        (while looking
+    (setq n (1+ n))
+    (setq f (concat prefix "-" (number-to-string n) "." suffix))
+    (setq looking (file-exists-p f)))
+        f
+        )))
+
+  (defun sje-test-next-free ()
+    (let (f)
+      (dotimes (i 100)
+        (setq f (sje-next-free "/tmp/rabbit.txt"))
+        (write-region "hello" nil f)
+        )))
+
 
   ;; setup
   ; cd ~/.emacs.d
@@ -757,6 +858,7 @@ before packages are loaded."
   (define-key evil-normal-state-map (kbd "SPC h h") 'helm-resume)
   (define-key evil-normal-state-map (kbd "SPC h h") 'helm-resume)
   (define-key evil-normal-state-map (kbd "SPC o j") 'avy-goto-char)
+  (define-key evil-normal-state-map (kbd "SPC o s") 'elisp-index-search)
   (define-key evil-normal-state-map (kbd "SPC a w w") 'w3m-browse-url)
   
   (with-eval-after-load 'org
