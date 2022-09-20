@@ -53,7 +53,7 @@ This function should only modify configuration layer settings."
      org
      (shell :variables
             shell-default-shell 'multi-term
-            shell-default-height 40
+            shell-default-height 50
             shell-default-position 'bottom)
      spell-checking
      syntax-checking
