@@ -43,6 +43,9 @@ This function should only modify configuration layer settings."
      better-defaults
      themes-megapack
      emacs-lisp
+     (erc :variables
+          erc-enable-notifications nil
+          erc-enable-sasl-auth t)
      evil-commentary
      git
      helm
@@ -660,7 +663,7 @@ before packages are loaded."
         (define-key term-raw-map (kbd "<delete>") 'term-send-backspace)
         (define-key term-raw-map (kbd "<backspace>") 'term-send-backspace)))
 
-  default mail settings
+  ;; default mail settings
   (setq mu4e-sent-folder "/bridgesense/Sent"
         mu4e-drafts-folder "/bridgesense/Drafts"
         mu4e-trash-folder  "/bridgesense/Junk"
