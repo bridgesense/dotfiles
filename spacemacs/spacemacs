@@ -44,7 +44,7 @@ This function should only modify configuration layer settings."
      themes-megapack
      emacs-lisp
      (erc :variables
-          erc-enable-notifications nil
+          erc-enable-notifications nil 
           erc-enable-sasl-auth t)
      evil-commentary
      git
@@ -648,6 +648,9 @@ before packages are loaded."
               (define-key evil-normal-state-map "J" 'org-shiftdown)
               (define-key evil-normal-state-map "L" 'org-shiftright)
               (define-key evil-normal-state-map (kbd "TAB") 'org-cycle)))
+  ;; remove closed state when changing agenda states
+  (with-eval-after-load 'org
+    (setq org-log-done nil))
 
   ;; Fix the Terminal
   (add-hook 'term-mode-hook
@@ -663,8 +666,8 @@ before packages are loaded."
         (define-key term-raw-map (kbd "<delete>") 'term-send-backspace)
         (define-key term-raw-map (kbd "<backspace>") 'term-send-backspace)))
 
-  ;; default mail settings
-  (setq mu4e-sent-folder "/bridgesense/Sent"
+  ;; default mail settings)
+  ((setq mu4e-sent-folder "/bridgesense/Sent"
         mu4e-drafts-folder "/bridgesense/Drafts"
         mu4e-trash-folder  "/bridgesense/Junk"
                                         ; mu4e-compose-signature (with-temp-buffer
