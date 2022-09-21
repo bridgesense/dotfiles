@@ -32,8 +32,14 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(javascript
+   '(html
+     javascript
      php
+     coffeescript
+     javascript
+     typescript
+     go
+     python
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -593,6 +599,9 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
+  ;; additional auto-mode designations
+  (add-to-list 'auto-mode-alist '("\\.tpl\\'" . php-mode))
+
   ;; file handling
   (setq backup-by-copying t) ; don't clobber symlinks
 
@@ -666,8 +675,8 @@ before packages are loaded."
         (define-key term-raw-map (kbd "<delete>") 'term-send-backspace)
         (define-key term-raw-map (kbd "<backspace>") 'term-send-backspace)))
 
-  ;; default mail settings)
-  ((setq mu4e-sent-folder "/bridgesense/Sent"
+  default mail settings
+  (setq mu4e-sent-folder "/bridgesense/Sent"
         mu4e-drafts-folder "/bridgesense/Drafts"
         mu4e-trash-folder  "/bridgesense/Junk"
                                         ; mu4e-compose-signature (with-temp-buffer
