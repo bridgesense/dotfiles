@@ -32,7 +32,9 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(html
+   '(yaml
+     rust
+     html
      javascript
      php
      coffeescript
@@ -405,12 +407,12 @@ It should only modify the values of Spacemacs settings."
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
-   dotspacemacs-active-transparency 90
+   dotspacemacs-active-transparency 95
 
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's inactive or deselected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
-   dotspacemacs-inactive-transparency 90
+   dotspacemacs-inactive-transparency 95
 
    ;; If non-nil show the titles of transient states. (default t)
    dotspacemacs-show-transient-state-title t
@@ -599,6 +601,10 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
+  ;; transparency
+  (spacemacs/enable-transparency)
+  (add-hook 'after-make-frame-functions 'spacemacs/enable-transparency)
+
   ;; additional auto-mode designations
   (add-to-list 'auto-mode-alist '("\\.tpl\\'" . php-mode))
 
@@ -610,10 +616,16 @@ before packages are loaded."
   (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/.emacs-saves" t)))
 
   ;; treemacs
-  (setq treemacs-default-visit-action 'treemacs-visit-node-close-treemacs)
+  ;; (setq treemacs-default-visit-action '(treemacs-visit-node-in-most-recently-used-window treemacs-visit-node-close-treemacs ))
   (setq treemacs-width 55)
-  (treemacs-project-follow-mode t)
-
+  (with-eval-after-load 'treemacs
+    (treemacs-follow-mode t)
+    (treemacs-project-follow-mode t)
+    (treemacs-define-RET-action 'file-node-closed
+                                #'(lambda(&optional arg)
+                                    (treemacs-visit-node-in-most-recently-used-window)
+                                    (delete-window (treemacs-get-local-window)))))
+  
   ;; lsp
   (setq lsp-intelephense-licence-key (expand-file-name "~/.config/intelephense/licence.txt"))
   (setq lsp-enable-file-watchers t)
@@ -675,14 +687,60 @@ before packages are loaded."
         (define-key term-raw-map (kbd "<delete>") 'term-send-backspace)
         (define-key term-raw-map (kbd "<backspace>") 'term-send-backspace)))
 
-  default mail settings
-  (setq mu4e-sent-folder "/bridgesense/Sent"
-        mu4e-drafts-folder "/bridgesense/Drafts"
-        mu4e-trash-folder  "/bridgesense/Junk"
-                                        ; mu4e-compose-signature (with-temp-buffer
-                                        ;                          (insert-file-contents "~/emacs.d/.bridge-sig")
-                                        ;                          (buffer-string))
-                                        ; message-signature-file "~/.signature"
+  ;; mu4e setup  
+  ;; setup
+  ; cd ~/.emacs.d
+  ; echo 'password' > .mbsyncpass
+  ; gpg2 --output .mbsyncpass.gpg --symmetric .mbsyncpass
+  ; rm .mbsyncpass
+  ; cd ~/
+  ; echo "machine smtp.example.com login myname port 587 password mypassword" > .authinfo
+  ; gpg2 --output ~/.authinfo.gpg --symmetric ~/.authinfo
+  ; rm ~/.authinfo
+  ; vi ~/.emacs.d/.mbsyncrc
+
+
+  ; CopyArrivalDate yes
+  ; Sync Pull
+  ; Create Near
+  ; Remove Near
+  ; Expunge Near
+
+  ; IMAPAccount webserver
+  ; Host your.imap.server
+  ; User yourname
+  ; PassCmd "gpg2 -q --for-your-eyes-only --no-tty -d ~/.emacs.d/.mbsyncpass.gpg"
+  ; Port 993
+  ; SSLType IMAPS
+  ; AuthMechs *
+  ; CertificateFile /etc/ssl/certs/ca-certficates.crt
+  ;
+  ; IMAPStore webserver-remote
+  ; Account webserver
+  ;
+  ; MaildirStore webserver-local
+  ; Path ~/email/webserver/
+  ; INBOX ~/email/webserver/INBOX
+  ; SubFolders Verbatim
+  ;
+  ; Channel webserver
+  ; Far :webserver-remote:
+  ; Near :webserver-local:
+  ; Patterns *
+  ; SyncState *
+
+  ; mkdir -p ~/email/mbsyncmail/INBOX
+  ; mbsync --config ~/.emacs.d/.mbsyncrc webserver
+  ; mu init --my-address="your@email.com" --maildir=~/email/webserver/
+  ; mu index
+
+  ;; use mu4e for e-mail in emacs
+  (setq mail-user-agent 'mu4e-user-agent)
+
+  ;; default mail settings
+  (setq mu4e-sent-folder "/Sent"
+        mu4e-drafts-folder "/Drafts"
+        mu4e-trash-folder  "/Junk"
         user-mail-address "your@email.com"
         user-full-name "Your Name"
         smtpmail-default-smtp-server "mail.email.com"
@@ -699,14 +757,10 @@ before packages are loaded."
   (setq mu4e-get-mail-command "offlineimap")
 
   ;; don't keep message buffers around
-
-  ;; Mail folders:
-  (setq mu4e-drafts-folder "/Drafts")
-  (setq mu4e-sent-folder   "/Sent")
-  (setq mu4e-trash-folder  "/Junk")
+  (setq message-kill-buffer-on-exit t)
 
   ;; The command used to get your emails (adapt this line, see section 2.3):
-  (setq mu4e-get-mail-command "mbsync --config ~/.emacs.d/.mbsyncrc bridgesense")
+  (setq mu4e-get-mail-command "mbsync --config ~/.emacs.d/.mbsyncrc webserver")
   ;; Further customization:
   (setq mu4e-html2text-command "w3m -T text/html" ; html render
         mu4e-update-interval 300                  ; seconds between each mail retrieval
@@ -737,19 +791,27 @@ before packages are loaded."
                   :tags :attachments
                   :signature :decryption
                   :mailing-list :message-id))
+ 
+  ;;; mu4e-view-save-all-attachments.el -- Save all attachments from view mode.
+  ;;; Stephen J Eglen 2021
 
-  ;; adds easy download option for email
-  (add-hook 'mu4e-view-mode-hook
-            (lambda ()
-              (add-to-list 'mu4e-view-actions '("Download All Attachments" . mu4e-view-save-all-attachments) t)))
+
+  ;; I've created this based on the work of Phil Jackson that required
+  ;; an older version of mu4e.  This version requires the GNUS article
+  ;; code for reading mu4e messages.
+  ;; https://gist.github.com/philjackson/aecfab1706f05079aec7000e328fd183
+
+  ;; Suggested keybinding
+  ;;  mnemnonic: > is to redirect the files to output everything.
+  ;; (define-key mu4e-view-mode-map ">" 'mu4e-view-save-all-attachments)
 
   (defvar bulk-saved-attachments-dir mu4e-attachment-dir)
 
   (defun cleanse-subject (sub)
     (replace-regexp-in-string
-     "[^A-Z0-9]+"
-     "-"
-     (downcase sub)))
+    "[^A-Z0-9]+"
+    "-"
+    (downcase sub)))
 
   (defun mu4e-view-save-all-attachments (&optional arg)
     "Save all MIME parts from current mu4e gnus view buffer."
@@ -814,63 +876,24 @@ before packages are loaded."
         f
         )))
 
+
   (defun sje-test-next-free ()
     (let (f)
       (dotimes (i 100)
         (setq f (sje-next-free "/tmp/rabbit.txt"))
         (write-region "hello" nil f)
         )))
-
-
-  ;; setup
-  ; cd ~/.emacs.d
-  ; echo 'password' > .mbsyncpass
-  ; gpg2 --output .mbsyncpass.gpg --symmetric .mbsyncpass
-  ; rm .mbsyncpass
-  ; cd ~/
-  ; echo "machine smtp.example.com login myname port 587 password mypassword" > .authinfo
-  ; gpg2 --output ~/.authinfo.gpg --symmetric ~/.authinfo
-  ; rm ~/.authinfo
-  ; vi ~/.emacs.d/.mbsyncrc
-
-
-  ; CopyArrivalDate yes
-  ; Sync Pull
-  ; Create Near
-  ; Remove Near
-  ; Expunge Near
-
-  ; IMAPAccount nameaccount
-  ; Host your.imap.server
-  ; User yourname
-  ; PassCmd "gpg2 -q --for-your-eyes-only --no-tty -d ~/.emacs.d/.mbsyncpass.gpg"
-  ; Port 993
-  ; SSLType IMAPS
-  ; AuthMechs *
-  ; CertificateFile /etc/ssl/certs/ca-certficates.crt
-  ;
-  ; IMAPStore nameaccount-remote
-  ; Account nameaccount
-  ;
-  ; MaildirStore nameaccount-local
-  ; Path ~/email/mbsyncmail/
-  ; INBOX ~/email/mbsyncmail/INBOX
-  ; SubFolders Verbatim
-  ;
-  ; Channel nameaccount
-  ; Far :nameaccount-remote:
-  ; Near :nameaccount-local:
-  ; Patterns *
-  ; SyncState *
-
-  ; mkdir -p ~/email/mbsyncmail/INBOX
-  ; mbsync --config ~/.emacs.d/.mbsyncrc nameaccount
-  ; mu init --my-address="your@email.com" --maildir=~/email/mbsyncmail/
-  ; mu index
-
+  ;; (sje-test-next-free)
+  (add-hook 'mu4e-view-mode-hook
+            (lambda ()
+              (add-to-list 'mu4e-view-actions '("Download All Attachments" . mu4e-view-save-all-attachments) t)))
 
   ;; aux key maps
-  (define-key evil-normal-state-map (kbd "SPC h h") 'helm-resume)
+  (define-key evil-normal-state-map (kbd "SPC ,") 'dired-jump)
+  (define-key evil-normal-state-map (kbd "SPC 0") 'treemacs-display-current-project-exclusively)
+  (define-key evil-normal-state-map (kbd "SPC )") 'treemacs-narrow-to-current-file)
+  (define-key evil-normal-state-map (kbd "SPC s a s") 'helm-do-grep-ag)
+  (define-key evil-normal-state-map (kbd "SPC .") 'helm-do-grep-ag)
   (define-key evil-normal-state-map (kbd "SPC h h") 'helm-resume)
   (define-key evil-normal-state-map (kbd "SPC o j") 'avy-goto-char)
   (define-key evil-normal-state-map (kbd "SPC o s") 'elisp-index-search)
@@ -879,7 +902,6 @@ before packages are loaded."
   (with-eval-after-load 'org
   (evil-define-key 'normal org-mode-map (kbd ", g") 'better-agenda-view))
   )
-
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
