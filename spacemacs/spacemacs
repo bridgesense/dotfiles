@@ -90,7 +90,8 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages
    '(cmake-mode
      helm-org-ql
-     fira-code-mode)
+     fira-code-mode
+     lsp-grammarly)
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -614,6 +615,12 @@ before packages are loaded."
   ;; don't litter my fs tree
   (setq backup-directory-alist '((".*" . "~/.emacs.d/.emacs-saves")))
   (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/.emacs-saves" t)))
+  (setq
+   delete-old-versions t
+   kept-new-versions 6
+   kept-old-versions 2
+   version-control t
+   undo-limit (* 1024 1024 1024))
 
   ;; treemacs
   ;; (setq treemacs-default-visit-action '(treemacs-visit-node-in-most-recently-used-window treemacs-visit-node-close-treemacs ))
@@ -660,6 +667,8 @@ before packages are loaded."
   ;; Org Mode Evil compatiblity workaround for terminal
   (add-hook 'org-mode-hook
             (lambda ()
+              (require 'lsp-grammarly)
+              (lsp-deferred)
               (define-key evil-normal-state-map (kbd "C-h") 'org-metaleft)
               (define-key evil-normal-state-map (kbd "C-k") 'org-metaup)
               (define-key evil-normal-state-map (kbd "C-j") 'org-metadown)
@@ -687,7 +696,7 @@ before packages are loaded."
         (define-key term-raw-map (kbd "<delete>") 'term-send-backspace)
         (define-key term-raw-map (kbd "<backspace>") 'term-send-backspace)))
 
-  ;; mu4e setup  
+  ;; mu4e setup
   ;; setup
   ; cd ~/.emacs.d
   ; echo 'password' > .mbsyncpass
@@ -699,14 +708,13 @@ before packages are loaded."
   ; rm ~/.authinfo
   ; vi ~/.emacs.d/.mbsyncrc
 
-
   ; CopyArrivalDate yes
   ; Sync Pull
   ; Create Near
   ; Remove Near
   ; Expunge Near
 
-  ; IMAPAccount webserver
+  ; IMAPAccount nameaccount
   ; Host your.imap.server
   ; User yourname
   ; PassCmd "gpg2 -q --for-your-eyes-only --no-tty -d ~/.emacs.d/.mbsyncpass.gpg"
@@ -715,38 +723,38 @@ before packages are loaded."
   ; AuthMechs *
   ; CertificateFile /etc/ssl/certs/ca-certficates.crt
   ;
-  ; IMAPStore webserver-remote
-  ; Account webserver
+  ; IMAPStore nameaccount-remote
+  ; Account nameaccount
   ;
-  ; MaildirStore webserver-local
-  ; Path ~/email/webserver/
-  ; INBOX ~/email/webserver/INBOX
+  ; MaildirStore nameaccount-local
+  ; Path ~/email/mbsyncmail/
+  ; INBOX ~/email/mbsyncmail/INBOX
   ; SubFolders Verbatim
   ;
-  ; Channel webserver
-  ; Far :webserver-remote:
-  ; Near :webserver-local:
+  ; Channel nameaccount
+  ; Far :nameaccount-remote:
+  ; Near :nameaccount-local:
   ; Patterns *
   ; SyncState *
 
   ; mkdir -p ~/email/mbsyncmail/INBOX
-  ; mbsync --config ~/.emacs.d/.mbsyncrc webserver
-  ; mu init --my-address="your@email.com" --maildir=~/email/webserver/
+  ; mbsync --config ~/.emacs.d/.mbsyncrc nameaccount
+  ; mu init --my-address="your@email.com" --maildir=~/email/mbsyncmail/
   ; mu index
 
   ;; use mu4e for e-mail in emacs
   (setq mail-user-agent 'mu4e-user-agent)
 
-  ;; default mail settings
+  ;; default settings
   (setq mu4e-sent-folder "/Sent"
         mu4e-drafts-folder "/Drafts"
         mu4e-trash-folder  "/Junk"
-        user-mail-address "your@email.com"
+        user-mail-address "your-name@your-domain.com"
         user-full-name "Your Name"
-        smtpmail-default-smtp-server "mail.email.com"
-        smtpmail-smtp-server "mail.email.com"
-        smtpmail-local-domain "email.com"
-        smtpmail-sendto-domain "email.com"
+        smtpmail-default-smtp-server "mail.your-domain.com"
+        smtpmail-smtp-server "mail.your-domain.com"
+        smtpmail-local-domain "your-domain.com"
+        smtpmail-sendto-domain "your-domain.com"
         smtpmail-stream-type 'ssl
         smtpmail-smtp-service 465)
 
@@ -760,7 +768,7 @@ before packages are loaded."
   (setq message-kill-buffer-on-exit t)
 
   ;; The command used to get your emails (adapt this line, see section 2.3):
-  (setq mu4e-get-mail-command "mbsync --config ~/.emacs.d/.mbsyncrc webserver")
+  (setq mu4e-get-mail-command "mbsync --config ~/.emacs.d/.mbsyncrc nameaccount")
   ;; Further customization:
   (setq mu4e-html2text-command "w3m -T text/html" ; html render
         mu4e-update-interval 300                  ; seconds between each mail retrieval
@@ -794,7 +802,6 @@ before packages are loaded."
  
   ;;; mu4e-view-save-all-attachments.el -- Save all attachments from view mode.
   ;;; Stephen J Eglen 2021
-
 
   ;; I've created this based on the work of Phil Jackson that required
   ;; an older version of mu4e.  This version requires the GNUS article
