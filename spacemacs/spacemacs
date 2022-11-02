@@ -696,7 +696,7 @@ before packages are loaded."
         (define-key term-raw-map (kbd "<delete>") 'term-send-backspace)
         (define-key term-raw-map (kbd "<backspace>") 'term-send-backspace)))
 
-  ;; mu4e setup
+  ;; mu4e setup  
   ;; setup
   ; cd ~/.emacs.d
   ; echo 'password' > .mbsyncpass
@@ -769,6 +769,7 @@ before packages are loaded."
 
   ;; The command used to get your emails (adapt this line, see section 2.3):
   (setq mu4e-get-mail-command "mbsync --config ~/.emacs.d/.mbsyncrc nameaccount")
+
   ;; Further customization:
   (setq mu4e-html2text-command "w3m -T text/html" ; html render
         mu4e-update-interval 300                  ; seconds between each mail retrieval
@@ -799,9 +800,20 @@ before packages are loaded."
                   :tags :attachments
                   :signature :decryption
                   :mailing-list :message-id))
- 
+
+  ;; mu4e hooks
+  (setq lsp-grammarly-active-modes '(text-mode latex-mode org-mode markdown-mode mu4e-compose-mode))
+  (with-eval-after-load 'lsp-mode
+    (add-to-list 'lsp-language-id-configuration
+                 '(mu4e-compose-mode . "text")))
+  (add-hook 'mu4e-compose-mode-hook
+            (lambda ()
+              (require 'lsp-grammarly)
+              (lsp-deferred)))
+
   ;;; mu4e-view-save-all-attachments.el -- Save all attachments from view mode.
   ;;; Stephen J Eglen 2021
+
 
   ;; I've created this based on the work of Phil Jackson that required
   ;; an older version of mu4e.  This version requires the GNUS article
