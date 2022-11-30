@@ -32,11 +32,11 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(yaml
+   '(sql
+     yaml
      rust
      html
      javascript
-     php
      coffeescript
      javascript
      typescript
@@ -52,13 +52,12 @@ This function should only modify configuration layer settings."
      themes-megapack
      emacs-lisp
      (erc :variables
-          erc-enable-notifications nil 
+          erc-enable-notifications nil
           erc-enable-sasl-auth t)
      evil-commentary
      git
      helm
      lsp
-     dap
      markdown
      multiple-cursors
      org
@@ -97,7 +96,8 @@ This function should only modify configuration layer settings."
    dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages
+   '(cl)
 
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
@@ -239,7 +239,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil, show file icons for entries and headings on Spacemacs home buffer.
    ;; This has no effect in terminal or if "all-the-icons" package or the font
    ;; is not installed. (default nil)
-   dotspacemacs-startup-buffer-show-icons t 
+   dotspacemacs-startup-buffer-show-icons t
 
    ;; Default major mode for a new empty buffer. Possible values are mode
    ;; names such as `text-mode'; and `nil' to use Fundamental mode.
@@ -298,7 +298,7 @@ It should only modify the values of Spacemacs settings."
                                 :weight normal
                                 :width normal
                                 :powerline-scale 1.0))
-   
+
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
 
@@ -609,6 +609,7 @@ before packages are loaded."
   ;; additional auto-mode designations
   (add-to-list 'auto-mode-alist '("\\.tpl\\'" . php-mode))
 
+
   ;; file handling
   (setq backup-by-copying t) ; don't clobber symlinks
 
@@ -624,7 +625,8 @@ before packages are loaded."
 
   ;; treemacs
   ;; (setq treemacs-default-visit-action '(treemacs-visit-node-in-most-recently-used-window treemacs-visit-node-close-treemacs ))
-  (setq treemacs-width 55)
+  (setq treemacs-width 55
+        treemacs-tag-follow-delay 0.2)
   (with-eval-after-load 'treemacs
     (treemacs-follow-mode t)
     (treemacs-project-follow-mode t)
@@ -632,7 +634,7 @@ before packages are loaded."
                                 #'(lambda(&optional arg)
                                     (treemacs-visit-node-in-most-recently-used-window)
                                     (delete-window (treemacs-get-local-window)))))
-  
+
   ;; lsp
   (setq lsp-intelephense-licence-key (expand-file-name "~/.config/intelephense/licence.txt"))
   (setq lsp-enable-file-watchers t)
@@ -647,7 +649,7 @@ before packages are loaded."
   ;; GPUPG Fix
   (setf epa-pinentry-mode 'loopback)
 
-  ;; turns on ligatures 
+  ;; turns on ligatures
   (add-hook 'prog-mode-hook 'fira-code-mode)
   (add-hook 'fira-code-mode
     (lambda ()
@@ -696,7 +698,7 @@ before packages are loaded."
         (define-key term-raw-map (kbd "<delete>") 'term-send-backspace)
         (define-key term-raw-map (kbd "<backspace>") 'term-send-backspace)))
 
-  ;; mu4e setup  
+  ;; mu4e setup
   ;; setup
   ; cd ~/.emacs.d
   ; echo 'password' > .mbsyncpass
@@ -768,7 +770,9 @@ before packages are loaded."
   (setq message-kill-buffer-on-exit t)
 
   ;; The command used to get your emails (adapt this line, see section 2.3):
-  (setq mu4e-get-mail-command "mbsync --config ~/.emacs.d/.mbsyncrc nameaccount")
+  (setq mu4e-get-mail-command "mbsync --config ~/.emacs.d/.mbsyncrc bridgesense")
+
+  ;; (setq mu4e-get-mail-command "mbsync --config ~/.emacs.d/.mbsyncrc nameaccount")
 
   ;; Further customization:
   (setq mu4e-html2text-command "w3m -T text/html" ; html render
@@ -917,9 +921,51 @@ before packages are loaded."
   (define-key evil-normal-state-map (kbd "SPC o j") 'avy-goto-char)
   (define-key evil-normal-state-map (kbd "SPC o s") 'elisp-index-search)
   (define-key evil-normal-state-map (kbd "SPC a w w") 'w3m-browse-url)
-  
+
   (with-eval-after-load 'org
-  (evil-define-key 'normal org-mode-map (kbd ", g") 'better-agenda-view))
+    (evil-define-key 'normal org-mode-map (kbd ", g") 'better-agenda-view))
+
+  ;; geben
+  (shell-command "rm -f ~/.emacs.d/geben/.storage")
+  (load-file "~/.emacs.d/private/geben/dbgp.el")
+  (load-file "~/.emacs.d/private/geben/geben.el")
+  (use-package geben
+    :config
+    (progn
+      (setq geben-dbgp-default-port 9003)
+      (setq geben-temporary-file-directory (concat spacemacs-cache-directory "geben"))
+      (spacemacs/declare-prefix "d" "debug")
+      (spacemacs/set-leader-keys
+        "dx" #'geben
+        "dX" #'geben-end
+        "db" #'geben-add-current-line-to-predefined-breakpoints
+        "dC" #'geben-clear-predefined-breakpoints)
+      (evilified-state-evilify-map geben-mode-map
+        :mode 'php-mode
+        :bindings
+        "q"  #'geben-stop
+        "n"  #'geben-step-over
+        "s"  #'geben-step-into
+        "r"  #'geben-step-out
+        "L"  #'geben-where
+        "v"  #'geben-display-context
+        "c"  #'geben-run-to-cursor
+        "bb" #'geben-set-breakpoint-line
+        "bc" #'geben-set-breakpoint-conditional
+        "be" #'geben-set-breakpoint-exception
+        "w"  #'geben-show-backtrace
+        "gf" #'geben-find-file)
+      (add-hook 'geben-mode-hook 'evil-evilified-state)
+      (evil-set-initial-state 'geben-context-mode 'evilified)
+      (evilified-state-evilify-map geben-context-mode-map
+        :mode geben-context-mode
+        :bindings
+        "q"  #'geben-quit-window
+        "j"  #'widget-forward
+        "k"  #'widget-backward
+        (kbd "<tab>") 'widget-button-press)
+      (evilified-state-evilify-map geben-backtrace-mode-map
+        :mode geben-backtrace-mode)))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

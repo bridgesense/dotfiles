@@ -195,6 +195,7 @@ if [ "$action" == "install" ]; then
     git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
     mkdir -p ~/.emacs.d/private
     git clone https://github.com/venmos/w3m-layer.git ~/.emacs.d/private/w3m
+    git clone https://github.com/ahungry/geben.git ~/.emacs.d/private/geben
 
     if [[ "$(uname)" != "Darwin" ]]; then
         echo ""
