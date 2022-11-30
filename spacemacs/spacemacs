@@ -934,8 +934,8 @@ before packages are loaded."
     (progn
       (setq geben-dbgp-default-port 9003)
       (setq geben-temporary-file-directory (concat spacemacs-cache-directory "geben"))
-      (spacemacs/declare-prefix "d" "debug")
-      (spacemacs/set-leader-keys
+      (spacemacs/declare-prefix-for-mode 'php-mode "md" "debug")
+      (spacemacs/set-leader-keys-for-major-mode 'php-mode
         "dx" #'geben
         "dX" #'geben-end
         "db" #'geben-add-current-line-to-predefined-breakpoints
@@ -950,6 +950,7 @@ before packages are loaded."
         "L"  #'geben-where
         "v"  #'geben-display-context
         "c"  #'geben-run-to-cursor
+        "g"  #'geben-run
         "bb" #'geben-set-breakpoint-line
         "bc" #'geben-set-breakpoint-conditional
         "be" #'geben-set-breakpoint-exception
