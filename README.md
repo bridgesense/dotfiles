@@ -99,16 +99,21 @@ alternative to the Emacs Pinky.
 * `,=`: Grow hoizontally split window
 * `,e`: Toggle Error List
 * `,jx`: Jump to character x
-* `,n`: Browse current directory, Nerdtree equivalent
-* `,q`: Kill current buffer
-* `:q`: or `:q!` Kill current buffer, Note: all standard VIM controls apply
+* `,m`: Browse current directory wth Ranger
+* `,n`: Browse current directory with Nerdtree
+* `,q`: Quit current buffer
+* `:q`: or `:q!` Quit current buffer, Note: all standard VIM controls apply
+* `,Q`: Close Emacs 
 * `,x`: Cycle to next buffer
 * `,z`: Cycle to previous buffer
+* `,U`: Rebuild All Packages
+* `,/`: Search current project 
 
 #### Buffer Shortcuts:
 * `,bb`: List/Create buffers
 * `,bs`: Save buffer
 * `:w`: Save buffer, VIM equivalent
+* `,bq`: Quit buffer
 * `,br`: Refresh buffer
 
 #### Code Shortcuts:
@@ -139,7 +144,7 @@ alternative to the Emacs Pinky.
 #### Emacs Applications:
 * `,ai`: Open IRC
 * `,at`: Open a terminal
-* `,am`: Open Gnus for News/Email
+* `,am`: Open Mu4e for Email
 * `,ap`: Open a PHP scratch pad or interactive shell, requires Boris
 * `,aw`: Browse the web from Emacs
 

@@ -41,7 +41,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:height 119 :family "Fira Code Nerd Font Mono" "Fira Code Symbol" "DejavuSans Mono" "Monaco"))))
+ '(default ((t (:height 120 :family "Fira Code Nerd Font Mono" "Fira Code Symbol" "DejavuSans Mono" "Monaco"))))
  '(diff-added ((t (:foreground "#cc241d" :background "#282828"))))
  '(diff-changed ((t (:foreground "#d79921" :background "#282828"))))
  '(diff-context ((t (:inherit default foreground "#ebdbb2" :background "#282828"))))
@@ -78,8 +78,8 @@
  '(org-level-6 ((t (:inherit default :weight bold))))
  '(org-level-7 ((t (:inherit default :weight bold))))
  '(org-level-8 ((t (:inherit default :weight bold)))))
-(set-frame-parameter (selected-frame) 'alpha '(95 . 95))
-(add-to-list 'default-frame-alist '(alpha . (95 . 95)))
+(set-frame-parameter (selected-frame) 'alpha '(97 . 97))
+(add-to-list 'default-frame-alist '(alpha . (97 . 97)))
 ;; allow font resizing
 (global-set-key (kbd "C-=") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
@@ -150,7 +150,6 @@
 ;; # # # # # # # # # # #
 (use-package diminish :ensure t)
 
-
 ;; CSV Mode
 ;; (use-package csv-mode :ensure t)
 
@@ -182,7 +181,11 @@
 ;; Evil Vim & Plugins
 ;; # # # # # # # # # # #
 (setq evil-want-keybinding nil)
-(use-package evil :ensure t :diminish evil-mode
+(use-package evil :ensure t
+  :init
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
+  :diminish evil-mode
   :config
   (evil-mode 1))
 (use-package evil-matchit :ensure t)
@@ -205,7 +208,6 @@
 ;; Helps prevent excess cpu during visual mode
 (setq auto-window-vscroll nil)
 
-
 ;; More Vim-like
 ;; # # # # # # # # # # #
 (evil-define-motion evil-last-non-blank (count)
@@ -218,6 +220,12 @@
   (setq evil-this-type (if (eolp) 'exclusive 'inclusive)))
 (define-key evil-motion-state-map "g$" 'evil-end-of-line)
 (define-key evil-motion-state-map "$" 'evil-last-non-blank)
+
+
+;; persistant undo history
+(use-package undohist :ensure t
+  :config
+  (undohist-initialize))
 
 
 ;; Helm
@@ -261,6 +269,20 @@
   :diminish phi-autopair-mode
   :config
   (phi-autopair-global-mode 1))
+
+
+;; Icon Package
+;; # # # # # # # # # # #
+(use-package all-the-icons :ensure t
+  :if (display-graphic-p))
+(use-package all-the-icons-completion :ensure t
+  :if (display-graphic-p)
+  :config
+  (all-the-icons-completion-mode))
+(use-package all-the-icons-dired :ensure t
+  :if (display-graphic-p)
+  :config
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
 
 ;; Org Mode
@@ -709,7 +731,6 @@
 ; # # # # # # # # # # #
 (use-package page-break-lines :ensure t
       :diminish page-break-lines-mode)
-(use-package all-the-icons :ensure t)
 (setq dashboard-week-agenda t)
 (use-package dashboard :ensure t
   :config
@@ -745,6 +766,11 @@
 ;; helm-ls-git
 (use-package helm-ls-git :ensure t)
 ;; (use-package evil-magit :ensure t)
+
+  ;; mu4e
+  ;; uncomment the following lines when mu4e is installed
+  ;;(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
+  ;;(require 'mu4e)
 
   ;; mu4e setup
   ;; setup
@@ -789,7 +815,7 @@
 
   ; mkdir -p ~/email/mbsyncmail/INBOX
   ; mbsync --config ~/.emacs.d/.mbsyncrc nameaccount
-  ; mu init --my-address="your@email.com" --maildir=~/email/mbsyncmail/
+  ; mu init --my-address="your@email.com" --maildir=/home/USERNAME/email/mbsyncmail/
   ; mu index
 
   ;; use mu4e for e-mail in emacs
@@ -818,9 +844,7 @@
   (setq message-kill-buffer-on-exit t)
 
   ;; The command used to get your emails (adapt this line, see section 2.3):
-  (setq mu4e-get-mail-command "mbsync --config ~/.emacs.d/.mbsyncrc bridgesense")
-
-  ;; (setq mu4e-get-mail-command "mbsync --config ~/.emacs.d/.mbsyncrc nameaccount")
+  (setq mu4e-get-mail-command "mbsync --config ~/.emacs.d/.mbsyncrc nameaccount")
 
   ;; Further customization:
   (setq mu4e-html2text-command "w3m -T text/html" ; html render
@@ -832,7 +856,7 @@
         mu4e-use-fancy-chars nil)                 ; allow fancy icons for mail threads
 
   ;; prettier mu4e
-  (setq browse-url-browser-function 'browse-url-chrome)
+  (setq browse-url-browser-function 'browse-url-default-browser)
   (setq
   message-signature-file nil
   mu4e-attachment-dir "~/Downloads"
@@ -843,6 +867,9 @@
   mu4e-headers-skip-duplicates t
   mu4e-headers-visible-lines 10
   mu4e-view-auto-mark-as-read nil
+  mu4e-enable-async-operations t
+  mu4e-enable-notifications t
+  mu4e-enable-mode-line t
   mu4e-headers-fields '(
                 (:flags . 6)
                 (:human-date . 12)
@@ -1111,15 +1138,34 @@ and then increment it."
 (use-package helm-lsp :ensure t)
 
 ;; mu4e hooks
-(use-package lsp-grammarly :ensure t)
-(setq lsp-grammarly-active-modes '(text-mode latex-mode org-mode markdown-mode mu4e-compose-mode))
-(with-eval-after-load 'lsp-mode
+(use-package lsp-grammarly :ensure t
+  :config
+  (setq lsp-grammarly-active-modes '(text-mode latex-mode org-mode markdown-mode mu4e-compose-mode))
+  (with-eval-after-load 'lsp-mode
     (add-to-list 'lsp-language-id-configuration
              '(mu4e-compose-mode . "text")))
     (add-hook 'mu4e-compose-mode-hook
         (lambda ()
           (require 'lsp-grammarly)
           (lsp-deferred)))
+    (add-hook 'latex-mode-hook
+        (lambda ()
+          (require 'lsp-grammarly)
+          (lsp-deferred)))
+    (add-hook 'org-mode-hook
+        (lambda ()
+          (require 'lsp-grammarly)
+          (lsp-deferred)))
+    (add-hook 'markdown-mode-hook
+        (lambda ()
+          (require 'lsp-grammarly)
+          (lsp-deferred)))
+    (add-hook 'mu4e-compose-mode-hook
+        (lambda ()
+          (require 'lsp-grammarly)
+          (lsp-deferred)))
+  )
+
 
 ;; Scratch
 (use-package scratch
@@ -1174,15 +1220,17 @@ and then increment it."
  neo-theme 'classic
  neo-vc-integration '(face)
  neo-window-position 'left
+ neo-window-width 50
 )
 (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 (setq neo-smart-open t)
 
 ;; Evil Collection
 (use-package evil-collection
-  :after evil
+  :after (evil helm)
   :ensure t
   :config
+  (setq evil-collection-setup-minibuffer t)
   (evil-collection-init))
 
 ;; misc functions and overrides
@@ -1222,11 +1270,12 @@ and then increment it."
    "j" '(ace-jump-char-mode :which-key "Jump to Character")
    "m" '(deer :which-key "Browse Current Directory")
    "n" '(neotree-toggle :which-key "Browse Project Directory")
-   "q" '(kill-this-buffer() :which-key "Kill Buffer")
+   "q" '(kill-this-buffer() :which-key "Quit Buffer")
    "Q" '(kill-emacs :which-key "Quit Emacs")
    "x" '(next-buffer :which-key "Next Buffer")
    "z" '(previous-buffer :which-key "Previous Buffer")
-   "U" '(package-reinstall-all-activated-packages :which-key "Rebuild All Packages"))
+   "U" '(package-reinstall-all-activated-packages :which-key "Rebuild All Packages")
+   "/" '(helm-do-ag-project-root :which-key "Search in Project"))
 
   ;; Buffer Functions
   (general-define-key
@@ -1237,6 +1286,7 @@ and then increment it."
    "b"  '(nil :which-key "Buffer Operations")
    "bb" '(helm-buffers-list :which-key "List/Create Buffers")
    "bs" '(save-buffer :which-key "Save Buffer")
+   "bq" '(kill-this-buffer() :which-key "Quit Buffer")
    "br" '(revert-buffer-no-confirm :which-key "Refresh Buffer"))
 
 
