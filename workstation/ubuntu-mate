@@ -151,7 +151,7 @@ install package network-manager-openvpn network-manager-openconnect
 install package aspell-en texlive-full papirus-icon-theme
 install package clamav clamav-update brasero youtube-dl w3m w3m-img
 install package ftp telnet hplip hplip-gui simple-scan
-install package neovim emacs-gtk emacs-common-non-dfsg gnutls-bin maildir-utils imagemagick gnupg2
+install package neovim gnutls-bin maildir-utils imagemagick gnupg2
 install package gcolor3 flameshot transmission
 install package podman buildah gnome-boxes gnome-disk-utility
 install package stacer timeshift
@@ -159,6 +159,12 @@ install package google-chrome-stable gnome-software gnome-software-plugin-flatpa
 install package nextcloud-desktop fontforge
 install package libreoffice
 install package science-electronics
+
+# emacs
+apt-get remove -y --autoremove emacs emacs-common
+add-apt-repository ppa:kelleyk/emacs
+apt-get update
+install package emacs28
 
 # gimp
 log "installing gimp and plugins"
