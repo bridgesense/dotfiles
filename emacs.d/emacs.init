@@ -119,6 +119,10 @@
 (setf epa-pinentry-mode 'loopback)
 ;; supress warnings
 (setq warning-minimum-level :debug)
+;; show recently opened files
+(recentf-mode 1)
+(setq recentf-max-menu-items 25)
+(setq recentf-max-saved-items 25)
 
 ;; Package Management
 ;; # # # # # # # # # # #
@@ -234,6 +238,10 @@
   :diminish helm-mode
   :config
   (require 'helm-config)
+  (setq helm-mini-default-sources '(helm-source-buffers-list
+                                  helm-source-recentf
+                                  helm-source-bookmarks
+                                  helm-source-buffer-not-found))
   (global-set-key (kbd "M-x") 'helm-M-x)
   (global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
   (global-set-key (kbd "C-x C-f") #'helm-find-files)
@@ -297,8 +305,9 @@
 (setq auto-save-default nil)
 ;; Symmetric File Encryption
 (require 'epa-file)
-(if (not window-system)
-  (epa-file-enable))
+(setq epa-file-cache-passphrase-for-symmetric-encryption t)
+(epa-file-enable)
+
 ;; startup folded
 (setq org-startup-folded t)
 ;;(setq epa-file-select-keys nil)
@@ -751,13 +760,22 @@
     (dashboard-modify-heading-icons '((bookmarks . "book")))
     (dashboard-setup-startup-hook))
 
+(defun call-dashboard nil 
+  "Jump to the dashboard buffer, if doesn't exists create one."
+  (interactive)
+  (dashboard-refresh-buffer)
+  (switch-to-buffer dashboard-buffer-name)
+  (dashboard-mode)
+  (dashboard-insert-startupify-lists))
+
 
 ;; Refresh Buffer
 ;; # # # # # # # # # # #
-(defun revert-buffer-no-confirm ()
+(defun revert-buffer-no-confirm nil
   "Revert buffer without confirmation."
   (interactive)
   (revert-buffer :ignore-auto :noconfirm))
+
 
 ;; Magit a Git handler
 ;; # # # # # # # # # # #
@@ -1234,7 +1252,7 @@ and then increment it."
   (evil-collection-init))
 
 ;; misc functions and overrides
-(defun kill-this-buffer ()  ; for the menu bar
+(defun kill-this-buffer nil  ; for the menu bar
   "Force kill the current buffer."
   (interactive)
    (kill-buffer (current-buffer))
@@ -1267,10 +1285,11 @@ and then increment it."
    "-" '(shrink-window :which-key "Shrink Window")
    "=" '(enlarge-window :which-key "Grow Window")
    "e" '(flycheck-list-errors-toggle :which-key "Toggle Error List")
+   "h" '(call-dashboard :which-key "Dashboard")
    "j" '(ace-jump-char-mode :which-key "Jump to Character")
    "m" '(deer :which-key "Browse Current Directory")
    "n" '(neotree-toggle :which-key "Browse Project Directory")
-   "q" '(kill-this-buffer() :which-key "Quit Buffer")
+   "q" '(kill-this-buffer :which-key "Quit Buffer")
    "Q" '(kill-emacs :which-key "Quit Emacs")
    "x" '(next-buffer :which-key "Next Buffer")
    "z" '(previous-buffer :which-key "Previous Buffer")
@@ -1284,9 +1303,9 @@ and then increment it."
    :states '(normal visual motion insert emacs)
    :keymaps 'override
    "b"  '(nil :which-key "Buffer Operations")
-   "bb" '(helm-buffers-list :which-key "List/Create Buffers")
+   "bb" '(helm-mini :which-key "List/Create Buffers")
    "bs" '(save-buffer :which-key "Save Buffer")
-   "bq" '(kill-this-buffer() :which-key "Quit Buffer")
+   "bq" '(kill-this-buffer :which-key "Quit Buffer")
    "br" '(revert-buffer-no-confirm :which-key "Refresh Buffer"))
 
 
@@ -1300,7 +1319,7 @@ and then increment it."
    "ah" '(info-emacs-manual :which-key "Read the Emacs Manual")
    "ai" '(erc :which-key "IRC")
    "at" '(multi-term :which-key "Terminal")
-   "am" '(mu4e :which-key "News/Mail")
+   "am" '(mu4e :which-key "Email")
    "ap" '(php-scratch :which-key "PHP Scratch Pad")
    "aw" '(w3m-browse-url :which-key "Browse Web"))
 

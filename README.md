@@ -98,6 +98,7 @@ alternative to the Emacs Pinky.
 * `,-`: Shrink horizontally split window
 * `,=`: Grow hoizontally split window
 * `,e`: Toggle Error List
+* `,h`: View Dashboard 
 * `,jx`: Jump to character x
 * `,m`: Browse current directory wth Ranger
 * `,n`: Browse current directory with Nerdtree
