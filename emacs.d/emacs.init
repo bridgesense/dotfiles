@@ -1109,6 +1109,7 @@ and then increment it."
   :ensure t
   :init (add-to-list 'company-backends 'company-capf)
   :config
+    (add-to-list 'lsp-language-id-configuration '(mu4e-compose-mode . "plaintext"))
     (setq read-process-output-max (* 1024 1024))
     (setq lsp-idle-delay 0.500)
     (setq lsp-log-io nil) 
@@ -1116,6 +1117,7 @@ and then increment it."
     (setq lsp-enable-file-watchers t)
     (setq lsp-file-watch-threshold nil)
     (setq lsp-modeline-code-actions-mode t)
+    (setq lsp-warn-no-matched-clients nil)
     (setq lsp-modeline-diagnostics-scope :workspace)
     (advice-add 'lsp :before (lambda (&rest _args) (eval '(setf (lsp-session-server-id->folders (lsp-session)) (ht)))))
   :hook ((php-mode . lsp)
@@ -1124,14 +1126,16 @@ and then increment it."
     (typescript-mode . lsp)
     (web-mode . lsp)
     (toml-mode . lsp)
+    (text-mode . lsp)
     (json-mode . lsp)
     (markdown-mode . lsp)
     (yaml-mode . lsp)
     (go-mode . lsp)
+    (mu4e-compose-mode . lsp)
     (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp)
 (with-eval-after-load 'lsp-mode
-  (mapc #'lsp-flycheck-add-mode '(typescript-mode js-mode css-mode vue-html-mode)))
+  (mapc #'lsp-flycheck-add-mode '(typescript-mode js-mode css-mode vue-html-mode text-mode mu4e-compose-mode)))
 (use-package lsp-ui
  :ensure t
  :requires lsp-mode flycheck
@@ -1155,35 +1159,24 @@ and then increment it."
   (setq lsp-treemacs-sync-mode 1))
 (use-package helm-lsp :ensure t)
 
-;; mu4e hooks
-(use-package lsp-grammarly :ensure t
-  :config
-  (setq lsp-grammarly-active-modes '(text-mode latex-mode org-mode markdown-mode mu4e-compose-mode))
-  (with-eval-after-load 'lsp-mode
-    (add-to-list 'lsp-language-id-configuration
-             '(mu4e-compose-mode . "text")))
-    (add-hook 'mu4e-compose-mode-hook
-        (lambda ()
-          (require 'lsp-grammarly)
-          (lsp-deferred)))
-    (add-hook 'latex-mode-hook
-        (lambda ()
-          (require 'lsp-grammarly)
-          (lsp-deferred)))
-    (add-hook 'org-mode-hook
-        (lambda ()
-          (require 'lsp-grammarly)
-          (lsp-deferred)))
-    (add-hook 'markdown-mode-hook
-        (lambda ()
-          (require 'lsp-grammarly)
-          (lsp-deferred)))
-    (add-hook 'mu4e-compose-mode-hook
-        (lambda ()
-          (require 'lsp-grammarly)
-          (lsp-deferred)))
-  )
 
+;; Grammarly 
+(use-package lsp-grammarly :ensure t)
+(use-package flycheck-grammarly :ensure t
+  :config
+  (with-eval-after-load 'flycheck
+    (setq flycheck-grammarly-active-modes '(text-mode latex-mode org-mode markdown-mode mu4e-compose-mode))
+    (flycheck-grammarly-setup))
+  )
+(with-eval-after-load 'lsp-mode
+    (add-to-list 'lsp-language-id-configuration
+                 '(mu4e-compose-mode . "text")))
+(add-hook 'mu4e-compose-mode-hook
+          (lambda ()
+              (text-mode)
+              (require 'lsp-grammarly)
+              (lsp-deferred)
+              ))
 
 ;; Scratch
 (use-package scratch
