@@ -28,25 +28,16 @@ function install {
                 _type=$package
                 continue
             fi
-            if [[ $package == "flatpak" ]]; then
-                _type=$package
-                continue
-            fi
-	    cnt=3
+            cnt=3
             while [ $cnt -gt 0 ]; do
-		if dpkg --get-selections | grep $package; then
+                if dpkg --get-selections | grep $package; then
                     break;
                 else
-                    if [[ $_type == "flatpak" ]]; then
-                        flatpak install flathub --noninteractive -y $package
-                        break;
-		    else
-                        apt-get install -y $package
-                    fi
+                    apt-get install -y $package
                 fi
                 let "cnt-=1"
             done
-            if dpkg --get-selections | grep $package && [[ $_type != "flatpak" ]]; then
+            if dpkg --get-selections | grep $package; then
                 log "There was a problem installing ${package}.  Please make sure this package exists."
             fi
         done
@@ -64,12 +55,11 @@ install package git subversion curl
 install package build-essential
 install package ack silversearcher-ag
 install package isync msmtp pass universal-ctags
-install package python3 python3-pip ruby-full openjdk-18-jre-headless
-install package php7.4-cli perl maven
+install package python3 ruby-full openjdk-18-jre-headless
+install package php perl maven
 install package golang bison php-pear
 install package pdfarranger wordnet
-install package net-tools nmap
-update-alternatives --set php /usr/bin/php7.4
+install package mate-applet-brisk-menu
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 php -r "unlink('composer-setup.php');"
@@ -92,7 +82,7 @@ sed -i  's@#FastConnectable.*@FastConnectable\=true@g' /etc/bluetooth/main.conf
 # setting up nodejs
 curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
 apt-get update
-install package nodejs gnupg2 gnupg wget
+install package nodejs npm gnupg2 gnupg wget
 npm install --location=global npm@latest
 npm install --location=global npm
 npm install --location=global grunt-cli eslint csslint gulp-sass typescript typescript-language-server intelephense coffeelint yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify
@@ -138,11 +128,15 @@ install package ftp telnet hplip hplip-gui simple-scan
 install package neovim gnutls-bin maildir-utils imagemagick gnupg2
 install package gcolor3 flameshot transmission
 install package podman buildah gnome-boxes gnome-disk-utility
-install package stacer timeshift
+install package stacer timeshift caffeine
 install package google-chrome-stable gnome-software gnome-software-plugin-flatpak
 install package nextcloud-desktop fontforge
 install package libreoffice
-install package science-electronics
+install package science-electronics stellarium
+
+# gimp
+log "installing gimp and plugins"
+install package gimp gimp-data-extras gimp-plugin-registry gimp-gluas gimp-gmic
 
 # install mu4e
 log "installing emacs and plugins"
@@ -156,25 +150,17 @@ make
 make install
 
 # emacs
-add-apt-repository ppa:kelleyk/emacs
-apt-get update
-install package emacs28
-
-# gimp
-log "installing gimp and plugins"
-install package gimp gimp-data-extras gimp-plugin-registry gimp-gluas gimp-gmic
-
-# install video, audio codecs and tools
-log "installing codecs and players"
-install package ubuntu-restricted-extras
-install package vlc libaacs0 libbluray-bdj libbluray2
-install musescore obs-studio
-install package libdvd-pkg
-dpkg-reconfigure libdvd-pkg
-su -c "mkdir -p /home/$USER/.config/aacs" $USER
-su -c "cd /home/$USER/.config/aacs/ && wget http://vlc-bluray.whoknowsmy.name/files/KEYDB.cfg" $USER
+apt-get build-dep -y emacs-gtk
+cd ~/lab
+git clone -b master git://git.sv.gnu.org/emacs.git
+cd emacs
+bash autogen.sh
+bash configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils
+make
+make install
 
 # firewall
+install package ufw
 ufw enable
 ufw allow 9003/tcp
 
@@ -223,30 +209,6 @@ X-KDE-Protocols=ftp,http,https,mms,rtmp,rtsp,sftp,smb\n\
 Keywords=mpv;media;player;video;audio;tv;\n\
 NoDisplay=false\n\
 " >> /home/$USER/.local/share/applications/mpv.desktop
-
-su -c 'touch ~/.local/share/applications/mpv_dvd.desktop' $USER
-printf "[Desktop Entry]\n\
-Categories=AudioVideo;Audio;Video;Player;TV;\n\
-Exec=mpv dvd://\n\
-Icon=mpv\n\
-MimeType=\n\
-Name=Play DVD in mpv Media Player\n\
-StartupNotify=true\n\
-Terminal=false\n\
-Type=Application\n\
-" >> /home/$USER/.local/share/applications/mpv_dvd.desktop
-
-su -c 'touch ~/.local/share/applications/mpv_bluray.desktop' $USER
-printf "[Desktop Entry]\n\
-Categories=AudioVideo;Audio;Video;Player;TV;\n\
-Exec=mpv bd://\n\
-Icon=mpv\n\
-MimeType=\n\
-Name=Play Bluray in mpv Media Player\n\
-StartupNotify=true\n\
-Terminal=false\n\
-Type=Application\n\
-" >> /home/$USER/.local/share/applications/mpv_bluray.desktop
 
 # Installing configuration
 # # # # # # # # # # # # # # #
@@ -303,15 +265,6 @@ remixing-consume-lfe = yes\n\
 \n\
 avoid-resampling = no\n\
 " >> /home/$USER/.config/pulse/daemon.conf
-
-# swap snapd for flatpak
-snap remove --purge firefox
-install package flatpak
-flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-install flatpak us.zoom.Zoom org.stellarium.Stellarium org.mozilla.firefox
-install flatpak com.gitlab.bitseater.meteo com.google.Chrome es.estoes.wallpaperDownloader
-install flatpak org.gnome.seahorse.Application
-apt-get remove -y --purge snapd gnome-software-plugin-snap
 
 log "Installation complete.  Please reboot your system."
 printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
