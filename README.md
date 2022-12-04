@@ -146,7 +146,6 @@ alternative to the Emacs Pinky.
 * `,ai`: Open IRC
 * `,at`: Open a terminal
 * `,am`: Open Mu4e for Email
-* `,ap`: Open a PHP scratch pad or interactive shell, requires Boris
 * `,aw`: Browse the web from Emacs
 
 #### Dap-Mode Shortcuts:

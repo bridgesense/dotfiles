@@ -301,8 +301,8 @@
 (require 'org-crypt)
 (org-crypt-use-before-save-magic)
 (setq org-tags-exclude-from-inheritance (quote ("crypt")))
-(setq org-crypt-key nil)
-(setq auto-save-default nil)
+(setq org-crypt-key t)
+(setq auto-save-default t)
 ;; Symmetric File Encryption
 (require 'epa-file)
 (setq epa-file-cache-passphrase-for-symmetric-encryption t)
@@ -517,8 +517,6 @@
   :diminish yas-minor-mode
   :config
   (yas-global-mode 1))
-;; PHP Scratch
-(use-package php-scratch :ensure t)
 ;; Toggle PHP/Web Mode
 (defun toggle-php-flavor-mode ()
   "Toggle mode between PHP & Web-Mode Helper modes."
@@ -1313,7 +1311,6 @@ and then increment it."
    "ai" '(erc :which-key "IRC")
    "at" '(multi-term :which-key "Terminal")
    "am" '(mu4e :which-key "Email")
-   "ap" '(php-scratch :which-key "PHP Scratch Pad")
    "aw" '(w3m-browse-url :which-key "Browse Web"))
 
 
