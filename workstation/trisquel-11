@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # This script is just a personal snapshot of my ubuntu-mate workstation.
-# curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/ubuntu-mate > ~/install
+# curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/trisquel-11 > ~/install
 # bash install <username>
 # # # # # #Shutdown # # # # # # # # #
 
