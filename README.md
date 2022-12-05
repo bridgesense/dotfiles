@@ -185,9 +185,6 @@ alternative to the Emacs Pinky.
 * `,lt`: Toggle PHP/Web mode highlighting
 * `,lw`: Toggle line wrapping
 
-#### Emacs Display Options:
-* `,Ot`: Toggle Dark/Light Theme
-
 #### Org-Mode Shortcuts:
 * `,oo`: Agenda View, be sure to adjust position wth org-agenda-file-to-front
 * `,oa`: Activate current line
@@ -213,6 +210,10 @@ alternative to the Emacs Pinky.
 * `,pw`: Swoop
 * `,p[`: Go to next change in file
 * `,p]`: Go to previous change in file
+
+#### Emacs Toggle Options:
+* `,tg`: Toggle Grammarly for Mu4e 
+* `,tt`: Toggle Dark/Light Theme
 
 #### Word Shortcuts:
 * `,Ws`: View spelling errors
