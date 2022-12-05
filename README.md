@@ -107,46 +107,26 @@ alternative to the Emacs Pinky.
 * `,Q`: Close Emacs 
 * `,x`: Cycle to next buffer
 * `,z`: Cycle to previous buffer
-* `,U`: Rebuild All Packages
+* `,U`: Update All Packages
 * `,/`: Search current project 
-
-#### Buffer Shortcuts:
-* `,bb`: List/Create buffers
-* `,bs`: Save buffer
-* `:w`: Save buffer, VIM equivalent
-* `,bq`: Quit buffer
-* `,br`: Refresh buffer
-
-#### Code Shortcuts:
-* `,cf`: Find hovered function in Documentation
-* `,cr`: Find References to hovered function
-* `,cd`: Find Definitions to hovered function
-* `,cm`: Show quick menu of file definitions
-
-#### Window Shortcuts:
-* `,wd`: Delete current window
-* `,wc`: Delete all other windows except current window
-* `,wf`: Toggle Emacs full screen
-* `,wh`: Focus on window to left of current one
-* `,wj`: Focus on window above current one
-* `,wk`: Focus on window below current one
-* `,wl`: Focus on window to right of current one
-* `,wH`: Move current window left
-* `,wJ`: Move current window up
-* `,wK`: Move current window down
-* `,wL`: Move current window right
-* `,wn`: Switch screens
-* `,wo`: Focus on next window
-* `,wp`: Pop out current window to new screen
-* `,ws`: Split window horizontally
-* `,wv`: Split window vertically
-* `,wx`: Close screen
 
 #### Emacs Applications:
 * `,ai`: Open IRC
 * `,at`: Open a terminal
 * `,am`: Open Mu4e for Email
 * `,aw`: Browse the web from Emacs
+
+#### Buffer Shortcuts:
+* `,bb`: List/Create buffers
+* `,bc`: Copy File Path 
+* `,be`: Copy File Path 
+* `,bf`: Open File 
+* `,bn`: Craete New Buffer 
+* `,bp`: Find File in Project 
+* `,bq`: Quit buffer
+* `,br`: Refresh buffer
+* `,bs`: Save buffer
+* `:w`: Save buffer, VIM equivalent
 
 #### Dap-Mode Shortcuts:
 * `,db`: Toggles breakpoint on current line
@@ -160,17 +140,20 @@ alternative to the Emacs Pinky.
 * `,dv`: View context
 * `,dx`: Stop Debugger
 
-#### Lisp Debugging Shortcuts:
-* `,sa`: Evaluate statement
-* `,sb`: Evaluate buffer
-* `,sc`: Evaluate function
-* `,se`: Evaluate and print statement
-* `,sf`: Set breakpoint on function
-* `,sp`: Compile File
-* `,ss`: Open Lisp scratch pad
-* `,sv`: Set breakpoint on variable
-* `,sw`: Remove breakpoint from a variable
-* `,sx`: Remove breakpoint from a function
+#### Find:
+* `,cd`: Find Definitions to hovered function
+* `,ff`: Resume Last Find 
+* `,fm`: Show quick menu of file definitions
+* `,fp`: Find file in project 
+* `,cr`: Find References to hovered function
+* `,cs`: Find Documentation
+
+#### Grammer Shortcuts:
+* `,gs`: View spelling errors
+* `,gc`: Correct spelling of word under cursor
+* `,gd`: See definition of word under cursor
+* `,gt`: See synonyms (thesaurus) of word under cursor
+* `,ga`: See antonyms of word under cursor
 
 #### Line Shortcuts:
 * `,la`: Artist mode, draw on screen with cursor
@@ -200,27 +183,52 @@ alternative to the Emacs Pinky.
 * `,ox`: Cancel clock
 
 #### Project Shortcuts:
+* `,p[`: Go to next change in file
+* `,p]`: Go to previous change in file
 * `,pd`: Search in directory
 * `,ph`: History of buffer
 * `,pf`: Fuzzy file finder (CtrlP)
-* `,pP`: Open recent project
 * `,pp`: Resume previous search/filter
+* `,pr`: Open recent project
 * `,ps`: Search in current project
 * `,pm`: Git status with Magit
 * `,pw`: Swoop
-* `,p[`: Go to next change in file
-* `,p]`: Go to previous change in file
+
+#### Lisp Debugging Shortcuts:
+* `,sa`: Evaluate statement
+* `,sb`: Evaluate buffer
+* `,sc`: Evaluate function
+* `,se`: Evaluate and print statement
+* `,sf`: Set breakpoint on function
+* `,sl`: Load e-List file 
+* `,sp`: Compile File
+* `,ss`: Open Lisp scratch pad
+* `,sv`: Set breakpoint on variable
+* `,sw`: Remove breakpoint from a variable
+* `,sx`: Remove breakpoint from a function
 
 #### Emacs Toggle Options:
 * `,tg`: Toggle Grammarly for Mu4e 
 * `,tt`: Toggle Dark/Light Theme
 
-#### Word Shortcuts:
-* `,Ws`: View spelling errors
-* `,Wc`: Correct spelling of word under cursor
-* `,Wd`: See definition of word under cursor
-* `,Wt`: See synonyms (thesaurus) of word under cursor
-* `,Wa`: See antonyms of word under cursor
+#### Window Shortcuts:
+* `,wd`: Delete current window
+* `,wc`: Delete all other windows except current window
+* `,wf`: Toggle Emacs full screen
+* `,wh`: Focus on window to left of current one
+* `,wj`: Focus on window above current one
+* `,wk`: Focus on window below current one
+* `,wl`: Focus on window to right of current one
+* `,wH`: Move current window left
+* `,wJ`: Move current window up
+* `,wK`: Move current window down
+* `,wL`: Move current window right
+* `,wn`: Switch screens
+* `,wo`: Focus on next window
+* `,wp`: Pop out current window to new screen
+* `,ws`: Split window horizontally
+* `,wv`: Split window vertically
+* `,wx`: Close screen
 
 #### Other Shortcuts:
 * `<ctrl>-z`: Toggles Emacs/Vim Mode

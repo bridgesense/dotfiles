@@ -338,13 +338,7 @@
             (define-key evil-normal-state-map (kbd "TAB") 'org-cycle)))
 
 
-; Plantuml
-;; http://eschulte.github.io/babel-dev/DONE-integrate-plantuml-support.html
-(use-package plantuml-mode :ensure t)
-(use-package flycheck-plantuml :ensure t)
-(org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))
-(setq org-plantuml-jar-path
-      (expand-file-name "~/.yadrlite/src/org/contrib/scripts/plantuml.jar"))
+;
 ;; Artist Mode
 (evil-set-initial-state 'artist-mode 'emacs)
 (defun toggle-artist-mode ()
@@ -510,7 +504,14 @@
     (if (not (window-live-p flycheck-errors-window))
         (call-interactively 'flycheck-list-errors)
       (delete-window flycheck-errors-window))))
-;; Show Matching Pairs
+;; Plantuml
+;; http://eschulte.github.io/babel-dev/DONE-integrate-plantuml-support.html
+(use-package plantuml-mode :ensure t)
+(use-package flycheck-plantuml :ensure t)
+(org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))
+(setq org-plantuml-jar-path
+      (expand-file-name "~/.yadrlite/src/org/contrib/scripts/plantuml.jar"))
+; Show Matching Pairs
 (show-paren-mode 1)
 ;; YASnippet
 (use-package yasnippet :ensure t
@@ -783,11 +784,11 @@
 (use-package helm-ls-git :ensure t)
 ;; (use-package evil-magit :ensure t)
 
-    
+
 ;; w3m browser
 (use-package w3m :ensure t)
 
-        
+
 ;; mu4e setup
 (if (file-exists-p "/usr/local/share/emacs/site-lisp/mu4e")
     (progn
@@ -1099,7 +1100,6 @@
   )) ;; end of Mu4e configuration
 
 
-
 ;; Auto Completion with Company
 ;; uncomment to use Company autocompletion
 (setq lsp-intelephense-licence-key (expand-file-name "~/.config/intelephense/licence.txt"))
@@ -1132,13 +1132,10 @@
     (toml-mode . lsp)
     (text-mode . lsp)
     (json-mode . lsp)
-    (markdown-mode . lsp)
     (yaml-mode . lsp)
     (go-mode . lsp)
     (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp)
-(with-eval-after-load 'lsp-mode
-  (mapc #'lsp-flycheck-add-mode '(typescript-mode js-mode css-mode vue-html-mode text-mode)))
 (use-package lsp-ui
  :ensure t
  :requires lsp-mode flycheck
@@ -1164,13 +1161,12 @@
 
 
 ;; Grammarly 
-(use-package lsp-grammarly :ensure t)
-(use-package flycheck-grammarly :ensure t
+(use-package lsp-grammarly :ensure t
   :config
-  (with-eval-after-load 'flycheck
-    (setq flycheck-grammarly-active-modes '(text-mode latex-mode org-mode markdown-mode))
-    (flycheck-grammarly-setup))
-  )
+  (with-eval-after-load 'lsp-grammarly
+    ;; exclude markdown-mode for incompatibility issues
+    (setq lsp-grammarly-active-modes (remove 'markdown-mode lsp-grammarly-active-modes))
+    (setq lsp-grammarly-patterns ["**/*.txt"])))
 
 ;; grammarly hack for mu4e
 (defun toggle-grammarly-for-mu4e nil
@@ -1281,38 +1277,26 @@
    "]" '(enlarge-window-horizontally :which-key "Expand Window")
    "-" '(shrink-window :which-key "Shrink Window")
    "=" '(enlarge-window :which-key "Grow Window")
-   "e" '(flycheck-list-errors-toggle :which-key "Toggle Error List")
+   "e" '(flycheck-list-errors-toggle :which-key "Error List")
    "h" '(call-dashboard :which-key "Dashboard")
    "j" '(ace-jump-char-mode :which-key "Jump to Character")
    "m" '(deer :which-key "Browse Current Directory")
    "n" '(neotree-toggle :which-key "Browse Project Directory")
    "q" '(kill-this-buffer :which-key "Quit Buffer")
-   "Q" '(kill-emacs :which-key "Quit Emacs")
+   "Q" '(save-buffers-kill-emacs :which-key "Quit Emacs")
    "x" '(next-buffer :which-key "Next Buffer")
    "z" '(previous-buffer :which-key "Previous Buffer")
-   "U" '(package-reinstall-all-activated-packages :which-key "Rebuild All Packages")
+   "U" '(package-reinstall-all-activated-packages :which-key "Update All Packages")
    "/" '(helm-do-ag-project-root :which-key "Search in Project"))
 
-  ;; Buffer Functions
+  
+   ;; Applicaitons
   (general-define-key
    :prefix gleader
    :non-normal-prefix gleader-non
    :states '(normal visual motion insert emacs)
    :keymaps 'override
-   "b"  '(nil :which-key "Buffer Operations")
-   "bb" '(helm-mini :which-key "List/Create Buffers")
-   "bs" '(save-buffer :which-key "Save Buffer")
-   "bq" '(kill-this-buffer :which-key "Quit Buffer")
-   "br" '(revert-buffer-no-confirm :which-key "Refresh Buffer"))
-
-
-  ;; Applicaitons
-  (general-define-key
-   :prefix gleader
-   :non-normal-prefix gleader-non
-   :states '(normal visual motion insert emacs)
-   :keymaps 'override
-   "a"  '(nil :which-key "Application Shortcuts")
+   "a"  '(nil :which-key "Applications")
    "ah" '(info-emacs-manual :which-key "Read the Emacs Manual")
    "ai" '(erc :which-key "IRC")
    "at" '(multi-term :which-key "Terminal")
@@ -1320,17 +1304,21 @@
    "aw" '(w3m-browse-url :which-key "Browse Web"))
 
 
-  ;; Language Server Functions
+   ;; Buffer Functions
   (general-define-key
    :prefix gleader
    :non-normal-prefix gleader-non
    :states '(normal visual motion insert emacs)
    :keymaps 'override
-   "c"  '(nil :which-key "Language Server")
-   "cf" '(lsp-ui-doc-show :which-key "Find Documentation")
-   "cr" '(lsp-ui-peek-find-references :which-key "Find References")
-   "cd" '(lsp-ui-peek-find-definitions :which-key "Find Definition of Function")
-   "cm" '(lsp-ui-imenu :which-key "Language Menu"))
+   "b"  '(nil :which-key "Buffers")
+   "bb" '(helm-mini :which-key "List/Create Buffers")
+   "bc" '(my-put-file-name-on-clipboard :which-key "Copy File Path")
+   "bf" '(helm-find-files :which-key "Open File")
+   "bn" '(evil-buffer-new :which-key "Create New Buffer")
+   "bs" '(save-buffer :which-key "Save Buffer")
+   "bq" '(kill-this-buffer :which-key "Quit Buffer")
+   "br" '(revert-buffer-no-confirm :which-key "Refresh Buffer")
+   "bp" '(helm-projectile-find-file :which-key "Find File"))
 
 
    ;; Geben Functions
@@ -1353,33 +1341,34 @@
    "dx" '(dap-disconnect :which-key "Stop Dap-Mode"))
 
 
-   ;; File Functions
-  (general-define-key
-   :prefix gleader
-   :non-normal-prefix gleader-non
-   :states '(normal visual motion insert emacs)
-   :keymaps 'override
-   "f"  '(nil :which-key "File Operations")
-   "fc" '(my-put-file-name-on-clipboard :which-key "Copy File Path")
-   "fe" '(eval-buffer :which-key "Evaluate Elisp Changes")
-   "ff" '(helm-find-files :which-key "Open File")
-   "fl" '(load-file :which-key "load e-lisp file")
-   "fn" '(evil-buffer-new :which-key "Create New Buffer")
-   "fr" '(revert-buffer :which-key "Revert to Prior State")
-   "fp" '(helm-projectile-find-file :which-key "Find File"))
-
-
    ;; LSP Mode Navigation
   (general-define-key
    :prefix gleader
    :non-normal-prefix gleader-non
    :states '(normal visual motion insert emacs)
    :keymaps 'override
-   "g"  '(nil :which-key "LSP-Mode Navigation")
-   "gd" '(lsp-find-definition :which-key "Find Definition")
-   "gr" '(lsp-find-references :which-key "Find Reference"))
+   "f"  '(nil :which-key "Find")
+   "fd" '(lsp-ui-peek-find-definition :which-key "Find Definition")
+   "ff" '(helm-resume :which-key "Resume Last Find")
+   "fm" '(lsp-ui-imenu :which-key "Menu")
+   "fp" '(helm-projectile-find-file :which-key "Projectile: Find File")
+   "fr" '(lsp-ui-peek-find-references :which-key "Find Reference")
+   "fs" '(lsp-ui-doc-show :which-key "Find Documentation"))
 
+  
+  ;; Word Functions
+  (general-define-key
+   :prefix gleader
+   :non-normal-prefix gleader-non
+   :states '(normal visual motion insert emacs)
+   :keymaps 'override
+   "g"  '(nil :which-key "Grammer")
+   "gs" '(flyspell-mode :which-key "View Spelling Errors")
+   "gc" '(helm-flyspell-correct :which-key "Correct Spelling")
+   "gd" '(define-word-at-point :which-key "See Definition")
+   "gt" '(synosaurus-lookup :which-key "See Thesaurus"))
 
+  
  ;; Line Functions
   (general-define-key
    :prefix gleader
@@ -1407,7 +1396,7 @@
    :non-normal-prefix gleader-non
    :states '(normal visual motion insert emacs)
    :keymaps 'override
-   "o"  '(nil :which-key "Org-Mode Scheduler")
+   "o"  '(nil :which-key "Org-Mode")
    "oo" '(org-agenda :which-key "Agenda Controls")
    "oa" '(org-ctrl-c-ctrl-c :which-key "Activate (C-c)")
    "od" '(org-deadline :which-key "Schedule Deadline")
@@ -1428,15 +1417,15 @@
    :non-normal-prefix gleader-non
    :states '(normal visual motion insert emacs)
    :keymaps 'override
-   "p"  '(nil :which-key "Project Commands")
+   "p"  '(nil :which-key "Projects")
    "p]" '(git-gutter:previous-hunk :which-key "Go to previous modification")
    "p[" '(git-gutter:next-hunk :which-key "Go to next modification")
    "pd" '(helm-do-grep-ag :which-key "Search in Directory")
    "ph" '(magit-log-buffer-file :which-key "History of Buffer")
    "pf" '(helm-projectile-find-file :which-key "Fuzzy File (CtrlP)")
-   "pF" '(helm-projectile-recentf :which-key "Open Recent Project File")
    "pP" '(helm-projectile :which-key "Open Recent Project")
    "pp" '(helm-resume :which-key "Helm Resume")
+   "pr" '(helm-projectile-recentf :which-key "Open Recent Project File")
    "ps" '(helm-do-ag-project-root :which-key "Search in Project")
    "pm" '(magit-status :which-key "Git Status")
    "pw" '(helm-swoop :which-key "Helm Swoop"))
@@ -1448,19 +1437,21 @@
    :non-normal-prefix gleader-non
    :states '(normal visual motion insert emacs)
    :keymaps 'override
-   "s"  '(nil :which-key "Lisp Debugging")
+   "s"  '(nil :which-key "Script")
    "sa" '(eval-last-sexp :which-key "Evaluate Statement")
    "sb" '(eval-buffer :which-key "Evaluate Buffer")
    "sc" '(eval-defun :which-key "Evaluate Function")
    "se" '(eval-print-last-sexp :which-key "Evaluate and Print Statement")
    "sf" '(debug-on-entry :which-key "Debug Function")
+   "sl" '(load-file :which-key "load e-lisp file")
+   "sp" '(emacs-lisp-byte-compile-and-load :which-key "load e-lisp file")
    "ss" '(scratch :which-key "Open Scratch Pad")
    "sv" '(debug-on-variable-change :which-key "Debug Variable")
    "sw" '(cancel-debug-on-variable-change :which-key "Cancel Variable Debugging")
    "sx" '(cancel-debug-on-entry :which-key "Cancel Function Debugging"))
 
   
-  ;; Lisp Debug Functions
+  ;; Misc Toggles
   (general-define-key
    :prefix gleader
    :non-normal-prefix gleader-non
@@ -1477,7 +1468,7 @@
    :non-normal-prefix gleader-non
    :states '(normal visual motion insert emacs)
    :keymaps 'override
-   "w"  '(nil :which-key "Window Operations")
+   "w"  '(nil :which-key "Windows")
    "wb" '(balance-windows :which-key "All Windows Match Size")
    "wd" '(delete-window :which-key "Kill Window")
    "wc" '(delete-other-windows :which-key "Clear All but Currenet")
@@ -1497,17 +1488,7 @@
    "wv" '(split-window-right :which-key "Vertical Split")
    "wx" '(delete-frame :which-key "Close Screen"))
 
-  ;; Word Functions
-  (general-define-key
-   :prefix gleader
-   :non-normal-prefix gleader-non
-   :states '(normal visual motion insert emacs)
-   :keymaps 'override
-   "W"  '(nil :which-key "Word Functions")
-   "Ws" '(flyspell-mode :which-key "View Spelling Errors")
-   "Wc" '(helm-flyspell-correct :which-key "Correct Spelling")
-   "Wd" '(define-word-at-point :which-key "See Definition")
-   "Wt" '(synosaurus-lookup :which-key "See Thesaurus"))
+  
   )
 
 ;; Warning!  Any lines modified below this point may be overwritten.
