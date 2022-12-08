@@ -868,7 +868,7 @@
     ;; use mu4e for e-mail in emacs
     (setq mail-user-agent 'mu4e-user-agent)
 
-    ;; default settings
+    default settings
     (setq mu4e-sent-folder "/Sent"
           mu4e-drafts-folder "/Drafts"
           mu4e-trash-folder  "/Junk"
@@ -1188,19 +1188,8 @@
 ;; Grammarly 
 (use-package lsp-grammarly
   :ensure t
-  :hook (text-mode . (lambda ()
-                       (require 'lsp-grammarly)
-                       (lsp))))
-
-
-;; grammarly hack for mu4e
-(defun toggle-grammarly-for-mu4e nil
-  "work around for mu4e and grammarly"
-  (interactive)
-  (if (string-equal major-mode "mu4e-compose-mode")
-        (text-mode)
-    (progn (if (string-equal major-mode "text-mode")
-      (mu4e-compose-mode)))))
+  :init
+  (setq lsp-grammarly-active-modes '(mu4e-compose-mode text-mode latex-mode org-mode markdown-mode)))
 
 
 ;; Scratch
@@ -1411,7 +1400,7 @@
    "g"  '(nil :which-key "Grammer")
    "ga" '(powerthesaurus-lookup-antonyms-dwim :which-key "See Antonyms")
    "gs" '(flyspell-mode :which-key "View Spelling Errors")
-   "gc" '(flyspell-correct-wrapper :which-key "Correct Spelling")
+   "gc" '(flyspell-auto-correct-word :which-key "Correct Spelling")
    "gd" '(powerthesaurus-lookup-definitions-dwim :which-key "See Definition")
    "gr" '(powerthesaurus-lookup-related-dwim :which-key "See Related Words")
    "gt" '(powerthesaurus-lookup-synonyms-dwim :which-key "See Synonyms")
@@ -1507,7 +1496,6 @@
    :states '(normal visual motion insert emacs)
    :keymaps 'override
    "t"  '(nil :which-key "Toggles")
-   "tg" '(toggle-grammarly-for-mu4e :which-key "Toggles Grammarly for Mu4e")
    "tt" '(toggle-light-dark-theme :which-key "Toggle Dark/Light Theme"))
   
 

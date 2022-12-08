@@ -211,7 +211,6 @@ alternative to the Emacs Pinky.
 * `,sx`: Remove breakpoint from a function
 
 #### Emacs Toggle Options:
-* `,tg`: Toggle Grammarly for Mu4e 
 * `,tt`: Toggle Dark/Light Theme
 
 #### Window Shortcuts:
