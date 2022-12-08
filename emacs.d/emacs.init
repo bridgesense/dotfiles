@@ -132,7 +132,7 @@
 (eval-when-compile
   (require 'use-package))
 
-;; File Managementa
+;; File Management
 ;; # # # # # # # # # # #
 (use-package ranger :ensure t)
 (defun my-put-file-name-on-clipboard ()
@@ -193,9 +193,17 @@
   :config
   (evil-mode 1))
 (use-package evil-matchit :ensure t)
+(defun surround-drawer ()
+  (let ((dname (read-from-minibuffer "" "")))
+    (cons (format ":%s:" (upcase (or dname ""))) ":END:")))
+(defun surround-code ()
+  (let ((dname (read-from-minibuffer "" "")))
+    (cons (format "#+BEGIN_SRC %s" (or dname "")) "#+END_SRC")))
 (use-package evil-surround :ensure t
   :diminish evil-surround-mode
   :config
+  (add-to-list 'evil-surround-pairs-alist '(?: . surround-drawer))
+  (add-to-list 'evil-surround-pairs-alist '(?# . surround-code))
   (global-evil-surround-mode 1))
 (use-package evil-tutor :ensure t
   :config
@@ -229,7 +237,16 @@
 ;; persistant undo history
 (use-package undohist :ensure t
   :config
-  (undohist-initialize))
+  (undohist-initialize)
+  (advice-add 'undohist-save-1 :before-while
+            (defun undohist-only-save-file-buffers+ (&rest _)
+              (and (buffer-file-name (current-buffer))
+                   (undohist-recover-file-p (buffer-file-name (current-buffer))))))
+  (setq undohist-ignored-files
+         '("COMMIT_EDITMSG"
+           "\\.gpg\\'"
+           file-remote-p
+           ignoramus-boring-p)))
 
 
 ;; Helm
@@ -301,8 +318,8 @@
 (require 'org-crypt)
 (org-crypt-use-before-save-magic)
 (setq org-tags-exclude-from-inheritance (quote ("crypt")))
-(setq org-crypt-key t)
-(setq auto-save-default t)
+(setq org-crypt-key nil)
+(setq auto-save-default nil)
 ;; Symmetric File Encryption
 (require 'epa-file)
 (setq epa-file-cache-passphrase-for-symmetric-encryption t)
@@ -320,6 +337,7 @@
   (add-hook 'org-mode-hook
             (lambda ()
               (org-bullets-mode 1)
+              (toggle-truncate-lines)
               (local-set-key (kbd "C-v") 'clipboard-yank)
               )))
 ;; Org Mode Timing Drawer
@@ -653,20 +671,24 @@
 ;; # # # # # # # # # # #
 (use-package ace-jump-mode :ensure t :diminish ace-jump-mode)
 
+
 ;; Spell Check
 ;; # # # # # # # # # # #
-(use-package helm-flyspell :ensure t)
-
-
-;; Dictionary
-;; # # # # # # # # # # #
-(use-package define-word :ensure t)
-
-
-;; Thesaurus
-(use-package synosaurus :ensure t
+(use-package auto-dictionary :ensure t
   :config
-  (synosaurus-mode 1))
+  (add-hook 'flyspell-mode-hook
+            (lambda ()
+              (auto-dictionary-mode 1))))
+(use-package flyspell-correct :ensure t
+  :after flyspell)
+
+(use-package flyspell-correct-helm :ensure t
+  :after flyspell-correct)
+
+
+;; Dictionary / Thesaurus
+;; # # # # # # # # # # #
+(use-package powerthesaurus :ensure t)
 
 
 ;; Battery Update
@@ -792,9 +814,10 @@
 ;; mu4e setup
 (if (file-exists-p "/usr/local/share/emacs/site-lisp/mu4e")
     (progn
-      (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
-      (require 'mu4e)
-      (use-package helm-mu :ensure t)
+     (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
+     (require 'mu4e-config)
+     (require 'mu4e)
+     (use-package helm-mu :ensure t)
 
     ;; mu4e setup
     ;; setup
@@ -1001,6 +1024,8 @@
                 (lambda ()
                 (add-to-list 'mu4e-view-actions '("Download All Attachments" . mu4e-view-save-all-attachments) t)))
 
+    
+    
     ;;; mu4e-view-save-all-attachments.el -- Save all attachments from view mode.
     ;;; Stephen J Eglen 2021
 
@@ -1117,7 +1142,7 @@
     (setq read-process-output-max (* 1024 1024))
     (setq lsp-idle-delay 0.500)
     (setq lsp-log-io nil) 
-    (setq lsp-prefer-flymake nil)
+    (setq lsp-prefer-flymake t)
     (setq lsp-enable-file-watchers t)
     (setq lsp-file-watch-threshold nil)
     (setq lsp-modeline-code-actions-mode t)
@@ -1161,19 +1186,19 @@
 
 
 ;; Grammarly 
-(use-package lsp-grammarly :ensure t
-  :config
-  (with-eval-after-load 'lsp-grammarly
-    ;; exclude markdown-mode for incompatibility issues
-    (setq lsp-grammarly-active-modes (remove 'markdown-mode lsp-grammarly-active-modes))
-    (setq lsp-grammarly-patterns ["**/*.txt"])))
+(use-package lsp-grammarly
+  :ensure t
+  :hook (text-mode . (lambda ()
+                       (require 'lsp-grammarly)
+                       (lsp))))
+
 
 ;; grammarly hack for mu4e
 (defun toggle-grammarly-for-mu4e nil
   "work around for mu4e and grammarly"
   (interactive)
   (if (string-equal major-mode "mu4e-compose-mode")
-    (text-mode)
+        (text-mode)
     (progn (if (string-equal major-mode "text-mode")
       (mu4e-compose-mode)))))
 
@@ -1204,6 +1229,15 @@
  (defun dap-python--pyenv-executable-find (command)
     (with-venv (executable-find "python")))
  )
+
+;; complete dap termination
+(defun terminate-dap-mode nil
+  "This provides additional functionality to terminate dap-mode completely"
+  (interactive)
+  (progn
+    (dap-delete-all-sessions)
+    (dap-mode 0)
+    (kill-matching-buffers ".*launch\.j.*" t t)))
 
 
 ;; neotree
@@ -1255,6 +1289,16 @@
   "Refresh and reinstall all activated packages."
   (interactive)
   (byte-recompile-directory package-user-dir nil 'force))
+
+(defun fix-short-open-tags nil
+  "Replaces all Short Open Tags in a projects PHP code"
+  (interactive)
+  (progn
+    (shell-command "find . \\( -type d -name .git -prune \\) -o -type f -iname \"*.php\" -print0 | xargs -0 -I{} sed -i -r 's/(<\\?)([^a-zA-Z=]|$)/\\1php \\2/g' '{}'")
+    (shell-command "find . \\( -type d -name .git -prune \\) -o -type f -iname \"*.css\" -print0 | xargs -0 -I{} sed -i -r 's/(<\\?)([^a-zA-Z=]|$)/\\1php \\2/g' '{}'")
+    (shell-command "find . \\( -type d -name .git -prune \\) -o -type f -iname \"*.js\" -print0 | xargs -0 -I{} sed -i -r 's/(<\\?)([^a-zA-Z=]|$)/\\1php \\2/g' '{}'")
+    (shell-command "find . \\( -type d -name .git -prune \\) -o -type f -iname \"*.tpl\" -print0 | xargs -0 -I{} sed -i -r 's/(<\\?)([^a-zA-Z=]|$)/\\1php \\2/g' '{}'")
+    ))
 
 ;; leader key operation
 ;; # # # # # # # # # # #
@@ -1315,10 +1359,10 @@
    "bc" '(my-put-file-name-on-clipboard :which-key "Copy File Path")
    "bf" '(helm-find-files :which-key "Open File")
    "bn" '(evil-buffer-new :which-key "Create New Buffer")
-   "bs" '(save-buffer :which-key "Save Buffer")
+   "bp" '(helm-projectile-find-file :which-key "Find File")
    "bq" '(kill-this-buffer :which-key "Quit Buffer")
    "br" '(revert-buffer-no-confirm :which-key "Refresh Buffer")
-   "bp" '(helm-projectile-find-file :which-key "Find File"))
+   "bs" '(save-buffer :which-key "Save Buffer"))
 
 
    ;; Geben Functions
@@ -1330,15 +1374,15 @@
    "d"  '(nil :which-key "Dap-Mode (DBGp)")
    "da" '(dap-breakpoint-delete-all :which-key "Delete all Breakpoints")
    "db" '(dap-breakpoint-toggle :which-key "Toggle Breakpoint")
+   "dc" '(dap-continue :which-key "Continue to Breakpoint")
    "dd" '(dap-debug :which-key "Start Dap-Mode")
+   "di" '(dap-step-in :which-key "Step into")
    "dl" '(dap-ui-breakpoints :which-key "List all Breakpoints")
-   "di" '(dap-php-setup :which-key "Install vscode-php-debug plugin")
    "dn" '(dap-next :which-key "Next Line")
    "do" '(dap-step-out :which-key "Step out")
-   "dr" '(dap-continue :which-key "Continue to Breakpoint")
-   "ds" '(dap-step-in :which-key "Step into")
+   "dp" '(dap-php-setup :which-key "Install vscode-php-debug plugin")
    "dv" '(dap-ui-locals :which-key "View Context")
-   "dx" '(dap-disconnect :which-key "Stop Dap-Mode"))
+   "dx" '(terminate-dap-mode :which-key "Stop Dap-Mode"))
 
 
    ;; LSP Mode Navigation
@@ -1348,12 +1392,14 @@
    :states '(normal visual motion insert emacs)
    :keymaps 'override
    "f"  '(nil :which-key "Find")
-   "fd" '(lsp-ui-peek-find-definition :which-key "Find Definition")
+   "fd" '(lsp-find-definition :which-key "Find Definition")
+   "fD" '(projectile-find-file-in-directory :which-key "Find in Directory")
    "ff" '(helm-resume :which-key "Resume Last Find")
+   "fi" '(lsp-find-implementation :which-key "Find Implementation")
    "fm" '(lsp-ui-imenu :which-key "Menu")
    "fp" '(helm-projectile-find-file :which-key "Projectile: Find File")
-   "fr" '(lsp-ui-peek-find-references :which-key "Find Reference")
-   "fs" '(lsp-ui-doc-show :which-key "Find Documentation"))
+   "fr" '(lsp-find-references :which-key "Find Reference")
+   "fs" '(lsp-ui-doc-show :which-key "Show Documentation"))
 
   
   ;; Word Functions
@@ -1363,13 +1409,16 @@
    :states '(normal visual motion insert emacs)
    :keymaps 'override
    "g"  '(nil :which-key "Grammer")
+   "ga" '(powerthesaurus-lookup-antonyms-dwim :which-key "See Antonyms")
    "gs" '(flyspell-mode :which-key "View Spelling Errors")
-   "gc" '(helm-flyspell-correct :which-key "Correct Spelling")
-   "gd" '(define-word-at-point :which-key "See Definition")
-   "gt" '(synosaurus-lookup :which-key "See Thesaurus"))
+   "gc" '(flyspell-correct-wrapper :which-key "Correct Spelling")
+   "gd" '(powerthesaurus-lookup-definitions-dwim :which-key "See Definition")
+   "gr" '(powerthesaurus-lookup-related-dwim :which-key "See Related Words")
+   "gt" '(powerthesaurus-lookup-synonyms-dwim :which-key "See Synonyms")
+   )
 
   
- ;; Line Functions
+  ;; Line Functions
   (general-define-key
    :prefix gleader
    :non-normal-prefix gleader-non

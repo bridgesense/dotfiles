@@ -119,7 +119,6 @@ alternative to the Emacs Pinky.
 #### Buffer Shortcuts:
 * `,bb`: List/Create buffers
 * `,bc`: Copy File Path 
-* `,be`: Copy File Path 
 * `,bf`: Open File 
 * `,bn`: Craete New Buffer 
 * `,bp`: Find File in Project 
@@ -129,31 +128,35 @@ alternative to the Emacs Pinky.
 * `:w`: Save buffer, VIM equivalent
 
 #### Dap-Mode Shortcuts:
+* `,da`: Delete all breakpoints 
 * `,db`: Toggles breakpoint on current line
+* `,dc`: Continue to next breakpoint 
 * `,dd`: Start debugger
+* `,di`: Step into
 * `,dl`: List all breakpoints
-* `,di`: Install vscode-php-debug plugin
 * `,dn`: Next line 
 * `,do`: Step out
-* `,dr`: Continue to breakpoint
-* `,ds`: Step into
+* `,dp`: Install vscode-php-debug plugin
 * `,dv`: View context
 * `,dx`: Stop Debugger
 
 #### Find:
-* `,cd`: Find Definitions to hovered function
+* `,fd`: Find Definitions to hovered function
+* `,fD`: Find in Current Buffer's Directory Recursively
 * `,ff`: Resume Last Find 
+* `,fi`: Find Implementation 
 * `,fm`: Show quick menu of file definitions
 * `,fp`: Find file in project 
-* `,cr`: Find References to hovered function
-* `,cs`: Find Documentation
+* `,fr`: Find References to hovered function
+* `,fs`: Find Documentation
 
 #### Grammer Shortcuts:
+* `,ga`: See Antonyms 
 * `,gs`: View spelling errors
 * `,gc`: Correct spelling of word under cursor
 * `,gd`: See definition of word under cursor
+* `,gd`: See related words for word under cursor
 * `,gt`: See synonyms (thesaurus) of word under cursor
-* `,ga`: See antonyms of word under cursor
 
 #### Line Shortcuts:
 * `,la`: Artist mode, draw on screen with cursor
