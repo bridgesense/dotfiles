@@ -159,6 +159,17 @@ bash configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils
 make
 make install
 
+# syncterm
+install package libncurses5-dev libncursesw5-dev gcc libsdl1.2-dev build-essential
+cd ~/lab
+wget http://syncterm.bbsdev.net/syncterm-src.tgz
+tar xvzf syncterm-src.tgz
+D=$(ls -1hrtd sync*/|tail -1|sed 's/\/$//g')
+cd ${D}/src/syncterm
+st_path=$(pwd | sed 's/\/syncterm$//g')
+make SRC_ROOT=$st_path
+make install
+
 # firewall
 install package ufw
 ufw enable
