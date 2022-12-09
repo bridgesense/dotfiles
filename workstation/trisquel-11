@@ -160,6 +160,8 @@ make
 make install
 
 # syncterm
+# thanks to MeaTLoTioN
+# https://www.erb.pw/how-to-install-syncterm-for-linux-from-source/
 install package libncurses5-dev libncursesw5-dev gcc libsdl1.2-dev build-essential
 cd ~/lab
 wget http://syncterm.bbsdev.net/syncterm-src.tgz
