@@ -1,5 +1,30 @@
 # YADRLite #
 
+My 2023 Freedom Ladder Challenge:
+---
+Last year I joined the [Free Software Foundation](https://www.fsf.org/)
+and discovered the [Freedom Ladder](https://libreplanet.org/wiki/Group:Freedom_Ladder)
+campaign. After looking at the parameters of the campaign, I felt I wasn't ready for
+such a challenge at the time. I had some preparation work to do.
+
+The goal of the campaign is to help people become aware of the difference between free
+and nonfree software. Free doesn't mean "free", as in the sense of money. Free means
+"freedom", where people have complete control of their software and the data housed in it.
+
+Starting in January of 2023, I will be converting much of my proprietary software as
+possible over to free software alternatives. The goal is to use as much free software
+as possible in my workflow. By the end of 2023, I would like to have proven that such a
+transformation is not only financially viable but makes good sense.
+
+I'll be releasing a [blog](https://bridgesense.com) each week about my progress. If
+proprietary software sneaks in somewhere, I won't be hiding it. You'll know about that
+too and why.
+
+This repository is a collection of tools I already use in my workflow. All references to
+proprietary systems have been removed for the sake of this year's challenge. If you like
+the idea and want to support me, the most important thing you could do is pass on my
+[blog link](https://bridgesense.com) to your friends.
+
 Credit:
 ---
 This dotfile repo is heavily based on [YADR](https://github.com/skwp/dotfiles)
@@ -11,12 +36,11 @@ from YADR trimmed down considerably for the sake of speed and portability.
 Check out the original repo, [YADR](https://github.com/skwp/dotfiles) especially
 if you work in Python or Ruby.
 
-index: [Emacs](#emacs), [Tmux](#tmux), [Vim](#vim), and [Kitty](#kitty)
+index: [Emacs](#emacs), [Tmux](#tmux), and [Vim](#vim)
 
 # Dotfiles Installation
 
-Requirements: [git](https://git-scm.com/downloads),
-[Homebrew](https://brew.sh)(for MacOS)
+Requirements: [git](https://git-scm.com/downloads)
 
 ```bash
 bash -c "`curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup`"
@@ -40,11 +64,11 @@ bash ~/.yadrlite/setup remove
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/emacs.d/emacs.init > ~/.emacs
 ```
 
-#### On MacOS [Homebrew](https://brew.sh) has a nice
-[Cask](https://emacsformacosx.com) package for a GUI version of Emacs
-
+#### To customize your [Trisquel 11](http://cdbuilds.trisquel.org/aramo/) workstation like mine:
 ```bash
-brew cask install emacs
+curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/trisquel-11 > ~/install
+# run as root
+bash install <username>
 ```
 
 What's Included:
@@ -453,41 +477,4 @@ forward/backward to next misspelled word
 vim. Great for testing single line changes to vimrc.
 * `,vr`: (Vim Reload) source current file as a vim file
 
-
-# Kitty
-
-Kitty is a full featured GPU-accelerated terminal.  It's faster.
-
-Requirements: [Kitty](https://sw.kovidgoyal.net/kitty/)
-
 [Return to top](#yadrlite)
-
-Kitty Shortcuts
----
-#### History:
-* `Ctrl+Shift+h` Enter history
-* `Ctrl+Shift+p, v` Enter history in VIM mode
-
-#### Tabs:
-* `ctrl+shift+t`: Creates new tab
-* `ctrl+shift+q`: Closes tab
-* `ctrl+shift+right`: Next tab
-* `ctrl+shift+left`: Last tab
-* `ctrl+shift+.`: Move tab forward
-* `ctrl+shift+,`: Move tab backward
-
-#### Windows:
-* `ctrl+shift+enter`: New window
-* `ctrl+shift+w`: Close window
-* `ctrl+shift+n`: Create new OS window
-* `ctrl+shift+]`: Next window
-* `ctrl+shift+[`: Last window
-* `ctrl+shift+l`: Cycle through layout
-* `ctrl+shift+f`: Shift window to prominent spot
-* `ctrl+shift+b`: Shift window to least prominent spot
-* `ctrl+shift+F2`: Create a new iteration of the last edited window
-
-#### Display Options:
-* `Ctrl+Shift+Equal`: Inscrease Font Size
-* `Ctrl+Shift+minus`: Decrease Font Size
-* `Ctrl+Shift+backspace`: Restore Font Size

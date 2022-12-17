@@ -112,50 +112,18 @@ if [ "$action" == "install" ]; then
     cat $dir/vim/vimrc >> $dir/vimrc 2>/dev/null
     cat $dir/vim/vimrc.after >> $dir/vimrc.after 2>/dev/null
     cp $dir/emacs.d/emacs.init $dir/emacs
+    mkdir -p $dir/emacs.d/.extensions
+    unzip $dir/workstation/extensions/xdebug-vscode-plugin.zip $dir/emacs.d/.extensions 
     sed -i "s@multi-term-program.*@multi-term-program \"$(which bash)\")@" $dir/emacs 2>/dev/null
     cat $dir/tmux/tmux.conf > $dir/tmux.conf
     echo "set-option -g default-shell \$SHELL" >> $dir/tmux.conf
-    if [[ "$(uname)" == "Darwin" ]]; then
-        if [[ "$(installed 'brew info')" == "no" ]]; then
-            if [[ "$(installed 'xcode-select -v')" == "no" ]]; then
-                echo "This dotfile package requires xcode-select to be installed."
-                bash $dir/setup remove
-                xcode-select --install
-                exit
-            else
-                mkdir -p ~/Library/Developer/Xcode/UserData/FontAndColorThemes/
-                cp -rf $dir/themes/gruvbox/xcode/Gruvbox.xccolortheme ~/Library/Developer/Xcode/UserData/FontAndColorThemes/
-	        echo ""
-		echo "Do you want to install Homebrew?  If you have MacPorts"
-                echo "already installed, they may not play well together."
-                echo ""
-                read -p "Install homebrew? [y,n]" -n 1 -r
-                if [[ $REPLY =~ ^[Yy]$ ]]; then
-                    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-                    sudo chown -R $USER:admin /usr/local
-                fi
-            fi
-        fi
-
-        if [[ "$(installed 'brew info')" == "yes" ]]; then
-            brew install vim tmux reattach-to-user-namespace the_silver_searcher ack openssl neovim nnn w3m nodejs aspell freeglut
-            # next line fixes bug with newest changes to MacOS security
-            ln -s `brew --prefix openssl`/bin/openssl /usr/local/bin/openssl 2>/dev/null
-            # fixes the cruddy looking font in Emacs on MacOS
-            defaults write org.gnu.Emacs AppleFontSmoothing -int 0
-            brew tap homebrew/cask-fonts
-            brew install --cask cmake gpg-suite emacs font-dejavu-sans-mono-nerd-font
-        fi
-
-        echo '# tmux status options'>> $dir/tmux.conf
-        echo "run-shell $dir/tmux/airline-hybrid.tmux">> $dir/tmux.conf
-    elif [[ "$(uname)" == "Linux" || "$(uname)" == "FreeBSD" ]]; then
+    if [[ "$(uname)" == "Linux" || "$(uname)" == "FreeBSD" ]]; then
         echo "Gnu/Linux detected..."
         echo '# tmux status options'>> $dir/tmux.conf
         echo "run-shell $dir/tmux/airline-hybrid-patched.tmux">> $dir/tmux.conf
     else
         rm -rf $dir
-        echo "I'm sorry, but your OS isn't supported yet."
+        echo "Please look into Linux. Your OS isn't supported yet."
         exit
     fi
 
@@ -190,16 +158,10 @@ if [ "$action" == "install" ]; then
         ln -s $dir/$cfile ~/.$cfile
     done
 
-    if [[ "$(uname)" != "Darwin" ]]; then
-        echo ""
-        echo "This script does not install ack, emacs, silversearcher, tmux or"
-        echo "Vim with Lua support. That's something you might look into."
-        echo ""
-        echo "It's also assumed that a PHP environment is already installed."
-        echo "The Emacs configuration makes use of Boris, js-beautify and phpctags"
-        echo "which might need to be installed."
-	echo ""
-    fi
+    echo ""
+    echo "This script does not install ack, emacs, silversearcher, tmux or"
+    echo "Vim with Lua support. That's something you might look into."
+    echo ""
     echo "The dotfiles are installed. Restart the terminal or re-login to"
     echo "remote deployment to see changes."
     echo ""
