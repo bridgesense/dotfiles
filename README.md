@@ -12,9 +12,9 @@ and nonfree software. Free doesn't mean "free", as in the sense of money. Free m
 "freedom", where people have complete control of their software and the data stored in it.
 
 Starting in January of 2023, I will be converting much of my proprietary software as
-possible over to free software alternatives. The goal is to use as much free software
-as possible in my workflow. By the end of 2023, I would like to have proven that such a
-transformation is not only financially viable but makes good sense.
+possible over to free alternatives. The goal is to use as much free software as possible
+in my workflow. By the end of 2023, I would like to have proven that such a transformation
+is not only financially viable but makes good sense.
 
 I'll be releasing a [blog](https://bridgesense.com) each week about my progress. If
 proprietary software sneaks in somewhere, I won't be hiding it. You'll know about that
