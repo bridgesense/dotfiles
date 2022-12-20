@@ -306,7 +306,7 @@ printf "ALMOST DONE.  SHORTLY, YOU'LL BE ASKED TO REBOOT YOUR SYSTEM."
 # This library is compatible with any of the Nano AC600 USB Wifi Adapters
 # These low profile adapters are a good alternative to using proprietary
 # hardware.
-install package iw bc dkms
+install package iw bc dkms rfkill
 cd ~/lab
 git clone https://github.com/morrownr/8821cu-20210118.git
 cd 8821*

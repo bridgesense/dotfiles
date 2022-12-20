@@ -118,7 +118,7 @@
 ;; GPUPG Fix
 (setf epa-pinentry-mode 'loopback)
 ;; supress warnings
-(setq warning-minimum-level :debug)
+(setq warning-minimum-level :emergency)
 ;; show recently opened files
 (recentf-mode 1)
 (setq recentf-max-menu-items 25)
@@ -254,7 +254,6 @@
 (use-package helm :ensure t
   :diminish helm-mode
   :config
-  (require 'helm-config)
   (setq helm-mini-default-sources '(helm-source-buffers-list
                                   helm-source-recentf
                                   helm-source-bookmarks
