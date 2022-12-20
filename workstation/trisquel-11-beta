@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# This script is just a personal snapshot of my ubuntu-mate workstation.
-# curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/trisquel-11 > ~/install
+# This script is just for testing the trisquel 11 workstation.
+# curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/trisquel-11-beta > ~/install
 # bash install <username>
 # # # # # #Shutdown # # # # # # # # #
 
@@ -92,6 +92,13 @@ ln -s /usr/local/lib/node_modules/yarn/bin/yarn /usr/bin/yarn
 npm install --location=global gulp gulp-cli gulp-util --save-dev
 npm i --package-lock-only
 npm audit fix --force
+npm cache clean -f
+npm install -g n
+n stable
+
+# time
+install package ntp
+systemctl enable ntp
 
 # install fonts
 install package fonts-noto fontforge
@@ -191,7 +198,7 @@ install package rsyslog-doc
 
 # add desktop applications
 # # # # # # # # # # # # # # #
-su -c 'touch ~/.local/share/applications/nnn.desktop' $USER
+su -c "touch /home/$USER/.local/share/applications/nnn.desktop" $USER
 printf "[Desktop Entry]\n\
 Type=Application\n\
 Name=nnn\n\
@@ -199,7 +206,7 @@ Icon=caja-actions\n\
 Exec=mate-terminal -e nnn\n\
 " >> /home/$USER/.local/share/applications/nnn.desktop
 
-su -c 'touch ~/.local/share/applications/shutdown.desktop' $USER
+su -c "touch /home/$USER/.local/share/applications/shutdown.desktop" $USER
 printf "[Desktop Entry]\n\
 Type=Application\n\
 Name=Shutdown\n\
@@ -207,7 +214,7 @@ Icon=gshutdown\n\
 Exec=mate-session-save --shutdown-dialog\n\
 " >> /home/$USER/.local/share/applications/shutdown.desktop
 
-su -c 'touch ~/.local/share/applications/logout.desktop' $USER
+su -c "touch /home/$USER/.local/share/applications/logout.desktop" $USER
 printf "[Desktop Entry]\n\
 Type=Application\n\
 Name=Logout\n\
@@ -215,7 +222,7 @@ Icon=gnome-lockscreen\n\
 Exec=mate-session-save --logout-dialog\n\
 " >> /home/$USER/.local/share/applications/logout.desktop
 
-su -c 'touch ~/.local/share/applications/mpv.desktop' $USER
+su -c "touch /home/$USER/.local/share/applications/mpv.desktop" $USER
 printf "[Desktop Entry]\n\
 Type=Application\n\
 Name=mpv Media Player\n\
@@ -296,7 +303,7 @@ printf "ALMOST DONE.  SHORTLY, YOU'LL BE ASKED TO REBOOT YOUR SYSTEM."
 # This library is compatible with any of the Nano AC600 USB Wifi Adapters
 # These low profile adapters are a good alternative to using proprietary
 # hardware.
-install package wi bc dkms
+install package iw bc dkms
 cd ~/lab
 git clone https://github.com/morrownr/8821cu-20210118.git
 cd 8821*
