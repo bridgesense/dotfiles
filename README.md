@@ -66,14 +66,15 @@ curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/emacs.d/emacs
 
 #### To install my Trisquel 10 workstation configuration
 
-This configuration script requires at least 32gb or more assigned to the
-root partition. By default, Trisquel only assigns 20gb for the root
-partition. 
-
 ```bash
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/trisquel-10 > ~/install
 bash install <username>
 ```
+NOTE: This configuration script requires at least 32gb or more assigned to the
+root partition. The graphical installation of Trisquel only assigns 20gb
+or 5% of available disk space. You may want to use the text installation
+instead to specify the size of the root partition.
+
 
 What's Included:
 ---
