@@ -32,7 +32,7 @@
 
 ;; Remember your place
 ;; # # # # # # # # # # #
-(save-place-mode 1)
+(save-place-mode 1) 
 
 ;; Default Font and Transparency
 ;; # # # # # # # # # # #
@@ -41,7 +41,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:height 120 :family "Fira Code Nerd Font Mono" "Fira Code Symbol" "DejavuSans Mono" "Monaco"))))
+ '(default ((t (:height 120 :family "FiraCode Nerd Font Mono" "DejavuSans Mono" "Monaco" "Fira Code Symbol" "Noto Color Emoji"))))
  '(diff-added ((t (:foreground "#cc241d" :background "#282828"))))
  '(diff-changed ((t (:foreground "#d79921" :background "#282828"))))
  '(diff-context ((t (:inherit default foreground "#ebdbb2" :background "#282828"))))
@@ -159,6 +159,7 @@
 
 ;; ligatures
 (use-package fira-code-mode
+  :if (display-graphic-p)
   :ensure t
   :custom (fira-code-mode-disabled-ligatures '("[]" "#{" "#(" "#_" "#_(" "x")) ;; List of ligatures to turn off
   :hook prog-mode
@@ -168,6 +169,14 @@
 ; install fira code symbols manually for ligatures to work
 ; m-x fira-code-mode-install-fonts
 ; m-x all-the-icons-install-fonts
+
+
+;; emojis
+(use-package emojify
+  :ensure t
+  :if (display-graphic-p)
+  :hook (after-init . global-emojify-mode)
+  )
 
 
 ;; clipboard sharing
@@ -254,6 +263,7 @@
 (use-package helm :ensure t
   :diminish helm-mode
   :config
+  (require 'helm-config)
   (setq helm-mini-default-sources '(helm-source-buffers-list
                                   helm-source-recentf
                                   helm-source-bookmarks
@@ -298,7 +308,11 @@
 ;; Icon Package
 ;; # # # # # # # # # # #
 (use-package all-the-icons :ensure t
-  :if (display-graphic-p))
+  :if (display-graphic-p)
+  :config
+  (propertize (all-the-icons-octicon "package")
+            'face `(:family ,(all-the-icons-octicon-family) :height 1.2)
+            'display '(raise -0.1)))
 (use-package all-the-icons-completion :ensure t
   :if (display-graphic-p)
   :config
@@ -817,6 +831,8 @@
      (require 'mu4e-config)
      (require 'mu4e)
      (use-package helm-mu :ensure t)
+     (with-eval-after-load "emojify"
+       (delete 'mu4e-headers-mode emojify-inhibit-major-modes))
 
     ;; mu4e setup
     ;; setup
@@ -867,7 +883,7 @@
     ;; use mu4e for e-mail in emacs
     (setq mail-user-agent 'mu4e-user-agent)
 
-    default settings
+    ;; default settings
     (setq mu4e-sent-folder "/Sent"
           mu4e-drafts-folder "/Drafts"
           mu4e-trash-folder  "/Junk"
@@ -906,16 +922,31 @@
     (setq
     message-signature-file nil
     mu4e-attachment-dir "~/Downloads"
-    mu4e-compose-signature-auto-include t
+    mu4e-compose-signature-auto-include 't
     mu4e-headers-date-format "%e-%b"
-    mu4e-headers-include-related t
+    mu4e-headers-include-related 't
     mu4e-headers-time-format "%k:%M"
-    mu4e-headers-skip-duplicates t
+    mu4e-headers-skip-duplicates 't
+    mu4e-headers-draft-mark     '("D" . "🚧 ")
+    mu4e-headers-flagged-mark   '("F" . "🚩 ")
+    mu4e-headers-new-mark       '("N" . "✨ ")
+    mu4e-headers-passed-mark    '("P" . "📨 ")
+    mu4e-headers-replied-mark   '("R" . " ")
+    mu4e-headers-seen-mark      '("S" . "✔ ")
+    mu4e-headers-trashed-mark   '("T" . "💀 ")
+    mu4e-headers-attach-mark    '("a" . "📎 ")
+    mu4e-headers-encrypted-mark '("x" . "🔑 ")
+    mu4e-headers-signed-mark    '("s" . "🖊 ")
+    mu4e-headers-unread-mark    '("u" . "📩 ")
+    mu4e-headers-list-mark      '("s" . "📰 ")
+    mu4e-headers-personal-mark  '("p" . " ")
+    mu4e-headers-calendar-mark  '("c" . "📆 ")
     mu4e-headers-visible-lines 10
     mu4e-view-auto-mark-as-read nil
-    mu4e-enable-async-operations t
-    mu4e-enable-notifications t
-    mu4e-enable-mode-line t
+    mu4e-enable-async-operations 't
+    mu4e-enable-notifications 't
+    mu4e-use-fancy-chars 't
+    mu4e-enable-mode-line 't
     mu4e-headers-fields '(
                     (:flags . 6)
                     (:human-date . 12)
@@ -1188,8 +1219,10 @@
 (use-package lsp-grammarly
   :ensure t
   :init
-  (setq lsp-grammarly-active-modes '(mu4e-compose-mode text-mode latex-mode org-mode markdown-mode)))
-
+  (setq lsp-grammarly-active-modes '(mu4e-compose-mode text-mode latex-mode org-mode markdown-mode))
+  :hook (org-mode . (lambda ()
+                       (require 'lsp-grammarly)
+                       (lsp))))
 
 ;; Scratch
 (use-package scratch
