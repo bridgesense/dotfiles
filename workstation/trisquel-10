@@ -134,7 +134,7 @@ install package clamav clamav-update brasero yt-dlp w3m w3m-img
 install package ftp telnet hplip hplip-gui simple-scan
 install package neovim gnutls-bin maildir-utils imagemagick gnupg2
 install package gcolor3 flameshot transmission
-install package podman buildah gnome-boxes gnome-disk-utility usb-creator-gtk
+install package gnome-boxes gnome-disk-utility usb-creator-gtk
 install package stacer timeshift caffeine
 install package google-chrome-stable gnome-software gnome-software-plugin-flatpak
 install package nextcloud-desktop fontforge
@@ -145,6 +145,12 @@ install package obs-studio kdenlive audacity
 # gimp
 log "installing gimp and plugins"
 install package gimp gimp-data-extras gimp-plugin-registry gimp-gluas gimp-gmic gimp-gap
+
+# buildah and podman
+echo "deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/ /" | sudo tee /etc/apt/sources.list.d/devel-kubic-libcontainers-stable.list
+curl -Ls https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/xUbuntu_20.04/Release.key | sudo apt-key add -
+apt-get update
+install package buildah podman 
 
 # install mu4e
 log "installing emacs and plugins"
@@ -192,6 +198,10 @@ cd ~/lab
 wget http://download.videolan.org/debian/stable/libdvdcss2_1.2.13-0_amd64.deb
 dpkg -i *.deb
 rm -f *.deb
+
+# removes apache2 default installation
+# for compatibility with podman application
+apt-get remove -y apache2 --purge
 
 # documentation
 # # # # # # # # # # # # # # #
