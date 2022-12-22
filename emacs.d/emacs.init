@@ -384,7 +384,7 @@
 
 ;; Fix the terminal
 ;; # # # # # # # # # # #
-(setq multi-term-program "/usr/bin/bash")
+(setq multi-term-program "/bin/bash")
 (use-package multi-term :ensure t
   :config
   (add-hook 'term-mode-hook
