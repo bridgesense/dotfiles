@@ -117,7 +117,7 @@ fc-cache -f -v
 # install coding tools
 install package libfreetype-dev libfontconfig-dev libxcb1-dev tmux xclip
 install package python3-neovim python3-pynvim
-gem install bundler --pre 
+gem install bundler --pre
 gem install --no-user-install neovim
 gem install --no-user-install compass
 
@@ -156,9 +156,15 @@ make
 make install
 
 # emacs
-add-apt-repository ppa:kelleyk/emacs
-apt-get update
-install package emacs28
+apt-get build-dep -y emacs-gtk
+cd ~/lab
+git clone -b master git://git.sv.gnu.org/emacs.git
+cd emacs
+git checkout emacs-27
+bash autogen.sh
+bash configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils
+make
+make install
 
 # gimp
 log "installing gimp and plugins"

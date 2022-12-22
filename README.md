@@ -97,7 +97,7 @@ __Emacs__\
 
 # Emacs
 
-Requirements: [Emacs 24.4+ w/ Lua support](https://www.gnu.org/software/emacs/)
+Requirements: [Emacs 27.2+ w/ Lua support](https://www.gnu.org/software/emacs/)
 
 Suggested: [Silver Searcher](https://github.com/ggreer/the_silver_searcher)
 
@@ -108,6 +108,11 @@ package.  Switching between Emacs and Evil mode is done by C-z. There is inline
 documentation with live hints for ease of discovery.  After entering Emacs just
 hit the leader key (,) to get started.  Hit the leader key twice for a fuzzy
 command search.
+
+NOTE: I have some personal concerns around Emacs 28's performance. Although,
+I'm really excited about the new developments in 29. I would strongly suggest
+to sticking with version 27 for now. If your distro doesn't have it, there are
+compilation examples in each of the workstation scripts.
 
 [Return to top](#yadrlite)
 

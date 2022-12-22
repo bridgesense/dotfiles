@@ -114,7 +114,7 @@ fc-cache -f -v
 # install coding tools
 install package libfreetype-dev libfontconfig-dev libxcb1-dev tmux xclip
 install package python3-neovim python3-pynvim
-gem install bundler --pre 
+gem install bundler --pre
 gem install --no-user-install neovim
 gem install --no-user-install compass
 
@@ -162,7 +162,6 @@ apt-get build-dep -y emacs-gtk
 cd ~/lab
 git clone -b master git://git.sv.gnu.org/emacs.git
 cd emacs
-git fetch --all
 git checkout emacs-27
 bash autogen.sh
 bash configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils
@@ -187,7 +186,7 @@ install package ufw
 ufw enable
 ufw allow 9003/tcp
 
-# media extras 
+# media extras
 install package mpv
 cd ~/lab
 wget http://download.videolan.org/debian/stable/libdvdcss2_1.2.13-0_amd64.deb
