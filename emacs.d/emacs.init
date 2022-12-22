@@ -1431,6 +1431,8 @@
    :keymaps 'override
    "g"  '(nil :which-key "Grammer")
    "ga" '(powerthesaurus-lookup-antonyms-dwim :which-key "See Antonyms")
+   "ge" '(emojify-insert-emoji :which-key "Insert Emoji")
+   "gi" '(all-the-icons-insert :which-key "Insert Icon")
    "gs" '(flyspell-mode :which-key "View Spelling Errors")
    "gc" '(flyspell-auto-correct-word :which-key "Correct Spelling")
    "gd" '(powerthesaurus-lookup-definitions-dwim :which-key "See Definition")
