@@ -54,7 +54,7 @@ apt-get update
 install package git subversion curl
 install package build-essential
 install package ack silversearcher-ag
-install package isync msmtp pass universal-ctags
+install package msmtp pass universal-ctags
 install package python3 ruby-full openjdk-18-jre-headless
 install package php perl maven
 install package golang bison php-pear
@@ -132,7 +132,7 @@ install package network-manager-openvpn network-manager-openconnect
 install package aspell-en texlive-full papirus-icon-theme
 install package clamav clamav-update brasero yt-dlp w3m w3m-img
 install package ftp telnet hplip hplip-gui simple-scan
-install package neovim gnutls-bin maildir-utils imagemagick gnupg2
+install package neovim gnutls-bin imagemagick gnupg2
 install package gcolor3 flameshot transmission
 install package gnome-boxes gnome-disk-utility usb-creator-gtk
 install package stacer timeshift caffeine
@@ -159,7 +159,18 @@ install package libgmime-3.0-dev libxapian-dev meson
 mkdir -p ~/lab
 cd ~/lab
 git clone https://github.com/djcb/mu.git
+git checkout release/1.8
 bash autogen.sh
+ninja -C build
+make install
+
+# isync
+cd ~/lab
+git clone https://git.code.sf.net/p/isync/isync-isync
+cd isync-isync
+git checkout 1.4
+bash autogen.sh
+bash configure
 make
 make install
 
