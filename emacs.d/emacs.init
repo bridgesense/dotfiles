@@ -32,7 +32,7 @@
 
 ;; Remember your place
 ;; # # # # # # # # # # #
-(save-place-mode 1) 
+(save-place-mode 1)
 
 ;; Default Font and Transparency
 ;; # # # # # # # # # # #
@@ -191,9 +191,17 @@
 (setq x-select-enable-primary t)
 
 
+;; persistant undo history
+(use-package undo-tree :ensure t
+  :config
+  (global-undo-tree-mode))
+
+
 ;; Evil Vim & Plugins
 ;; # # # # # # # # # # #
 (setq evil-want-keybinding nil)
+(setq evil-want-fine-undo t)
+(setq evil-undo-system 'undo-tree)
 (use-package evil :ensure t
   :init
   (setq evil-want-integration t)
@@ -241,21 +249,6 @@
   (setq evil-this-type (if (eolp) 'exclusive 'inclusive)))
 (define-key evil-motion-state-map "g$" 'evil-end-of-line)
 (define-key evil-motion-state-map "$" 'evil-last-non-blank)
-
-
-;; persistant undo history
-(use-package undohist :ensure t
-  :config
-  (undohist-initialize)
-  (advice-add 'undohist-save-1 :before-while
-            (defun undohist-only-save-file-buffers+ (&rest _)
-              (and (buffer-file-name (current-buffer))
-                   (undohist-recover-file-p (buffer-file-name (current-buffer))))))
-  (setq undohist-ignored-files
-         '("COMMIT_EDITMSG"
-           "\\.gpg\\'"
-           file-remote-p
-           ignoramus-boring-p)))
 
 
 ;; Helm
@@ -794,7 +787,7 @@
     (dashboard-modify-heading-icons '((bookmarks . "book")))
     (dashboard-setup-startup-hook))
 
-(defun call-dashboard nil 
+(defun call-dashboard nil
   "Jump to the dashboard buffer, if doesn't exists create one."
   (interactive)
   (dashboard-refresh-buffer)
@@ -922,11 +915,11 @@
     (setq
     message-signature-file nil
     mu4e-attachment-dir "~/Downloads"
-    mu4e-compose-signature-auto-include 't
+    mu4e-compose-signature-auto-include t
     mu4e-headers-date-format "%e-%b"
-    mu4e-headers-include-related 't
+    mu4e-headers-include-related t
     mu4e-headers-time-format "%k:%M"
-    mu4e-headers-skip-duplicates 't
+    mu4e-headers-skip-duplicates t
     mu4e-headers-draft-mark     '("D" . "🚧 ")
     mu4e-headers-flagged-mark   '("F" . "🚩 ")
     mu4e-headers-new-mark       '("N" . "✨ ")
@@ -943,10 +936,10 @@
     mu4e-headers-calendar-mark  '("c" . "📆 ")
     mu4e-headers-visible-lines 10
     mu4e-view-auto-mark-as-read nil
-    mu4e-enable-async-operations 't
-    mu4e-enable-notifications 't
-    mu4e-use-fancy-chars 't
-    mu4e-enable-mode-line 't
+    mu4e-enable-async-operations t
+    mu4e-enable-notifications t
+    mu4e-use-fancy-chars t
+    mu4e-enable-mode-line t
     mu4e-headers-fields '(
                     (:flags . 6)
                     (:human-date . 12)
@@ -1054,8 +1047,8 @@
                 (lambda ()
                 (add-to-list 'mu4e-view-actions '("Download All Attachments" . mu4e-view-save-all-attachments) t)))
 
-    
-    
+
+
     ;;; mu4e-view-save-all-attachments.el -- Save all attachments from view mode.
     ;;; Stephen J Eglen 2021
 
@@ -1171,7 +1164,7 @@
   :config
     (setq read-process-output-max (* 1024 1024))
     (setq lsp-idle-delay 0.500)
-    (setq lsp-log-io nil) 
+    (setq lsp-log-io nil)
     (setq lsp-prefer-flymake t)
     (setq lsp-enable-file-watchers t)
     (setq lsp-file-watch-threshold nil)
@@ -1215,7 +1208,7 @@
 (use-package helm-lsp :ensure t)
 
 
-;; Grammarly 
+;; Grammarly
 (use-package lsp-grammarly
   :ensure t
   :init
@@ -1354,7 +1347,7 @@
    "U" '(package-reinstall-all-activated-packages :which-key "Update All Packages")
    "/" '(helm-do-ag-project-root :which-key "Search in Project"))
 
-  
+
    ;; Applicaitons
   (general-define-key
    :prefix gleader
@@ -1422,7 +1415,7 @@
    "fr" '(lsp-find-references :which-key "Find Reference")
    "fs" '(lsp-ui-doc-show :which-key "Show Documentation"))
 
-  
+
   ;; Word Functions
   (general-define-key
    :prefix gleader
@@ -1440,7 +1433,7 @@
    "gt" '(powerthesaurus-lookup-synonyms-dwim :which-key "See Synonyms")
    )
 
-  
+
   ;; Line Functions
   (general-define-key
    :prefix gleader
@@ -1522,7 +1515,7 @@
    "sw" '(cancel-debug-on-variable-change :which-key "Cancel Variable Debugging")
    "sx" '(cancel-debug-on-entry :which-key "Cancel Function Debugging"))
 
-  
+
   ;; Misc Toggles
   (general-define-key
    :prefix gleader
@@ -1531,7 +1524,7 @@
    :keymaps 'override
    "t"  '(nil :which-key "Toggles")
    "tt" '(toggle-light-dark-theme :which-key "Toggle Dark/Light Theme"))
-  
+
 
   ;; Window Functions
   (general-define-key
@@ -1559,7 +1552,7 @@
    "wv" '(split-window-right :which-key "Vertical Split")
    "wx" '(delete-frame :which-key "Close Screen"))
 
-  
+
   )
 
 ;; Warning!  Any lines modified below this point may be overwritten.
