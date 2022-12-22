@@ -194,6 +194,7 @@
 ;; persistant undo history
 (use-package undo-tree :ensure t
   :config
+  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))) 
   (global-undo-tree-mode))
 
 
