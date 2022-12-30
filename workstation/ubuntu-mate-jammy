@@ -156,7 +156,7 @@ make
 make install
 
 # emacs
-apt-get build-dep -y emacs-gtk
+install package libxaw7-dev libtiff5-dev libgif-dev libgtk2.0-dev
 cd ~/lab
 git clone -b master git://git.sv.gnu.org/emacs.git
 cd emacs
