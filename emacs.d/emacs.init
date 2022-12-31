@@ -1206,6 +1206,22 @@
   :ensure t
   :config
   (setq lsp-treemacs-sync-mode 1))
+;; treemacs fix for 27+
+(eval-after-load "lsp-treemacs"
+  '(defun lsp-treemacs--generic-icon (item expanded?)
+  "Get the symbol for the the kind."
+  (concat
+   (if (or (plist-get item :children)
+           (plist-get item :children-async))
+       (if expanded?  "▾ " "▸ ")
+     "  ")
+   (or (plist-get item :icon-literal)
+       (if-let (icon (plist-get item :icon))
+           (treemacs-get-icon-value
+            icon
+            nil
+            lsp-treemacs-theme)
+         "   ")))))
 (use-package helm-lsp :ensure t)
 
 
