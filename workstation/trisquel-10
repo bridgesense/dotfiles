@@ -166,9 +166,9 @@ make install
 
 # isync
 cd ~/lab
-git clone https://git.code.sf.net/p/isync/isync-isync
-cd isync-isync
+git clone https://git.code.sf.net/p/isync/isync isync-isync -b 1.4
 git checkout 1.4
+cd isync-isync
 bash autogen.sh
 bash configure
 make
@@ -179,7 +179,7 @@ cd ~/lab
 git clone git://git.sv.gnu.org/emacs.git -b emacs-27
 cd emacs
 bash autogen.sh
-bash configure --without-makeinfo --with-gntls=ifavailable --with-mailutils
+bash configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils
 make
 make install
 
