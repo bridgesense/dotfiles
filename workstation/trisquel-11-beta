@@ -160,7 +160,7 @@ make install
 # emacs
 apt-get build-dep -y emacs-gtk
 cd ~/lab
-git clone -b master git://git.sv.gnu.org/emacs.git
+git clone git://git.sv.gnu.org/emacs.git -b emacs-27
 cd emacs
 bash autogen.sh
 bash configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils
