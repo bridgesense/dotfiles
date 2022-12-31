@@ -153,6 +153,7 @@ install package libgmime-3.0-dev libxapian-dev meson
 mkdir -p ~/lab
 cd ~/lab
 git clone https://github.com/djcb/mu.git
+cd mu
 bash autogen.sh
 make
 make install
@@ -170,7 +171,7 @@ make install
 # syncterm
 # thanks to MeaTLoTioN
 # https://www.erb.pw/how-to-install-syncterm-for-linux-from-source/
-install package libncurses5-dev libncursesw5-dev gcc libsdl1.2-dev build-essential
+install package libncurses5-dev libncursesw5-dev gcc libsdl1.2-dev
 cd ~/lab
 wget http://syncterm.bbsdev.net/syncterm-src.tgz
 tar xvzf syncterm-src.tgz
