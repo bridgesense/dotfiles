@@ -147,7 +147,7 @@ install package science-electronics
 # install mu4e
 log "installing emacs and plugins"
 apt-get remove -y --autoremove emacs emacs-common
-install package libgmime-3.0-dev libxapian-dev meson
+install package autoconf meson libgmime-3.0-dev libxapian-dev libxaw7-dev libtiff5-dev libgtk2.0-dev libgif-dev libgnutls28-dev libncurses-dev
 mkdir -p ~/lab
 cd ~/lab
 git clone https://github.com/djcb/mu.git
@@ -156,13 +156,11 @@ make
 make install
 
 # emacs
-apt-get build-dep -y emacs-gtk
 cd ~/lab
-git clone -b master git://git.sv.gnu.org/emacs.git
+git clone git://git.sv.gnu.org/emacs.git -g emacs-27
 cd emacs
-git checkout emacs-27
 bash autogen.sh
-bash configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils
+bash configure --without-makeinfo --with-gntls=ifavailable --with-mailutils
 make
 make install
 

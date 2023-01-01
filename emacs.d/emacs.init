@@ -695,7 +695,7 @@
 
 ;; Dictionary / Thesaurus
 ;; # # # # # # # # # # #
-(use-package powerthesaurus :ensure t)
+(use-package wordnut :ensure t)
 
 
 ;; Battery Update
@@ -1445,10 +1445,8 @@
    "gi" '(all-the-icons-insert :which-key "Insert Icon")
    "gs" '(flyspell-mode :which-key "View Spelling Errors")
    "gc" '(flyspell-auto-correct-word :which-key "Correct Spelling")
-   "gd" '(powerthesaurus-lookup-definitions-dwim :which-key "See Definition")
-   "gr" '(powerthesaurus-lookup-related-dwim :which-key "See Related Words")
-   "gt" '(powerthesaurus-lookup-synonyms-dwim :which-key "See Synonyms")
-   )
+   "gd" '(wordnut-lookup-current-word :which-key "Word Definition & Thesaurus")
+   "gw" '(wordnut-search :which-key "Word Lookup"))
 
 
   ;; Line Functions
