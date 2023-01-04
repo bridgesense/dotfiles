@@ -11,8 +11,7 @@ dir=~/.yadrlite
 dotfiles_old=backup
 action="${1:-install}"
 declare -a files=('vim vimrc tmux.conf profile bash_profile bashrc vimrc.after emacs emacs.d')
-declare -a tmuxplugins=('https://github.com/tmux-plugins/tmux-resurrect.git' \
-    'https://github.com/tmux-plugins/tmux-continuum.git')
+declare -a tmuxplugins=('https://github.com/tmux-plugins/tmux-resurrect.git')
 
 # # Routines
 # # # # # # # # # # # # # # #
