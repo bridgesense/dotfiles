@@ -201,6 +201,7 @@ ufw enable
 ufw allow 9003/tcp
 
 # media extras
+install package libxine2-ffmpeg libxine2-all-plugins
 install package mpv
 cd ~/lab
 wget http://download.videolan.org/debian/stable/libdvdcss2_1.2.13-0_amd64.deb
@@ -318,6 +319,9 @@ log "Installation nearly complete."
 log "Now installing the wifi driver."
 printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
 printf "ALMOST DONE.  SHORTLY, YOU'LL BE ASKED TO REBOOT YOUR SYSTEM."
+printf "ALSO: Be sure to enable WebGL in Abrowser!"
+printf "Place about:config in your browser URL and search for webgl.disabled"
+printf "Change the setting to false."
 
 # wireless library for 8812au
 # This library is compatible with any of the Nano AC600 USB Wifi Adapters
