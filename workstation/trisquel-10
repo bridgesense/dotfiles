@@ -140,7 +140,7 @@ install package google-chrome-stable gnome-software gnome-software-plugin-flatpa
 install package nextcloud-desktop fontforge
 install package libreoffice
 install package science-electronics stellarium
-install package obs-studio kdenlive audacity
+install package obs-studio kdenlive audacity vlc*
 
 # gimp
 log "installing gimp and plugins"
@@ -218,7 +218,7 @@ install package rsyslog-doc
 
 # add desktop applications
 # # # # # # # # # # # # # # #
-su -c "mkdir -p /home/$USER/.local/share/applications"
+su -c "mkdir -p /home/$USER/.local/share/applications" $USER
 su -c "touch /home/$USER/.local/share/applications/nnn.desktop" $USER
 printf "[Desktop Entry]\n\
 Type=Application\n\
@@ -242,6 +242,22 @@ Name=Logout\n\
 Icon=gnome-lockscreen\n\
 Exec=mate-session-save --logout-dialog\n\
 " >> /home/$USER/.local/share/applications/logout.desktop
+
+su -c "touch /home/$USER/.local/share/applications/night.desktop" $USER
+printf "[Desktop Entry]\n\
+Type=Application\n\
+Name=Night Display\n\
+Icon=palemoon\n\
+Exec=xgamma -rgamma 0.90 -ggamma 0.88 -bgamma 0.72\n\
+" >> /home/$USER/.local/share/applications/night.desktop
+
+su -c "touch /home/$USER/.local/share/applications/day.desktop" $USER
+printf "[Desktop Entry]\n\
+Type=Application\n\
+Name=Daytime Display\n\
+Icon=sunflower\n\
+Exec=xgamma -gamma 1\n\
+" >> /home/$USER/.local/share/applications/day.desktop
 
 su -c "touch /home/$USER/.local/share/applications/mpv.desktop" $USER
 printf "[Desktop Entry]\n\
