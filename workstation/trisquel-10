@@ -323,10 +323,15 @@ printf "ALSO: Be sure to enable WebGL in Abrowser!"
 printf "Place about:config in your browser URL and search for webgl.disabled"
 printf "Change the setting to false."
 
-# wireless library for 8812au
-# This library is compatible with any of the Nano AC600 USB Wifi Adapters
-# These low profile adapters are a good alternative to using proprietary
+# wireless library for 8812cu
+# This library is compatible with most Wifi Adapters based on the Realtech 8811CU chipset
+# There are some low profile adapters that are good alternative to using proprietary
 # hardware.
+# see the following compatible usb wifi devices:
+# EDUP EP-AC1651 nano 
+# EDUP EP-AC1635
+# Ourlink Nano AC600 (Mini only)
+# Ref: https://github.com/morrownr/8821cu-20210118/blob/main/supported-device-IDs
 install package iw bc dkms rfkill
 cd ~/lab
 git clone https://github.com/morrownr/8821cu-20210118.git
