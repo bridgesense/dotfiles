@@ -695,8 +695,14 @@
 
 ;; Dictionary / Thesaurus
 ;; # # # # # # # # # # #
-(use-package wordnut :ensure t)
-
+(use-package wordnut :ensure t
+  :config
+  (add-hook 'wordnut-mode-hook
+            (lambda ()
+              (define-key evil-normal-state-local-map (kbd "p") 'wordnut-history-backward)
+              (define-key evil-normal-state-local-map (kbd "n") 'wordnut-history-forward)
+              (define-key evil-normal-state-local-map (kbd "?") 'wordnut-history-lookup)
+              )))
 
 ;; Battery Update
 (use-package fancy-battery :ensure t
