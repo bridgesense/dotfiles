@@ -130,7 +130,7 @@ install package dmg2img
 # install supplementary packages
 install package network-manager-openvpn network-manager-openconnect
 install package aspell-en texlive-full papirus-icon-theme
-install package clamav clamav-update brasero yt-dlp w3m w3m-img
+install package clamav clamav-update brasero w3m w3m-img
 install package ftp telnet hplip hplip-gui simple-scan
 install package neovim gnutls-bin imagemagick gnupg2
 install package gcolor3 flameshot transmission
@@ -207,6 +207,10 @@ cd ~/lab
 wget http://download.videolan.org/debian/stable/libdvdcss2_1.2.13-0_amd64.deb
 dpkg -i *.deb
 rm -f *.deb
+
+#yt-dlp
+wget https://github.com/yt-dlp/yt-dlp/releases/download/2023.01.06/yt-dlp_linux -O /usr/bin/yt-dlp
+chmod +x /usr/bin/yt-dlp
 
 # removes apache2 default installation
 # for compatibility with podman application
