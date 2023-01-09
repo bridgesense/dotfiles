@@ -1334,7 +1334,7 @@
 ;; leader key operation
 ;; # # # # # # # # # # #
 (setq gleader ",")
-(setq gleader-non "C-,")
+(setq gleader-non "M-,")
 (use-package general :ensure t
   :config
   (general-evil-setup)
