@@ -216,9 +216,6 @@ chmod +x /usr/bin/yt-dlp
 # for compatibility with podman application
 apt-get remove -y apache2 --purge
 
-# quality of life changes
-su -c "gsettings set org.mate.peripherals-touchpad disable-while-typing false" $USER
-
 # documentation
 # # # # # # # # # # # # # # #
 install package rsyslog-doc
