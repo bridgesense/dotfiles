@@ -201,7 +201,7 @@ ufw enable
 ufw allow 9003/tcp
 
 # media extras
-install package libxine2-ffmpeg libxine2-all-plugins
+install package libxine2-ffmpeg libxine2-all-plugins libavcodec-extra
 install package mpv
 cd ~/lab
 wget http://download.videolan.org/debian/stable/libdvdcss2_1.2.13-0_amd64.deb
