@@ -764,9 +764,9 @@
   (custom-set-variables
    ;;bug in ag not on first search
    ;;'(helm-ag-base-command "ag --nocolor --nogroup")))
-   '(helm-ag-base-command "ack --nocolor --nogroup")))
+   '(helm-ag-base-command "ack --nocolor --nogroup  --ignore-case --ignore-file=ext:sql")))
 
-
+    
 ; image display compatibility
 ; (setq image-use-external-converter 'convert)
 
