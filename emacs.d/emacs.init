@@ -880,6 +880,12 @@
     ; mu init --my-address="your@email.com" --maildir=/home/USERNAME/email/mbsyncmail/
     ; mu index
 
+    ; for broken certificate issues during mbsync
+    ; try this command and use that certificate instead
+    ; openssl s_client -connect mail.your-mail-server.com:993 -showcerts 2>&1 < /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | cat > ~/.mbsyncrc/your-mail-cert.crt
+    ; modify your .mbsyncrc config file accordingly:
+    ; CertificateFile /home/USERNAME/.emacs.d/your-mail-cert.crt
+ 
     ;; use mu4e for e-mail in emacs
     (setq mail-user-agent 'mu4e-user-agent)
 

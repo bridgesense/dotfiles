@@ -263,6 +263,22 @@ Icon=sunflower\n\
 Exec=xgamma -gamma 1\n\
 " >> /home/$USER/.local/share/applications/day.desktop
 
+su -c "touch /home/$USER/.local/share/applications/trackpad-off.desktop" $USER
+printf "[Desktop Entry]\n\
+Type=Application\n\
+Name=Trackpad OFF\n\
+Icon=mouse\n\
+Exec=xinput --disable 12\n\
+" >> /home/$USER/.local/share/applications/trackpad-off.desktop
+
+su -c "touch /home/$USER/.local/share/applications/trackpad-on.desktop" $USER
+printf "[Desktop Entry]\n\
+Type=Application\n\
+Name=Trackpad ON\n\
+Icon=mouse\n\
+Exec=xinput --enable 12\n\
+" >> /home/$USER/.local/share/applications/trackpad-on.desktop
+
 su -c "touch /home/$USER/.local/share/applications/mpv.desktop" $USER
 printf "[Desktop Entry]\n\
 Type=Application\n\
