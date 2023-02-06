@@ -140,7 +140,8 @@ install package google-chrome-stable gnome-software gnome-software-plugin-flatpa
 install package nextcloud-desktop fontforge
 install package libreoffice
 install package science-electronics stellarium
-install package obs-studio kdenlive audacity vlc*
+install package obs-studio audacity vlc*
+install package tlp
 
 # gimp
 log "installing gimp and plugins"
