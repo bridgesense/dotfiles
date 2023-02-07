@@ -882,7 +882,7 @@
 
     ; for broken certificate issues during mbsync
     ; try this command and use that certificate instead
-    ; openssl s_client -connect mail.your-mail-server.com:993 -showcerts 2>&1 < /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | cat > ~/.mbsyncrc/your-mail-cert.crt
+    ; openssl s_client -connect mail.your-mail-server.com:993 -showcerts 2>&1 < /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | cat > ~/.emacs.d/your-mail-cert.crt
     ; modify your .mbsyncrc config file accordingly:
     ; CertificateFile /home/USERNAME/.emacs.d/your-mail-cert.crt
  
