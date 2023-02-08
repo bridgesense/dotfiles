@@ -833,7 +833,15 @@
      (use-package helm-mu :ensure t)
      (with-eval-after-load "emojify"
        (delete 'mu4e-headers-mode emojify-inhibit-major-modes))
-
+     (use-package mu4e-alert
+        :ensure t
+        :config
+        (when (executable-find "notify-send")
+        (mu4e-alert-set-default-style 'libnotify))
+        :hook
+        ((after-init . mu4e-alert-enable-notifications)
+        (after-init . mu4e-alert-enable-mode-line-display)))
+    
     ;; mu4e setup
     ;; setup
     ; cd ~/.emacs.d
