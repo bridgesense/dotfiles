@@ -141,7 +141,11 @@ install package nextcloud-desktop fontforge
 install package libreoffice
 install package science-electronics stellarium
 install package obs-studio audacity vlc*
-install package tlp
+install package tlp tlp-rdw tp-smapi-dkms acpi-call-dkms
+
+# play/pause override
+# playerctl --all-players play-pause
+install package playerctld
 
 # gimp
 log "installing gimp and plugins"
