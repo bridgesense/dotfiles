@@ -11,12 +11,11 @@ The goal of the campaign is to help people become aware of the difference betwee
 and nonfree software. Free doesn't mean "free", as in the sense of money. Free means
 "freedom", where people have complete control of their software and the data stored in it.
 
-Starting in January of 2023, I will be converting much of my proprietary software over to
-free alternatives. The goal is to use as much free software as possible in my workflow.
-By the end of 2023, I would like to have proven that such a transformation was not only
-financially viable but made good sense.
+Starting, I will be converting much of my proprietary software over to free alternatives.
+The goal is to use as much free software as possible in my workflow. By the end of 2023,
+I should be well aware if such a transformation was financially viable or not.
 
-I'll be releasing a [blog](https://bridgesense.com) each week about my progress. If
+I'll be releasing a [blog](https://bridgesense.com) periodically about my progress. If
 proprietary software sneaks in somewhere, I won't be hiding it. You'll know about that
 too and why.
 
@@ -64,17 +63,36 @@ bash ~/.yadrlite/setup remove
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/emacs.d/emacs.init > ~/.emacs
 ```
 
+#### To install my Ubuntu Mate workstation configuration [recommended for most]
+
+```bash
+curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/ubuntu-mate-jammy > ~/install
+bash install <username>
+```
+NOTE: Why use Ubuntu Mate over the standard Ubuntu distribution? I don't feel Wayland
+is ready for professional use quite yet. Many applications still stumble over it. There
+are a lot of tweaks needed to make things work only half as effecient as X11. Maybe in
+after a few more years of development things will be different.
+
+The Mate windows manager is much more efficient on system resources than Gnome is. Out of
+the box, Ubuntu Mate will provide a much more familiar reference point to new users of Linux than
+its Gnome counterpart.
+
 #### To install my Trisquel 10 workstation configuration
 
 ```bash
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/trisquel-10 > ~/install
 bash install <username>
 ```
+IMPORTANT: If you have newer hardware, I would discourage the use of Trisquel.
+What I've found that Trisquel runs very hot! Even with TLP and several other
+plugins to assist with this, the problem persists. For newer hardware, I'd
+encourage you to use the Ubuntu Mate distribution.
+
 NOTE: This configuration script requires at least 32gb or more assigned to the
 root partition. The graphical installation of Trisquel only assigns 20gb
 or 5% of available disk space. You may want to use the text installation
 instead to specify the size of the root partition.
-
 
 What's Included:
 ---

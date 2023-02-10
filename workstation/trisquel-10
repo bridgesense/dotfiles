@@ -57,7 +57,7 @@ install package ack silversearcher-ag
 install package msmtp pass universal-ctags
 install package python3 ruby-full openjdk-18-jre-headless
 install package php perl maven
-install package golang bison php-pear
+install package golang-go hugo bison php-pear
 install package pdfarranger wordnet
 install package mate-applet-brisk-menu
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -141,11 +141,14 @@ install package nextcloud-desktop fontforge
 install package libreoffice
 install package science-electronics stellarium
 install package obs-studio audacity vlc*
-install package tlp tlp-rdw tp-smapi-dkms acpi-call-dkms
 
 # play/pause override
 # playerctl --all-players play-pause
 install package playerctld
+
+# excessive heat issue
+add-apt-repository -y ppa:linrunner/tlp
+install package tlp tlp-rdw tp-smapi-dkms acpi-call-dkms lm-sensors
 
 # gimp
 log "installing gimp and plugins"
@@ -186,6 +189,10 @@ bash autogen.sh
 bash configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils
 make
 make install
+
+# gimp
+log "installing gimp and plugins"
+install package gimp gimp-data-extras gimp-plugin-registry gimp-gluas gimp-gmic
 
 # syncterm
 # thanks to MeaTLoTioN
