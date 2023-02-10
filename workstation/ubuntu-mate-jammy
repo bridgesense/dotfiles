@@ -189,7 +189,8 @@ make install
 log "installing codecs and players"
 install package ubuntu-restricted-extras
 install package vlc libaacs0 libbluray-bdj libbluray2
-install package musescore obs-studio audacity vlc* mpv
+install package musescore obs-studio audacity vlc* mpv rhythmbox
+
 install package libdvd-pkg
 dpkg-reconfigure libdvd-pkg
 su -c "mkdir -p /home/$USER/.config/aacs" $USER
@@ -384,10 +385,16 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 install flatpak org.stellarium.Stellarium org.mozilla.firefox
 install flatpak com.gitlab.bitseater.meteo 
 install flatpak org.gnome.seahorse.Application
-# removing snapd is popular if you know what you're doing
-# otherwise, it's also the system that updates Ubuntu
-# outside the confines of apt dist-update
+
+# Removing snapd is popular if you know what you're doing.
+# Otherwise, it also contains offline system updates for this OS
+# outside the confines of apt dist-update.
+# To remove the nagging completely:
 # apt-get remove -y --purge snapd gnome-software-plugin-snap
+
+# To restore snapd and offline updates:
+# apt install gnome-software-plugin-snap
+# snap install snap-store
 
 log "Installation complete.  Please reboot your system."
 printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
