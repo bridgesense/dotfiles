@@ -67,6 +67,8 @@ curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/emacs.d/emacs
 
 ```bash
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/ubuntu-mate-jammy > ~/install
+```
+```bash
 bash install <username>
 ```
 NOTE: Why use Ubuntu Mate over the standard Ubuntu distribution? I don't feel Wayland
@@ -82,6 +84,8 @@ its Gnome counterpart.
 
 ```bash
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/trisquel-10 > ~/install
+```
+```bash
 bash install <username>
 ```
 IMPORTANT: If you have newer hardware, I would discourage the use of Trisquel.
