@@ -68,6 +68,7 @@ curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/emacs.d/emacs
 ```bash
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/ubuntu-mate-jammy > ~/install
 ```
+Run as root...
 ```bash
 bash install <username>
 ```
@@ -85,6 +86,7 @@ its Gnome counterpart.
 ```bash
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/trisquel-10 > ~/install
 ```
+Run as root...
 ```bash
 bash install <username>
 ```
