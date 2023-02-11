@@ -94,11 +94,13 @@ apt-get update
 install package nodejs gnupg2 gnupg wget
 npm install --location=global npm@latest
 npm install --location=global npm
-npm install --location=global grunt-cli eslint csslint gulp-sass typescript typescript-language-server intelephense coffeelint yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify unified-language-server
+npm install --location=global grunt-cli csslint typescript typescript-language-server intelephense coffeelint
+npm install --location=global yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify 
+npm install --location=global unified-language-server eslint emmet-ls babel-eslint typescript-lsp 
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 npm install --location=global yarn
 ln -s /usr/local/lib/node_modules/yarn/bin/yarn /usr/bin/yarn
-npm install --location=global gulp gulp-cli gulp-util --save-dev
+npm install --location=global gulp gulp-cli gulp-util gulp-sass --save-dev
 npm i --package-lock-only
 npm audit fix --force
 npm cache clean -f
