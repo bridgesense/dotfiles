@@ -206,6 +206,10 @@ ufw allow 9003/tcp
 wget https://github.com/yt-dlp/yt-dlp/releases/download/2023.01.06/yt-dlp_linux -O /usr/bin/yt-dlp
 chmod +x /usr/bin/yt-dlp
 
+# removes apache2 default installation
+# for compatibility with lampready 
+apt-get remove -y apache2 --purge
+
 # documentation
 # # # # # # # # # # # # # # #
 install package rsyslog-doc
