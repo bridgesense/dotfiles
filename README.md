@@ -11,7 +11,7 @@ The goal of the campaign is to help people become aware of the difference betwee
 and nonfree software. Free doesn't mean "free", as in the sense of money. Free means
 "freedom", where people have complete control of their software and the data stored in it.
 
-Starting in January of 2023, I will be converting much of my proprietary software over
+Starting in January of 2023, I'll be converting much of my proprietary software over
 to free alternatives. The goal is to use as much free software as possible in my workflow.
 By the end of the year I should be well aware if such a transformation was financially
 viable or not. I've been in business for 15 years now. I've been in this industry for the
@@ -19,7 +19,7 @@ past 25 years. If there are any new revelations, I'm pretty sure they will be im
 recognizable.
 
 I'll be releasing a [blog](https://bridgesense.com) periodically about my progress. If
-proprietary software sneaks in somewhere, I won't be hiding it. You'll know about that
+proprietary software sneaks in somewhere, I won't be hiding it. You'll know about that,
 too and why.
 
 This repository is a collection of tools that I already use in my workflow. All references
