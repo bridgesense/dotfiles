@@ -98,6 +98,11 @@ What I've found that Trisquel runs very hot! Even with TLP and several other
 plugins to assist with this, the problem persists. For newer hardware, I'd
 encourage you to use the Ubuntu Mate distribution.
 
+However, if you're running on older hardware using something like Libreboot, I
+would suggest you use Trisquel. The newer version of Ubuntu is not stable on
+this hardware. I'll be curious how this is handled during the development of
+Trisquel 11.
+
 NOTE: This configuration script requires at least 32gb or more assigned to the
 root partition. The graphical installation of Trisquel only assigns 20gb
 or 5% of available disk space. You may want to use the text installation

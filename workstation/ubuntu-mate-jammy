@@ -192,6 +192,7 @@ log "installing codecs and players"
 install package ubuntu-restricted-extras
 install package vlc libaacs0 libbluray-bdj libbluray2
 install package musescore obs-studio audacity vlc* mpv rhythmbox
+install package playerctl
 
 install package libdvd-pkg
 dpkg-reconfigure libdvd-pkg
