@@ -93,15 +93,15 @@ Run as root...
 ```bash
 bash install <username>
 ```
-IMPORTANT: If you have newer hardware, I would discourage the use of Trisquel.
-What I've found that Trisquel runs very hot! Even with TLP and several other
+IMPORTANT: If you have newer hardware, I would discourage the use of Trisquel 10.
+What I've found that Trisquel 10 runs very hot! Even with TLP and several other
 plugins to assist with this, the problem persists. For newer hardware, I'd
-encourage you to use the Ubuntu Mate distribution.
+encourage you to try the [Trisquel 11 Beta](https://cdbuilds.trisquel.org/aramo/)
+or a newer Ubuntu Mate distribution.
 
 However, if you're running on older hardware using something like Libreboot, I
-would suggest you use Trisquel. The newer version of Ubuntu is not stable on
-this hardware. I'll be curious how this is handled during the development of
-Trisquel 11.
+would suggest you use Trisquel 10. The newer version of Ubuntu is not stable on
+older hardware, like the x200. 
 
 NOTE: This configuration script requires at least 32gb or more assigned to the
 root partition. The graphical installation of Trisquel only assigns 20gb
