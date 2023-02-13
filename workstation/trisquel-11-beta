@@ -202,6 +202,10 @@ rm -f *.deb
 # playerctl --all-players play-pause
 install package playerctld
 
+# removes apache2 default installation
+# for compatibility with podman application
+apt-get remove -y apache2 --purge
+
 # documentation
 # # # # # # # # # # # # # # #
 install package rsyslog-doc
