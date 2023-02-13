@@ -100,7 +100,6 @@ bash install <username>
 NOTE: You can find a copy of the Trisquel 11 Beta [here](https://cdbuilds.trisquel.org/aramo/).
 
 # What's Included:
----
 Shworkstation ortcuts have been pulled over from YADR, so those working with YADR should
 feel right at home.  There are a few minor changes and additions.  A LOT may
 be missing.  This package is geared towards PHP development on local staging
