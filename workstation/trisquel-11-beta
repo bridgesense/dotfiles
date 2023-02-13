@@ -82,14 +82,16 @@ sed -i  's@#FastConnectable.*@FastConnectable\=true@g' /etc/bluetooth/main.conf
 # setting up nodejs
 curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
 apt-get update
-install package nodejs npm gnupg2 gnupg wget
+install package nodejs gnupg2 gnupg wget
 npm install --location=global npm@latest
 npm install --location=global npm
-npm install --location=global grunt-cli eslint csslint gulp-sass typescript typescript-language-server intelephense coffeelint yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify unified-language-server
+npm install --location=global grunt-cli csslint typescript typescript-language-server intelephense coffeelint
+npm install --location=global yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify 
+npm install --location=global unified-language-server eslint emmet-ls babel-eslint typescript-lsp 
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 npm install --location=global yarn
 ln -s /usr/local/lib/node_modules/yarn/bin/yarn /usr/bin/yarn
-npm install --location=global gulp gulp-cli gulp-util --save-dev
+npm install --location=global gulp gulp-cli gulp-util gulp-sass --save-dev
 npm i --package-lock-only
 npm audit fix --force
 npm cache clean -f
@@ -155,7 +157,7 @@ cd ~/lab
 git clone https://github.com/djcb/mu.git
 cd mu
 bash autogen.sh
-make
+ninja -C build
 make install
 
 # emacs
@@ -187,19 +189,22 @@ ufw enable
 ufw allow 9003/tcp
 
 # media extras 
-install package mpv
+install package musescore obs-studio audacity vlc* mpv rhythmbox
 cd ~/lab
 wget http://download.videolan.org/debian/stable/libdvdcss2_1.2.13-0_amd64.deb
 dpkg -i *.deb
 rm -f *.deb
 
+# play/pause override
+# playerctl --all-players play-pause
+install package playerctld
 # documentation
 # # # # # # # # # # # # # # #
 install package rsyslog-doc
 
 # add desktop applications
 # # # # # # # # # # # # # # #
-su -c "touch /home/$USER/.local/share/applications/nnn.desktop" $USER
+su -c 'touch ~/.local/share/applications/nnn.desktop' $USER
 printf "[Desktop Entry]\n\
 Type=Application\n\
 Name=nnn\n\
@@ -207,7 +212,7 @@ Icon=caja-actions\n\
 Exec=mate-terminal -e nnn\n\
 " >> /home/$USER/.local/share/applications/nnn.desktop
 
-su -c "touch /home/$USER/.local/share/applications/shutdown.desktop" $USER
+su -c 'touch ~/.local/share/applications/shutdown.desktop' $USER
 printf "[Desktop Entry]\n\
 Type=Application\n\
 Name=Shutdown\n\
@@ -215,7 +220,7 @@ Icon=gshutdown\n\
 Exec=mate-session-save --shutdown-dialog\n\
 " >> /home/$USER/.local/share/applications/shutdown.desktop
 
-su -c "touch /home/$USER/.local/share/applications/logout.desktop" $USER
+su -c 'touch ~/.local/share/applications/logout.desktop' $USER
 printf "[Desktop Entry]\n\
 Type=Application\n\
 Name=Logout\n\
@@ -223,21 +228,93 @@ Icon=gnome-lockscreen\n\
 Exec=mate-session-save --logout-dialog\n\
 " >> /home/$USER/.local/share/applications/logout.desktop
 
-su -c "touch /home/$USER/.local/share/applications/mpv.desktop" $USER
+su -c "touch /home/$USER/.local/share/applications/night.desktop" $USER
 printf "[Desktop Entry]\n\
 Type=Application\n\
-Name=mpv Media Player\n\
-Comment=Play movies and songs\n\
-Icon=mpv\n\
-TryExec=mpv\n\
-Exec=mpv --player-operation-mode=pseudo-gui -- %U\n\
-Terminal=false\n\
+Name=Night Display\n\
+Icon=palemoon\n\
+Exec=xgamma -rgamma 0.90 -ggamma 0.88 -bgamma 0.72\n\
+" >> /home/$USER/.local/share/applications/night.desktop
+
+su -c "touch /home/$USER/.local/share/applications/day.desktop" $USER
+printf "[Desktop Entry]\n\
+Type=Application\n\
+Name=Daytime Display\n\
+Icon=sunflower\n\
+Exec=xgamma -gamma 1\n\
+" >> /home/$USER/.local/share/applications/day.desktop
+
+su -c "touch /home/$USER/.local/share/applications/trackpad-off.desktop" $USER
+printf "[Desktop Entry]\n\
+Type=Application\n\
+Name=Trackpad OFF\n\
+Icon=mouse\n\
+Exec=xinput --disable 12\n\
+" >> /home/$USER/.local/share/applications/trackpad-off.desktop
+
+su -c "touch /home/$USER/.local/share/applications/trackpad-on.desktop" $USER
+printf "[Desktop Entry]\n\
+Type=Application\n\
+Name=Trackpad ON\n\
+Icon=mouse\n\
+Exec=xinput --enable 12\n\
+" >> /home/$USER/.local/share/applications/trackpad-on.desktop
+
+su -c "touch /home/$USER/.local/share/applications/night.desktop" $USER
+printf "[Desktop Entry]\n\
+Type=Application\n\
+Name=Night Display\n\
+Icon=palemoon\n\
+Exec=xgamma -rgamma 0.90 -ggamma 0.88 -bgamma 0.72\n\
+" >> /home/$USER/.local/share/applications/night.desktop
+
+su -c "touch /home/$USER/.local/share/applications/day.desktop" $USER
+printf "[Desktop Entry]\n\
+Type=Application\n\
+Name=Daytime Display\n\
+Icon=sunflower\n\
+Exec=xgamma -gamma 1\n\
+" >> /home/$USER/.local/share/applications/day.desktop
+
+su -c "touch /home/$USER/.local/share/applications/trackpad-off.desktop" $USER
+printf "[Desktop Entry]\n\
+Type=Application\n\
+Name=Trackpad OFF\n\
+Icon=mouse\n\
+Exec=xinput --disable 12\n\
+" >> /home/$USER/.local/share/applications/trackpad-off.desktop
+
+su -c "touch /home/$USER/.local/share/applications/trackpad-on.desktop" $USER
+printf "[Desktop Entry]\n\
+Type=Application\n\
+Name=Trackpad ON\n\
+Icon=mouse\n\
+Exec=xinput --enable 12\n\
+" >> /home/$USER/.local/share/applications/trackpad-on.desktop
+
+su -c 'touch ~/.local/share/applications/mpv_dvd.desktop' $USER
+printf "[Desktop Entry]\n\
 Categories=AudioVideo;Audio;Video;Player;TV;\n\
-MimeType=application/ogg;application/x-ogg;application/mxf;application/sdp;application/smil;application/x-smil;application/streamingmedia;application/x-streamingmedia;application/vnd.rn-realmedia;application/vnd.rn-realmedia-vbr;audio/aac;audio/x-aac;audio/vnd.dolby.heaac.1;audio/vnd.dolby.heaac.2;audio/aiff;audio/x-aiff;audio/m4a;audio/x-m4a;application/x-extension-m4a;audio/mp1;audio/x-mp1;audio/mp2;audio/x-mp2;audio/mp3;audio/x-mp3;audio/mpeg;audio/mpeg2;audio/mpeg3;audio/mpegurl;audio/x-mpegurl;audio/mpg;audio/x-mpg;audio/rn-mpeg;audio/musepack;audio/x-musepack;audio/ogg;audio/scpls;audio/x-scpls;audio/vnd.rn-realaudio;audio/wav;audio/x-pn-wav;audio/x-pn-windows-pcm;audio/x-realaudio;audio/x-pn-realaudio;audio/x-ms-wma;audio/x-pls;audio/x-wav;video/mpeg;video/x-mpeg2;video/x-mpeg3;video/mp4v-es;video/x-m4v;video/mp4;application/x-extension-mp4;video/divx;video/vnd.divx;video/msvideo;video/x-msvideo;video/ogg;video/quicktime;video/vnd.rn-realvideo;video/x-ms-afs;video/x-ms-asf;audio/x-ms-asf;application/vnd.ms-asf;video/x-ms-wmv;video/x-ms-wmx;video/x-ms-wvxvideo;video/x-avi;video/avi;video/x-flic;video/fli;video/x-flc;video/flv;video/x-flv;video/x-theora;video/x-theora+ogg;video/x-matroska;video/mkv;audio/x-matroska;application/x-matroska;video/webm;audio/webm;audio/vorbis;audio/x-vorbis;audio/x-vorbis+ogg;video/x-ogm;video/x-ogm+ogg;application/x-ogm;application/x-ogm-audio;application/x-ogm-video;application/x-shorten;audio/x-shorten;audio/x-ape;audio/x-wavpack;audio/x-tta;audio/AMR;audio/ac3;audio/eac3;audio/amr-wb;video/mp2t;audio/flac;audio/mp4;application/x-mpegurl;video/vnd.mpegurl;application/vnd.apple.mpegurl;audio/x-pn-au;video/3gp;video/3gpp;video/3gpp2;audio/3gpp;audio/3gpp2;video/dv;audio/dv;audio/opus;audio/vnd.dts;audio/vnd.dts.hd;audio/x-adpcm;application/x-cue;audio/m3u;\n\
-X-KDE-Protocols=ftp,http,https,mms,rtmp,rtsp,sftp,smb\n\
-Keywords=mpv;media;player;video;audio;tv;\n\
-NoDisplay=false\n\
-" >> /home/$USER/.local/share/applications/mpv.desktop
+Exec=mpv dvd://\n\
+Icon=mpv\n\
+MimeType=\n\
+Name=Play DVD in mpv Media Player\n\
+StartupNotify=true\n\
+Terminal=false\n\
+Type=Application\n\
+" >> /home/$USER/.local/share/applications/mpv_dvd.desktop
+
+su -c 'touch ~/.local/share/applications/mpv_bluray.desktop' $USER
+printf "[Desktop Entry]\n\
+Categories=AudioVideo;Audio;Video;Player;TV;\n\
+Exec=mpv bd://\n\
+Icon=mpv\n\
+MimeType=\n\
+Name=Play Bluray in mpv Media Player\n\
+StartupNotify=true\n\
+Terminal=false\n\
+Type=Application\n\
+" >> /home/$USER/.local/share/applications/mpv_bluray.desktop
 
 # Installing configuration
 # # # # # # # # # # # # # # #
@@ -252,7 +329,7 @@ su -c "cp -r /home/$USER/.yadrlite/workstation/nvim /home/$USER/.config" $USER
 cp -r ~/.yadrlite/workstation/nvim ~/.config
 
 # nnn
-install package nnn tree mediainfo
+install package nnn tree mediainfo ranger
 mkdir -p ~/.config/nnn/plugins
 cd ~/.config/nnn/plugins && $SHELL -c "`curl -s -S -L https://raw.githubusercontent.com/jarun/nnn/master/plugins/getplugs`"
 su -c "mkdir -p /home/$USER/.config/nnn/plugins" $USER
@@ -300,11 +377,16 @@ log "Now installing the wifi driver."
 printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
 printf "ALMOST DONE.  SHORTLY, YOU'LL BE ASKED TO REBOOT YOUR SYSTEM."
 
-# wireless library for 8812au
-# This library is compatible with any of the Nano AC600 USB Wifi Adapters
-# These low profile adapters are a good alternative to using proprietary
+# wireless library for 8812cu
+# This library is compatible with most Wifi Adapters based on the Realtech 8811CU chipset
+# There are some low profile adapters that are good alternative to using proprietary
 # hardware.
-install package iw bc dkms
+# see the following compatible usb wifi devices:
+# EDUP EP-AC1651 nano 
+# EDUP EP-AC1635
+# Ourlink Nano AC600 (Mini only)
+# Ref: https://github.com/morrownr/8821cu-20210118/blob/main/supported-device-IDs
+install package iw bc dkms rfkill
 cd ~/lab
 git clone https://github.com/morrownr/8821cu-20210118.git
 cd 8821*

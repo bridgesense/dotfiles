@@ -145,6 +145,7 @@ install package podman buildah gnome-boxes gnome-disk-utility
 install package gnome-software gnome-software-plugin-flatpak
 install package nextcloud-desktop fontforge caffeine
 install package libreoffice install package science-electronics
+install package obs-studio kdenlive audacity
 
 # gimp
 log "installing gimp and plugins"
