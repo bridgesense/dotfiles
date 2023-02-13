@@ -66,7 +66,9 @@ bash ~/.yadrlite/setup remove
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/emacs.d/emacs.init > ~/.emacs
 ```
 
-#### My Trisquel 10 workstation configuration
+# Trisquel Workstation
+
+#### My Trisquel 10 configuration
 
 ```bash
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/trisquel-10 > ~/install
@@ -76,15 +78,16 @@ Run as root...
 bash install <username>
 ```
 IMPORTANT: If you have newer hardware, I would encourage the installation of
-Trisquel 11 instead. What I've found that Trisquel 10 runs very hot! Even with
-TLP and several other plugins to assist with this, the problem persists.
+Trisquel 11 instead, even though it is currently in beta. What I've found that
+Trisquel 10 runs very hot! Even with TLP and several other plugins to assist with
+this, the problem persists.
 
 NOTE: This configuration script requires at least 32gb or more assigned to the
 root partition. The graphical installation of Trisquel only assigns 20gb
 or 5% of available disk space. You may want to use the text installation
 instead to specify the size of the root partition.
 
-#### My Trisquel 11 workstation configuration
+#### My Trisquel 11 configuration
 
 ```bash
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/trisquel-11-beta > ~/install
@@ -96,9 +99,9 @@ bash install <username>
 
 NOTE: You can find a copy of the Trisquel 11 Beta [here](https://cdbuilds.trisquel.org/aramo/).
 
-What's Included:
+# What's Included:
 ---
-Shortcuts have been pulled over from YADR, so those working with YADR should
+Shworkstation ortcuts have been pulled over from YADR, so those working with YADR should
 feel right at home.  There are a few minor changes and additions.  A LOT may
 be missing.  This package is geared towards PHP development on local staging
 environments and setting up shop on web servers for emergencies where there may
