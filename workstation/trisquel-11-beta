@@ -156,7 +156,7 @@ apt-get remove -y --autoremove emacs emacs-common
 install package libgmime-3.0-dev libxapian-dev meson cmake guile-3.0-dev
 mkdir -p ~/lab
 cd ~/lab
-git clone https://github.com/djcb/mu.git
+git clone https://github.com/djcb/mu.git -b release/1.8
 cd mu
 bash autogen.sh
 ninja -C build
