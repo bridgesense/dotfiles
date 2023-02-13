@@ -146,8 +146,7 @@ install package obs-studio audacity vlc*
 # playerctl --all-players play-pause
 install package playerctld
 
-# excessive heat issue
-add-apt-repository -y ppa:linrunner/tlp
+# heat mitigation on thinkpads 
 install package tlp tlp-rdw tp-smapi-dkms acpi-call-dkms lm-sensors
 
 # gimp
@@ -214,6 +213,7 @@ ufw allow 9003/tcp
 
 # media extras
 install package libxine2-ffmpeg libxine2-all-plugins libavcodec-extra
+install package audacity vlc* mpv rhythmbox
 install package mpv
 cd ~/lab
 wget http://download.videolan.org/debian/stable/libdvdcss2_1.2.13-0_amd64.deb

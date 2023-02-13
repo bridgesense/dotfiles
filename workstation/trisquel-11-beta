@@ -142,7 +142,9 @@ install package google-chrome-stable gnome-software gnome-software-plugin-flatpa
 install package nextcloud-desktop fontforge
 install package libreoffice
 install package science-electronics stellarium
-install package obs-studio kdenlive audacity
+
+# heat mitigation on thinkpads 
+install package tlp tlp-rdw tp-smapi-dkms acpi-call-dkms lm-sensors
 
 # gimp
 log "installing gimp and plugins"
@@ -189,7 +191,8 @@ ufw enable
 ufw allow 9003/tcp
 
 # media extras 
-install package musescore obs-studio audacity vlc* mpv rhythmbox
+install package libxine2-ffmpeg libxine2-all-plugins libavcodec-extra
+install package musescore obs-studio kdenlive audacity vlc* mpv rhythmbox
 cd ~/lab
 wget http://download.videolan.org/debian/stable/libdvdcss2_1.2.13-0_amd64.deb
 dpkg -i *.deb
@@ -198,6 +201,7 @@ rm -f *.deb
 # play/pause override
 # playerctl --all-players play-pause
 install package playerctld
+
 # documentation
 # # # # # # # # # # # # # # #
 install package rsyslog-doc
