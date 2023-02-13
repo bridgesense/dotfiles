@@ -66,25 +66,7 @@ bash ~/.yadrlite/setup remove
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/emacs.d/emacs.init > ~/.emacs
 ```
 
-#### To install my Ubuntu Mate workstation configuration [recommended for most]
-
-```bash
-curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/ubuntu-mate-jammy > ~/install
-```
-Run as root...
-```bash
-bash install <username>
-```
-NOTE: Why use Ubuntu Mate over the standard Ubuntu distribution? I don't feel Wayland
-is ready for professional use quite yet. Many applications still stumble over it. There
-are a lot of tweaks needed to make things work only half as effecient as X11. Maybe in
-after a few more years of development things will be different.
-
-The Mate windows manager is much more efficient on system resources than Gnome is. Out of
-the box, Ubuntu Mate will provide a much more familiar reference point to new users of Linux than
-its Gnome counterpart.
-
-#### To install my Trisquel 10 workstation configuration
+#### My Trisquel 10 workstation configuration
 
 ```bash
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/trisquel-10 > ~/install
@@ -93,20 +75,26 @@ Run as root...
 ```bash
 bash install <username>
 ```
-IMPORTANT: If you have newer hardware, I would discourage the use of Trisquel 10.
-What I've found that Trisquel 10 runs very hot! Even with TLP and several other
-plugins to assist with this, the problem persists. For newer hardware, I'd
-encourage you to try the [Trisquel 11 Beta](https://cdbuilds.trisquel.org/aramo/)
-or a newer Ubuntu Mate distribution.
-
-However, if you're running on older hardware using something like Libreboot, I
-would suggest you use Trisquel 10. The newer version of Ubuntu is not stable on
-older hardware, like the x200. 
+IMPORTANT: If you have newer hardware, I would encourage the installation of
+Trisquel 11 instead. What I've found that Trisquel 10 runs very hot! Even with
+TLP and several other plugins to assist with this, the problem persists.
 
 NOTE: This configuration script requires at least 32gb or more assigned to the
 root partition. The graphical installation of Trisquel only assigns 20gb
 or 5% of available disk space. You may want to use the text installation
 instead to specify the size of the root partition.
+
+#### My Trisquel 11 workstation configuration
+
+```bash
+curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/trisquel-11-beta > ~/install
+```
+Run as root...
+```bash
+bash install <username>
+```
+
+NOTE: You can find a copy of the Trisquel 11 Beta [here](https://cdbuilds.trisquel.org/aramo/).
 
 What's Included:
 ---

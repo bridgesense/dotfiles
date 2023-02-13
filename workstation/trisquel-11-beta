@@ -59,7 +59,7 @@ install package python3 ruby-full openjdk-18-jre-headless
 install package php perl maven
 install package golang bison php-pear
 install package pdfarranger wordnet
-install package mate-applet-brisk-menu
+install package mate-applet-brisk-menu ubuntu-mate-themes
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 php -r "unlink('composer-setup.php');"
@@ -82,7 +82,7 @@ sed -i  's@#FastConnectable.*@FastConnectable\=true@g' /etc/bluetooth/main.conf
 # setting up nodejs
 curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
 apt-get update
-install package nodejs gnupg2 gnupg wget
+install package nodejs npm gnupg2 gnupg wget
 npm install --location=global npm@latest
 npm install --location=global npm
 npm install --location=global grunt-cli csslint typescript typescript-language-server intelephense coffeelint
@@ -142,7 +142,9 @@ install package google-chrome-stable gnome-software gnome-software-plugin-flatpa
 install package nextcloud-desktop fontforge
 install package libreoffice
 install package science-electronics stellarium
-install package obs-studio kdenlive audacity
+
+# heat mitigation on thinkpads 
+install package tlp tlp-rdw tp-smapi-dkms acpi-call-dkms lm-sensors
 
 # gimp
 log "installing gimp and plugins"
@@ -151,7 +153,7 @@ install package gimp gimp-data-extras gimp-plugin-registry gimp-gluas gimp-gmic 
 # install mu4e
 log "installing emacs and plugins"
 apt-get remove -y --autoremove emacs emacs-common
-install package libgmime-3.0-dev libxapian-dev meson
+install package libgmime-3.0-dev libxapian-dev meson cmake guile-3.0-dev
 mkdir -p ~/lab
 cd ~/lab
 git clone https://github.com/djcb/mu.git
@@ -189,7 +191,8 @@ ufw enable
 ufw allow 9003/tcp
 
 # media extras 
-install package musescore obs-studio audacity vlc* mpv rhythmbox
+install package ffmpeg libxine2-ffmpeg libxine2-all-plugins libavcodec-extra
+install package musescore obs-studio kdenlive audacity vlc* mpv rhythmbox
 cd ~/lab
 wget http://download.videolan.org/debian/stable/libdvdcss2_1.2.13-0_amd64.deb
 dpkg -i *.deb
@@ -198,12 +201,14 @@ rm -f *.deb
 # play/pause override
 # playerctl --all-players play-pause
 install package playerctld
+
 # documentation
 # # # # # # # # # # # # # # #
 install package rsyslog-doc
 
 # add desktop applications
 # # # # # # # # # # # # # # #
+su -c 'mkdir -p ~/.local/share/applications' $USER
 su -c 'touch ~/.local/share/applications/nnn.desktop' $USER
 printf "[Desktop Entry]\n\
 Type=Application\n\
