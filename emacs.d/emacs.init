@@ -1450,7 +1450,7 @@
    "fm" '(lsp-ui-imenu :which-key "Menu")
    "fp" '(helm-projectile-find-file :which-key "Projectile: Find File")
    "fr" '(lsp-find-references :which-key "Find Reference")
-   "fs" '(lsp-ui-doc-show :which-key "Show Documentation"))
+   "fs" '(lsp-ui-doc-toggle :which-key "Show Documentation"))
 
 
   ;; Word Functions
