@@ -71,6 +71,19 @@ sed -i  's@#AutoEnable.*@AutoEnable\=true@g' /etc/bluetooth/main.conf
 sed -i  's@#ReconnectAttempts.*@ReconnectAttempts\=7@g' /etc/bluetooth/main.conf
 sed -i  's@#FastConnectable.*@FastConnectable\=true@g' /etc/bluetooth/main.conf
 
+# device tethering
+install package android-tools-adb libimobiledevice6 libimobiledevice-utils
+# for android tethering
+# go to your device Settings > Developer options > Enable USB Debugging
+# # # 
+# for iphone tethering
+# enable tethering with:
+# iproxy 2222 22
+# establish an ssh connection
+# ssh root@localhost -p 2222
+# run command to start tethering
+# /usr/lib/udm-utilities/udm-network-manager-ipheth 
+
 # exchanges the esc and caps keys
 # See Keyboard Preferences > Caps Lock behavoir > Swap Esc and Caps Lock
 
