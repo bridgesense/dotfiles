@@ -151,7 +151,6 @@ install package neovim gnutls-bin maildir-utils imagemagick gnupg2
 install package gcolor3 flameshot transmission
 install package podman buildah gnome-boxes gnome-disk-utility usb-creator-gtk
 install package stacer timeshift caffeine
-install package google-chrome-stable gnome-software 
 install package nextcloud-desktop fontforge
 install package libreoffice
 install package science-electronics stellarium
