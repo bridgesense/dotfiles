@@ -347,10 +347,14 @@ su -c "bash /home/$USER/lab/setup" $USER
 su -c "cp -f /home/$USER/.yadrlite/workstation/Xresources /home/$USER/.Xresources" $USER
 cp -f ~/.yadrlite/workstation/Xresources ~/.Xresources
 su -c "cp -r /home/$USER/.yadrlite/workstation/nvim /home/$USER/.config" $USER
+su -c "cp -r /home/$USER/.yadrlite/workstation/ranger /home/$USER/.config" $USER
 cp -r ~/.yadrlite/workstation/nvim ~/.config
+cp -r ~/.yadrlite/workstation/ranger ~/.config
 
 # nnn
 install package nnn tree mediainfo ranger
+# supporting files
+install package 7zip mupdf-tools transmission pandoc xlsx2csv forensics-extra
 mkdir -p ~/.config/nnn/plugins
 cd ~/.config/nnn/plugins && $SHELL -c "`curl -s -S -L https://raw.githubusercontent.com/jarun/nnn/master/plugins/getplugs`"
 su -c "mkdir -p /home/$USER/.config/nnn/plugins" $USER
