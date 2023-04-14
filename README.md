@@ -1,42 +1,16 @@
 # YADRLite #
 
-My 2023 Freedom Ladder Challenge:
----
-Last year, I joined the [Free Software Foundation](https://www.fsf.org/)
-and discovered the [Freedom Ladder](https://libreplanet.org/wiki/Group:Freedom_Ladder)
-campaign. After looking at the parameters of the campaign, I felt I wasn't ready for
-such a challenge at the time. I had some preparation work to do.
-
-The goal of the campaign is to help people become aware of the difference between free
-and nonfree software. Free doesn't mean "free", as in the sense of money. Free means
-"freedom", where people have complete control of their software and the data stored in it.
-
-Starting in January of 2023, I'll be converting much of my proprietary software over
-to free alternatives. The goal is to use as much free software as possible in my workflow.
-By the end of the year I should be well aware if such a transformation was financially
-viable or not. I've been in business for 15 years now. I've been in this industry for the
-past 25 years. If there are any new revelations, I'm pretty sure they will be immediately
-recognizable.
-
-I'll be releasing a [blog](https://bridgesense.com) periodically about my progress. If
-proprietary software sneaks in somewhere, I won't be hiding it. You'll know about that,
-too and why.
-
-This repository is a collection of tools that I already use in my workflow. All references
-to proprietary systems have been removed for the sake of this year's challenge. If you like
-the idea and want to support me, the most important thing you could do is pass on my
-[blog link](https://bridgesense.com) to your friends. A video series is also in the works.
+This repository is a collection of tools that I use in my workflow. 
 
 Credit:
----
-This dotfile repo is heavily based on [YADR](https://github.com/skwp/dotfiles)
-which is a solid dotfile package created by Yan Pritzker and worked on by
-several others.  This is not intended to be a fork of YADR.  At the same time,
-I take no credit here either.  This is just a personal collection of settings
-from YADR trimmed down considerably for the sake of speed and portability.
+This dotfile repo is heavily based on [YADR](https://github.com/skwp/dotfiles), a solid
+ dotfile package created by Yan Pritzker and worked on by several others.  This is not
+intended to be a fork of YADR.  At the same time, I take no credit here, either.  This
+is just a personal collection of settings from YADR trimmed down considerably for speed 
+and portability.
 
-Check out the original repo, [YADR](https://github.com/skwp/dotfiles) especially
-if you work in Python or Ruby.
+Check out the original repo, [YADR](https://github.com/skwp/dotfiles), especially if you 
+work in Python or Ruby.
 
 index: [Emacs](#emacs), [Tmux](#tmux), and [Vim](#vim)
 
@@ -66,46 +40,48 @@ bash ~/.yadrlite/setup remove
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/emacs.d/emacs.init > ~/.emacs
 ```
 
-# Trisquel Workstation
+# Sample Workstations
 
-#### My Trisquel 10 configuration
+#### My Ubuntu Jammy Configuration
 
 ```bash
-curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/trisquel-10 > ~/install
+curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/ubuntu-mate-jammy > ~/install
 ```
 Run as root...
 ```bash
 bash install <username>
 ```
+#### My Trisquell 10 Configuration
+
+```bash
+curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/trisquel-10 > ~/install
+```
+
 IMPORTANT: If you have newer hardware, I would encourage the installation of
-Trisquel 11 instead, even though it is currently in beta. What I've found that
+Trisquel 11 instead, even though it is currently in beta. What I've found is that
 Trisquel 10 runs very hot! Even with TLP and several other plugins to assist with
 this, the problem persists.
 
 NOTE: This configuration script requires at least 32gb or more assigned to the
-root partition. The graphical installation of Trisquel only assigns 20gb
-or 5% of available disk space. You may want to use the text installation
-instead to specify the size of the root partition.
+root partition. The graphical installation of Trisquel only allocates 20gb
+or 5% of available disk space. You may want to use the text installation instead
+ to specify the root partition size.
 
 #### My Trisquel 11 configuration
 
 ```bash
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/trisquel-11-beta > ~/install
 ```
-Run as root...
-```bash
-bash install <username>
-```
 
 NOTE: You can find a copy of the Trisquel 11 Beta [here](https://cdbuilds.trisquel.org/aramo/).
 
 # What's Included:
-Shworkstation ortcuts have been pulled over from YADR, so those working with YADR should
-feel right at home.  There are a few minor changes and additions.  A LOT may
+Workstation shortcuts have been pulled over from YADR, so those working with YADR should
+feel right at home.  There are a few minor changes and additions. However, a LOT may
 be missing.  This package is geared towards PHP development on local staging
-environments and setting up shop on web servers for emergencies where there may
-be limited permissions.  The idea is here that the package should be easy to
-remove while restoring the system to prior user configurations.
+environments and setting up shop on web servers for emergencies with limited permissions.
+The idea is here that the package should be easy to remove while restoring the system to
+ prior user configurations.
 
 As with YADR, most of the key mapping not mentioned below can be found in the
 settings directory for reference.  This package is ready for deployment on most
@@ -124,17 +100,17 @@ Requirements: [Emacs 27.2+ w/ Lua support](https://www.gnu.org/software/emacs/)
 Suggested: [Silver Searcher](https://github.com/ggreer/the_silver_searcher)
 
 Emacs has a huge performance advantage over Vi.  This configuration includes
-the [Evil](https://www.emacswiki.org/emacs/Evil) package which emulates Vim's
+the [Evil](https://www.emacswiki.org/emacs/Evil) package, which emulates Vim's
 modal functionality.  In Evil mode Emacs shares keybindings familiar to the YADR
 package.  Switching between Emacs and Evil mode is done by C-z. There is inline
-documentation with live hints for ease of discovery.  After entering Emacs just
-hit the leader key (,) to get started.  Hit the leader key twice for a fuzzy
+documentation with live hints for ease of discovery.  After entering Emacs, just
+ hit the leader key (,) to get started.  Hit the leader key twice for a fuzzy
 command search.
 
-NOTE: I have some personal concerns around Emacs 28's performance. Although,
-I'm really excited about the new developments in 29. I would strongly suggest
-to sticking with version 27 for now. If your distro doesn't have it, there are
-compilation examples in each of the workstation scripts.
+NOTE: I have some personal concerns about Emacs 28's performance. However, I'm
+excited about the new developments in 29. Therefore, I would strongly suggest 
+sticking with version 27 for now. If your distro doesn't have it, there are
+compilation examples in each workstation script.
 
 [Return to top](#yadrlite)
 
@@ -143,7 +119,7 @@ Emacs Shortcuts
 The [General](https://github.com/noctuid/general.el) plugin has been included
 with this Emacs configuration. There is no need to hold the comma down (the
 leader key borrowed from YADR) before pressing the next key. The following
-shortcuts can be typed concurrantly in the order presented which is a nice
+shortcuts can be typed concurrently in the order presented, which is a friendly 
 alternative to the Emacs Pinky.
 
 #### Single Key Shortcuts:

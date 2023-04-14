@@ -72,7 +72,7 @@ sed -i  's@#ReconnectAttempts.*@ReconnectAttempts\=7@g' /etc/bluetooth/main.conf
 sed -i  's@#FastConnectable.*@FastConnectable\=true@g' /etc/bluetooth/main.conf
 
 # device tethering
-install package android-tools-adb libimobiledevice6 libimobiledevice-utils
+install package android-tools-adb libimobiledevice6 libimobiledevice-utils gvfs-fuse
 # for android tethering
 # go to your device Settings > Developer options > Enable USB Debugging
 # # # 
@@ -217,6 +217,7 @@ install package playerctld
 # removes apache2 default installation
 # for compatibility with podman application
 apt-get remove -y apache2 --purge
+apt-get remove -y postfix --purge
 
 # documentation
 # # # # # # # # # # # # # # #
@@ -288,14 +289,6 @@ Name=Night Display\n\
 Icon=palemoon\n\
 Exec=xgamma -rgamma 0.90 -ggamma 0.88 -bgamma 0.72\n\
 " >> /home/$USER/.local/share/applications/night.desktop
-
-su -c "touch /home/$USER/.local/share/applications/day.desktop" $USER
-printf "[Desktop Entry]\n\
-Type=Application\n\
-Name=Daytime Display\n\
-Icon=sunflower\n\
-Exec=xgamma -gamma 1\n\
-" >> /home/$USER/.local/share/applications/day.desktop
 
 su -c "touch /home/$USER/.local/share/applications/trackpad-off.desktop" $USER
 printf "[Desktop Entry]\n\

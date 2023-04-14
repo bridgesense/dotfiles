@@ -60,14 +60,14 @@ function install {
 # # # # # # # # # # # # # # #
 log "installing commandline tools"
 apt-get update
-install package git subversion curl
+install package curl wget git git-lfs subversion
+install package apt-transport-https gnupg2 software-properties-common  
 install package build-essential
 install package ack silversearcher-ag
 install package isync msmtp pass universal-ctags
 install package python3 python3-pip ruby-full openjdk-18-jre-headless
 install package php perl maven
 install package golang bison php-pear
-install package pdfarranger wordnet
 install package net-tools nmap
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php composer-setup.php --install-dir=/usr/local/bin --filename=composer
@@ -89,23 +89,12 @@ sed -i  's@#FastConnectable.*@FastConnectable\=true@g' /etc/bluetooth/main.conf
 # sudo hp-setup -a <ip_address>
 
 # setting up nodejs
-curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
-apt-get update
 install package nodejs gnupg2 gnupg wget
 npm install --location=global npm@latest
-npm install --location=global npm
-npm install --location=global grunt-cli csslint typescript typescript-language-server intelephense coffeelint
-npm install --location=global yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify 
-npm install --location=global unified-language-server eslint emmet-ls babel-eslint typescript-lsp 
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-npm install --location=global yarn
-ln -s /usr/local/lib/node_modules/yarn/bin/yarn /usr/bin/yarn
-npm install --location=global gulp gulp-cli gulp-util gulp-sass --save-dev
-npm i --package-lock-only
-npm audit fix --force
-npm cache clean -f
-npm install -g n
-n stable
+npm install --location=global grunt-cli csslint typescript typescript-language-server intelephense coffeelint yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify unified-language-server eslint emmet-ls babel-eslint typescript-lsp
+# do I do this?
+# wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+nvm install
 
 # install fonts
 install package fonts-noto fontforge
@@ -144,8 +133,9 @@ install package gcolor3 flameshot transmission
 install package podman buildah gnome-boxes gnome-disk-utility
 install package gnome-software gnome-software-plugin-flatpak
 install package nextcloud-desktop fontforge caffeine
-install package libreoffice install package science-electronics
+install package libreoffice 
 install package obs-studio kdenlive audacity
+install package pdfarranger wordnet
 
 # gimp
 log "installing gimp and plugins"
@@ -170,10 +160,6 @@ bash autogen.sh
 bash configure --without-makeinfo --with-gntls=ifavailable --with-mailutils
 make
 make install
-
-# gimp
-log "installing gimp and plugins"
-install package gimp gimp-data-extras gimp-plugin-registry gimp-gluas gimp-gmic
 
 # syncterm
 # thanks to MeaTLoTioN
@@ -286,14 +272,6 @@ Icon=palemoon\n\
 Exec=xgamma -rgamma 0.90 -ggamma 0.88 -bgamma 0.72\n\
 " >> /home/$USER/.local/share/applications/night.desktop
 
-su -c "touch /home/$USER/.local/share/applications/day.desktop" $USER
-printf "[Desktop Entry]\n\
-Type=Application\n\
-Name=Daytime Display\n\
-Icon=sunflower\n\
-Exec=xgamma -gamma 1\n\
-" >> /home/$USER/.local/share/applications/day.desktop
-
 su -c "touch /home/$USER/.local/share/applications/trackpad-off.desktop" $USER
 printf "[Desktop Entry]\n\
 Type=Application\n\
@@ -364,7 +342,7 @@ find /home/$USER/.config -name "*.sh" -execdir chmod u+x {} +
 su -c "mkdir -p ~/.local/share/fonts/" $USER
 su -c "cd /home/$USER/.local/share/fonts && svn checkout --non-interactive https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts/DejaVuSansMono" $USER
 su -c "cd /home/$USER/.local/share/fonts && svn checkout --non-interactive https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts/Inconsolata" $USER
-su -c "cd /home/$USER/.local/share/fonts && svn checkout --non-interactive https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts/FiraCode" $USER
+# su -c "cd /home/$USER/.local/share/fonts && svn checkout --non-interactive https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts/FiraCode" $USER
 
 # misc sanity improvements
 git config --global core.askpass ""
@@ -392,11 +370,6 @@ avoid-resampling = no\n\
 
 # install flatpak
 snap remove --purge firefox
-install package flatpak
-flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-install flatpak org.stellarium.Stellarium org.mozilla.firefox
-install flatpak com.gitlab.bitseater.meteo 
-install flatpak org.gnome.seahorse.Application
 
 # Removing snapd is popular if you know what you're doing.
 # Otherwise, it also contains offline system updates for this OS

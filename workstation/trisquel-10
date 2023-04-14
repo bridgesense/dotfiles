@@ -239,6 +239,7 @@ chmod +x /usr/bin/yt-dlp
 # removes apache2 default installation
 # for compatibility with podman application
 apt-get remove -y apache2 --purge
+apt-get remove -y postfix --purge
 
 # documentation
 # # # # # # # # # # # # # # #
