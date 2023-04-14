@@ -63,12 +63,14 @@ apt-get update
 install package curl wget git git-lfs subversion
 install package apt-transport-https gnupg2 software-properties-common  
 install package build-essential
+install package libfreetype-dev libfontconfig-dev libxcb1-dev tmux xclip
+install package python3-neovim python3-pynvim
 install package ack silversearcher-ag
 install package isync msmtp pass universal-ctags
 install package python3 python3-pip ruby-full openjdk-18-jre-headless
 install package php perl maven
-install package golang bison php-pear
-install package net-tools nmap
+install package golang-go bison php-pear hugo
+install package net-tools nmap dmg2img
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 php -r "unlink('composer-setup.php');"
@@ -89,12 +91,19 @@ sed -i  's@#FastConnectable.*@FastConnectable\=true@g' /etc/bluetooth/main.conf
 # sudo hp-setup -a <ip_address>
 
 # setting up nodejs
-install package nodejs gnupg2 gnupg wget
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+apt-get update
+install package nodejs
+curl -L https://www.npmjs.com/install.sh | sh
 npm install --location=global npm@latest
 npm install --location=global grunt-cli csslint typescript typescript-language-server intelephense coffeelint yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify unified-language-server eslint emmet-ls babel-eslint typescript-lsp
-# do I do this?
-# wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-nvm install
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+source ~/.bashrc
+nvm install --lts
+curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | sudo tee /usr/share/keyrings/yarnkey.gpg >/dev/null
+echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+apt-get update
+install package yarn 
 
 # install fonts
 install package fonts-noto fontforge
@@ -107,21 +116,11 @@ printf "<?xml version=\"1.0\"?>\n\
 ln -s /etc/fonts/conf.avail/65-texlive-fontconfig.conf /etc/fonts/conf.d/65-texlive-fontconfig.conf
 fc-cache -f -v
 
-# install coding tools
-install package libfreetype-dev libfontconfig-dev libxcb1-dev tmux xclip
-install package python3-neovim python3-pynvim
-gem install bundler --pre
-gem install --no-user-install neovim
-gem install --no-user-install compass
-
 # go
-install package golang-go
 
 # hugo
-install package hugo
 
 # dmg2img for mac vm
-install package dmg2img
 
 # install supplementary packages
 install package network-manager-openvpn network-manager-openconnect
@@ -337,12 +336,6 @@ rm /home/$USER/.config/nnn/plugins/getplugs
 find /home/$USER/.config -type d -exec chmod 0755 {} \;
 find /home/$USER/.config -type f -exec chmod 0644 {} \;
 find /home/$USER/.config -name "*.sh" -execdir chmod u+x {} +
-
-# Adds Nerdfonts DejaVuSansMono
-su -c "mkdir -p ~/.local/share/fonts/" $USER
-su -c "cd /home/$USER/.local/share/fonts && svn checkout --non-interactive https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts/DejaVuSansMono" $USER
-su -c "cd /home/$USER/.local/share/fonts && svn checkout --non-interactive https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts/Inconsolata" $USER
-# su -c "cd /home/$USER/.local/share/fonts && svn checkout --non-interactive https://github.com/ryanoasis/nerd-fonts/trunk/patched-fonts/FiraCode" $USER
 
 # misc sanity improvements
 git config --global core.askpass ""
