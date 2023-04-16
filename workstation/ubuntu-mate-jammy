@@ -140,6 +140,15 @@ install package pdfarranger wordnet
 log "installing gimp and plugins"
 install package gimp gimp-data-extras gimp-plugin-registry gimp-gluas gimp-gmic gimp-gap 
 
+# emacs
+cd ~/lab
+git clone git://git.sv.gnu.org/emacs.git -b emacs-27
+cd emacs
+bash autogen.sh
+bash configure --without-makeinfo --with-gntls=ifavailable --with-mailutils
+make
+make install
+
 # install mu4e
 log "installing emacs and plugins"
 apt-get remove -y --autoremove emacs emacs-common
@@ -149,15 +158,6 @@ cd ~/lab
 git clone https://github.com/djcb/mu.git -b release/1.8
 bash autogen.sh
 ninja -C build
-make install
-
-# emacs
-cd ~/lab
-git clone git://git.sv.gnu.org/emacs.git -b emacs-27
-cd emacs
-bash autogen.sh
-bash configure --without-makeinfo --with-gntls=ifavailable --with-mailutils
-make
 make install
 
 # syncterm
@@ -212,8 +212,18 @@ printf "[Desktop Entry]\n\
 Type=Application\n\
 Name=nnn\n\
 Icon=caja-actions\n\
-Exec=mate-terminal -e nnn\n\
+Exec=kitty -e nnn\n\
 " >> /home/$USER/.local/share/applications/nnn.desktop
+
+# add desktop applications
+# # # # # # # # # # # # # # #
+su -c 'touch ~/.local/share/applications/ranger.desktop' $USER
+printf "[Desktop Entry]\n\
+Type=Application\n\
+Name=ranger\n\
+Icon=caja-actions\n\
+Exec=kitty -e ranger\n\
+" >> /home/$USER/.local/share/applications/ranger.desktop
 
 su -c 'touch ~/.local/share/applications/shutdown.desktop' $USER
 printf "[Desktop Entry]\n\
@@ -322,6 +332,9 @@ su -c "cp -f /home/$USER/.yadrlite/workstation/Xresources /home/$USER/.Xresource
 cp -f ~/.yadrlite/workstation/Xresources ~/.Xresources
 su -c "cp -r /home/$USER/.yadrlite/workstation/nvim /home/$USER/.config" $USER
 cp -r ~/.yadrlite/workstation/nvim ~/.config
+su -c "cp -r /home/$USER/.yadrlite/workstation/kitty /home/$USER/.config" $USER
+cp -r ~/.yadrlite/workstation/ranger ~/.config
+su -c "cp -r /home/$USER/.yadrlite/workstation/ranger /home/$USER/.config" $USER
 
 # nnn
 install package nnn tree mediainfo ranger
@@ -373,6 +386,9 @@ snap remove --purge firefox
 # To restore snapd and offline updates:
 # apt install gnome-software-plugin-snap
 # snap install snap-store
+
+# choose a default terminal
+update-alternatives --config x-terminal-emulator
 
 log "Installation complete.  Please reboot your system."
 printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"

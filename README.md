@@ -12,7 +12,7 @@ and portability.
 Check out the original repo, [YADR](https://github.com/skwp/dotfiles), especially if you 
 work in Python or Ruby.
 
-index: [Emacs](#emacs), [Tmux](#tmux), and [Vim](#vim)
+index: [Emacs](#emacs), [Tmux](#tmux), [Vim](#vim), and [Kitty](#kitty)
 
 # Dotfiles Installation
 
@@ -40,9 +40,9 @@ bash ~/.yadrlite/setup remove
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/emacs.d/emacs.init > ~/.emacs
 ```
 
-# Sample Workstations
+# My Workstation
 
-#### My Ubuntu Jammy Configuration
+#### Ubuntu Mate Jammy 
 
 ```bash
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/ubuntu-mate-jammy > ~/install
@@ -51,30 +51,6 @@ Run as root...
 ```bash
 bash install <username>
 ```
-#### My Trisquell 10 Configuration
-
-```bash
-curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/trisquel-10 > ~/install
-```
-
-IMPORTANT: If you have newer hardware, I would encourage the installation of
-Trisquel 11 instead, even though it is currently in beta. What I've found is that
-Trisquel 10 runs very hot! Even with TLP and several other plugins to assist with
-this, the problem persists.
-
-NOTE: This configuration script requires at least 32gb or more assigned to the
-root partition. The graphical installation of Trisquel only allocates 20gb
-or 5% of available disk space. You may want to use the text installation instead
- to specify the root partition size.
-
-#### My Trisquel 11 configuration
-
-```bash
-curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/trisquel-11-beta > ~/install
-```
-
-NOTE: You can find a copy of the Trisquel 11 Beta [here](https://cdbuilds.trisquel.org/aramo/).
-
 # What's Included:
 Workstation shortcuts have been pulled over from YADR, so those working with YADR should
 feel right at home.  There are a few minor changes and additions. However, a LOT may
@@ -484,5 +460,43 @@ forward/backward to next misspelled word
 * `,vc`: (Vim Command) copies the command under your cursor and executes it in
 vim. Great for testing single line changes to vimrc.
 * `,vr`: (Vim Reload) source current file as a vim file
+
+# Kitty
+
+Kitty is a full featured GPU-accelerated terminal.  It's faster.
+
+Requirements: [Kitty](https://sw.kovidgoyal.net/kitty/)
+
+[Return to top](#yadrlite)
+
+Kitty Shortcuts
+---
+#### History:
+* `Ctrl+Shift+h` Enter history
+* `Ctrl+Shift+p, v` Enter history in VIM mode
+
+#### Tabs:
+* `ctrl+shift+t`: Creates new tab
+* `ctrl+shift+q`: Closes tab
+* `ctrl+shift+right`: Next tab
+* `ctrl+shift+left`: Last tab
+* `ctrl+shift+.`: Move tab forward
+* `ctrl+shift+,`: Move tab backward
+
+#### Windows:
+* `ctrl+shift+enter`: New window
+* `ctrl+shift+w`: Close window
+* `ctrl+shift+n`: Create new OS window
+* `ctrl+shift+]`: Next window
+* `ctrl+shift+[`: Last window
+* `ctrl+shift+l`: Cycle through layout
+* `ctrl+shift+f`: Shift window to prominent spot
+* `ctrl+shift+b`: Shift window to least prominent spot
+* `ctrl+shift+F2`: Create a new iteration of the last edited window
+
+#### Display Options:
+* `Ctrl+Shift+Equal`: Inscrease Font Size
+* `Ctrl+Shift+minus`: Decrease Font Size
+* `Ctrl+Shift+backspace`: Restore Font Size
 
 [Return to top](#yadrlite)
