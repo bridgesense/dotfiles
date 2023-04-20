@@ -12,11 +12,10 @@ and portability.
 Check out the original repo, [YADR](https://github.com/skwp/dotfiles), especially if you 
 work in Python or Ruby.
 
-**Check Out LazyVIM!**
-
-Recently, I loaded a large project into VSCode, and the editor started stuttering to an
-unusable state. As a recent convert from Emacs, I had spent three days setting the thing
-up and making friends with it. VSCode was a real disappointment.
+**Also, check out LazyVIM!** Recently, I loaded a large project into VSCode, and the editor 
+started stuttering to an unusable state. As a recent convert from Emacs, I had spent 
+three days setting the thing up and making friends with it. VSCode was a real 
+disappointment.
 
 Initially, I found myself disenchanted with broken Emacs plugins. Finally, I was tired of 
 trying to fix them and just moved on. Then, after all the pain, I stumbled onto [LazyVIM](https://www.lazyvim.org/).
