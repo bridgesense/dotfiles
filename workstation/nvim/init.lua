@@ -10,15 +10,17 @@ dap.adapters.php = {
   },
 }
 
-dap.configurations.php = {
-  {
-    type = "php",
-    request = "launch",
-    name = "Listen for xdebug Main",
-    port = 9003,
-    log = true,
-    pathMappings = {
-      ["/var/www"] = "/home/francis/www/tickettomato.com",
-    },
-  },
-}
+-- the json equivalent of this is can be placed in a .vscode/launch.json file.
+-- see an example here: https://github.com/bridgesense/lampready#dap-mode-for-emacs
+-- dap.configurations.php = {
+--   {
+--     type = "php",
+--     request = "launch",
+--     name = "Listen for xdebug Main",
+--     port = 9003,
+--     log = true,
+--     pathMappings = {
+--       ["/var/www"] = "/path/to/your/project/root",
+--     },
+--   },
+-- }
