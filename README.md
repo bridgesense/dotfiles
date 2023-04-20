@@ -12,6 +12,20 @@ and portability.
 Check out the original repo, [YADR](https://github.com/skwp/dotfiles), especially if you 
 work in Python or Ruby.
 
+**Check Out LazyVIM!**
+
+Recently, I loaded a large project into VSCode, and the editor started stuttering to an
+unusable state. As a recent convert from Emacs, I had spent three days setting the thing
+up and making friends with it. VSCode was a real disappointment.
+
+Initially, I found myself disenchanted with broken Emacs plugins. Finally, I was tired of 
+trying to fix them and just moved on. Then, after all the pain, I stumbled onto [LazyVIM](https://www.lazyvim.org/).
+With this package, I can't tell you how amazing NeoVIM is as an IDE. So please do yourself 
+a favor and check it out.
+Under the workstation directory, you'll find an example of my setup using great plugins like 
+Grammarly and VSCode-php-debug. IMHO, the neovim dap interface is much, much nicer than VSCode's 
+implementation. For one thing, you can actually read the variable scope.
+
 index: [Emacs](#emacs), [Tmux](#tmux), [Vim](#vim), and [Kitty](#kitty)
 
 # Dotfiles Installation
