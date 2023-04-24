@@ -325,7 +325,7 @@ Type=Application\n\
 # Neovim and tools
 # # # # # # # # # # # # # # #
 add-apt-repository ppa:neovim-ppa/unstable -y
-install pacakge neovim ripgrep fd-find libtree-sitter-dev
+install pacakge neovim ripgrep fd-find libtree-sitter-dev luajit
 
 cd ~/lab
 LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
