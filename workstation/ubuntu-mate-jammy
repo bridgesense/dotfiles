@@ -95,7 +95,7 @@ apt-get update
 install package nodejs
 curl -L https://www.npmjs.com/install.sh | sh
 npm install --location=global npm@latest
-npm install --location=global grunt-cli csslint typescript typescript-language-server intelephense coffeelint yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify unified-language-server eslint emmet-ls babel-eslint typescript-lsp
+npm install --location=global grunt-cli csslint typescript typescript-language-server intelephense yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify unified-language-server eslint emmet-ls babel-eslint typescript-lsp coffeescript coffeelint
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 source ~/.bashrc
 nvm install 16.14.0
@@ -333,6 +333,20 @@ curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/lates
 tar xf lazygit.tar.gz lazygit
 install lazygit /usr/local/bin
 
+# Neomutt
+# # # # # # # # # # # # # # #
+log "compiling neomutt"
+install package gcc make libssl-dev libgtk2.0-dev libglib2.0-dev libidn2-dev libtokyocabinet-dev
+install package liboauth-dev libnspr4-dev libnss3-dev libexpat1-dev libssl-dev
+install package gettext libncurses5-dev libslang2-dev libtcl8.6 libxml2-utils libxslt1-dev lynx
+install package libgnutls28-dev libsass-dev libgpgme-dev krb5-multidev libtokyocabinet-dev
+install package xsltproc libsasl2-dev lbdb offlineimap mpak urlview
+cd ~/lab
+git clone https://github.com/neomutt/neomutt.git ~/lab/neomutt
+cd ~/lab/neomutt && ./configure --with-sasl=/usr/bin --with-ssl=/usr/bin --with-gpgme=/bin --with-gnutls=/bin --disable-mixmaster --disable-autocrypt --disable-doc
+make -k -C ~/lab/neomutt
+make install
+
 # Installing configuration
 # # # # # # # # # # # # # # #
 log "installing custom configuration"
@@ -390,9 +404,7 @@ remixing-consume-lfe = yes\n\
 avoid-resampling = no\n\
 " >>/home/$USER/.config/pulse/daemon.conf
 
-# install flatpak
-snap remove --purge firefox
-
+# Snapd
 # Removing snapd is popular if you know what you're doing.
 # Otherwise, it also contains offline system updates for this OS
 # outside the confines of apt dist-update.
