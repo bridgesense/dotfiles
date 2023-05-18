@@ -93,8 +93,10 @@ sed -i 's@#FastConnectable.*@FastConnectable\=true@g' /etc/bluetooth/main.conf
 curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 apt-get update
 install package nodejs
-npm install -g npm@latest
-npm install -g grunt-cli gulp-cli csslint typescript typescript-language-server intelephense yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify unified-language-server eslint emmet-ls babel-eslint typescript-lsp coffeescript coffeelint
+npm install --location=global npm@latest
+npm install --location=global grunt-cli gulp-cli csslint typescript typescript-language-server intelephense yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify unified-language-server eslint emmet-ls babel-eslint typescript-lsp coffeescript coffeelint
+su -c "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash" $USER
+su -c "source ~/.bashrc && nvm install 16.14.0" $USER
 curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | sudo tee /usr/share/keyrings/yarnkey.gpg >/dev/null
 echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 apt-get update
