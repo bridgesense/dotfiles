@@ -4,6 +4,7 @@
 ! Author: morhetz <morhetz@gmail.com>
 ! Source: https://github.com/morhetz/gruvbox-generalized
 ! -----------------------------------------------------------------------------
+!!XTERM SETTINGS
 ! hard contrast: *background: #1d2021
 *background: #282828
 ! soft contrast: *background: #32302f
@@ -32,7 +33,442 @@
 ! LightGrey + White
 *color7:  #a89984
 *color15: #fbf1c7
-!! Xterm Settings
+! VHERID DEFAULT
+! hard contrast: *background: #1d2021
+VheridDefault*background: #1b1209
+! soft contrast: *background: #32302f
+VheridDefault*foreground: #dcdcbb
+! Black + DarkGrey
+VheridDefault*color0: #1b1209
+VheridDefault*color8: #808080
+! DarkRed + Red
+VheridDefault*color1: #800000
+VheridDefault*color9: #ff0000
+! DarkGreen + Green
+VheridDefault*color2: #008000
+VheridDefault*color10: #00ff00
+! DarkYellow + Yellow
+VheridDefault*color3: #7b7200
+VheridDefault*color11: #ffff00
+! DarkBlue + Blue
+VheridDefault*color4: #000080
+VheridDefault*color12: #0000ff
+! DarkMagenta + Magenta
+VheridDefault*color5: #800080
+VheridDefault*color13: #ff00ff
+! DarkCyan + Cyan
+VheridDefault*color6: #008080
+VheridDefault*color14: #00ffff
+! LightGrey + White
+VheridDefault*color7: #c0c0c0
+VheridDefault*color15: #dcdcbb
+! VHERID DEFAULT+
+! hard contrast: *background: #1d2021
+VheridDefaultPlus*background: #1b1209
+! soft contrast: *background: #32302f
+VheridDefaultPlus*foreground: #dcdcbb
+! Black + DarkGrey
+VheridDefaultPlus*color0: #1b1209
+VheridDefaultPlus*color8: #505050
+! DarkRed + Red
+VheridDefaultPlus*color1: #6b0000
+VheridDefaultPlus*color9: #ff0000
+! DarkGreen + Green
+VheridDefaultPlus*color2: #008000
+VheridDefaultPlus*color10: #00ff00
+! DarkYellow + Yellow
+VheridDefaultPlus*color3: #7b7200
+VheridDefaultPlus*color11: #ffff00
+! DarkBlue + Blue
+VheridDefaultPlus*color4: #1233af
+VheridDefaultPlus*color12: #0072ff
+! DarkMagenta + Magenta
+VheridDefaultPlus*color5: #800080
+VheridDefaultPlus*color13: #d100ac
+! DarkCyan + Cyan
+VheridDefaultPlus*color6: #1380b2
+VheridDefaultPlus*color14: #00ffff
+! LightGrey + White
+VheridDefaultPlus*color7: #c0c0c0
+VheridDefaultPlus*color15: #dcdcbb
+! VHERID NATURAL
+! hard contrast: *background: #1d2021
+VheridNatural*background: #1b1209
+! soft contrast: *background: #32302f
+VheridNatural*foreground: #dcdcbb
+! Black + DarkGrey
+VheridNatural*color0: #1b1209
+VheridNatural*color8: #464133
+! DarkRed + Red
+VheridNatural*color1: #6e1414
+VheridNatural*color9: #c62424
+! DarkGreen + Green
+VheridNatural*color2: #1e6428
+VheridNatural*color10: #aaff00
+! DarkYellow + Yellow
+VheridNatural*color3: #beae13
+VheridNatural*color11: #fab40a
+! DarkBlue + Blue
+VheridNatural*color4: #203296
+VheridNatural*color12: #0078ff
+! DarkMagenta + Magenta
+VheridNatural*color5: #8511ab
+VheridNatural*color13: #e747aa
+! DarkCyan + Cyan
+VheridNatural*color6: #1b80b9
+VheridNatural*color14: #00d2cd
+! LightGrey + White
+VheridNatural*color7: #74707f
+VheridNatural*color15: #dcdccc
+! VHERID WARM
+! hard contrast: *background: #1d2021
+VheridWarm*background: #1b1209
+! soft contrast: *background: #32302f
+VheridWarm*foreground: #9a847c
+! Black + DarkGrey
+VheridWarm*color0: #1b1209
+VheridWarm*color8: #3e352c
+! DarkRed + Red
+VheridWarm*color1: #521900
+VheridWarm*color9: #c03d24
+! DarkGreen + Green
+VheridWarm*color2: #6e7b15
+VheridWarm*color10: #c4db26
+! DarkYellow + Yellow
+VheridWarm*color3: #ffbf00
+VheridWarm*color11: #ffc338
+! DarkBlue + Blue
+VheridWarm*color4: #1a41a5
+VheridWarm*color12: #006cff
+! DarkMagenta + Magenta
+VheridWarm*color5: #4c0037
+VheridWarm*color13: #ff208d
+! DarkCyan + Cyan
+VheridWarm*color6: #007860
+VheridWarm*color14: #00ffcc
+! LightGrey + White
+VheridWarm*color7: #9a847c
+VheridWarm*color15: #fcedda
+! VHERID FIELDS
+! hard contrast: *background: #1d2021
+VheridFields*background: #110b16
+! soft contrast: *background: #32302f
+VheridFields*foreground: #ededc6
+! Black + DarkGrey
+VheridFields*color0: #110b16
+VheridFields*color8: #332c27
+! DarkRed + Red
+VheridFields*color1: #5c2514
+VheridFields*color9: #af3b14
+! DarkGreen + Green
+VheridFields*color2: #6b6819
+VheridFields*color10: #bebc27
+! DarkYellow + Yellow
+VheridFields*color3: #e0a404
+VheridFields*color11: #e4a604
+! DarkBlue + Blue
+VheridFields*color4: #273a5c
+VheridFields*color12: #2facc7
+! DarkMagenta + Magenta
+VheridFields*color5: #621806
+VheridFields*color13: #a42406
+! DarkCyan + Cyan
+VheridFields*color6: #3e7466
+VheridFields*color14: #9ddc85
+! LightGrey + White
+VheridFields*color7: #4f433a
+VheridFields*color15: #ebe2c6
+! VHERID MISHKA
+! hard contrast: *background: #1d2021
+VheridMishka*background: #170f0d
+! soft contrast: *background: #32302f
+VheridMishka*foreground: #ffffff
+! Black + DarkGrey
+VheridMishka*color0: #170f0d
+VheridMishka*color8: #4a342e
+! DarkRed + Red
+VheridMishka*color1: #ba5300
+VheridMishka*color9: #ea8400
+! DarkGreen + Green
+VheridMishka*color2: #7ba000
+VheridMishka*color10: #d6ef00
+! DarkYellow + Yellow
+VheridMishka*color3: #e4b31b
+VheridMishka*color11: #e4b31b
+! DarkBlue + Blue
+VheridMishka*color4: #005fff
+VheridMishka*color12: #00b3ff
+! DarkMagenta + Magenta
+VheridMishka*color5: #a72400
+VheridMishka*color13: #ff4310
+! DarkCyan + Cyan
+VheridMishka*color6: #00875f
+VheridMishka*color14: #00ffb4
+! LightGrey + White
+VheridMishka*color7: #787c64
+VheridMishka*color15: #f1e3b8
+! VHERID DUSK
+! hard contrast: *background: #1d2021
+VheridDusk*background: #0a0a0a
+! soft contrast: *background: #32302f
+VheridDusk*foreground: #f2f7e6
+! Black + DarkGrey
+VheridDusk*color0: #0a0a0a
+VheridDusk*color8: #30262d
+! DarkRed + Red
+VheridDusk*color1: #8e2800
+VheridDusk*color9: #ce4900
+! DarkGreen + Green
+VheridDusk*color2: #5d6d06
+VheridDusk*color10: #a6b000
+! DarkYellow + Yellow
+VheridDusk*color3: #ffb74d
+VheridDusk*color11: #ff9b4d
+! DarkBlue + Blue
+VheridDusk*color4: #04518c
+VheridDusk*color12: #00b0ee
+! DarkMagenta + Magenta
+VheridDusk*color5: #830034
+VheridDusk*color13: #a00307
+! DarkCyan + Cyan
+VheridDusk*color6: #0c4f4c
+VheridDusk*color14: #0cbb9f
+! LightGrey + White
+VheridDusk*color7: #80736e
+VheridDusk*color15: #f2f7e6
+! VHERID MATRIX
+! hard contrast: *background: #1d2021
+VheridMatrix*background: #000000
+! soft contrast: *background: #32302f
+VheridMatrix*foreground: #ffffff
+! Black + DarkGrey
+VheridMatrix*color0: #191f07
+VheridMatrix*color8: #7d7e61
+! DarkRed + Red
+VheridMatrix*color1: #763400
+VheridMatrix*color9: #ae440b
+! DarkGreen + Green
+VheridMatrix*color2: #4d7218
+VheridMatrix*color10: #88be12
+! DarkYellow + Yellow
+VheridMatrix*color3: #b38700
+VheridMatrix*color11: #b9da1c
+! DarkBlue + Blue
+VheridMatrix*color4: #18774f
+VheridMatrix*color12: #0dbd75
+! DarkMagenta + Magenta
+VheridMatrix*color5: #324631
+VheridMatrix*color13: #527f39
+! DarkCyan + Cyan
+VheridMatrix*color6: #b38b00
+VheridMatrix*color14: #ffcc00
+! LightGrey + White
+VheridMatrix*color7: #6b6e4b
+VheridMatrix*color15: #f5fed2
+! VHERID ASH
+! hard contrast: *background: #1d2021
+VheridAsh*background: #000000
+! soft contrast: *background: #32302f
+VheridAsh*foreground: #ffffff
+! Black + DarkGrey
+VheridAsh*color0: #000000
+VheridAsh*color8: #7f7f7f
+! DarkRed + Red
+VheridAsh*color1: #252525
+VheridAsh*color9: #5f5f5f
+! DarkGreen + Green
+VheridAsh*color2: #676767
+VheridAsh*color10: #a5a5a5
+! DarkYellow + Yellow
+VheridAsh*color3: #252525
+VheridAsh*color11: #555555
+! DarkBlue + Blue
+VheridAsh*color4: #474747
+VheridAsh*color12: #818181
+! DarkMagenta + Magenta
+VheridAsh*color5: #353535
+VheridAsh*color13: #555555
+! DarkCyan + Cyan
+VheridAsh*color6: #3c3c3c
+VheridAsh*color14: #a5a5a5
+! LightGrey + White
+VheridAsh*color7: #8e8e8e
+VheridAsh*color15: #ffffff
+! VHERID HEAT
+! hard contrast: *background: #1d2021
+VheridHeat*background: #000000
+! soft contrast: *background: #32302f
+VheridHeat*foreground: #ffffff
+! Black + DarkGrey
+VheridHeat*color0: #170b0b
+VheridHeat*color8: #7f7f7f
+! DarkRed + Red
+VheridHeat*color1: #6e2c0d
+VheridHeat*color9: #e2440d
+! DarkGreen + Green
+VheridHeat*color2: #7d6f10
+VheridHeat*color10: #c7c01a
+! DarkYellow + Yellow
+VheridHeat*color3: #9c5c08
+VheridHeat*color11: #e4a802
+! DarkBlue + Blue
+VheridHeat*color4: #393b45
+VheridHeat*color12: #425cb6
+! DarkMagenta + Magenta
+VheridHeat*color5: #742510
+VheridHeat*color13: #b02804
+! DarkCyan + Cyan
+VheridHeat*color6: #7e7a10
+VheridHeat*color14: #aade6c
+! LightGrey + White
+VheridHeat*color7: #b8b092
+VheridHeat*color15: #eee0b5
+! VHERID MUD
+! hard contrast: *background: #1d2021
+VheridMud*background: #000000
+! soft contrast: *background: #32302f
+VheridMud*foreground: #ffffff
+! Black + DarkGrey
+VheridMud*color0: #201e15
+VheridMud*color8: #7f7f7f
+! DarkRed + Red
+VheridMud*color1: #892e0e
+VheridMud*color9: #ff360e
+! DarkGreen + Green
+VheridMud*color2: #777136
+VheridMud*color10: #ada45e
+! DarkYellow + Yellow
+VheridMud*color3: #cdcd00
+VheridMud*color11: #fba612
+! DarkBlue + Blue
+VheridMud*color4: #234353
+VheridMud*color12: #3d7a8f
+! DarkMagenta + Magenta
+VheridMud*color5: #846722
+VheridMud*color13: #cc9f36
+! DarkCyan + Cyan
+VheridMud*color6: #445415
+VheridMud*color14: #768b20
+! LightGrey + White
+VheridMud*color7: #9e9952
+VheridMud*color15: #fcfce3
+! VHERID DARK SANDS
+! hard contrast: *background: #1d2021
+VheridDarkSands*background: #000000
+! soft contrast: *background: #32302f
+VheridDarkSands*foreground: #ffffff
+! Black + DarkGrey
+VheridDarkSands*color0: #020110
+VheridDarkSands*color8: #7f7f7f
+! DarkRed + Red
+VheridDarkSands*color1: #8e2800
+VheridDarkSands*color9: #ff2800
+! DarkGreen + Green
+VheridDarkSands*color2: #5d6d06
+VheridDarkSands*color10: #a6b000
+! DarkYellow + Yellow
+VheridDarkSands*color3: #cdcd00
+VheridDarkSands*color11: #ffb74d
+! DarkBlue + Blue
+VheridDarkSands*color4: #04518c
+VheridDarkSands*color12: #00b0ee
+! DarkMagenta + Magenta
+VheridDarkSands*color5: #830034
+VheridDarkSands*color13: #a00307
+! DarkCyan + Cyan
+VheridDarkSands*color6: #0c4f4c
+VheridDarkSands*color14: #0cbaa0
+! LightGrey + White
+VheridDarkSands*color7: #334554
+VheridDarkSands*color15: #e6f5f7
+! VHERID FALLEN
+! hard contrast: *background: #1d2021
+VheridFallen*background: #000000
+! soft contrast: *background: #32302f
+VheridFallen*foreground: #ffffff
+! Black + DarkGrey
+VheridFallen*color0: #201e15
+VheridFallen*color8: #7f7f7f
+! DarkRed + Red
+VheridFallen*color1: #6a2713
+VheridFallen*color9: #b24c15
+! DarkGreen + Green
+VheridFallen*color2: #777136
+VheridFallen*color10: #efc140
+! DarkYellow + Yellow
+VheridFallen*color3: #cdcd00
+VheridFallen*color11: #fba612
+! DarkBlue + Blue
+VheridFallen*color4: #234353
+VheridFallen*color12: #30798f
+! DarkMagenta + Magenta
+VheridFallen*color5: #671708
+VheridFallen*color13: #b52b0b
+! DarkCyan + Cyan
+VheridFallen*color6: #0c4f4c
+VheridFallen*color14: #737d26
+! LightGrey + White
+VheridFallen*color7: #4e5537
+VheridFallen*color15: #f4ffd0
+! VHERID BONE
+! hard contrast: *background: #1d2021
+VheridBone*background: #000000
+! soft contrast: *background: #32302f
+VheridBone*foreground: #ffffff
+! Black + DarkGrey
+VheridBone*color0: #26170a
+VheridBone*color8: #7f7f7f
+! DarkRed + Red
+VheridBone*color1: #840000
+VheridBone*color9: #ff0000
+! DarkGreen + Green
+VheridBone*color2: #788619
+VheridBone*color10: #c4db26
+! DarkYellow + Yellow
+VheridBone*color3: #cdcd00
+VheridBone*color11: #ffc322
+! DarkBlue + Blue
+VheridBone*color4: #0f52ba
+VheridBone*color12: #008aff
+! DarkMagenta + Magenta
+VheridBone*color5: #7c1a60
+VheridBone*color13: #ff4282
+! DarkCyan + Cyan
+VheridBone*color6: #56b872
+VheridBone*color14: #48ffb8
+! LightGrey + White
+VheridBone*color7: #9a846d
+VheridBone*color15: #fcfad0
+! VHERID SOYUZ
+! hard contrast: *background: #1d2021
+VheridSoyuz*background: #1b1209
+! soft contrast: *background: #32302f
+VheridSoyuz*foreground: #dcdcbb
+! Black + DarkGrey
+VheridSoyuz*color0: #282700
+VheridSoyuz*color8: #323232
+! DarkRed + Red
+VheridSoyuz*color1: #7c0000
+VheridSoyuz*color9: #ff0000
+! DarkGreen + Green
+VheridSoyuz*color2: #333100
+VheridSoyuz*color10: #00ff00
+! DarkYellow + Yellow
+VheridSoyuz*color3: #7b5600
+VheridSoyuz*color11: #ff9a0a
+! DarkBlue + Blue
+VheridSoyuz*color4: #2e495e
+VheridSoyuz*color12: #00498f
+! DarkMagenta + Magenta
+VheridSoyuz*color5: #775a36
+VheridSoyuz*color13: #efc140
+! DarkCyan + Cyan
+VheridSoyuz*color6: #52803a
+VheridSoyuz*color14: #a3b934
+! LightGrey + White
+VheridSoyuz*color7: #b98764
+VheridSoyuz*color15: #fff0ad
+!! VT100 SETTINGS
 *VT100*selectToClipboard: true
 *VT100*faceName: DejaVu Sans Mono for Powerline Book
 *VT100*faceSize: 12
