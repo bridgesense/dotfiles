@@ -35,11 +35,11 @@
 *color15: #fbf1c7
 ! VHERID DEFAULT
 ! hard contrast: *background: #1d2021
-VheridDefault*background: #1b1209
+VheridDefault*background: #000000
 ! soft contrast: *background: #32302f
-VheridDefault*foreground: #dcdcbb
+VheridDefault*foreground: #ffffff
 ! Black + DarkGrey
-VheridDefault*color0: #1b1209
+VheridDefault*color0: #000000
 VheridDefault*color8: #808080
 ! DarkRed + Red
 VheridDefault*color1: #800000
@@ -61,14 +61,14 @@ VheridDefault*color6: #008080
 VheridDefault*color14: #00ffff
 ! LightGrey + White
 VheridDefault*color7: #c0c0c0
-VheridDefault*color15: #dcdcbb
+VheridDefault*color15: #ffffff
 ! VHERID DEFAULT+
 ! hard contrast: *background: #1d2021
-VheridDefaultPlus*background: #1b1209
+VheridDefaultPlus*background: #000000
 ! soft contrast: *background: #32302f
-VheridDefaultPlus*foreground: #dcdcbb
+VheridDefaultPlus*foreground: #ffffff
 ! Black + DarkGrey
-VheridDefaultPlus*color0: #1b1209
+VheridDefaultPlus*color0: #000000
 VheridDefaultPlus*color8: #505050
 ! DarkRed + Red
 VheridDefaultPlus*color1: #6b0000
@@ -89,8 +89,8 @@ VheridDefaultPlus*color13: #d100ac
 VheridDefaultPlus*color6: #1380b2
 VheridDefaultPlus*color14: #00ffff
 ! LightGrey + White
-VheridDefaultPlus*color7: #c0c0c0
-VheridDefaultPlus*color15: #dcdcbb
+VheriDefaultPlus*color7: #c0c0c0
+VheridDefaultPlus*color15: #ffffff
 ! VHERID NATURAL
 ! hard contrast: *background: #1d2021
 VheridNatural*background: #1b1209
@@ -236,6 +236,64 @@ VheridDusk*color14: #0cbb9f
 ! LightGrey + White
 VheridDusk*color7: #80736e
 VheridDusk*color15: #f2f7e6
+! VHERID Sorrow 
+! hard contrast: *background: #051111
+VheridSorrow*background: #000011
+! soft contrast: *background: #2e495e
+VheridSorrow*foreground: #ffffff
+! Black + DarkGrey
+VheridSorrow*color0: #051111
+VheridSorrow*color8: #392a20
+! DarkRed + Red
+VheridSorrow*color1: #8e2800
+VheridSorrow*color9: #ff2800
+! DarkGreen + Green
+VheridSorrow*color2: #55532a
+VheridSorrow*color10: #55d14b
+! DarkYellow + Yellow
+VheridSorrow*color3: #7b8a45
+VheridSorrow*color11: #cb9a45
+! DarkBlue + Blue
+VheridSorrow*color4: #002e4a
+VheridSorrow*color12: #2e4986
+! DarkMagenta + Magenta
+VheridSorrow*color5: #7b2636
+VheridSorrow*color13: #a15642
+! DarkCyan + Cyan
+VheridSorrow*color6: #436c4d
+VheridSorrow*color14: #79bd8f
+! LightGrey + White
+VheridSorrow*color7: #878e5d
+VheridSorrow*color15: #fff782
+! VHERID JADE 
+! hard contrast: *background: #110b09
+VheridJade*background: #110b09
+! soft contrast: *background: #465f62
+VheridJade*foreground: #ffffff
+! Black + DarkGrey
+VheridJade*color0: #110b09
+VheridJade*color8: #2a1e1b
+! DarkRed + Red
+VheridJade*color1: #762a1b
+VheridJade*color9: #762a1b
+! DarkGreen + Green
+VheridJade*color2: #6c6b25
+VheridJade*color10: #c3c13d
+! DarkYellow + Yellow
+VheridJade*color3: #5c633a
+VheridJade*color11: #a0b45c
+! DarkBlue + Blue
+VheridJade*color4: #002e4a
+VheridJade*color12: #2e4986
+! DarkMagenta + Magenta
+VheridJade*color5: #ae2c3b
+VheridJade*color13: #ab421e
+! DarkCyan + Cyan
+VheridJade*color6: #705d3c
+VheridJade*color14: #70a16c
+! LightGrey + White
+VheridJade*color7: #453c31
+VheridJade*color15: #dbd69c
 ! VHERID MATRIX
 ! hard contrast: *background: #1d2021
 VheridMatrix*background: #000000
