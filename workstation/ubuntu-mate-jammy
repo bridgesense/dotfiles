@@ -5,8 +5,7 @@
 # # # # # #Shutdown # # # # # # # # #
 
 # Options
-# # # # # # # # # # # # # # #
-USER="${1:francis}"
+# # # # # # # # # # # # # # # USER="${1:francis}"
 LOGFILE='/root/workstation-installation.log'
 
 # Functions
@@ -58,6 +57,14 @@ function install {
 # Run as root
 # Commandline Tools
 # # # # # # # # # # # # # # #
+log "disabling ipv6"
+printf "# Disable IPv6\n\
+net.ipv6.conf.all.disable_ipv6 = 1\n\
+net.ipv6.conf.default.disable_ipv6 = 1\n\
+net.ipv6.conf.lo.disable_ipv6 = 1\n\
+  " >>/etc/sysctl.conf
+sysctl -p
+
 log "installing commandline tools"
 apt-get update
 install package curl wget git git-lfs subversion
@@ -94,7 +101,7 @@ curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 apt-get update
 install package nodejs
 npm install --location=global npm@latest
-npm install --location=global grunt-cli gulp-cli csslint typescript@3.0 typescript-language-server intelephense yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify unified-language-server eslint emmet-ls babel-eslint typescript-lsp coffeescript coffeelint
+npm install --location=global --save-dev grunt-cli gulp gulp-cli csslint typescript@3.0 typescript-language-server intelephense yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify unified-language-server eslint emmet-ls babel-eslint typescript-lsp coffeescript coffeelint
 su -c "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash" $USER
 su -c "source ~/.bashrc && nvm install 16.14.0" $USER
 curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | sudo tee /usr/share/keyrings/yarnkey.gpg >/dev/null
