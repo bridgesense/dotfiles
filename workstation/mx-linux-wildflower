@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
-# This script is just a personal snapshot of my ubuntu-mate workstation.
-# curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/ubuntu-mate-jammy > ~/install
+# This script is just a personal snapshot of my mx-linux workstation.
+# curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/mx-linux-wildflower > ~/install
 # bash install <username>
 # # # # # #Shutdown # # # # # # # # #
 
 # Options
-# # # # # # # # # # # # # # # USER="${1:francis}"
+# # # # # # # # # # # # # # #
+USER="${1:francis}"
 LOGFILE='/root/workstation-installation.log'
 
 # Functions
@@ -68,9 +69,8 @@ sysctl -p
 log "installing commandline tools"
 apt-get update
 install package curl wget git git-lfs subversion
-install package apt-transport-https gnupg2 software-properties-common
 install package build-essential
-install package libfreetype-dev libfontconfig-dev libxcb1-dev tmux xclip
+install package libfreetype-dev libfontconfig-dev libxcb1-dev tmux xclip kitty
 install package ack silversearcher-ag
 install package isync msmtp pass universal-ctags
 install package python3 python3-pip ruby-full openjdk-18-jre-headless
@@ -89,7 +89,10 @@ sed -i 's@#ReconnectAttempts.*@ReconnectAttempts\=7@g' /etc/bluetooth/main.conf
 sed -i 's@#FastConnectable.*@FastConnectable\=true@g' /etc/bluetooth/main.conf
 
 # exchanges the esc and caps keys
-# See Keyboard Preferences > Caps Lock behavoir > Swap Esc and Caps Lock
+# see system keyboard > Advanced tab > Caps Lock behavior = Swap ESC and Caps Lock
+
+# support for Magic Trackpad 2
+# see MX Tweak > Other > check Use libinput driver > click apply > restart
 
 # to install hp setup
 # tap the wifi icon on the printer and obtain the printer's ip address
@@ -127,24 +130,22 @@ fc-cache -f -v
 # dmg2img for mac vm
 
 # install supplementary packages
-install package network-manager-openvpn network-manager-openconnect
-install package aspell-en texlive-full papirus-icon-theme
-install package clamav clamav-update brasero youtube-dl w3m w3m-img
-install package ftp telnet hplip hplip-gui simple-scan
-install package gnutls-bin maildir-utils imagemagick gnupg2
+install package texlive-full
+install package clamav clamav-update w3m w3m-img
+install package gnutls-bin maildir-utils
 install package gcolor3 flameshot transmission
-install package podman buildah gnome-boxes gnome-disk-utility
-install package gnome-software gnome-software-plugin-flatpak
+install package podman buildah gnome-boxes
 install package nextcloud-desktop fontforge caffeine
-install package libreoffice
-install package obs-studio kdenlive audacity
+install package audacity
 install package pdfarranger wordnet
+install package nnn ranger
 
 # gimp
 log "installing gimp and plugins"
 install package gimp gimp-data-extras gimp-plugin-registry gimp-gluas gimp-gmic gimp-gap
 
 # emacs
+mkdir ~/lab
 cd ~/lab
 git clone git://git.sv.gnu.org/emacs.git -b emacs-27
 cd emacs
@@ -177,20 +178,9 @@ st_path=$(pwd | sed 's/\/syncterm$//g')
 make SRC_ROOT=$st_path
 make install
 
-# install video, audio codecs and tools
-log "installing codecs and players"
-install package ubuntu-restricted-extras
-install package vlc libaacs0 libbluray-bdj libbluray2
-install package musescore obs-studio audacity vlc* mpv rhythmbox
-
 # play/pause override
 # playerctl --all-players play-pause
-install package playerctld
-
-install package libdvd-pkg
-dpkg-reconfigure libdvd-pkg
-su -c "mkdir -p /home/$USER/.config/aacs" $USER
-su -c "cd /home/$USER/.config/aacs/ && wget http://vlc-bluray.whoknowsmy.name/files/KEYDB.cfg" $USER
+# install package playerctld
 
 #yt-dlp
 wget https://github.com/yt-dlp/yt-dlp/releases/download/2023.01.06/yt-dlp_linux -O /usr/bin/yt-dlp
@@ -234,7 +224,7 @@ printf "[Desktop Entry]\n\
 Type=Application\n\
 Name=Shutdown\n\
 Icon=gshutdown\n\
-Exec=mate-session-save --shutdown-dialog\n\
+Exec=xfce4-session-logout --halt\n\
 " >>/home/$USER/.local/share/applications/shutdown.desktop
 
 su -c 'touch ~/.local/share/applications/logout.desktop' $USER
@@ -242,7 +232,7 @@ printf "[Desktop Entry]\n\
 Type=Application\n\
 Name=Logout\n\
 Icon=gnome-lockscreen\n\
-Exec=mate-session-save --logout-dialog\n\
+Exec=xfce4-session-logout\n\
 " >>/home/$USER/.local/share/applications/logout.desktop
 
 su -c "touch /home/$USER/.local/share/applications/night.desktop" $USER
@@ -301,34 +291,9 @@ Icon=mouse\n\
 Exec=xinput --enable 12\n\
 " >>/home/$USER/.local/share/applications/trackpad-on.desktop
 
-su -c 'touch ~/.local/share/applications/mpv_dvd.desktop' $USER
-printf "[Desktop Entry]\n\
-Categories=AudioVideo;Audio;Video;Player;TV;\n\
-Exec=mpv dvd://\n\
-Icon=mpv\n\
-MimeType=\n\
-Name=Play DVD in mpv Media Player\n\
-StartupNotify=true\n\
-Terminal=false\n\
-Type=Application\n\
-" >>/home/$USER/.local/share/applications/mpv_dvd.desktop
-
-su -c 'touch ~/.local/share/applications/mpv_bluray.desktop' $USER
-printf "[Desktop Entry]\n\
-Categories=AudioVideo;Audio;Video;Player;TV;\n\
-Exec=mpv bd://\n\
-Icon=mpv\n\
-MimeType=\n\
-Name=Play Bluray in mpv Media Player\n\
-StartupNotify=true\n\
-Terminal=false\n\
-Type=Application\n\
-" >>/home/$USER/.local/share/applications/mpv_bluray.desktop
-
 # Neovim and tools
 # # # # # # # # # # # # # # #
-add-apt-repository ppa:neovim-ppa/unstable -y
-install pacakge neovim ripgrep fd-find libtree-sitter-dev luajit
+install pacakge ripgrep fd-find libtree-sitter-dev luajit
 
 cd ~/lab
 LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
@@ -383,11 +348,20 @@ find /home/$USER/.config -type d -exec chmod 0755 {} \;
 find /home/$USER/.config -type f -exec chmod 0644 {} \;
 find /home/$USER/.config -name "*.sh" -execdir chmod u+x {} +
 
+# install misc libraries
+install package libsdl2-2.0-0 libsdl2-ttf-2.0-0 libsdl2-mixer-2.0-0 gcc-9
+cd ~/lab
+wget http://ftp.gnu.org/gnu/libc/glibc-2.33.tar.gz
+tar -xvzf glibc-2.33.tar.gz
+mkdir build
+mkdir glibc-2.33-install
+cd build
+../configure --prefix=$HOME/glibc/glibc-2.33-install
+make
+make install
+
 # misc sanity improvements
 git config --global core.askpass ""
-
-# theme adjustments
-sed -i 's@#f7f7f7@#d3869b@g' /usr/share/themes/Yaru-dark/metacity-1/metacity-theme-1.xml
 
 # improve sound
 su -c 'touch ~/.config/pulse/daemon.conf' $USER
@@ -406,20 +380,6 @@ remixing-consume-lfe = yes\n\
 \n\
 avoid-resampling = no\n\
 " >>/home/$USER/.config/pulse/daemon.conf
-
-# Snapd
-# Removing snapd is popular if you know what you're doing.
-# Otherwise, it also contains offline system updates for this OS
-# outside the confines of apt dist-update.
-# To remove the nagging completely:
-# apt-get remove -y --purge snapd gnome-software-plugin-snap
-
-# To restore snapd and offline updates:
-# apt install gnome-software-plugin-snap
-# snap install snap-store
-
-# choose a default terminal
-update-alternatives --config x-terminal-emulator
 
 log "Installation complete.  Please reboot your system."
 printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"

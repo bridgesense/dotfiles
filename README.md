@@ -55,6 +55,12 @@ curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/emacs.d/emacs
 
 # My Workstation
 
+#### MX Linux Wildflower (Debian Bullseye) 
+
+```bash
+curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/mx-linux-wildflower > ~/install
+```
+
 #### Ubuntu Mate Jammy 
 
 ```bash
