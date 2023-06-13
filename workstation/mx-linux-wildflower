@@ -139,13 +139,15 @@ install package nextcloud-desktop fontforge caffeine
 install package audacity
 install package pdfarranger wordnet
 install package nnn ranger
+install package yt-dlp
 
 # gimp
 log "installing gimp and plugins"
 install package gimp gimp-data-extras gimp-plugin-registry gimp-gluas gimp-gmic gimp-gap
 
 # emacs
-mkdir ~/lab
+log "installing emacs and plugins"
+mkdir -P ~/lab
 cd ~/lab
 git clone git://git.sv.gnu.org/emacs.git -b emacs-27
 cd emacs
@@ -155,7 +157,6 @@ make
 make install
 
 # install mu4e
-log "installing emacs and plugins"
 apt-get remove -y --autoremove emacs emacs-common
 install package autoconf meson libgmime-3.0-dev libxapian-dev libxaw7-dev libtiff5-dev libgtk2.0-dev libgif-dev libgnutls28-dev libncurses-dev cmake guile-3.0-dev
 mkdir -p ~/lab
@@ -181,15 +182,6 @@ make install
 # play/pause override
 # playerctl --all-players play-pause
 # install package playerctld
-
-#yt-dlp
-wget https://github.com/yt-dlp/yt-dlp/releases/download/2023.01.06/yt-dlp_linux -O /usr/bin/yt-dlp
-chmod +x /usr/bin/yt-dlp
-
-# lampready patch
-apt-get remove -y apache2 --purge
-echo "net.ipv4.ip_unprivileged_port_start=0" >/etc/sysctl.d/05-expose-privileged.conf
-sysctl --system
 
 # firewall
 ufw enable
@@ -329,6 +321,7 @@ cp -r ~/.yadrlite/workstation/nvim ~/.config
 su -c "cp -r /home/$USER/.yadrlite/workstation/kitty /home/$USER/.config" $USER
 cp -r ~/.yadrlite/workstation/ranger ~/.config
 su -c "cp -r /home/$USER/.yadrlite/workstation/ranger /home/$USER/.config" $USER
+su -c "mkdir -P /home/$USER/.local/share/fonts && cp -r /home/$USER/.yadrlite/workstation/fonts /home/$USER/.local/share/fonts" $USER
 su -c "pip3 install neovim pynvim --user" $USER
 
 # nnn
@@ -349,21 +342,17 @@ find /home/$USER/.config -type f -exec chmod 0644 {} \;
 find /home/$USER/.config -name "*.sh" -execdir chmod u+x {} +
 
 # install misc libraries
-install package libsdl2-2.0-0 libsdl2-ttf-2.0-0 libsdl2-mixer-2.0-0 gcc-9
-cd ~/lab
-wget http://ftp.gnu.org/gnu/libc/glibc-2.33.tar.gz
-tar -xvzf glibc-2.33.tar.gz
-mkdir build
-mkdir glibc-2.33-install
-cd build
-../configure --prefix=$HOME/glibc/glibc-2.33-install
-make
-make install
+install package libsdl-ttf2.0-dev libsdl-sound1.2-dev libsdl-gfx1.2-dev
+install package libsdl2-dev libsdl2-ttf-dev libsdl2-mixer-dev libsdl2-image-dev libsdl2-gfx-dev
 
 # misc sanity improvements
 git config --global core.askpass ""
 
+# access older luks ecrypted drives
+install package luksmeta
+
 # improve sound
+su -c 'mkdir -P ~/.config/pulse/' $USER
 su -c 'touch ~/.config/pulse/daemon.conf' $USER
 printf "high-priority = yes\n\
 realtime-scheduling = yes\n\
@@ -380,6 +369,16 @@ remixing-consume-lfe = yes\n\
 \n\
 avoid-resampling = no\n\
 " >>/home/$USER/.config/pulse/daemon.conf
+
+# restore systemd
+install package systemd-sysv
+
+# lampready patch
+apt-get remove -y apache2 --purge
+echo "net.ipv4.ip_unprivileged_port_start=0" >/etc/sysctl.d/05-expose-privileged.conf
+sysctl --system
+
+apt-get install --reinstall pulseaudio alsa-tools alsa-utils
 
 log "Installation complete.  Please reboot your system."
 printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
