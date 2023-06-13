@@ -300,10 +300,10 @@ install package gcc make libssl-dev libgtk2.0-dev libglib2.0-dev libidn2-dev lib
 install package liboauth-dev libnspr4-dev libnss3-dev libexpat1-dev libssl-dev
 install package gettext libncurses5-dev libslang2-dev libtcl8.6 libxml2-utils libxslt1-dev lynx
 install package libgnutls28-dev libsass-dev libgpgme-dev krb5-multidev libtokyocabinet-dev
-install package xsltproc libsasl2-dev lbdb offlineimap mpak urlview gettext lua5.3-dev
+install package xsltproc libsasl2-dev lbdb offlineimap urlview gettext libnotmuch-dev
 cd ~/lab
 git clone https://github.com/neomutt/neomutt.git ~/lab/neomutt
-cd ~/lab/neomutt && ./configure --with-sasl=/usr/bin --with-ssl=/usr/bin --with-gpgme=/bin --with-gnutls=/bin --disable-mixmaster --disable-autocrypt --disable-doc --with-lua=/usr/bin
+cd ~/lab/neomutt && ./configure --with-sasl=/usr/bin --with-ssl=/usr/bin --with-gpgme=/bin --with-gnutls=/bin --disable-mixmaster --disable-autocrypt --disable-doc --with-lua=/usr/bin --with-notmuch=/usr/bin
 make -k -C ~/lab/neomutt
 make install
 
