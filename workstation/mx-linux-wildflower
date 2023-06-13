@@ -66,6 +66,9 @@ net.ipv6.conf.lo.disable_ipv6 = 1\n\
   " >>/etc/sysctl.conf
 sysctl -p
 
+echo "precedence ::ffff:0:0/96 100" >>/etc/gai.conf
+echo "Acquire::ForceIPv4 \"true\";" >/etc/apt/apt.conf.d/99force-ipv4
+
 log "installing commandline tools"
 apt-get update
 install package curl wget git git-lfs subversion
@@ -77,6 +80,7 @@ install package python3 python3-pip ruby-full openjdk-18-jre-headless
 install package php perl maven
 install package golang-go bison php-pear hugo
 install package net-tools nmap dmg2img
+install package software-properties-common python3-launchpadlib
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 php -r "unlink('composer-setup.php');"
@@ -351,30 +355,29 @@ git config --global core.askpass ""
 # access older luks ecrypted drives
 install package luksmeta
 
-# improve sound
-# if sound becomes flakey, or audio device is not selectable,
-# use the PulseAudio Volume Control application
-su -c 'mkdir -P ~/.config/pulse/' $USER
-su -c 'touch ~/.config/pulse/daemon.conf' $USER
-printf "high-priority = yes\n\
-realtime-scheduling = yes\n\
-realtime-priority = 9\n\
-nice-level = -11\n\
-\n\
-default-sample-format = s32le\n\
-default-sample-rate = 192000\n\
-resample-method = speex-float-5\n\
-\n\
-default-sample-channels = 2\n\
-remixing-produce-lfe = no\n\
-remixing-consume-lfe = yes\n\
-\n\
-avoid-resampling = no\n\
-" >>/home/$USER/.config/pulse/daemon.conf
-
 # restore systemd and install pod tools
 install package systemd-sysv
 install catatonit podman buildah
+
+# improves sound
+apt-get install --reinstall -y pipewire wireplumber pipewire-setup-mx libcamera rtkit
+systemctl enable rtkit-daemon
+su -c 'mkdir -P ~/.config/pipewire/pipewire.conf.d' $USER
+su -c 'touch ~/.config/pipewire/pipewire.conf.d/99-enable-mqa.conf' $USER
+printf "context.properties = {\n\
+    link.max-buffers = 16           # version < 3 clients can't handle more\n\
+    core.daemon = true              # listening for socket connections\n\
+    core.name   = pipewire-0        # core name and socket name\n\
+    default.sample.format = S32LE\n\
+    default.clock.rate          = 96000\n\ 
+    default.clock.allowed-rates = [ 96000 ]\n\
+    default.clock.min-quantum   = 16\n\
+    enable-mqa-support = true\n\
+    vm.overrides = {\n\
+        default.clock.min-quantum = 1024\n\
+    }\n\
+}\n\
+" >>/home/$USER/.config/pipewire/pipewire.conf.d/99-enable-mqa.conf
 
 # lampready patch
 apt-get remove -y apache2 --purge
