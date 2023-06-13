@@ -134,7 +134,7 @@ install package texlive-full
 install package clamav clamav-update w3m w3m-img
 install package gnutls-bin maildir-utils
 install package gcolor3 flameshot transmission
-install package podman buildah gnome-boxes
+install package gnome-boxes
 install package nextcloud-desktop fontforge caffeine
 install package audacity
 install package pdfarranger wordnet
@@ -352,6 +352,8 @@ git config --global core.askpass ""
 install package luksmeta
 
 # improve sound
+# if sound becomes flakey, or audio device is not selectable,
+# use the PulseAudio Volume Control application
 su -c 'mkdir -P ~/.config/pulse/' $USER
 su -c 'touch ~/.config/pulse/daemon.conf' $USER
 printf "high-priority = yes\n\
@@ -370,15 +372,14 @@ remixing-consume-lfe = yes\n\
 avoid-resampling = no\n\
 " >>/home/$USER/.config/pulse/daemon.conf
 
-# restore systemd
+# restore systemd and install pod tools
 install package systemd-sysv
+install catatonit podman buildah
 
 # lampready patch
 apt-get remove -y apache2 --purge
 echo "net.ipv4.ip_unprivileged_port_start=0" >/etc/sysctl.d/05-expose-privileged.conf
 sysctl --system
-
-apt-get install --reinstall pulseaudio alsa-tools alsa-utils
 
 log "Installation complete.  Please reboot your system."
 printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
