@@ -80,10 +80,10 @@ settings directory for reference.  This package is ready for deployment on most
 Linux distros and MacOS.
 
 __Vim / Tmux__\
-![screenshot](https://www.bridgesense.com/images/dotfiles/vim-style.jpg)
+![screenshot](https://github.com/bridgesense/dotfiles/raw/master/assets/vim-tmux.jpeg?raw=true)
 
 __Emacs__\
-![screenshot](https://www.bridgesense.com/images/dotfiles/emacs-style.jpg)
+![screenshot](https://github.com/bridgesense/dotfiles/raw/master/assets/emacs.jpeg?raw=true)
 
 # Emacs
 
