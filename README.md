@@ -55,17 +55,14 @@ curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/emacs.d/emacs
 
 # My Workstation
 
-#### MX Linux Wildflower (Debian Bullseye) 
+#### For MX Linux Wildflower and Libretto
+This is my workstation. It has all of the advantages of the Linux MX configuration, 
+but SysVinit has been replaced with systemd for working with init images in Podman.  
 
 ```bash
-curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/mx-linux-wildflower > ~/install
+curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/mx-linux > ~/install
 ```
 
-#### Ubuntu Mate Jammy 
-
-```bash
-curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/ubuntu-mate-jammy > ~/install
-```
 Run as root...
 ```bash
 bash install <username>
@@ -129,7 +126,7 @@ alternative to the Emacs Pinky.
 * `,jx`: Jump to character x
 * `,m`: Browse current directory wth Ranger
 * `,n`: Browse current directory with Nerdtree
-* `,q`: Quit current buffer
+* `,q`: Quit current buffer     m
 * `:q`: or `:q!` Quit current buffer, Note: all standard VIM controls apply
 * `,Q`: Close Emacs 
 * `,x`: Cycle to next buffer
@@ -154,7 +151,7 @@ alternative to the Emacs Pinky.
 * `,bs`: Save buffer
 * `:w`: Save buffer, VIM equivalent
 
-#### Dap-Mode Shortcuts:
+#### Dap-Mode Shortcuts:        e
 * `,da`: Delete all breakpoints 
 * `,db`: Toggles breakpoint on current line
 * `,dc`: Continue to next breakpoint 
@@ -301,7 +298,7 @@ In visual mode use `h,j,k,l` to move, `v` to change to visual mode and `y` to
 yank selection.  Press `Enter` to exit mode.
 
 
-# Vim
+# Vim                           t
 
 This configuration uses [Vim-Plug](https://github.com/junegunn/vim-plug).  To
 initialize the plugins, enter Normal mode and type `:PlugInstall`.  Similarly,
@@ -428,7 +425,7 @@ to write all the files.
 
 #### Xdebug
 See more about setting up the
-[.vimrc.local](https://gitlab.com/bridgesense/lampready#vim-vdebug-settings) file.
+[.vimrc.local](https://gitlab.com/bridgesense/lampreadys#vim-vdebug-settings) file.
 * `<F5>`: start/run (to next breakpoint/end of script)
 * `<F2>`: step over
 * `<F3>`: step into

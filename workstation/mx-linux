@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # This script is just a personal snapshot of my mx-linux workstation.
-# curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/mx-linux-wildflower > ~/install
+# curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/mx-linux > ~/install
 # bash install <username>
 # # # # # #Shutdown # # # # # # # # #
 
@@ -108,7 +108,7 @@ curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 apt-get update
 install package nodejs
 npm install --location=global npm@latest
-npm install --location=global --save-dev grunt-cli gulp gulp-cli csslint typescript@3.0 typescript-language-server intelephense yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify unified-language-server eslint emmet-ls babel-eslint typescript-lsp coffeescript coffeelint
+npm install --location=global --save-dev grunt-cli gulp gulp-cli csslint typescript@3.0 typescript-language-server intelephense yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify unified-language-server eslint emmet-ls babel-eslint typescript-lsp coffeescript coffeelint grammarly-languageserver
 su -c "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash" $USER
 su -c "source ~/.bashrc && nvm install 16.14.0" $USER
 curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | sudo tee /usr/share/keyrings/yarnkey.gpg >/dev/null
@@ -151,17 +151,17 @@ install package gimp gimp-data-extras gimp-plugin-registry gimp-gluas gimp-gmic 
 
 # emacs
 log "installing emacs and plugins"
+apt-get remove -y --autoremove emacs emacs-common
 mkdir -P ~/lab
 cd ~/lab
 git clone git://git.sv.gnu.org/emacs.git -b emacs-27
 cd emacs
 bash autogen.sh
-bash configure --without-makeinfo --with-gntls=ifavailable --with-mailutils
+bash configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils
 make
 make install
 
 # install mu4e
-apt-get remove -y --autoremove emacs emacs-common
 install package autoconf meson libgmime-3.0-dev libxapian-dev libxaw7-dev libtiff5-dev libgtk2.0-dev libgif-dev libgnutls28-dev libncurses-dev cmake guile-3.0-dev
 mkdir -p ~/lab
 cd ~/lab
@@ -214,6 +214,14 @@ Name=ranger\n\
 Icon=caja-actions\n\
 Exec=kitty -e ranger\n\
 " >>/home/$USER/.local/share/applications/ranger.desktop
+
+su -c 'touch ~/.local/share/applications/hibernate.desktop' $USER
+printf "[Desktop Entry]\n\
+Type=Application\n\
+Name=Hibernate\n\
+Icon=gshutdown\n\
+Exec=xfce4-session-logout --hibernate\n\
+" >>/home/$USER/.local/share/applications/hibernate.desktop
 
 su -c 'touch ~/.local/share/applications/shutdown.desktop' $USER
 printf "[Desktop Entry]\n\
@@ -304,7 +312,7 @@ install package gcc make libssl-dev libgtk2.0-dev libglib2.0-dev libidn2-dev lib
 install package liboauth-dev libnspr4-dev libnss3-dev libexpat1-dev libssl-dev
 install package gettext libncurses5-dev libslang2-dev libtcl8.6 libxml2-utils libxslt1-dev lynx
 install package libgnutls28-dev libsass-dev libgpgme-dev krb5-multidev libtokyocabinet-dev
-install package xsltproc libsasl2-dev lbdb offlineimap urlview gettext libnotmuch-dev
+install package xsltproc libsasl2-dev lbdb offlineimap urlview gettext libnotmuch-dev notmuch
 cd ~/lab
 git clone https://github.com/neomutt/neomutt.git ~/lab/neomutt
 cd ~/lab/neomutt && ./configure --with-sasl=/usr/bin --with-ssl=/usr/bin --with-gpgme=/bin --with-gnutls=/bin --disable-mixmaster --disable-autocrypt --disable-doc --with-lua=/usr/bin --with-notmuch=/usr/bin
@@ -378,6 +386,10 @@ printf "context.properties = {\n\
     }\n\
 }\n\
 " >>/home/$USER/.config/pipewire/pipewire.conf.d/99-enable-mqa.conf
+
+# setting up hibernation
+install package pm-utils
+sed -i 's@#HibernateMode@HibernateMode@g' /etc/systemd/sleep.conf
 
 # lampready patch
 apt-get remove -y apache2 --purge
