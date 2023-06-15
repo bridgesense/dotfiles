@@ -142,7 +142,6 @@ install package gnome-boxes
 install package nextcloud-desktop fontforge caffeine
 install package audacity
 install package pdfarranger wordnet
-install package nnn ranger
 install package yt-dlp
 
 # gimp
