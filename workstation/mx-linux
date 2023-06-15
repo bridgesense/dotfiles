@@ -215,13 +215,13 @@ Icon=caja-actions\n\
 Exec=kitty -e ranger\n\
 " >>/home/$USER/.local/share/applications/ranger.desktop
 
-su -c 'touch ~/.local/share/applications/hibernate.desktop' $USER
+su -c 'touch ~/.local/share/applications/sleep.desktop' $USER
 printf "[Desktop Entry]\n\
 Type=Application\n\
-Name=Hibernate\n\
+Name=Sleep\n\
 Icon=gshutdown\n\
-Exec=xfce4-session-logout --hibernate\n\
-" >>/home/$USER/.local/share/applications/hibernate.desktop
+Exec=xfce4-session-logout --suspend\n\
+" >>/home/$USER/.local/share/applications/sleep.desktop
 
 su -c 'touch ~/.local/share/applications/shutdown.desktop' $USER
 printf "[Desktop Entry]\n\
@@ -386,10 +386,6 @@ printf "context.properties = {\n\
     }\n\
 }\n\
 " >>/home/$USER/.config/pipewire/pipewire.conf.d/99-enable-mqa.conf
-
-# setting up hibernation
-install package pm-utils
-sed -i 's@#HibernateMode@HibernateMode@g' /etc/systemd/sleep.conf
 
 # lampready patch
 apt-get remove -y apache2 --purge
