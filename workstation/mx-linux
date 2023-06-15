@@ -388,10 +388,28 @@ printf "context.properties = {\n\
 }\n\
 " >>/home/$USER/.config/pipewire/pipewire.conf.d/99-enable-mqa.conf
 
-# lampready patch
-apt-get remove -y apache2 --purge
-echo "net.ipv4.ip_unprivileged_port_start=0" >/etc/sysctl.d/05-expose-privileged.conf
-sysctl --system
+# Lampready prep patch
+# apt-get remove -y apache2 --purge
+# echo "net.ipv4.ip_unprivileged_port_start=0" >/etc/sysctl.d/05-expose-privileged.conf
+# sysctl --system
+
+# Some Lenovo stuff
+
+# install package fuwpd thinkfan acpi-support
+# systemctl enable thinkfan
+
+# Poweroff/Suspend bugfix for the T-460
+# References:
+# https://forums.debian.net/viewtopic.php?p=744874&sid=b3977d6eebbddfab4d88a7c41820283d#p744874
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=990868#27
+
+# printf "blacklist tpm\n\
+# blacklist tpm_crb\n\
+# blacklist tpm_tis\n\
+# blacklist tpm_tis_core\n\
+# " >>/usr/lib/modprobe.d/fbdev-blacklist.conf
+# sed -i 's@quiet splash@@quiet splash intel_iommu=off'/etc/default/grub
+# update-grub
 
 log "Installation complete.  Please reboot your system."
 printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
