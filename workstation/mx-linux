@@ -152,7 +152,7 @@ install package gimp gimp-data-extras gimp-plugin-registry gimp-gluas gimp-gmic 
 # emacs
 log "installing emacs and plugins"
 apt-get remove -y --autoremove emacs emacs-common
-mkdir -P ~/lab
+mkdir -p ~/lab
 cd ~/lab
 git clone git://git.sv.gnu.org/emacs.git -b emacs-27
 cd emacs
@@ -333,7 +333,8 @@ cp -r ~/.yadrlite/workstation/nvim ~/.config
 su -c "cp -r /home/$USER/.yadrlite/workstation/kitty /home/$USER/.config" $USER
 cp -r ~/.yadrlite/workstation/ranger ~/.config
 su -c "cp -r /home/$USER/.yadrlite/workstation/ranger /home/$USER/.config" $USER
-su -c "mkdir -P /home/$USER/.local/share/fonts && cp -r /home/$USER/.yadrlite/workstation/fonts /home/$USER/.local/share/fonts" $USER
+su -c "cp -r /home/$USER/.yadrlite/workstation/fonts /home/$USER/.local/share" $USER
+su -c "mkdir -p /home/$USER/.local/share/fonts && cp -r /home/$USER/.yadrlite/workstation/fonts /home/$USER/.local/share/fonts" $USER
 su -c "pip3 install neovim pynvim --user" $USER
 
 # nnn
@@ -368,9 +369,9 @@ install package systemd-sysv
 install catatonit podman buildah
 
 # improves sound
-apt-get install --reinstall -y pipewire wireplumber pipewire-setup-mx libcamera rtkit
+apt-get install --reinstall -y pipewire wireplumber pipewire-setup-mx libcamera0.0.3 rtkit
 systemctl enable rtkit-daemon
-su -c 'mkdir -P ~/.config/pipewire/pipewire.conf.d' $USER
+su -c 'mkdir -p ~/.config/pipewire/pipewire.conf.d' $USER
 su -c 'touch ~/.config/pipewire/pipewire.conf.d/99-enable-mqa.conf' $USER
 printf "context.properties = {\n\
     link.max-buffers = 16           # version < 3 clients can't handle more\n\
