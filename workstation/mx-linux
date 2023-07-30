@@ -389,9 +389,10 @@ printf "context.properties = {\n\
 
 # run MX Codecs installer in MX Settings
 # this installs bluray stuff
-install libbluray-bdj libbluray2 libaacs0
+install libbluray-bdj libbluray2 libaacs0 libbdplus0
 su -c 'mkdir -p ~/.config/aacs' $USER
-su -c 'wget http://vlc-bluray.whoknowsmy.name/files/KEYDB.cfg -O ~/.config/aacs/KEYDB.cfg' $USER
+# download from http://fvonline-db.bplaced.net/
+# extract keydb.cfg ~/.config/aacs/KEYDB.cfg
 
 # Lampready prep patch
 # apt-get remove -y apache2 --purge
