@@ -389,10 +389,13 @@ printf "context.properties = {\n\
 
 # run MX Codecs installer in MX Settings
 # this installs bluray stuff
-install libbluray-bdj libbluray2 libaacs0 libbdplus0
-su -c 'mkdir -p ~/.config/aacs' $USER
-# download from http://fvonline-db.bplaced.net/
-# extract keydb.cfg ~/.config/aacs/KEYDB.cfg
+install package gnome-software-plugin-flatpak
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+flatpak install -y org.videolan.VLC
+flatpak install -y org.videolan.VLC.Plugin.pause_click
+flatpak install -y org.videolan.VLC.Plugin.makemkv
+flatpak install -y org.videolan.VLC.Plugin.bdj
+flatpak install -y org.videolan.VLC.Plugin.fdkaac
 
 # Lampready prep patch
 # apt-get remove -y apache2 --purge
