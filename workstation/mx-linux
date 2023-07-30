@@ -365,7 +365,7 @@ install package luksmeta
 
 # restore systemd and install pod tools
 install package systemd-sysv
-install catatonit podman buildah
+install catatonit podman buildah slirp4netns
 
 # improves sound
 apt-get install --reinstall -y pipewire wireplumber pipewire-setup-mx libcamera0.0.3 rtkit
@@ -386,6 +386,12 @@ printf "context.properties = {\n\
     }\n\
 }\n\
 " >>/home/$USER/.config/pipewire/pipewire.conf.d/99-enable-mqa.conf
+
+# run MX Codecs installer in MX Settings
+# this installs bluray stuff
+install libbluray-bdj libbluray2 libaacs0
+su -c 'mkdir -p ~/.config/aacs' $USER
+su -c 'wget http://vlc-bluray.whoknowsmy.name/files/KEYDB.cfg -O ~/.config/aacs/KEYDB.cfg' $USER
 
 # Lampready prep patch
 # apt-get remove -y apache2 --purge
