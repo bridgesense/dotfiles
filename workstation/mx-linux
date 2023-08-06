@@ -148,18 +148,6 @@ install package yt-dlp
 log "installing gimp and plugins"
 install package gimp gimp-data-extras gimp-plugin-registry gimp-gluas gimp-gmic gimp-gap
 
-# emacs
-log "installing emacs and plugins"
-apt-get remove -y --autoremove emacs emacs-common
-mkdir -p ~/lab
-cd ~/lab
-git clone git://git.sv.gnu.org/emacs.git -b emacs-27
-cd emacs
-bash autogen.sh
-bash configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils
-make
-make install
-
 # install mu4e
 install package autoconf meson libgmime-3.0-dev libxapian-dev libxaw7-dev libtiff5-dev libgtk2.0-dev libgif-dev libgnutls28-dev libncurses-dev cmake guile-3.0-dev
 mkdir -p ~/lab
@@ -180,6 +168,19 @@ D=$(ls -1hrtd sync*/ | tail -1 | sed 's/\/$//g')
 cd ${D}/src/syncterm
 st_path=$(pwd | sed 's/\/syncterm$//g')
 make SRC_ROOT=$st_path
+make install
+
+# emacs
+log "installing emacs and plugins"
+apt-get remove -y --autoremove emacs emacs-common
+install package librsvg2-dev
+mkdir -p ~/lab
+cd ~/lab
+git clone git://git.sv.gnu.org/emacs.git -b emacs-27
+cd emacs
+bash autogen.sh
+bash configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils
+make
 make install
 
 # play/pause override
@@ -394,6 +395,7 @@ su -c 'mkdir -p ~/.config/aacs' $USER
 su -c 'wget https://code.videolan.org/videolan/libaacs/blob/master/KEYDB.cfg -O ~/.config/aacs/KEYDB.cfg' $USER
 # disable hardware acceleration
 # vlc > tools > Input/Codecs > All > FFmpeg > Hardware decoding > Disable
+# an alternative KEYDB.cfg file can be located here: https://vlc-bluray.whoknowsmy.name/
 
 # Lampready prep patch
 # apt-get remove -y apache2 --purge
