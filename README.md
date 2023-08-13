@@ -298,7 +298,7 @@ In visual mode use `h,j,k,l` to move, `v` to change to visual mode and `y` to
 yank selection.  Press `Enter` to exit mode.
 
 
-# Vim                           t
+# Vim
 
 This configuration uses [Vim-Plug](https://github.com/junegunn/vim-plug).  To
 initialize the plugins, enter Normal mode and type `:PlugInstall`.  Similarly,
