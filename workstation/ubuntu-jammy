@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
-# This script is just a personal snapshot of my mx-linux workstation.
-# curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/mx-linux > ~/install
+# This script is just a personal snapshot of my ubuntu workstation.
+# curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/ubuntu-jammy > ~/install
 # bash install <username>
 # # # # # #Shutdown # # # # # # # # #
 
 # Options
-# # # # # # # # # # # # # # #
-USER="${1:francis}"
+# # # # # # # # # # # # # # # USER="${1:francis}"
 LOGFILE='/root/workstation-installation.log'
 
 # Functions
@@ -72,15 +71,15 @@ echo "Acquire::ForceIPv4 \"true\";" >/etc/apt/apt.conf.d/99force-ipv4
 log "installing commandline tools"
 apt-get update
 install package curl wget git git-lfs subversion
+install package apt-transport-https gnupg2 software-properties-common
 install package build-essential
-install package libfreetype-dev libfontconfig-dev libxcb1-dev tmux xclip kitty
+install package libfreetype-dev libfontconfig-dev libxcb1-dev tmux xclip
 install package ack silversearcher-ag
 install package isync msmtp pass universal-ctags
-install package python3-full python3-pip pipx ruby-full openjdk-18-jre-headless
+install package python3 python3-pip ruby-full openjdk-18-jre-headless
 install package php perl maven
-install package golang-go bison php-pear hugo
+install package golang-go bison php-pear
 install package net-tools nmap dmg2img
-install package software-properties-common python3-launchpadlib
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 php -r "unlink('composer-setup.php');"
@@ -93,10 +92,7 @@ sed -i 's@#ReconnectAttempts.*@ReconnectAttempts\=7@g' /etc/bluetooth/main.conf
 sed -i 's@#FastConnectable.*@FastConnectable\=true@g' /etc/bluetooth/main.conf
 
 # exchanges the esc and caps keys
-# see system keyboard > Advanced tab > Caps Lock behavior = Swap ESC and Caps Lock
-
-# support for Magic Trackpad 2
-# see MX Tweak > Other > check Use libinput driver > click apply > restart
+# See Keyboard Preferences > Caps Lock behavoir > Swap Esc and Caps Lock
 
 # to install hp setup
 # tap the wifi icon on the printer and obtain the printer's ip address
@@ -108,7 +104,7 @@ curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 apt-get update
 install package nodejs
 npm install --location=global npm@latest
-npm install --location=global --save-dev grunt-cli gulp gulp-cli csslint typescript@3.0 typescript-language-server intelephense yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify unified-language-server eslint emmet-ls babel-eslint typescript-lsp coffeescript coffeelint grammarly-languageserver
+npm install --location=global --save-dev grunt-cli gulp gulp-cli csslint typescript@3.0 typescript-language-server intelephense yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify unified-language-server eslint emmet-ls babel-eslint typescript-lsp coffeescript coffeelint
 su -c "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash" $USER
 su -c "source ~/.bashrc && nvm install 16.14.0" $USER
 curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | sudo tee /usr/share/keyrings/yarnkey.gpg >/dev/null
@@ -134,28 +130,43 @@ fc-cache -f -v
 # dmg2img for mac vm
 
 # install supplementary packages
-install package texlive-full
-install package clamav clamav-update w3m w3m-img
-install package gnutls-bin maildir-utils
+install package network-manager-openvpn network-manager-openconnect
+install package aspell-en texlive-full papirus-icon-theme
+install package clamav clamav-update brasero youtube-dl w3m w3m-img
+install package ftp telnet hplip hplip-gui simple-scan
+install package gnutls-bin maildir-utils imagemagick gnupg2
 install package gcolor3 flameshot transmission
-install package gnome-boxes
-install package nextcloud-desktop fontforge caffeine
-install package audacity
+install package podman buildah gnome-boxes gnome-disk-utility
+install package gnome-software gnome-software-plugin-flatpak
+install package fontforge caffeine
+install package libreoffice
+install package obs-studio kdenlive audacity
 install package pdfarranger wordnet
 install package yt-dlp
 
 # gimp
 log "installing gimp and plugins"
-install package gimp gimp-data-extras gimp-plugin-registry gimp-gluas gimp-gmic
+install package gimp gimp-data-extras gimp-plugin-registry gimp-gluas gimp-gmic gimp-gap
+
+# emacs
+# cd ~/lab
+# git clone git://git.sv.gnu.org/emacs.git -b emacs-27
+# cd emacs
+# bash autogen.sh
+# bash configure --without-makeinfo --with-gntls=ifavailable --with-mailutils
+# make
+# make install
 
 # install mu4e
-install package autoconf meson libgmime-3.0-dev libxapian-dev libxaw7-dev libtiff5-dev libgtk2.0-dev libgif-dev libgnutls28-dev libncurses-dev cmake guile-3.0-dev
-mkdir -p ~/lab
-cd ~/lab
-git clone https://github.com/djcb/mu.git -b release/1.8
-bash autogen.sh
-ninja -C build
-make install
+# log "installing emacs and plugins"
+# apt-get remove -y --autoremove emacs emacs-common
+# install package autoconf meson libgmime-3.0-dev libxapian-dev libxaw7-dev libtiff5-dev libgtk2.0-dev libgif-dev libgnutls28-dev libncurses-dev cmake guile-3.0-dev
+# mkdir -p ~/lab
+# cd ~/lab
+# git clone https://github.com/djcb/mu.git -b release/1.8
+# bash autogen.sh
+# ninja -C build
+# make install
 
 # syncterm
 # thanks to MeaTLoTioN
@@ -170,22 +181,25 @@ st_path=$(pwd | sed 's/\/syncterm$//g')
 make SRC_ROOT=$st_path
 make install
 
-# emacs
-log "installing emacs and plugins"
-apt-get remove -y --autoremove emacs emacs-common
-install package librsvg2-dev
-mkdir -p ~/lab
-cd ~/lab
-git clone git://git.sv.gnu.org/emacs.git -b emacs-27
-cd emacs
-bash autogen.sh
-bash configure --without-makeinfo --with-gnutls=ifavailable --with-mailutils
-make
-make install
+# install video, audio codecs and tools
+log "installing codecs and players"
+install package ubuntu-restricted-extras
+install package vlc libaacs0 libbluray-bdj libbluray2
+install package musescore obs-studio audacity vlc* mpv rhythmbox
 
 # play/pause override
 # playerctl --all-players play-pause
 # install package playerctld
+
+install package libdvd-pkg
+dpkg-reconfigure libdvd-pkg
+su -c "mkdir -p /home/$USER/.config/aacs" $USER
+su -c "cd /home/$USER/.config/aacs/ && wget http://vlc-bluray.whoknowsmy.name/files/KEYDB.cfg" $USER
+
+# lampready patch
+apt-get remove -y apache2 --purge
+echo "net.ipv4.ip_unprivileged_port_start=0" >/etc/sysctl.d/05-expose-privileged.conf
+sysctl --system
 
 # firewall
 ufw enable
@@ -215,20 +229,12 @@ Icon=caja-actions\n\
 Exec=kitty -e ranger\n\
 " >>/home/$USER/.local/share/applications/ranger.desktop
 
-su -c 'touch ~/.local/share/applications/sleep.desktop' $USER
-printf "[Desktop Entry]\n\
-Type=Application\n\
-Name=Sleep\n\
-Icon=gshutdown\n\
-Exec=xfce4-session-logout --suspend\n\
-" >>/home/$USER/.local/share/applications/sleep.desktop
-
 su -c 'touch ~/.local/share/applications/shutdown.desktop' $USER
 printf "[Desktop Entry]\n\
 Type=Application\n\
 Name=Shutdown\n\
 Icon=gshutdown\n\
-Exec=xfce4-session-logout --halt\n\
+Exec=mate-session-save --shutdown-dialog\n\
 " >>/home/$USER/.local/share/applications/shutdown.desktop
 
 su -c 'touch ~/.local/share/applications/logout.desktop' $USER
@@ -236,7 +242,7 @@ printf "[Desktop Entry]\n\
 Type=Application\n\
 Name=Logout\n\
 Icon=gnome-lockscreen\n\
-Exec=xfce4-session-logout\n\
+Exec=mate-session-save --logout-dialog\n\
 " >>/home/$USER/.local/share/applications/logout.desktop
 
 su -c "touch /home/$USER/.local/share/applications/night.desktop" $USER
@@ -297,7 +303,8 @@ Exec=xinput --enable 12\n\
 
 # Neovim and tools
 # # # # # # # # # # # # # # #
-install pacakge ripgrep fd-find libtree-sitter-dev luajit
+add-apt-repository ppa:neovim-ppa/unstable -y
+install pacakge neovim ripgrep fd-find libtree-sitter-dev luajit
 
 cd ~/lab
 LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
@@ -307,17 +314,17 @@ cp lazygit /usr/local/bin
 
 # Neomutt
 # # # # # # # # # # # # # # #
-log "compiling neomutt"
-install package gcc make libssl-dev libgtk2.0-dev libglib2.0-dev libidn2-dev libtokyocabinet-dev
-install package liboauth-dev libnspr4-dev libnss3-dev libexpat1-dev libssl-dev
-install package gettext libncurses5-dev libslang2-dev libtcl8.6 libxml2-utils libxslt1-dev lynx
-install package libgnutls28-dev libsass-dev libgpgme-dev krb5-multidev libtokyocabinet-dev
-install package xsltproc libsasl2-dev lbdb offlineimap urlview gettext libnotmuch-dev notmuch
-cd ~/lab
-git clone https://github.com/neomutt/neomutt.git ~/lab/neomutt
-cd ~/lab/neomutt && ./configure --with-sasl=/usr/bin --with-ssl=/usr/bin --with-gpgme=/bin --with-gnutls=/bin --disable-mixmaster --disable-autocrypt --disable-doc --with-lua=/usr/bin --with-notmuch=/usr/bin
-make -k -C ~/lab/neomutt
-make install
+# log "compiling neomutt"
+# jinstall package gcc make libssl-dev libgtk2.0-dev libglib2.0-dev libidn2-dev libtokyocabinet-dev
+# install package liboauth-dev libnspr4-dev libnss3-dev libexpat1-dev libssl-dev
+# install package gettext libncurses5-dev libslang2-dev libtcl8.6 libxml2-utils libxslt1-dev lynx
+# install package libgnutls28-dev libsass-dev libgpgme-dev krb5-multidev libtokyocabinet-dev
+# install package xsltproc libsasl2-dev lbdb offlineimap mpak urlview gettext lua5.3-dev
+# cd ~/lab
+# git clone https://github.com/neomutt/neomutt.git ~/lab/neomutt
+# cd ~/lab/neomutt && ./configure --with-sasl=/usr/bin --with-ssl=/usr/bin --with-gpgme=/bin --with-gnutls=/bin --disable-mixmaster --disable-autocrypt --disable-doc --with-lua=/usr/bin
+# make -k -C ~/lab/neomutt
+# make install
 
 # Installing configuration
 # # # # # # # # # # # # # # #
@@ -333,8 +340,6 @@ cp -r ~/.yadrlite/workstation/nvim ~/.config
 su -c "cp -r /home/$USER/.yadrlite/workstation/kitty /home/$USER/.config" $USER
 cp -r ~/.yadrlite/workstation/ranger ~/.config
 su -c "cp -r /home/$USER/.yadrlite/workstation/ranger /home/$USER/.config" $USER
-su -c "cp -r /home/$USER/.yadrlite/workstation/fonts /home/$USER/.local/share" $USER
-su -c "mkdir -p /home/$USER/.local/share/fonts && cp -r /home/$USER/.yadrlite/workstation/fonts /home/$USER/.local/share/fonts" $USER
 su -c "pip3 install neovim pynvim --user" $USER
 
 # nnn
@@ -354,71 +359,43 @@ find /home/$USER/.config -type d -exec chmod 0755 {} \;
 find /home/$USER/.config -type f -exec chmod 0644 {} \;
 find /home/$USER/.config -name "*.sh" -execdir chmod u+x {} +
 
-# install misc libraries
-install package libsdl-ttf2.0-dev libsdl-sound1.2-dev libsdl-gfx1.2-dev
-install package libsdl2-dev libsdl2-ttf-dev libsdl2-mixer-dev libsdl2-image-dev libsdl2-gfx-dev
-
 # misc sanity improvements
-git config --global core.askpass ""
+# git config --global core.askpass ""
 
-# access older luks ecrypted drives
-install package luksmeta
+# theme adjustments
+# sed -i 's@#f7f7f7@#d3869b@g' /usr/share/themes/Yaru-dark/metacity-1/metacity-theme-1.xml
 
-# restore systemd and install pod tools
-install package systemd-sysv
-install catatonit podman buildah slirp4netns
+# improve sound
+su -c 'touch ~/.config/pulse/daemon.conf' $USER
+printf "high-priority = yes\n\
+realtime-scheduling = yes\n\
+realtime-priority = 9\n\
+nice-level = -11\n\
+\n\
+default-sample-format = s32le\n\
+default-sample-rate = 192000\n\
+resample-method = speex-float-5\n\
+\n\
+default-sample-channels = 2\n\
+remixing-produce-lfe = no\n\
+remixing-consume-lfe = yes\n\
+\n\
+avoid-resampling = no\n\
+" >>/home/$USER/.config/pulse/daemon.conf
 
-# improves sound
-apt-get install --reinstall -y pipewire wireplumber pipewire-setup-mx libcamera0.0.3 rtkit
-systemctl enable rtkit-daemon
-su -c 'mkdir -p ~/.config/pipewire/pipewire.conf.d' $USER
-su -c 'touch ~/.config/pipewire/pipewire.conf.d/99-enable-mqa.conf' $USER
-printf "context.properties = {\n\
-    link.max-buffers = 16           # version < 3 clients can't handle more\n\
-    core.daemon = true              # listening for socket connections\n\
-    core.name   = pipewire-0        # core name and socket name\n\
-    default.sample.format = S32LE\n\
-    default.clock.rate          = 96000\n\ 
-    default.clock.allowed-rates = [ 96000 ]\n\
-    default.clock.min-quantum   = 16\n\
-    enable-mqa-support = true\n\
-    vm.overrides = {\n\
-        default.clock.min-quantum = 1024\n\
-    }\n\
-}\n\
-" >>/home/$USER/.config/pipewire/pipewire.conf.d/99-enable-mqa.conf
+# Snapd
+# Removing snapd is popular if you know what you're doing.
+# Otherwise, it also contains offline system updates for this OS
+# outside the confines of apt dist-update.
+# To remove the nagging completely:
+# apt-get remove -y --purge snapd gnome-software-plugin-snap
 
-# run MX Codecs installer in MX Settings
-# this installs bluray stuff
-install libbluray-bdj libbluray2 libaacs0 libbdplus0
-su -c 'mkdir -p ~/.config/aacs' $USER
-su -c 'wget https://code.videolan.org/videolan/libaacs/blob/master/KEYDB.cfg -O ~/.config/aacs/KEYDB.cfg' $USER
-# disable hardware acceleration
-# vlc > tools > Input/Codecs > All > FFmpeg > Hardware decoding > Disable
-# an alternative KEYDB.cfg file can be located here: https://vlc-bluray.whoknowsmy.name/
+# To restore snapd and offline updates:
+# apt install gnome-software-plugin-snap
+# snap install snap-store
 
-# Lampready prep patch
-# apt-get remove -y apache2 --purge
-# echo "net.ipv4.ip_unprivileged_port_start=0" >/etc/sysctl.d/05-expose-privileged.conf
-# sysctl --system
-
-# Some Lenovo stuff
-
-# install package fuwpd thinkfan acpi-support
-# systemctl enable thinkfan
-
-# Poweroff/Suspend bugfix for the T-460
-# References:
-# https://forums.debian.net/viewtopic.php?p=744874&sid=b3977d6eebbddfab4d88a7c41820283d#p744874
-# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=990868#27
-
-# printf "blacklist tpm\n\
-# blacklist tpm_crb\n\
-# blacklist tpm_tis\n\
-# blacklist tpm_tis_core\n\
-# " >>/usr/lib/modprobe.d/fbdev-blacklist.conf
-# sed -i 's@quiet splash@@quiet splash intel_iommu=off'/etc/default/grub
-# update-grub
+# choose a default terminal
+# update-alternatives --config x-terminal-emulator
 
 log "Installation complete.  Please reboot your system."
 printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
