@@ -2,7 +2,7 @@ return {
   "chrisgrieser/nvim-spider",
   version = false,
   init = function()
-    require("lazyvim.util").on_attach(function(_, buffer)
+    require("lazyvim.util").lsp.on_attach(function(_, buffer)
       -- overwrite keymap
       vim.keymap.set({ "n", "o", "x" }, "w", "<cmd>lua require('spider').motion('w')<CR>", { desc = "Spider-w" })
       vim.keymap.set({ "n", "o", "x" }, "e", "<cmd>lua require('spider').motion('e')<CR>", { desc = "Spider-e" })
