@@ -100,13 +100,15 @@ sed -i 's@#FastConnectable.*@FastConnectable\=true@g' /etc/bluetooth/main.conf
 # sudo hp-setup -a <ip_address>
 
 # setting up nodejs
-curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-apt-get update
 install package nodejs
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+source ~/.bashrc && nvm install 16.14.0
 npm install --location=global npm@latest
 npm install --location=global --save-dev grunt-cli gulp gulp-cli csslint typescript@3.0 typescript-language-server intelephense yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify unified-language-server eslint emmet-ls babel-eslint typescript-lsp coffeescript coffeelint
 su -c "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash" $USER
 su -c "source ~/.bashrc && nvm install 16.14.0" $USER
+su -c "npm install --location=global npm@latest" $USER
+su -c "npm install --location=global --save-dev grunt-cli gulp gulp-cli csslint typescript@3.0 typescript-language-server intelephense yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify unified-language-server eslint emmet-ls babel-eslint typescript-lsp coffeescript coffeelint" $USER
 curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | sudo tee /usr/share/keyrings/yarnkey.gpg >/dev/null
 echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 apt-get update

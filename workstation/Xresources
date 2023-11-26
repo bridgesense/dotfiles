@@ -6,11 +6,11 @@
 ! -----------------------------------------------------------------------------
 !!XTERM SETTINGS
 ! hard contrast: *background: #1d2021
-*background: #282828
+*background: #1d2021
 ! soft contrast: *background: #32302f
-*foreground: #ebdbb2
+*foreground: #fbf1c7
 ! Black + DarkGrey
-*color0:  #1d2021
+*color0:  #282828
 *color8:  #928374
 ! DarkRed + Red
 *color1:  #cc241d
@@ -31,8 +31,8 @@
 *color6:  #689d6a
 *color14: #8ec07c
 ! LightGrey + White
-*color7:  #a89984
-*color15: #fbf1c7
+*color7:  #a89984 
+*color15: #ebdbb2
 ! VHERID DEFAULT
 ! hard contrast: *background: #1d2021
 VheridDefault*background: #000000
@@ -558,52 +558,55 @@ VheridSoyuz*color15: #fff0ad
 *VT100*color7:  #a89984
 *VT100*color15: #fbf1c7
 ! URXVT SETTINGS
-URxvt.color24:  #076678
-URxvt.color66:  #427b58
-URxvt.color88:  #9d0006
-URxvt.color96:  #8f3f71
-URxvt.color100: #79740e
-URxvt.color108: #8ec07c
-URxvt.color109: #83a598
-URxvt.color130: #af3a03
-URxvt.color136: #b57614
-URxvt.color142: #b8bb26
-URxvt.color167: #fb4934
-URxvt.color175: #d3869b
-URxvt.color208: #fe8019
-URxvt.color214: #fabd2f
-URxvt.color223: #ebdbb2
-URxvt.color228: #f2e5bc
-URxvt.color229: #fbf1c7
-URxvt.color230: #f9f5d7
-URxvt.color234: #1d2021
-URxvt.color235: #282828
-URxvt.color236: #32302f
-URxvt.color237: #3c3836
-URxvt.color239: #504945
-URxvt.color241: #665c54
-URxvt.color243: #7c6f64
-URxvt.color244: #928374
-URxvt.color245: #928374
-URxvt.color246: #a89984
-URxvt.color248: #bdae93
-URxvt.color250: #d5c4a1
-URxvt.font: xft:DejaVu Sans Mono for Powerline:Book:size=12:hinting=true:antialias=true:hintstyle=slight
-URxvt.boldFont: xft:DejaVu Sans Mono for Powerline:Bold:size=12:hinting=true:antialias=true:hintstyle=slight
-URxvt.letterSpace: -2
-URxvt.depth: 32
-URxvt.background: [95]#282828
-URxvt.scrollBar: false
+URxvt*color24:  #076678
+URxvt*color66:  #427b58
+URxvt*color88:  #9d0006
+URxvt*color96:  #8f3f71
+URxvt*color100: #79740e
+URxvt*color108: #8ec07c
+URxvt*color109: #83a598
+URxvt*color130: #af3a03
+URxvt*color136: #b57614
+URxvt*color142: #b8bb26
+URxvt*color167: #fb4934
+URxvt*color175: #d3869b
+URxvt*color208: #fe8019
+URxvt*color214: #fabd2f
+URxvt*color223: #ebdbb2
+URxvt*color228: #f2e5bc
+URxvt*color229: #fbf1c7
+URxvt*color230: #f9f5d7
+URxvt*color234: #1d2021
+URxvt*color235: #282828
+URxvt*color236: #32302f
+URxvt*color237: #3c3836
+URxvt*color239: #504945
+URxvt*color241: #665c54
+URxvt*color243: #7c6f64
+URxvt*color244: #928374
+URxvt*color245: #928374
+URxvt*color246: #a89984
+URxvt*color248: #bdae93
+URxvt*color250: #d5c4a1
+URxvt*faceName: FiraCode Nerd Font 
+URxvt*faceSize: 11.5
+URxvt*letterSpace: -2
+URxvt*depth: 32
+URxvt*background: [95]#282828
+URxvt*scrollBar: false
 ! REMAP CLIPBOARD CONTROLS
-URxvt.iso14755: false
-URxvt.iso14755_52: false
-URxvt.keysym.Shift-Control-V: eval:paste_clipboard
-URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
+URxvt*iso14755: false
+URxvt*iso14755_52: false
+URxvt*keysym.Shift-Control-V: eval:paste_clipboard
+URxvt*keysym.Shift-Control-C: eval:selection_to_clipboard
 ! RESIZE FONT
-URxvt.perl-ext-common: default,clipboard,resize-font,xresources-256
+URxvt*perl-ext-common: default,clipboard,resize-font,xresources-256
 ! Font Hinting
-Xft.dpi: 96
-Xft.antialias: 1
-Xft.autohint: 1
-Xft.hintstyle: hintslight
-Xft.rgba: rgb
+Xft*dpi: 96
+Xft*antialias: 1
+Xft*autohint: 1
+Xft*hintstyle: hintslight
+Xft*rgba: rgb
+! XTerm
+xterm*faceName: FiraCode Nerd Font 
+xterm*faceSize: 11.5
