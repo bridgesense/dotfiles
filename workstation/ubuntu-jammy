@@ -228,7 +228,7 @@ printf "[Desktop Entry]\n\
 Type=Application\n\
 Name=ranger\n\
 Icon=caja-actions\n\
-Exec=kitty -e ranger\n\
+Exec=xterm -fs 11.5 -geometry 120x50 -e "/usr/bin/ranger"\n\
 " >>/home/$USER/.local/share/applications/ranger.desktop
 
 su -c 'touch ~/.local/share/applications/shutdown.desktop' $USER
