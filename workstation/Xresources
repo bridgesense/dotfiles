@@ -610,3 +610,5 @@ Xft*rgba: rgb
 ! XTerm
 xterm*faceName: FiraCode Nerd Font 
 xterm*faceSize: 11.5
+XTerm*VT100.translations: #override \n\
+    Ctrl Shift <KeyPress> V: insert-selection(PRIMARY,CUT_BUFFER0) \n
