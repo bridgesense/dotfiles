@@ -56,12 +56,13 @@ curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/emacs.d/emacs
 # My Workstation
 
 #### For MX Linux Wildflower and Libretto
-This is my workstation. It has all of the advantages of the Linux MX configuration, 
+It has all of the advantages of the Linux MX configuration, 
 but SysVinit has been replaced with systemd for working with init images in Podman.  
 
-```bash
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/mx-linux > ~/install
 ```
+### For the Ubuntu 22.04 workstation
+curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/ubuntu-jammy > ~/install
 
 Run as root...
 ```bash
