@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # This script is just a personal snapshot of my ubuntu workstation.
-# curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/debian-bookworm > ~/install
+# curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/ubuntu-jammy > ~/install
 # bash install <username>
 # # # # # #Shutdown # # # # # # # # #
 
@@ -86,10 +86,10 @@ php -r "unlink('composer-setup.php');"
 pear channel-update doc.php.net
 
 # fixes bluetooth pairing
-#systemctl enable bluetooth.service
-#sed -i 's@#AutoEnable.*@AutoEnable\=true@g' /etc/bluetooth/main.conf
-#sed -i 's@#ReconnectAttempts.*@ReconnectAttempts\=7@g' /etc/bluetooth/main.conf
-#sed -i 's@#FastConnectable.*@FastConnectable\=true@g' /etc/bluetooth/main.conf
+systemctl enable bluetooth.service
+sed -i 's@#AutoEnable.*@AutoEnable\=true@g' /etc/bluetooth/main.conf
+sed -i 's@#ReconnectAttempts.*@ReconnectAttempts\=7@g' /etc/bluetooth/main.conf
+sed -i 's@#FastConnectable.*@FastConnectable\=true@g' /etc/bluetooth/main.conf
 
 # exchanges the esc and caps keys
 # See Keyboard Preferences > Caps Lock behavoir > Swap Esc and Caps Lock
@@ -151,7 +151,6 @@ log "installing gimp and plugins"
 install package gimp gimp-data-extras gimp-plugin-registry gimp-gluas gimp-gmic gimp-gap
 
 # emacs
-install package emacs
 # cd ~/lab
 # git clone git://git.sv.gnu.org/emacs.git -b emacs-27
 # cd emacs
@@ -184,7 +183,20 @@ st_path=$(pwd | sed 's/\/syncterm$//g')
 make SRC_ROOT=$st_path
 make install
 
-# install video, audio codecs and tools with flatpak
+# install video, audio codecs and tools
+log "installing codecs and players"
+install package ubuntu-restricted-extras
+install package vlc libaacs0 libbluray-bdj libbluray2
+install package musescore obs-studio audacity vlc* mpv rhythmbox
+
+# play/pause override
+# playerctl --all-players play-pause
+# install package playerctld
+
+install package libdvd-pkg
+dpkg-reconfigure libdvd-pkg
+su -c "mkdir -p /home/$USER/.config/aacs" $USER
+su -c "cd /home/$USER/.config/aacs/ && wget http://vlc-bluray.whoknowsmy.name/files/KEYDB.cfg" $USER
 
 # lampready patch
 apt-get remove -y apache2 --purge
@@ -293,7 +305,8 @@ Exec=xinput --enable 12\n\
 
 # Neovim and tools
 # # # # # # # # # # # # # # #
-install pacakge ripgrep fd-find libtree-sitter-dev luajit gettext
+add-apt-repository ppa:neovim-ppa/unstable -y
+install pacakge neovim ripgrep fd-find libtree-sitter-dev luajit
 
 cd ~/lab
 LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
@@ -329,8 +342,6 @@ cp -r ~/.yadrlite/workstation/nvim ~/.config
 su -c "cp -r /home/$USER/.yadrlite/workstation/kitty /home/$USER/.config" $USER
 cp -r ~/.yadrlite/workstation/ranger ~/.config
 su -c "cp -r /home/$USER/.yadrlite/workstation/ranger /home/$USER/.config" $USER
-cp -r ~/.yadrlite/workstation/fonts ~/.local/share
-su -c "cp -r /home/$USER/.yadrlite/workstation/fonts /home/$USER/.local/share" $USER
 su -c "pip3 install neovim pynvim --user" $USER
 
 # nnn
@@ -353,6 +364,9 @@ find /home/$USER/.config -name "*.sh" -execdir chmod u+x {} +
 # misc sanity improvements
 # git config --global core.askpass ""
 
+# theme adjustments
+# sed -i 's@#f7f7f7@#d3869b@g' /usr/share/themes/Yaru-dark/metacity-1/metacity-theme-1.xml
+
 # improve sound
 su -c 'touch ~/.config/pulse/daemon.conf' $USER
 printf "high-priority = yes\n\
@@ -371,26 +385,19 @@ remixing-consume-lfe = yes\n\
 avoid-resampling = no\n\
 " >>/home/$USER/.config/pulse/daemon.conf
 
-# install splash screen and other useful Gnome utilities
-# install package playmouth-theme-breeze alacarte gnome-shell-extension-appindicator
-# vi /etc/default/grub
-# add quite splash
-# sudo update-grub
+# Snapd
+# Removing snapd is popular if you know what you're doing.
+# Otherwise, it also contains offline system updates for this OS
+# outside the confines of apt dist-update.
+# To remove the nagging completely:
+# apt-get remove -y --purge snapd gnome-software-plugin-snap
+
+# To restore snapd and offline updates:
+# apt install gnome-software-plugin-snap
+# snap install snap-store
 
 # choose a default terminal
 # update-alternatives --config x-terminal-emulator
-
-# nvida fix requires backing down kernel
-# apt autoremove --purge linux-image-amd64 linux-headers-amd64 nvidia-* libnvidia-* bumblebee primus
-# vi /etc/apt/sources.list
-# change bookworm to testing
-# apt dist-upgrade
-# dpkg --add-architecture i386 && sudo apt update
-# apt install linux-image-amd64 linux-headers-amd64 libglvnd-dev pkg-config
-# apt install nvidia-detect nvidia-driver nvidia-cuda-toolkit nvidia-smi mesa-utils nvtop
-
-# to test nvidia
-# __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia glxinfo | grep vendor
 
 log "Installation complete.  Please reboot your system."
 printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
