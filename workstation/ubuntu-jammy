@@ -144,7 +144,7 @@ install package fontforge caffeine
 install package libreoffice
 install package obs-studio kdenlive audacity
 install package pdfarranger wordnet
-install package yt-dlp
+install package yt-dlp libdvd-pkg regionset dvdbackup
 
 # gimp
 log "installing gimp and plugins"
@@ -391,6 +391,10 @@ avoid-resampling = no\n\
 # outside the confines of apt dist-update.
 # To remove the nagging completely:
 # apt-get remove -y --purge snapd gnome-software-plugin-snap
+# turn off notifications
+# sudo systemctl stop unattended-upgrades.service
+# sudo systemctl disable unattended-upgrades.service
+# gsettings set com.ubuntu.update-notifier no-show-notifications true
 
 # To restore snapd and offline updates:
 # apt install gnome-software-plugin-snap
