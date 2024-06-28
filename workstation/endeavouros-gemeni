@@ -1,0 +1,146 @@
+#!/usr/bin/env bash
+# This script is just a personal snapshot of my arch workstation.
+# curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/endeavouros-gemeni > ~/install
+# bash install
+# # # # # # # # # # # # # # #
+
+# Options
+# # # # # # # # # # # # # # #
+USER="${1:francis}"
+LOGFILE='workstation-installation.log'
+
+# Functions
+# # # # # # # # # # # # # # #
+function log {
+	if [ -f "$LOGFILE" ]; then
+		echo $1 >>$LOGFILE
+	else
+		echo $1 >$LOGFILE
+	fi
+}
+
+function install {
+	arr=("$@")
+	_type=
+	if [[ "$(declare -p arr)" =~ "declare -a" ]]; then
+		for package in "${arr[@]}"; do
+			if [[ $package == "package" ]]; then
+				_type=$package
+				continue
+			fi
+			if [[ $package == "flatpak" ]]; then
+				_type=$package
+				continue
+			fi
+			cnt=3
+			pacname=$(echo $package | sed 's/^[^/]*\///')
+			while [ $cnt -gt 0 ]; do
+				if pacman -Qqe | grep $pacname; then
+					break
+				else
+					if [[ $_type == "flatpak" ]]; then
+						flatpak install flathub --noninteractive -y $package
+						break
+					else
+						yay -S --noconfirm $package
+					fi
+				fi
+				let "cnt-=1"
+			done
+			if pacman -Qqe | grep $pacname && [[ $_type != "flatpak" ]]; then
+				log "There was a problem installing ${package}.  Please make sure this package exists."
+			fi
+		done
+	else
+		log "Warning! Passed variable is not an array".
+	fi
+}
+
+log "installing commandline tools"
+yay --noconfirm
+install package extra/git-lfs extra/subversion
+install package core/base-devel
+install package extra/ack extra/ctags extra/neovim extra/ripgrep aur/fd-git
+install package extra/python-pynvim extra/lazygit
+install package core/python extra/python-pip extra/ruby
+install package extra/php core/perl extra/maven extra/composer
+install package core/net-tools extra/nmap
+install package aur/dmg2img
+
+# setting up nodejs
+install package extra/nodejs extra/yarn
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+source ~/.bashrc && nvm install 16.14.0
+npm install npm@latest
+npm install --save-dev grunt-cli gulp gulp-cli csslint typescript@3.0 typescript-language-server intelephense yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify unified-language-server eslint emmet-ls babel-eslint typescript-lsp coffeescript coffeelint
+
+# install fonts
+install package extra/ttf-noto-nerd
+
+# install supplementary packages
+install package extra/aspell-en extra/texlive-bin
+install package clamav clamav-update brasero youtube-dl extra/w3m
+install package extra/hplip extra/simple-scan
+install package extra/podman extra/buildah
+install package extra/pdfarranger extra/yt-dlp
+install package extra/dvdbackup
+install package extra/emacs
+install package multilib/steam
+install package aur/syncterm
+install package extra/ollama-cuda
+install package extra/kdenlive extra/audacity extra/obs-studio
+install package extra/libreoffice-fresh
+install package extra/gimp extra/gimp-help-en extra/gimp-plugin-gmic
+install package extra/krita extra/krita-plugin-gmic
+install package extra/audacity
+
+# nvidia support
+nvidia-inst -f -p
+
+# firewall
+sudo firewall-cmd --permanent --add-port=9003/tcp
+
+# Installing configuration
+# # # # # # # # # # # # # # #
+log "installing custom configuration"
+curl -fsSL https://raw.githubusercontent.com/bridgesense/dotfiles/master/setup
+cp -f ~/.yadrlite/workstation/Xresources ~/.Xresources
+cp -r ~/.yadrlite/workstation/nvim ~/.config
+cp -r ~/.yadrlite/workstation/kitty ~/.config
+cp -r ~/.yadrlite/workstation/ranger ~/.config
+cp -r ~/.yadrlite/workstation/fonts ~/.local/share
+find ~/.config -type d -exec chmod 0755 {} \;
+find ~/.config -type f -exec chmod 0644 {} \;
+find ~/.config -name "*.sh" -execdir chmod u+x {} +
+
+# improve sound
+touch ~/.config/pulse/daemon.conf
+printf "high-priority = yes\n\
+  realtime-scheduling = yes\n\
+  realtime-priority = 9\n\
+  nice-level = -11\n\
+  \n\
+  default-sample-format = s32le\n\
+  default-sample-rate = 192000\n\
+  resample-method = speex-float-5\n\
+  \n\
+  default-sample-channels = 2\n\
+  remixing-produce-lfe = no\n\
+  remixing-consume-lfe = yes\n\
+  \n\
+  avoid-resampling = no\n\
+  " >>~/.config/pulse/daemon.conf
+
+# Troubleshooting
+# lampready patch
+sudo echo "net.ipv4.ip_unprivileged_port_start=0" >/etc/sysctl.d/05-expose-privileged.conf
+sudo sysctl --system
+
+# to install hp setup
+# tap the wifi icon on the printer and obtain the printer's ip address
+# use the ip address in the following command
+# sudo hp-setup -a <ip_address>
+
+log "Installation complete.  Please reboot your system."
+printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
+printf "ALL DONE.  PLEASE REBOOT YOUR SYSTEM."
