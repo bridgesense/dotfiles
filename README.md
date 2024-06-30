@@ -55,9 +55,9 @@ curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/emacs.d/emacs
 
 # My Workstation
 
-### Debian Bookworm workstation
+### Arch workstation
 ```bash
-curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/debian-bookworm > ~/install
+curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/endeavouros-gemini > ~/install
 ```
 Run as root...
 ```bash
