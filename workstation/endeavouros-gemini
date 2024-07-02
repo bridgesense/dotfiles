@@ -59,9 +59,9 @@ function install {
 log "installing commandline tools"
 yay --noconfirm
 install package extra/git-lfs extra/subversion
-install package core/base-devel
+install package core/base-devel endeavouros/nvidia-inst
 install package extra/ack extra/ctags extra/neovim extra/ripgrep
-install package extra/python-pynvim extra/lazygit
+install package extra/python-pynvim extra/lazygit extra/xclip
 install package core/python extra/python-pip extra/ruby
 install package extra/php core/perl extra/maven extra/composer
 install package core/net-tools extra/nmap
@@ -78,28 +78,6 @@ npm install --save-dev grunt-cli gulp gulp-cli csslint typescript@3.0 typescript
 
 # install fonts
 install package extra/ttf-noto-nerd
-
-# install supplementary packages
-install package extra/aspell-en extra/texlive-bin
-install package extra/hplip extra/simple-scan
-install package extra/podman extra/buildah
-install package extra/ranger extra/pdfarranger extra/yt-dlp
-install package extra/dvdbackup
-install package extra/emacs
-install package multilib/steam
-install package extra/ollama-cuda
-install package extra/kdenlive extra/audacity extra/obs-studio
-install package extra/libreoffice-fresh
-install package extra/gimp extra/gimp-help-en extra/gimp-plugin-gmic
-install package extra/krita extra/krita-plugin-gmic
-install package extra/audacity extra/kitty
-install package multilib/wine multilib/winetricks
-install package extra/wl-clipboard extra/breeze-plymouth
-install package aur/w3m-gemini
-install package aur/google-chrome
-
-# firewall
-sudo firewall-cmd --permanent --add-port=9003/tcp
 
 # syncterm
 # NOTE: Had some issues with aur
@@ -148,21 +126,26 @@ printf "high-priority = yes\n\
   " >>~/.config/pulse/daemon.conf
 
 # Troubleshooting
+# # # # # # # # # # # # # # #
 
 # installs Endeavouros Splash screens
 install package aur/plymouth-git aur/plymouth-theme-endeavouros
-sudo sed -i '$ s/$/ splash/' /etc/kernel/cmdline
-sudo reinstall-kernels
+#sudo sed -i '$ s/$/ splash/' /etc/kernel/cmdline
+#sudo reinstall-kernels
 
 # enable ollama server
 sudo systemctl enable ollama
+
+# enable blutooth devices
+sudo systemctl enable bluetooth
 
 # lampready patch
 # echo "net.ipv4.ip_unprivileged_port_start=0" >/etc/sysctl.d/05-expose-privileged.conf
 # sysctl --system
 
 # nvidia support
-# nvidia-inst -f -p --32
+# nvidia-inst -p --32
+# prime-run <application>
 
 # to install hp setup
 # tap the wifi icon on the printer and obtain the printer's ip address
