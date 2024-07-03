@@ -152,6 +152,9 @@ sudo systemctl enable bluetooth
 # use the ip address in the following command
 # sudo hp-setup -a <ip_address>
 
+# clean everything
+yay -Scc --noconfirm
+
 log "Installation complete.  Please reboot your system."
 printf "\r# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\r"
 printf "ALL DONE.  PLEASE REBOOT YOUR SYSTEM."
