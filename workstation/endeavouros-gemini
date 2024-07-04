@@ -12,48 +12,48 @@ LOGFILE='workstation-installation.log'
 # Functions
 # # # # # # # # # # # # # # #
 function log {
-	if [ -f "$LOGFILE" ]; then
-		echo $1 >>$LOGFILE
-	else
-		echo $1 >$LOGFILE
-	fi
+  if [ -f "$LOGFILE" ]; then
+    echo $1 >>$LOGFILE
+  else
+    echo $1 >$LOGFILE
+  fi
 }
 
 function install {
-	arr=("$@")
-	_type=
-	if [[ "$(declare -p arr)" =~ "declare -a" ]]; then
-		for package in "${arr[@]}"; do
-			if [[ $package == "package" ]]; then
-				_type=$package
-				continue
-			fi
-			if [[ $package == "flatpak" ]]; then
-				_type=$package
-				continue
-			fi
-			cnt=3
-			pacname=$(echo $package | sed 's/^[^/]*\///')
-			while [ $cnt -gt 0 ]; do
-				if pacman -Qqe | grep $pacname; then
-					break
-				else
-					if [[ $_type == "flatpak" ]]; then
-						flatpak install flathub --noninteractive -y $package
-						break
-					else
-						yay -S --noconfirm $package
-					fi
-				fi
-				let "cnt-=1"
-			done
-			if ! pacman -Qqe | grep $pacname && [[ $_type != "flatpak" ]]; then
-				log "There was a problem installing ${package}.  Please make sure this package exists."
-			fi
-		done
-	else
-		log "Warning! Passed variable is not an array".
-	fi
+  arr=("$@")
+  _type=
+  if [[ "$(declare -p arr)" =~ "declare -a" ]]; then
+    for package in "${arr[@]}"; do
+      if [[ $package == "package" ]]; then
+        _type=$package
+        continue
+      fi
+      if [[ $package == "flatpak" ]]; then
+        _type=$package
+        continue
+      fi
+      cnt=3
+      pacname=$(echo $package | sed 's/^[^/]*\///')
+      while [ $cnt -gt 0 ]; do
+        if pacman -Qqe | grep $pacname; then
+          break
+        else
+          if [[ $_type == "flatpak" ]]; then
+            flatpak install flathub --noninteractive -y $package
+            break
+          else
+            yay -S --noconfirm $package
+          fi
+        fi
+        let "cnt-=1"
+      done
+      if ! pacman -Qqe | grep $pacname && [[ $_type != "flatpak" ]]; then
+        log "There was a problem installing ${package}.  Please make sure this package exists."
+      fi
+    done
+  else
+    log "Warning! Passed variable is not an array".
+  fi
 }
 
 log "installing commandline tools"
@@ -65,9 +65,12 @@ install package extra/python-pynvim extra/lazygit extra/xclip
 install package core/python extra/python-pip extra/ruby
 install package extra/php core/perl extra/maven extra/composer
 install package core/net-tools extra/nmap
+install package extra/ranger extra/kitty
+instlal package extra/nvtop extra/htop
 install package aur/fd-git
 install package aur/dmg2img
 install package aur/caffeine-ng
+install package aur/google-chrome
 
 # setting up nodejs
 install package extra/nodejs extra/yarn
@@ -83,7 +86,8 @@ install package extra/ttf-noto-nerd
 # NOTE: Had some issues with aur
 # thanks to MeaTLoTioN for this alternative script
 # https://www.erb.pw/how-to-install-syncterm-for-linux-from-source/
-install package libncurses5-dev libncursesw5-dev gcc libsdl1.2-dev
+# install package libncurses5-dev libncursesw5-dev gcc libsdl1.2-dev
+mkdir -p ~/lab
 cd ~/lab
 wget http://syncterm.bbsdev.net/syncterm-src.tgz
 tar xvzf syncterm-src.tgz
@@ -134,6 +138,7 @@ install package aur/plymouth-git aur/plymouth-theme-endeavouros
 #sudo reinstall-kernels
 
 # enable ollama server
+curl -fsSL https://ollama.com/install.sh | sh
 sudo systemctl enable ollama
 
 # enable blutooth devices
@@ -151,6 +156,9 @@ sudo systemctl enable bluetooth
 # tap the wifi icon on the printer and obtain the printer's ip address
 # use the ip address in the following command
 # sudo hp-setup -a <ip_address>
+
+# git config --global user.email "user@domain.com"
+# git config --global user.name "First Last"
 
 # clean everything
 yay -Scc --noconfirm
