@@ -72,7 +72,7 @@ install package extra/zip extra/p7zip extra/unrar
 install package extra/clamav
 install package extra/krita extra/krita-plugin-gmic
 install package extra/gimp extra/gimp-plugin-gmic
-install package multilib/wine multilib/winetricks
+install package multilib/wine multilib/winetricks multilib/steam
 install package extra/dosbox extra/virtualbox
 install package aur/fd-git
 install package aur/dmg2img
