@@ -142,10 +142,9 @@ printf "high-priority = yes\n\
 # Troubleshooting
 # # # # # # # # # # # # # # #
 
-# installs Endeavouros Splash screens
-install package aur/plymouth-git aur/plymouth-theme-endeavouros
-#sudo sed -i '$ s/$/ splash/' /etc/kernel/cmdline
-#sudo reinstall-kernels
+# quiet startup 
+sudo sed -i '$ s/$/ quiet/' /etc/kernel/cmdline
+sudo reinstall-kernels
 
 # enable ollama server
 curl -fsSL https://ollama.com/install.sh | sh
