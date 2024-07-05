@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # This script is just a personal snapshot of my arch workstation.
 # curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/endeavouros-gemini > ~/install
+# NOTE: There are additional settings under the troublehsooting section.
 # bash install
 # # # # # # # # # # # # # # #
 
@@ -96,7 +97,6 @@ install package extra/ttf-noto-nerd
 # NOTE: Had some issues with aur
 # thanks to MeaTLoTioN for this alternative script
 # https://www.erb.pw/how-to-install-syncterm-for-linux-from-source/
-# install package libncurses5-dev libncursesw5-dev gcc libsdl1.2-dev
 mkdir -p ~/lab
 cd ~/lab
 wget http://syncterm.bbsdev.net/syncterm-src.tgz
