@@ -146,9 +146,6 @@ printf "high-priority = yes\n\
 sudo sed -i '$ s/$/ quiet/' /etc/kernel/cmdline
 sudo reinstall-kernels
 
-# install plymouth to prevent machine shut-off on multi-monitor start-ups
-install package aur/plymouth-git
-
 # enable ollama server
 curl -fsSL https://ollama.com/install.sh | sh
 sudo systemctl enable ollama
