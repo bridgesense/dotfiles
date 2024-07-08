@@ -76,8 +76,10 @@ install package extra/gimp extra/gimp-plugin-gmic
 install package extra/webkit2gtk
 install package extra/sdl12 extra/sdl_mixer extra/sdl_ttf extra/sdl_image extra/sdl_net extra/sdl_sound
 install package extra/sdl2 extra/sdl2_mixer extra/sdl2_ttf extra/sdl2_image extra/sdl2_net extra/sdl2_sound
+install package extra/podman extra/buildah extra/catatonit
 install package multilib/wine multilib/winetricks multilib/steam
 install package extra/dosbox extra/virtualbox
+install package aur/melonds
 install package aur/fd-git
 install package aur/dmg2img
 install package aur/caffeine-ng
@@ -158,7 +160,9 @@ sudo freshclam
 
 # lampready patch
 # echo "net.ipv4.ip_unprivileged_port_start=0" >/etc/sysctl.d/05-expose-privileged.conf
-# sysctl --system
+# sudo sysctl --system
+# sudo firewall-cmd --zone=public --add-port=9003/tcp --permanent
+# sudo firewall-cmd --reload
 
 # nvidia support
 # nvidia-inst -p --32
