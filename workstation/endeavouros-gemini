@@ -77,6 +77,7 @@ install package extra/webkit2gtk
 install package extra/sdl12 extra/sdl_mixer extra/sdl_ttf extra/sdl_image extra/sdl_net extra/sdl_sound
 install package extra/sdl2 extra/sdl2_mixer extra/sdl2_ttf extra/sdl2_image extra/sdl2_net extra/sdl2_sound
 install package extra/podman extra/buildah extra/catatonit
+install package extra/pdfarranger extra/simple-scan
 install package multilib/wine multilib/winetricks multilib/steam
 install package extra/dosbox extra/virtualbox
 install package aur/melonds
@@ -90,7 +91,7 @@ install package extra/nodejs extra/yarn
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 source ~/.bashrc && nvm install 16.14.0
 npm install npm@latest
-npm install --save-dev grunt-cli gulp gulp-cli csslint typescript@3.0 typescript-language-server intelephense yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify unified-language-server eslint emmet-ls babel-eslint typescript-lsp coffeescript coffeelint
+npm install grunt-cli gulp gulp-cli csslint typescript@3.0 typescript-language-server intelephense yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify unified-language-server eslint emmet-ls babel-eslint typescript-lsp coffeescript coffeelint
 
 # install fonts
 install package extra/ttf-noto-nerd
