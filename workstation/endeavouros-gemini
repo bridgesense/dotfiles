@@ -80,7 +80,8 @@ install package extra/podman extra/buildah extra/catatonit
 install package extra/pdfarranger extra/simple-scan
 install package multilib/wine multilib/winetricks multilib/steam
 install package extra/dosbox extra/virtualbox
-install package aur/melonds
+install package extra/retroarch extra/retroarch-assets-xmb extra/retroarch-assets-glui extra/retroarch-assets-ozone
+install package extra/libretro-core-info extra/libretro-overlays extra/libretro-ppsspp extra/libretro-desmume extra/libretro-citra
 install package aur/fd-git
 install package aur/dmg2img
 install package aur/caffeine-ng
@@ -173,6 +174,11 @@ sudo freshclam
 # tap the wifi icon on the printer and obtain the printer's ip address
 # use the ip address in the following command
 # sudo hp-setup -a <ip_address>
+
+# retroarch setup
+# Main Menu > Online Updater ...
+# Update Assets, and everything below that
+# restart software
 
 # git config --global user.email "user@domain.com"
 # git config --global user.name "First Last"
