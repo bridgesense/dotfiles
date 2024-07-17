@@ -80,12 +80,12 @@ install package extra/podman extra/buildah extra/catatonit
 install package extra/pdfarranger extra/simple-scan
 install package multilib/wine multilib/winetricks multilib/steam
 install package extra/dosbox extra/virtualbox
-install package extra/retroarch extra/retroarch-assets-xmb extra/retroarch-assets-glui extra/retroarch-assets-ozone
 install package extra/libretro-core-info extra/libretro-overlays extra/libretro-ppsspp extra/libretro-desmume extra/libretro-citra
 install package aur/fd-git
 install package aur/dmg2img
 install package aur/caffeine-ng
 install package aur/google-chrome
+install package aur/retroarch-git
 
 # setting up nodejs
 install package extra/nodejs extra/yarn
@@ -179,6 +179,10 @@ sudo freshclam
 # Main Menu > Online Updater ...
 # Update Assets, and everything below that
 # restart software
+# Good Shader Selections:
+# handheld/retro-v2 
+# motionblur/response-time
+# pixel-art-scaling/pixel_aa
 
 # git config --global user.email "user@domain.com"
 # git config --global user.name "First Last"
