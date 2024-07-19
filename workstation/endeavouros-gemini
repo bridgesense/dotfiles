@@ -80,7 +80,6 @@ install package extra/podman extra/buildah extra/catatonit
 install package extra/pdfarranger extra/simple-scan
 install package multilib/wine multilib/winetricks multilib/steam
 install package extra/dosbox extra/virtualbox
-install package extra/libretro-core-info extra/libretro-overlays extra/libretro-ppsspp extra/libretro-desmume extra/libretro-citra
 install package aur/fd-git
 install package aur/dmg2img
 install package aur/caffeine-ng
