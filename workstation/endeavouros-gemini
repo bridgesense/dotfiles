@@ -65,7 +65,7 @@ install package extra/ack extra/ctags extra/neovim extra/ripgrep
 install package extra/python-pynvim extra/lazygit extra/xclip
 install package core/python extra/python-pip extra/ruby
 install package extra/php core/perl extra/maven extra/composer
-install package core/net-tools extra/nmap
+install package core/net-tools extra/nmap extra/partitionmanager
 install package extra/ranger extra/kitty extra/emacs extra/tmux
 install package extra/nvtop extra/htop
 install package extra/aria2 extra/y2-dlp
