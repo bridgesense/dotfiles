@@ -1,9 +1,0 @@
-[Unit]
-Description=ACPI Wake Service
-
-[Service]
-Type=oneshot
-ExecStart=/bin/sh -c "for i in $(cat /proc/acpi/wakeup|grep enabled|awk '{print $1}'|xargs); do [ $i != platform ] && echo $i|tee /proc/acpi/wakeup;done"
-
-[Install]
-WantedBy=multi-user.target

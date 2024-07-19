@@ -94,7 +94,7 @@ nvm install v16.14.0
 npm install --location=global --save-dev grunt-cli gulp gulp-cli csslint typescript@3.0 typescript-language-server intelephense yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify unified-language-server eslint emmet-ls babel-eslint typescript-lsp coffeescript coffeelint
 
 # install fonts
-install package extra/ttf-noto-nerd
+install package extra/ttf-noto-nerd extra/ttf-firacode-nerd
 
 # syncterm
 # NOTE: Had some issues with aur version
@@ -119,7 +119,6 @@ cp -f ~/.yadrlite/workstation/Xresources ~/.Xresources
 cp -r ~/.yadrlite/workstation/nvim ~/.config
 cp -r ~/.yadrlite/workstation/kitty ~/.config
 cp -r ~/.yadrlite/workstation/ranger ~/.config
-cp -r ~/.yadrlite/workstation/fonts ~/.local/share
 find ~/.config -type d -exec chmod 0755 {} \;
 find ~/.config -type f -exec chmod 0644 {} \;
 find ~/.config -name "*.sh" -execdir chmod u+x {} +
