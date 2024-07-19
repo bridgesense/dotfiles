@@ -59,9 +59,9 @@ curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/emacs.d/emacs
 ```bash
 curl https://raw.githubusercontent.com/bridgesense/dotfiles/master/workstation/endeavouros-gemini > ~/install
 ```
-Run as root...
+Run as user...
 ```bash
-bash install <username>
+bash install
 ```
 # What's Included:
 Workstation shortcuts have been pulled over from YADR, so those working with YADR should
