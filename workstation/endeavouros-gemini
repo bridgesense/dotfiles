@@ -81,7 +81,6 @@ install package extra/pdfarranger extra/simple-scan
 install pacakge extra/texlive-bin
 install package multilib/wine multilib/winetricks multilib/steam
 install package extra/dosbox extra/virtualbox
-install package aur/fd-git
 install package aur/dmg2img
 install package aur/caffeine-ng
 install package aur/google-chrome
