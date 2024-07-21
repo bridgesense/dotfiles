@@ -89,7 +89,6 @@ install package extra/dosbox extra/virtualbox
 install package aur/dmg2img
 install package aur/caffeine-ng
 install package aur/google-chrome
-install package aur/retroarch-git
 
 # setting up nodejs
 install package extra/nodejs extra/yarn
@@ -176,6 +175,9 @@ sudo freshclam
 # nvidia support
 # nvidia-inst -p --32
 # prime-run <application>
+
+# install package aur/retroarch-git
+# install package aur/suyu-appimage
 
 # to install hp setup
 # tap the wifi icon on the printer and obtain the printer's ip address
