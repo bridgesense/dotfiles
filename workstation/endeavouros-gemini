@@ -167,7 +167,7 @@ sudo systemctl enable bluetooth
 sudo freshclam
 
 # lampready patch
-# echo "net.ipv4.ip_unprivileged_port_start=0" >/etc/sysctl.d/05-expose-privileged.conf
+# (run as root) echo "net.ipv4.ip_unprivileged_port_start=0" >/etc/sysctl.d/05-expose-privileged.conf
 # sudo sysctl --system
 # sudo firewall-cmd --zone=public --add-port=9003/tcp --permanent
 # sudo firewall-cmd --reload
