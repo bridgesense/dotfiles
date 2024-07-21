@@ -148,11 +148,11 @@ printf "high-priority = yes\n\
 # Troubleshooting
 # # # # # # # # # # # # # # #
 
-# quiet startup (systemd-boot)
+# quiet startup (for systemd-boot)
 # sudo sed -i '$ s/$/ quiet/' /etc/kernel/cmdline
 # sudo reinstall-kernels
 
-# quiet startup (grub)
+# quiet startup (for grub)
 # sudo sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT=.*/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/' /etc/default/grub
 # sudo grub-mkconfig -o /boot/grub/grub.cfg
 
