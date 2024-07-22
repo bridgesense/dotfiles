@@ -3,9 +3,6 @@ return {
   event = "VeryLazy",
   opts = {
     plugins = { spelling = true },
-    defaults = {
-      mode = { "n", "v" },
-    },
   },
   config = function(_, opts)
     local wk = require("which-key")
@@ -30,6 +27,8 @@ return {
       { "]", group = "next" },
       { "g", group = "goto" },
       { "gz", group = "surround" },
+    }, {
+      mode = { "n", "v" },
     })
   end,
 }
