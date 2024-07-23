@@ -69,6 +69,7 @@ install package extra/php core/perl extra/maven extra/composer
 install package core/net-tools
 install package extra/nmap extra/partitionmanager
 install package extra/ranger extra/kitty extra/emacs extra/tmux
+install package extra/imlib2
 install package extra/nvtop extra/htop
 install package extra/aria2 extra/yt-dlp
 install package extra/zip extra/p7zip extra/unrar
