@@ -76,6 +76,7 @@ install package extra/zip extra/p7zip extra/unrar
 install package extra/clamav
 install package extra/krita extra/krita-plugin-gmic
 install package extra/gimp extra/gimp-plugin-gmic
+install package extra/libreoffice-fresh
 install package extra/webkit2gtk
 install package extra/sdl2
 install package extra/sdl12-compat
@@ -84,7 +85,7 @@ install package extra/sdl_mixer extra/sdl_ttf extra/sdl_image extra/sdl_net
 install package extra/podman extra/buildah
 install package extra/catatonit
 install package extra/pdfarranger extra/simple-scan
-install pacakge extra/texlive-bin
+install package extra/texlive-bin
 install package multilib/wine multilib/winetricks multilib/steam
 install package extra/dosbox extra/virtualbox
 install package aur/dmg2img
