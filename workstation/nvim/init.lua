@@ -28,3 +28,21 @@ require("dap.ext.vscode").load_launchjs(vim.fn.getcwd() .. "/.vscode/launch.json
 -- 		}
 -- 	]
 -- }
+
+-- workaround for broke gqq issue: https://github.com/jose-elias-alvarez/null-ls.nvim/issues/1131
+local function is_null_ls_formatting_enabed(bufnr)
+  local file_type = api.nvim_buf_get_option(bufnr, "filetype")
+  local generators =
+    require("null-ls.generators").get_available(file_type, require("null-ls.methods").internal.FORMATTING)
+  return #generators > 0
+end
+function on_attach(client, bufnr)
+  if server_capabilities.documentFormattingProvider then
+    if client.name == "null-ls" and is_null_ls_formatting_enabed(bufnr) or client.name ~= "null-ls" then
+      api.nvim_buf_set_option(bufnr, "formatexpr", "v:lua.vim.lsp.formatexpr()")
+      map("n", "<leader>gq", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", opts)
+    else
+      api.nvim_buf_set_option(bufnr, "formatexpr", "")
+    end
+  end
+end
