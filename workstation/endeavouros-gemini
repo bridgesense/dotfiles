@@ -113,13 +113,7 @@ install package extra/ttf-noto-nerd extra/ttf-firacode-nerd
 # https://www.erb.pw/how-to-install-syncterm-for-linux-from-source/
 mkdir -p ~/lab
 cd ~/lab
-wget http://syncterm.bbsdev.net/syncterm-src.tgz
-tar xvzf syncterm-src.tgz
-D=$(ls -1hrtd sync*/ | tail -1 | sed 's/\/$//g')
-cd ${D}/src/syncterm
-st_path=$(pwd | sed 's/\/syncterm$//g')
-make SRC_ROOT=$st_path
-sudo make install
+curl -s https://erb.pw/get-syncterm.sh | bash
 
 # Installing configuration
 # # # # # # # # # # # # # # #
