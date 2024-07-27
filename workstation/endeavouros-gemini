@@ -179,6 +179,7 @@ sudo freshclam
 # nvidia-inst -p --32
 # prime-run <application>
 
+# install pacakge extra/mgba-qt
 # install package aur/retroarch-git
 # install package aur/suyu-appimage
 
