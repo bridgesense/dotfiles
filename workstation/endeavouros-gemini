@@ -94,6 +94,7 @@ install package aur/google-chrome
 
 # setting up nodejs
 install package extra/nodejs extra/yarn
+install package extra/gulp extra/grunt-cli
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 source ~/.bashrc
 nvm install v16.14.0
