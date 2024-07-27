@@ -96,8 +96,10 @@ install package aur/google-chrome
 install package extra/nodejs extra/yarn
 install package extra/gulp extra/grunt-cli
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+sleep 5
 source ~/.bashrc
 nvm install v16.14.0
+sleep 5
 npm install --location=global --save-dev grunt-cli gulp gulp-cli csslint typescript@3.0 typescript-language-server intelephense yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify unified-language-server eslint emmet-ls babel-eslint typescript-lsp coffeescript coffeelint
 
 # install fonts
@@ -179,23 +181,10 @@ sudo freshclam
 # nvidia-inst -p --32
 # prime-run <application>
 
-# install pacakge extra/mgba-qt
-# install package aur/retroarch-git
-# install package aur/suyu-appimage
-
 # to install hp setup
 # tap the wifi icon on the printer and obtain the printer's ip address
 # use the ip address in the following command
 # sudo hp-setup -a <ip_address>
-
-# retroarch setup
-# Main Menu > Online Updater ...
-# Update Assets, and everything below that
-# restart software
-# Good Shader Selections:
-# handheld/retro-v2
-# motionblur/response-time
-# pixel-art-scaling/pixel_aa
 
 # git config --global user.email "user@domain.com"
 # git config --global user.name "First Last"
