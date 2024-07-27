@@ -133,22 +133,15 @@ find ~/.config -type f -exec chmod 0644 {} \;
 find ~/.config -name "*.sh" -execdir chmod u+x {} +
 
 # improve sound
-touch ~/.config/pulse/daemon.conf
-printf "high-priority = yes\n\
-  realtime-scheduling = yes\n\
-  realtime-priority = 9\n\
-  nice-level = -11\n\
-  \n\
-  default-sample-format = s32le\n\
-  default-sample-rate = 192000\n\
-  resample-method = speex-float-5\n\
-  \n\
-  default-sample-channels = 2\n\
-  remixing-produce-lfe = no\n\
-  remixing-consume-lfe = yes\n\
-  \n\
-  avoid-resampling = no\n\
-  " >>~/.config/pulse/daemon.conf
+mkdir -p ~/.config/pipewire/pipewire.conf.d
+printf "context.properties = {\n\
+  default.clock.rate = 192000\n\
+  default.clock.allowed-rates = [ 44100 48000 88200 96000 192000 352800 384000]\n\
+}\n\
+stream.properties = {\n\
+  resample.quality = 10\n\
+}\n\
+" >>~/.config/pipewire/pipewire.conf.d/10-rates.conf
 
 # Troubleshooting
 # # # # # # # # # # # # # # #
