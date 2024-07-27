@@ -86,6 +86,8 @@ install package extra/podman extra/buildah
 install package extra/catatonit
 install package extra/pdfarranger extra/simple-scan
 install package extra/texlive-bin
+install package extra/w3m
+install package extra/zip
 install package multilib/wine multilib/winetricks multilib/steam
 install package extra/dosbox extra/virtualbox
 install package aur/dmg2img
