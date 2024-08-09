@@ -94,6 +94,11 @@ install package aur/dmg2img
 install package aur/caffeine-ng
 install package aur/google-chrome
 
+# codecs
+install package extra/libavcodec extra/ffmpeg extra/libaacs
+install package extra/cdrtools extra/cdrdao extra/dvd+rw-tools
+install package extra/k3b
+
 # setting up nodejs
 install package extra/nodejs extra/yarn
 install package extra/gulp extra/grunt-cli
@@ -159,6 +164,9 @@ sudo systemctl enable bluetooth
 
 # clamav update
 sudo freshclam
+
+# orthography
+install package extra/ttf-gentium-plus
 
 # lampready patch
 # (run as root) echo "net.ipv4.ip_unprivileged_port_start=0" >/etc/sysctl.d/05-expose-privileged.conf
