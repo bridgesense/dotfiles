@@ -175,6 +175,8 @@ install package extra/ttf-gentium-plus
 # sudo firewall-cmd --reload
 
 # nvidia support
+#
+# yay -S --noconfirm extra/cuda
 # nvidia-inst -p --32
 # prime-run <application>
 
@@ -183,8 +185,14 @@ install package extra/ttf-gentium-plus
 # use the ip address in the following command
 # sudo hp-setup -a <ip_address>
 
+# setting up git
 # git config --global user.email "user@domain.com"
 # git config --global user.name "First Last"
+
+# installing a swap file
+# fallocate -l 32G /swapfile
+# chmod 600 /swapfile mkswap /swapfile
+# echo "/swapfile none swap defaults 0 0" | sudo tee -a /etc/fstab
 
 # clean everything
 yay -Scc --noconfirm
