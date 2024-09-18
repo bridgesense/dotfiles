@@ -190,9 +190,10 @@ install package extra/ttf-gentium-plus
 # git config --global user.name "First Last"
 
 # installing a swap file
-# fallocate -l 32G /swapfile
-# chmod 600 /swapfile mkswap /swapfile
-# echo "/swapfile none swap defaults 0 0" | sudo tee -a /etc/fstab
+# fallocate -l 128G /swap
+# chmod 600 /swap
+# mkswap /swap
+# echo "/swap none swap defaults 0 0" | sudo tee -a /etc/fstab
 
 # clean everything
 yay -Scc --noconfirm
