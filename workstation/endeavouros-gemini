@@ -93,6 +93,7 @@ install package extra/dosbox extra/virtualbox
 install package aur/dmg2img
 install package aur/caffeine-ng
 install package aur/google-chrome
+install package aur/sddm-archlinux-theme-git
 
 # codecs
 install package extra/libavcodec extra/ffmpeg extra/libaacs
@@ -194,6 +195,10 @@ install package extra/ttf-gentium-plus
 # chmod 600 /swap
 # mkswap /swap
 # echo "/swap none swap defaults 0 0" | sudo tee -a /etc/fstab
+
+# change default SDDM theme
+# this seems to help in situations where SDDM doesn't hand off to KDE Plasma well
+sudo sed -i 's/Current=.*/Current=archlinux/' /etc/sddm.conf.d/kde_settings.conf
 
 # clean everything
 yay -Scc --noconfirm
