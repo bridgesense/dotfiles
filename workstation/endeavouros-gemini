@@ -92,7 +92,7 @@ install package multilib/wine multilib/winetricks multilib/steam
 install package extra/dosbox extra/virtualbox
 install package aur/dmg2img
 install package aur/caffeine-ng
-install package aur/google-chrome
+install package extra/chromium
 install package aur/sddm-archlinux-theme-git
 
 # codecs
