@@ -94,6 +94,7 @@ install package aur/dmg2img
 install package aur/caffeine-ng
 install package extra/chromium
 install package aur/sddm-archlinux-theme-git
+install package extra/kwalletmanager extra/ksshaskpass
 
 # codecs
 install package extra/libavcodec extra/ffmpeg extra/libaacs
@@ -106,7 +107,7 @@ install package extra/gulp extra/grunt-cli
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 sleep 5
 source ~/.bashrc
-nvm install v16.14.0
+nvm install v18.20.4
 sleep 5
 npm install --location=global --save-dev grunt-cli gulp gulp-cli csslint typescript@3.0 typescript-language-server intelephense yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify unified-language-server eslint emmet-ls babel-eslint typescript-lsp coffeescript coffeelint
 
@@ -144,6 +145,12 @@ stream.properties = {\n\
   resample.quality = 10\n\
 }\n\
 " >>~/.config/pipewire/pipewire.conf.d/10-rates.conf
+
+# setup kwallet
+mkdir -p ~/.config/environment.d
+printf "SSH_ASKPASS=/usr/bin/ksshaskpass\n\
+SSH_ASKPASS_REQUIRE=prefer\n\
+" >>~/.config/environment.d/ssh_askpass.conf
 
 # Troubleshooting
 # # # # # # # # # # # # # # #
