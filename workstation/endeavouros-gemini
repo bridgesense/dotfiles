@@ -88,7 +88,7 @@ install package extra/pdfarranger extra/simple-scan
 install package extra/texlive-bin
 install package extra/w3m extra/ktorrent
 install package extra/zip
-install package multilib/wine multilib/winetricks multilib/steam
+install package multilib/wine multilib/winetricks multilib/steam multilib/lib32-libpulse
 install package extra/dosbox extra/virtualbox
 install package aur/dmg2img
 install package aur/caffeine-ng
