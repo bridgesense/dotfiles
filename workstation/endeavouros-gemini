@@ -182,6 +182,11 @@ sudo freshclam
 # orthography
 install package extra/ttf-gentium-plus
 
+# clip baloo file indexing
+printf "first run=false \n\
+only basic indexing=true \n\
+" >>~/.config/baloofilerc
+
 # lampready patch
 # (run as root) echo "net.ipv4.ip_unprivileged_port_start=0" >/etc/sysctl.d/05-expose-privileged.conf
 # sudo sysctl --system
