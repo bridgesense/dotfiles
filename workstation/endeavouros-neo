@@ -72,7 +72,7 @@ install package extra/ranger extra/kitty extra/emacs extra/tmux
 install package extra/imlib2
 install package extra/nvtop extra/htop
 install package extra/aria2 extra/yt-dlp
-install package extra/zip extra/p7zip extra/unrar
+install package extra/zip extra/7zip extra/unrar
 install package extra/clamav
 install package extra/krita extra/krita-plugin-gmic
 install package extra/gimp extra/gimp-plugin-gmic
