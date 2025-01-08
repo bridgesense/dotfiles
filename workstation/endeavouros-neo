@@ -96,6 +96,7 @@ install package aur/dmg2img
 install package extra/chromium
 install package aur/sddm-archlinux-theme-git
 install package extra/kwalletmanager extra/ksshaskpass
+install package aur/python311
 
 # interactive fiction tools
 install package aur/inform7-ide-git
