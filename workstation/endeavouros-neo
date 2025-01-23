@@ -171,6 +171,15 @@ SSH_ASKPASS_REQUIRE=prefer\n\
 
 # enable ollama server
 curl -fsSL https://ollama.com/install.sh | sh
+sudo mkdir -p /usr/share/ollama/.ollama
+sudo chown -R ollama:ollama /usr/share/ollama
+# to enable ollama server on local/external networks
+# vi /etc/systemd/system/ollama.service
+# add this Environment under [Service] :
+# Environment="OLLAMA_HOST=0.0.0.0:11434"
+# sudo systemctl daemon-reload
+# sudo firewall-cmd --zone=public --add-port=11434/tcp --permanent
+# sudo firewall-cmd --reload
 sudo systemctl enable ollama
 
 # enable blutooth devices
