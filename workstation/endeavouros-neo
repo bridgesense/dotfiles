@@ -175,6 +175,9 @@ sudo mkdir -p /usr/share/ollama/.ollama
 sudo chown -R ollama:ollama /usr/share/ollama
 sudo systemctl enable ollama
 
+# Install bun
+curl -fsSL https://bun.sh/install | bash
+
 # enable blutooth devices
 sudo systemctl enable bluetooth
 
