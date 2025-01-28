@@ -10,7 +10,7 @@ return {
     },
   },
 
-  -- add more treesitter parsers
+  -- add more treesitter parsers and configure specific indentation
   {
     "nvim-treesitter/nvim-treesitter",
     opts = {
@@ -32,18 +32,7 @@ return {
         "vim",
         "yaml",
       },
-    },
-  },
-
-  -- extend code beautification for ugly code
-  {
-    "stevearc/conform.nvim",
-    optional = true,
-    opts = {
-      formatters_by_ft = {
-        -- fore beautification
-        php = { "php_cs_fixer", timeout_ms = 60000 },
-      },
+      indent = { enable = false }, -- Turn off Treesitter's indentation
     },
   },
 
