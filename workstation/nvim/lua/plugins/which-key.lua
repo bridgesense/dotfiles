@@ -23,6 +23,7 @@ return {
       { "<leader>u", group = "ui" },
       { "<leader>w", group = "windows" },
       { "<leader>x", group = "diagnostics/quickfix" },
+      { "<leader>r", "<cmd>FzfLua resume<CR>", desc = "Resume" },
       { "[", group = "prev" },
       { "]", group = "next" },
       { "g", group = "goto" },

@@ -4,4 +4,3 @@
 vim.g.mapleader = ","
 vim.g.maplocalleader = ","
 vim.g.lazyvim_php_lsp = "intelephense"
-vim.g.lazyvim_picker = "telescope"
