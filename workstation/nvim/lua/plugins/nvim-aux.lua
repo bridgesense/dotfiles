@@ -6,6 +6,10 @@ return {
       ensure_installed = {
         "intelephense",
         "php-debug-adapter",
+        "stylua",
+        "shellcheck",
+        "shfmt",
+        "flake8",
       },
     },
   },
@@ -14,25 +18,13 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     opts = {
-      ensure_installed = {
-        "bash",
-        "html",
-        "javascript",
-        "json",
-        "lua",
-        "markdown",
-        "markdown_inline",
-        "php",
-        "python",
-        "query",
-        "regex",
-        "sql",
-        "tsx",
-        "typescript",
-        "vim",
-        "yaml",
+      ensure_installed = "all",
+      highlight = {
+        enable = true,
       },
-      indent = { enable = false }, -- Turn off Treesitter's indentation
+      indent = {
+        enable = false,
+      }, -- Turn off Treesitter's indentation
     },
   },
 

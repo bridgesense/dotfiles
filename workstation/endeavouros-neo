@@ -88,6 +88,7 @@ install package extra/pdfarranger extra/simple-scan
 install package extra/texlive-bin
 install package extra/w3m extra/ktorrent
 install package extra/zip
+install pacakge extra/fish
 install package multilib/wine multilib/winetricks multilib/steam
 install package multilib/lib32-libpulse multilib/lib32-wavpack
 install package extra/xpra
@@ -115,7 +116,7 @@ sleep 5
 source ~/.bashrc
 nvm install v18.20.4
 sleep 5
-npm install --location=global --save-dev grunt-cli gulp gulp-cli csslint typescript@3.0 typescript-language-server intelephense yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify unified-language-server eslint emmet-ls babel-eslint typescript-lsp coffeescript coffeelint
+npm install --location=global --save-dev grunt-cli gulp gulp-cli csslint typescript@3.0 typescript-language-server intelephense yaml-lint eslint-plugin-toml eslint-plugin-markdown golangci-lint vscode-css-languageserver-bin js-beautify unified-language-server eslint emmet-ls babel-eslint typescript-lsp coffeescript coffeelint neovim
 
 # install fonts
 install package extra/ttf-noto-nerd extra/ttf-firacode-nerd
